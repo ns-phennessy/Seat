@@ -25,8 +25,7 @@
  
  Seat is streamlined to do one thing and do it very well facilitate the making, taking, and grading of tests, with a full feature set of question types and support.
 
-Test
 
 ## Licence
 
-As of now, this is a closed source project and is under no licence. This will be considered closer to completion of the project.
+ As of now, this is a closed source project and is under no licence. This will be considered closer to completion of the project.
