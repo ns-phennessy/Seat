@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Meta data -->
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
+
+        <style>
+            body{
+                background: #64a8f4;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="ui centered page grid">
+                <div class="six wide column" style="padding-top:150px">
+                <div class="ui tall stacked segment">
+                    <h1 class="ui dividing centered header" style="font-size:2.5em">Log in</h1>
+                    <form class="ui form">
+                        <div class="ui small error icon message">
+                            <i class="warning icon"></i>
+                            <div class="content">
+                                <div class="header">Error</div>
+                                <p>Invalid username or password. Please try again.</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Username</label>
+                            <div class="ui large left icon input">
+                                <input type="text" name="username">
+                                <i class="user icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <div class="ui large left icon input">
+                                <input type="password" name="password">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <div class="two fields">
+                            <div class="field">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="remember" checked>
+                                    <label>Remember Me</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <button type="submit" class="ui right floated right labeled icon blue button">
+                                    <i class="right arrow icon"></i>
+                                    Log in
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Javascript -->
+        <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
+        <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
+        <script>
+            $('.ui.checkbox').checkbox();
+            $('.ui.popup').popup();
+            $('.ui.selection.dropdown').dropdown();
+
+            $('.message .close').on('click', function() {
+                $(this).closest('.message').fadeOut();
+            });
+        </script>
+    </body>
+</html>
