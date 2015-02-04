@@ -12,7 +12,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Production
-SECRET_KEY = ''
+SECRET_KEY = 'placeholder'
 
 DEBUG = True
 TEMPLATE_DEBUG = True
