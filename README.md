@@ -2,7 +2,7 @@
 
 ## Capstone
 * Capstone Group : Dizzy Pants
-* Project Name   : SEAT (Simple Extensible Assessment Toolkit)
+* Project Name   : SEAT (Simple Extensible Assessment Toolkit
 * Turn-in Date   : May 2015
 
 ## Members
@@ -11,7 +11,7 @@
  Pat Hennessy     | Point of Contact, Front End Development, Security, Deployment | [ph7vc](http://github.com/ph7vc)
  Nick Pierson     | Front End Development, Back-End Development                   | [ncpierson](http://github.com/ncpierson)
  Ben Sammons      | Back-end Development, Web Services                            | [sammons](http://github.com/sammons)
- Graham Satherlie | Task Management, Database Architect, Data Management Tools    | [gsatherlie](http://github.com/gsatherlie)
+ Graham Satherlie | Task Management, Database Architect, Data Management Tools    | -
  Kimberly Butler  | Database Design, Data Management Tools                        | -
 
 
