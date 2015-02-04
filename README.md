@@ -29,4 +29,4 @@ Test
 
 ## Licence
 
- As of now, this is a closed source project and is under no licence. This will be considered closer to completion of the project.
+As of now, this is a closed source project and is under no licence. This will be considered closer to completion of the project.
