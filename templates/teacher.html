@@ -31,6 +31,9 @@
             .header .right.floated{
                 float:right;   
             }
+            .ui.label{
+                 margin-bottom:0.25rem !important;   
+            }
         </style>
     </head>
     <body>
@@ -89,7 +92,7 @@
 
                                 <div class="item">
                                     <div class="content">
-                                        <div class="header">Exam 1</div>
+                                        <div class="header">Exam 1 <a class="ui mini yellow label">Open</a></div>
                                         <div class="meta">
                                             <span class="right floated">
                                                 <i class="ellipsis vertical icon"></i>
@@ -106,7 +109,7 @@
 
                                 <div class="item">
                                     <div class="content">
-                                        <div class="header">Exam 2</div>
+                                        <div class="header">Exam 1 <a class="ui mini red label" style="margin-bottom:0.25rem;">Closed</a></div>
                                         <div class="meta">
                                             <span class="right floated">
                                                 <i class="ellipsis vertical icon"></i>
@@ -128,35 +131,76 @@
 
 
                         <div class="six wide column">
-                            <h5 class="ui top attached block header"> <i class="bar chart icon"></i> Overview</h5>
-                            <div class="ui bottom attached segment">
+                            <h5 class="ui header"> <i class="bar chart icon"></i> Overview</h5>
+                            <div class="ui basic segment">
 
-                                <h5 class="ui header">Options</h5>
                                 <div class="ui segment">
-                                    Stuff
-                                </div>
+                                    <div class="ui top attached label">Options</div>
 
-                                <h5 class="ui header">Info</h5>
-                                <div class="ui segment">
-                                    <div class="ui grid">
-                                        <div class="ten wide column">
-                                            <p>Created by: Joe Teach</p>
-                                            <p>Date: 01/15/2015</p>
-                                        </div>
-                                        <div class="six wide column">
-                                            <div class="ui right floated tiny green statistic">
-                                                <div class="value">
-                                                    25
-                                                </div>
-                                                <div class="label">
-                                                    Questions
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="ui three column grid">
+                                        <div class="column"> <span class="ui mini fluid button">Generate Key</span> </div>
+                                        <div class="column"> <span class="ui mini fluid button">View</span> </div>
+                                        <div class="column"> <span class="ui mini fluid button">Edit</span> </div>
+                                        <div class="column"> <span class="ui mini fluid button">Delete</span> </div>
+                                        <div class="column"> <span class="ui mini fluid button">Export</span> </div>
+                                        <div class="column"> <span class="ui mini fluid button">Print</span> </div>
+                                        
                                     </div>
                                 </div>
+
                                 <div class="ui segment">
-                                    submissions
+                                    <div class="ui top attached label">Info</div>
+
+                                    <div class="row">
+                                        <div class="ui right floated mini blue statistic">
+                                            <div class="value">
+                                                25
+                                            </div>
+                                            <div class="label">
+                                                Questions
+                                            </div>
+                                        </div>
+                                        <span><i class="user icon"></i>Patrick Hennessy</span><br>
+                                        <span><i class="calendar icon"></i> January 15, 2015</span>
+                                    </div>
+
+                                </div>
+                                <div class="ui segment">
+                                    <div class="ui top attached label">Submissions</div>
+
+                                    <div class="ui small indicating progress" data-percent="25">
+                                        <div class="bar">
+                                            <div class="progress"></div>
+                                        </div>
+                                        <div class="label">22/88 Submissions</div>
+                                    </div>
+
+                                    <div class="ui small blue progress" data-percent="82">
+                                        <div class="bar">
+                                            <div class="progress"></div>
+                                        </div>
+                                        <div class="label">Average Score</div>
+                                    </div>
+
+                                    <div class="ui left floated mini green statistic">
+                                        <div class="value">
+                                            25/25
+                                        </div>
+                                        <div class="label">
+                                            Highest Score
+                                        </div>
+                                    </div>
+
+                                    <div class="ui right floated mini red statistic">
+                                        <div class="value">
+                                            19/25
+                                        </div>
+                                        <div class="label">
+                                            Lowest Score
+                                        </div>
+                                    </div>
+
+
 
                                 </div>
                             </div>
@@ -184,6 +228,18 @@
 
             $('.ui.dropdown').dropdown({
                 transition: 'drop'
+            });
+
+            $('.ui.progress:not(.indicating)').progress({
+                showActivity: false,
+                label: 'percent'
+
+            });
+
+            $('.ui.progress.indicating').progress({
+                showActivity: true,
+                label: 'ratio'
+
             });
 
             $('.message .close').on('click', function() {
