@@ -38,6 +38,14 @@
             .ui.top.attached.label:first-child + :not(.attached):not(.progress) {
                 margin-top: 1rem!important;
             }
+
+            #btnAddClass{
+                color:rgba(0,0,0,0.2); 
+                transition:color 250ms
+            }
+            #btnAddClass:hover{
+                color:rgba(0,0,0,0.5);   
+            }
         </style>
     </head>
     <body>
@@ -54,15 +62,15 @@
                         </div>
 
                     </div>
-                    <a href="#" class="item icon button" data-content="Help"><i class="help icon"></i></a>
-                    <a href="#" class="item icon button" data-content="Logout"><i class="sign out icon"></i></a>
+                    <a href="#" class="ui item icon button" data-content="Help"><i class="help icon"></i></a>
+                    <a href="#" class="ui item icon button" data-content="Logout"><i class="sign out icon"></i></a>
                 </div>
             </div>
         </div>
 
         <div class="ui page relaxed grid">
             <div class="four wide column">
-                <div class="ui fluid green labeled icon button"><i class="plus icon"></i> Create New Test</div>
+                <div class="ui fluid green labeled icon button"><i class="plus icon"></i> New Test</div>
                 <h3 class="ui dividing header">Courses
                     <a href="#" id="btnAddClass" class="right floated" data-content="Add a course."><i class="plus icon"></i></a>
                 </h3>
@@ -75,20 +83,17 @@
             </div>
 
             <div class="twelve wide column">
-                <h1 class="ui top header">CS2050 - Algorithm Design II</h1>
-                <div class="ui bottom attached segment">
+                <h1 class="ui header">CS2050 - Algorithm Design II</h1>
+                <div class="ui raised segment">
 
                     <div class="ui grid">
                         <div class="sixteen wide column">
-                            Sort by
-                            <div class="ui inline dropdown">
+                            <div class="ui inline pointing dropdown">
+                                Sort by
                                 <div class="text">date</div>
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <div class="item">date</div>
-                                    <div class="item">name</div>
-                                    <div class="item">questions</div>
-                                    <div class="item">submissions</div>
                                     <div class="item">average score</div>
                                 </div>
                             </div>
@@ -98,6 +103,7 @@
                                     <label>Auto Refresh</label>
                                 </div>
                             </div>
+                            <div class="ui section divider"></div>
 
                             <div class="ui divided items">
 
@@ -112,34 +118,34 @@
                                             <div class="ui doubling grid">
                                                 <div class="four wide column"> 
                                                     <b>Created:</b> Feb 12, 2014<br>
-                                                    <b>Status:</b> <span class="ui mini yellow label" style="margin-bottom:0.25rem;">Open</span>
+                                                    <b>Status:</b> <span class="" style="margin-bottom:0.25rem;">Open</span>
                                                 </div>
                                                 <div class="two wide column">
-                                                    <div class="ui mini blue statistic">
+                                                    <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
                                                         <div class="value">25</div>
                                                         <div class="label">Questions</div>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                                 <div class="two wide column">
-                                                    <div class="ui mini green statistic">
+                                                    <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
                                                         <div class="value">7</div>
                                                         <div class="label">Submissions</div>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                                 <div class="seven wide column">
-                                                    <div class="ui blue fluid progress" data-percent="82">
+                                                    <div class="ui indicating fluid progress" data-percent="82">
                                                         <div class="bar">
                                                             <div class="progress"></div>
                                                         </div>
                                                         <div class="label">Average Grade</div>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="item">
                                     <div class="content">
                                         <h2 href="#" class="ui header">Midterm</h2>
@@ -173,7 +179,7 @@
                                                         <div class="label">N/A</div>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -202,19 +208,23 @@
                 transition:'drop'
             });
 
+            $('.ui.statistic[data-content]').popup({
+                position: "top center",
+                transition:'drop',
+                delay: {
+                    show: 500,
+                    hide: 0
+                }
+            });
+
             $('.ui.dropdown').dropdown({
                 transition: 'drop'
             });
 
-            $('.ui.progress:not(.indicating)').progress({
+            $('.ui.progress').progress({
                 showActivity: false,
                 label: 'percent'
 
-            });
-
-            $('.ui.progress.indicating').progress({
-                showActivity: true,
-                label: 'ratio'
             });
 
             $('.ui.checkbox').checkbox();
