@@ -42,9 +42,9 @@
     </head>
     <body>
 
-        <div class="ui main relaxed padded grid inverted dark blue large borderless menu">
+        <div class="ui main page grid inverted dark blue large borderless menu">
             <div class="column">
-                <div class="header item">Seat Admin Dashboard</div>
+                <div class="header item">Admin Dashboard</div>
 
                 <div class="right menu">
                     <div class="item">
@@ -54,13 +54,14 @@
                         </div>
 
                     </div>
+                    <a href="#" class="item icon button" data-content="Help"><i class="help icon"></i></a>
                     <a href="#" class="item icon button" data-content="Logout"><i class="sign out icon"></i></a>
                 </div>
             </div>
         </div>
 
-        <div class="ui relaxed padded grid">
-            <div class="three wide column">
+        <div class="ui page relaxed grid">
+            <div class="four wide column">
                 <div class="ui fluid green labeled icon button"><i class="plus icon"></i> Create New Test</div>
                 <h3 class="ui dividing header">Courses
                     <a href="#" id="btnAddClass" class="right floated" data-content="Add a course."><i class="plus icon"></i></a>
@@ -73,12 +74,12 @@
 
             </div>
 
-            <div class="thirteen wide column">
+            <div class="twelve wide column">
                 <h1 class="ui top header">CS2050 - Algorithm Design II</h1>
                 <div class="ui bottom attached segment">
 
                     <div class="ui grid">
-                        <div class="ten wide column">
+                        <div class="sixteen wide column">
                             Sort by
                             <div class="ui inline dropdown">
                                 <div class="text">date</div>
@@ -91,50 +92,98 @@
                                     <div class="item">average score</div>
                                 </div>
                             </div>
+                            <div class="right floated column">
+                                <div class="ui toggle checkbox">
+                                    <input type="checkbox">
+                                    <label>Auto Refresh</label>
+                                </div>
+                            </div>
 
-                            <div class="ui divided link items">
+                            <div class="ui divided items">
 
                                 <div class="item">
                                     <div class="content">
-                                        <div class="header">Exam 1 <a class="ui mini yellow label">Open</a></div>
+                                        <h2 href="#" class="ui header">Exam 1</h2>
                                         <div class="meta">
                                             <span class="right floated">
                                                 <i class="ellipsis vertical icon"></i>
                                             </span>
-                                            <span class="date">01/15/2015</span>
-                                            <span>|</span>
-                                            <span class="stay">25 Questions</span>
-                                        </div>
-                                        <div class="description">
-                                            <a href="#">22 Submissions</a>
+
+                                            <div class="ui doubling grid">
+                                                <div class="four wide column"> 
+                                                    <b>Created:</b> Feb 12, 2014<br>
+                                                    <b>Status:</b> <span class="ui mini yellow label" style="margin-bottom:0.25rem;">Open</span>
+                                                </div>
+                                                <div class="two wide column">
+                                                    <div class="ui mini blue statistic">
+                                                        <div class="value">25</div>
+                                                        <div class="label">Questions</div>
+                                                    </div>
+                                                </div>
+                                                <div class="two wide column">
+                                                    <div class="ui mini green statistic">
+                                                        <div class="value">7</div>
+                                                        <div class="label">Submissions</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seven wide column">
+                                                    <div class="ui blue fluid progress" data-percent="82">
+                                                        <div class="bar">
+                                                            <div class="progress"></div>
+                                                        </div>
+                                                        <div class="label">Average Grade</div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                
                                 <div class="item">
                                     <div class="content">
-                                        <div class="header">Exam 1 <a class="ui mini red label" style="margin-bottom:0.25rem;">Closed</a></div>
+                                        <h2 href="#" class="ui header">Midterm</h2>
                                         <div class="meta">
                                             <span class="right floated">
                                                 <i class="ellipsis vertical icon"></i>
                                             </span>
-                                            <span class="date">01/01/2015</span>
-                                            <span>|</span>
-                                            <span class="stay">25 Questions</span>
-                                        </div>
-                                        <div class="description">
-                                            <a href="#">22 Submissions</a>
+
+                                            <div class="ui doubling grid">
+                                                <div class="four wide column"> 
+                                                    <b>Created:</b> Feb 12, 2014<br>
+                                                    <b>Status:</b> <span class="ui mini red label" style="margin-bottom:0.25rem;">Closed</span>
+                                                </div>
+                                                <div class="two wide column">
+                                                    <div class="ui mini blue statistic">
+                                                        <div class="value">10</div>
+                                                        <div class="label">Questions</div>
+                                                    </div>
+                                                </div>
+                                                <div class="two wide column">
+                                                    <div class="ui mini green statistic">
+                                                        <div class="value">0</div>
+                                                        <div class="label">Submissions</div>
+                                                    </div>
+                                                </div>
+                                                <div class="seven wide column" style="display:none">
+                                                    <div class="ui blue fluid progress" data-percent="0">
+                                                        <div class="bar">
+                                                            <div class="progress"></div>
+                                                        </div>
+                                                        <div class="label">N/A</div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
 
                             </div>
-
                         </div>
 
-
-                        <div class="six wide column">
+                        <div class="six wide column" style="display:none">
                             <h5 class="ui header"> <i class="bar chart icon"></i> Overview</h5>
                             <div class="ui basic segment">
 
@@ -143,8 +192,8 @@
 
                                     <div class="ui stackable three column grid">
                                         <div class="column"> <span class="ui mini fluid blue button">Create Key</span> </div>
-                                        <div class="column"> <span class="ui mini fluid yellow button">Preview</span> </div>
-                                        <div class="column"> <span class="ui mini fluid green button">Edit</span> </div>
+                                        <div class="column"> <span class="ui mini fluid blue button">Preview</span> </div>
+                                        <div class="column"> <span class="ui mini fluid blue button">Edit</span> </div>
                                         <div class="column"> <span class="ui mini fluid red button">Delete</span> </div>
                                         <div class="column"> <span class="ui mini fluid teal button">Export</span> </div>
                                         <div class="column"> <span class="ui mini fluid button">Print</span> </div>
@@ -155,7 +204,7 @@
                                 <div class="ui segment">
                                     <div class="ui top attached label">Info</div>
 
-                                    <div class="ui stackable grid">
+                                    <div class="ui grid">
                                         <div class="twelve wide column">
                                             <span><i class="user icon"></i> Patrick Hennessy</span><br>
                                             <span><i class="calendar icon"></i> January 15, 2015</span>
@@ -241,6 +290,8 @@
                 showActivity: true,
                 label: 'ratio'
             });
+
+            $('.ui.checkbox').checkbox();
         </script>
     </body>
 </html>
