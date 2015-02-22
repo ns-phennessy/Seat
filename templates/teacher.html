@@ -33,6 +33,7 @@
             }
             .ui.label{
                 margin-bottom:0.25rem !important;   
+                margin-top:0.25rem !important;   
             }
 
             .ui.top.attached.label:first-child + :not(.attached):not(.progress) {
@@ -68,7 +69,7 @@
             </div>
         </div>
 
-        <div class="ui page relaxed grid">
+        <div class="ui page very relaxed grid">
             <div class="four wide column">
                 <div class="ui fluid green labeled icon button"><i class="plus icon"></i> New Test</div>
                 <h3 class="ui dividing header">Courses
@@ -88,22 +89,19 @@
 
                     <div class="ui grid">
                         <div class="sixteen wide column">
-                            <div class="ui inline pointing dropdown">
-                                Sort by
-                                <div class="text">date</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item">date</div>
-                                    <div class="item">average score</div>
-                                </div>
-                            </div>
+                            Displaying <b>2</b> Tests
                             <div class="right floated column">
-                                <div class="ui toggle checkbox">
-                                    <input type="checkbox">
-                                    <label>Auto Refresh</label>
+                                <div class="ui inline pointing dropdown">
+                                    Sort by
+                                    <div class="text">date</div>
+                                    <i class="dropdown icon"></i>
+                                    <div class="menu">
+                                        <div class="item">date</div>
+                                        <div class="item">average score</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="ui section divider"></div>
+                            <div class="ui divider"></div>
 
                             <div class="ui divided items">
 
@@ -112,13 +110,25 @@
                                         <h2 href="#" class="ui header">Exam 1</h2>
                                         <div class="meta">
                                             <span class="right floated">
-                                                <i class="ellipsis vertical icon"></i>
+                                                <div class="ui icon top right pointing dropdown">
+                                                    <i class="ellipsis vertical icon"></i>
+                                                    <div class="menu">
+                                                        <div class="item">Preview</div>
+                                                        <div class="item">Edit Test</div>
+                                                        <div class="item">Manage Keys</div>
+                                                        <div class="ui divider"></div>
+                                                        <div class="item">Export</div>
+                                                        <div class="item">Print</div>
+                                                    </div>
+                                                </div>
                                             </span>
 
                                             <div class="ui doubling grid">
                                                 <div class="four wide column"> 
                                                     <b>Created:</b> Feb 12, 2014<br>
-                                                    <b>Status:</b> <span class="" style="margin-bottom:0.25rem;">Open</span>
+                                                    <b>By:</b> Patrick Hennessy<br>
+                                                    <span class="ui mini yellow label">Open</span>
+                                                    <span class="ui mini purple label" data-content="Some questions require manual grading.">Needs Grading</span>
                                                 </div>
                                                 <div class="two wide column">
                                                     <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
@@ -133,7 +143,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="seven wide column">
-                                                    <div class="ui indicating fluid progress" data-percent="82">
+                                                    <div class="ui blue fluid progress" data-percent="82">
                                                         <div class="bar">
                                                             <div class="progress"></div>
                                                         </div>
