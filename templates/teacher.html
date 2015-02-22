@@ -38,6 +38,10 @@
             #btnAddClass:hover{
                 color:rgba(0,0,0,0.5);   
             }
+            
+            .item a.header.big{
+                font-size:1.75em !important;
+            }
         </style>
     </head>
     <body>
@@ -53,7 +57,6 @@
                             <i class="search icon"></i>
                             <input type="text" placeholder="Search...">
                         </div>
-
                     </div>
                     <a href="#" class="ui item icon button" data-content="Help"><i class="help icon"></i></a>
                     <a href="#" class="ui item icon button" data-content="Logout"><i class="sign out icon"></i></a>
@@ -62,18 +65,16 @@
         </div>
         <!-- END Top Menu -->
 
-        <div class="ui page very relaxed grid" id="mainpage">
+        <div class="ui page very relaxed stackable grid" id="mainpage">
 
             <!-- Right Menu -->
             <div class="four wide column">
                 <div class="ui sticky">
-
-
                     <div class="ui fluid green labeled icon button"><i class="plus icon"></i> New Test</div>
                     <h3 class="ui dividing header">Courses
                         <a href="#" id="btnAddClass" class="right floated" data-content="Add a course."><i class="plus icon"></i></a>
                     </h3>
-                    <div class="ui secondary vertical menu" style="margin-top:0">
+                    <div class="ui secondary vertical menu" style="margin-top:0; width:auto">
                         <a class="active item">CS2050 - Algorithm Design II</a>
                         <a class="item">ECE1210 - Digital Logic</a>
                         <a class="item">CS1000 - Introduction to Computer Science </a>
@@ -106,7 +107,7 @@
 
                         <div class="item">
                             <div class="content">
-                                <h2 href="#" class="ui header">Exam 1</h2>
+                               <a href="#" class="big header">Exam 1</a>
                                 <div class="meta">
                                     <span class="right floated">
                                         <div class="ui icon top right pointing dropdown">
@@ -122,25 +123,25 @@
                                         </div>
                                     </span>
 
-                                    <div class="ui doubling grid">
-                                        <div class="four wide column"> 
+                                    <div class="ui stackable grid">
+                                        <div class="five wide column"> 
                                             <b>Created:</b> Feb 12, 2014<br>
                                             <b>By:</b> Patrick Hennessy<br>
                                             <span class="ui mini green label">Complete</span>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
                                                 <div class="value">15</div>
                                                 <div class="label">Questions</div>
                                             </a>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
                                                 <div class="value">30</div>
                                                 <div class="label">Submissions</div>
                                             </a>
                                         </div>
-                                        <div class="seven wide column">
+                                        <div class="six wide column computer only">
                                             <div class="ui indicating fluid progress" data-percent="95">
                                                 <div class="bar">
                                                     <div class="progress"></div>
@@ -155,7 +156,7 @@
                         </div>
                         <div class="item">
                             <div class="content">
-                                <h2 href="#" class="ui header">Exam 2</h2>
+                               <a href="#" class="big header">Exam 2</a>
                                 <div class="meta">
                                     <span class="right floated">
                                         <div class="ui icon top right pointing dropdown">
@@ -171,26 +172,26 @@
                                         </div>
                                     </span>
 
-                                    <div class="ui doubling grid">
-                                        <div class="four wide column"> 
+                                    <div class="ui stackable grid">
+                                        <div class="five wide column"> 
                                             <b>Created:</b> Feb 12, 2014<br>
                                             <b>By:</b> Patrick Hennessy<br>
                                             <span class="ui mini yellow label">Open</span>
                                             <span class="ui mini purple label" data-content="Some questions require manual grading.">Needs Grading</span>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
                                                 <div class="value">25</div>
                                                 <div class="label">Questions</div>
                                             </a>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
                                                 <div class="value">7</div>
                                                 <div class="label">Submissions</div>
                                             </a>
                                         </div>
-                                        <div class="seven wide column">
+                                        <div class="six wide column computer only">
                                             <div class="ui indicating fluid progress" data-percent="45">
                                                 <div class="bar">
                                                     <div class="progress"></div>
@@ -204,7 +205,7 @@
                         </div>
                         <div class="item">
                             <div class="content">
-                                <h2 href="#" class="ui header">Midterm</h2>
+                               <a href="#" class="big header">Midterm</a>
                                 <div class="meta">
                                     <span class="right floated">
                                         <div class="ui icon top right pointing dropdown">
@@ -220,25 +221,25 @@
                                         </div>
                                     </span>
 
-                                    <div class="ui doubling grid">
-                                        <div class="four wide column"> 
+                                    <div class="ui stackable grid">
+                                        <div class="five wide column"> 
                                             <b>Created:</b> Mar 15, 2014<br>
                                             <b>By:</b> Patrick Hennessy<br>
                                             <span class="ui mini red label">Closed</span>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
                                                 <div class="value">100</div>
                                                 <div class="label">Questions</div>
                                             </a>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
                                                 <div class="value">0</div>
                                                 <div class="label">Submissions</div>
                                             </a>
                                         </div>
-                                        <div class="seven wide column">
+                                        <div class="six wide column computer only">
                                             <h3 class="ui centered disabled header">No Grades Available</h3>
                                         </div>
 
@@ -248,7 +249,7 @@
                         </div>
                         <div class="item">
                             <div class="content">
-                                <h2 href="#" class="ui header">Final Exam</h2>
+                               <a href="#" class="big header">Final Exam</a>
                                 <div class="meta">
                                     <span class="right floated">
                                         <div class="ui icon top right pointing dropdown">
@@ -264,25 +265,25 @@
                                         </div>
                                     </span>
 
-                                    <div class="ui doubling grid">
-                                        <div class="four wide column"> 
+                                    <div class="ui stackable grid">
+                                        <div class="five wide column"> 
                                             <b>Created:</b> Jan 1, 2011<br>
                                             <b>By:</b> Department<br>
                                             <span class="ui mini red label">Closed</span>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
                                                 <div class="value">200</div>
                                                 <div class="label">Questions</div>
                                             </a>
                                         </div>
-                                        <div class="two wide column">
+                                        <div class="two wide column computer tablet only">
                                             <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
                                                 <div class="value">0</div>
                                                 <div class="label">Submissions</div>
                                             </a>
                                         </div>
-                                        <div class="seven wide column">
+                                        <div class="six wide column computer only">
                                             <h3 class="ui centered disabled header">No Grades Available</h3>
                                         </div>
 
@@ -290,7 +291,7 @@
                                 </div>
                             </div>
                         </div>
-\
+
                     </div>
                     <!-- END Exam Data -->
                 </div>
