@@ -14,7 +14,7 @@
                 background-color:transparent;
             }
 
-            .ui.main.grid{
+            .ui.main.menu{
                 border-radius:0;
             }
 
@@ -23,21 +23,12 @@
                 background-color:#224c6f !important;
             }
 
-            /* Overflow, need to report this as bug */
-            .ui.vertical.menu{
-                width:auto;
-            }
-
             .header .right.floated{
                 float:right;   
             }
             .ui.label{
                 margin-bottom:0.25rem !important;   
                 margin-top:0.25rem !important;   
-            }
-
-            .ui.top.attached.label:first-child + :not(.attached):not(.progress) {
-                margin-top: 1rem!important;
             }
 
             #btnAddClass{
@@ -51,6 +42,7 @@
     </head>
     <body>
 
+        <!-- Top Menu -->
         <div class="ui main page grid inverted dark blue large borderless menu">
             <div class="column">
                 <div class="header item">Admin Dashboard</div>
@@ -68,143 +60,242 @@
                 </div>
             </div>
         </div>
+        <!-- END Top Menu -->
 
-        <div class="ui page very relaxed grid">
+        <div class="ui page very relaxed grid" id="mainpage">
+
+            <!-- Right Menu -->
             <div class="four wide column">
-                <div class="ui fluid green labeled icon button"><i class="plus icon"></i> New Test</div>
-                <h3 class="ui dividing header">Courses
-                    <a href="#" id="btnAddClass" class="right floated" data-content="Add a course."><i class="plus icon"></i></a>
-                </h3>
-                <div class="ui secondary vertical menu" style="margin-top:0">
-                    <a class="active item">CS2050 - Algorithm Design II</a>
-                    <a class="item">ECE1210 - Digital Logic</a>
-                    <a class="item">CS1000 - Introduction to Computer Science </a>
-                </div>
+                <div class="ui sticky">
+
+
+                    <div class="ui fluid green labeled icon button"><i class="plus icon"></i> New Test</div>
+                    <h3 class="ui dividing header">Courses
+                        <a href="#" id="btnAddClass" class="right floated" data-content="Add a course."><i class="plus icon"></i></a>
+                    </h3>
+                    <div class="ui secondary vertical menu" style="margin-top:0">
+                        <a class="active item">CS2050 - Algorithm Design II</a>
+                        <a class="item">ECE1210 - Digital Logic</a>
+                        <a class="item">CS1000 - Introduction to Computer Science </a>
+                    </div>
+                </div>   
 
             </div>
+            <!-- END Right Menu-->
 
+            <!-- Content Area -->
             <div class="twelve wide column">
                 <h1 class="ui header">CS2050 - Algorithm Design II</h1>
                 <div class="ui raised segment">
-
-                    <div class="ui grid">
-                        <div class="sixteen wide column">
-                            Displaying <b>2</b> Tests
-                            <div class="right floated column">
-                                <div class="ui inline pointing dropdown">
-                                    Sort by
-                                    <div class="text">date</div>
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu">
-                                        <div class="item">date</div>
-                                        <div class="item">average score</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui divider"></div>
-
-                            <div class="ui divided items">
-
-                                <div class="item">
-                                    <div class="content">
-                                        <h2 href="#" class="ui header">Exam 1</h2>
-                                        <div class="meta">
-                                            <span class="right floated">
-                                                <div class="ui icon top right pointing dropdown">
-                                                    <i class="ellipsis vertical icon"></i>
-                                                    <div class="menu">
-                                                        <div class="item">Preview</div>
-                                                        <div class="item">Edit Test</div>
-                                                        <div class="item">Manage Keys</div>
-                                                        <div class="ui divider"></div>
-                                                        <div class="item">Export</div>
-                                                        <div class="item">Print</div>
-                                                    </div>
-                                                </div>
-                                            </span>
-
-                                            <div class="ui doubling grid">
-                                                <div class="four wide column"> 
-                                                    <b>Created:</b> Feb 12, 2014<br>
-                                                    <b>By:</b> Patrick Hennessy<br>
-                                                    <span class="ui mini yellow label">Open</span>
-                                                    <span class="ui mini purple label" data-content="Some questions require manual grading.">Needs Grading</span>
-                                                </div>
-                                                <div class="two wide column">
-                                                    <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
-                                                        <div class="value">25</div>
-                                                        <div class="label">Questions</div>
-                                                    </a>
-                                                </div>
-                                                <div class="two wide column">
-                                                    <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
-                                                        <div class="value">7</div>
-                                                        <div class="label">Submissions</div>
-                                                    </a>
-                                                </div>
-                                                <div class="seven wide column">
-                                                    <div class="ui blue fluid progress" data-percent="82">
-                                                        <div class="bar">
-                                                            <div class="progress"></div>
-                                                        </div>
-                                                        <div class="label">Average Grade</div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="item">
-                                    <div class="content">
-                                        <h2 href="#" class="ui header">Midterm</h2>
-                                        <div class="meta">
-                                            <span class="right floated">
-                                                <i class="ellipsis vertical icon"></i>
-                                            </span>
-
-                                            <div class="ui doubling grid">
-                                                <div class="four wide column"> 
-                                                    <b>Created:</b> Feb 12, 2014<br>
-                                                    <b>Status:</b> <span class="ui mini red label" style="margin-bottom:0.25rem;">Closed</span>
-                                                </div>
-                                                <div class="two wide column">
-                                                    <div class="ui mini blue statistic">
-                                                        <div class="value">10</div>
-                                                        <div class="label">Questions</div>
-                                                    </div>
-                                                </div>
-                                                <div class="two wide column">
-                                                    <div class="ui mini green statistic">
-                                                        <div class="value">0</div>
-                                                        <div class="label">Submissions</div>
-                                                    </div>
-                                                </div>
-                                                <div class="seven wide column" style="display:none">
-                                                    <div class="ui blue fluid progress" data-percent="0">
-                                                        <div class="bar">
-                                                            <div class="progress"></div>
-                                                        </div>
-                                                        <div class="label">N/A</div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
+                    Showing <b>4</b> Tests
+                    <div class="right floated column">
+                        <div class="ui inline pointing dropdown">
+                            Sort by
+                            <div class="text">date</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item">date</div>
+                                <div class="item">average score</div>
                             </div>
                         </div>
-
-
                     </div>
+                    <div class="ui divider"></div>
 
+                    <!-- Exam Data-->
+                    <div class="ui divided items">
 
+                        <div class="item">
+                            <div class="content">
+                                <h2 href="#" class="ui header">Exam 1</h2>
+                                <div class="meta">
+                                    <span class="right floated">
+                                        <div class="ui icon top right pointing dropdown">
+                                            <i class="ellipsis vertical icon"></i>
+                                            <div class="menu">
+                                                <div class="item">Preview</div>
+                                                <div class="item">Edit Test</div>
+                                                <div class="item">Manage Keys</div>
+                                                <div class="ui divider"></div>
+                                                <div class="item">Export</div>
+                                                <div class="item">Print</div>
+                                            </div>
+                                        </div>
+                                    </span>
+
+                                    <div class="ui doubling grid">
+                                        <div class="four wide column"> 
+                                            <b>Created:</b> Feb 12, 2014<br>
+                                            <b>By:</b> Patrick Hennessy<br>
+                                            <span class="ui mini green label">Complete</span>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
+                                                <div class="value">15</div>
+                                                <div class="label">Questions</div>
+                                            </a>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
+                                                <div class="value">30</div>
+                                                <div class="label">Submissions</div>
+                                            </a>
+                                        </div>
+                                        <div class="seven wide column">
+                                            <div class="ui indicating fluid progress" data-percent="95">
+                                                <div class="bar">
+                                                    <div class="progress"></div>
+                                                </div>
+                                                <div class="label">Average Grade</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h2 href="#" class="ui header">Exam 2</h2>
+                                <div class="meta">
+                                    <span class="right floated">
+                                        <div class="ui icon top right pointing dropdown">
+                                            <i class="ellipsis vertical icon"></i>
+                                            <div class="menu">
+                                                <div class="item">Preview</div>
+                                                <div class="item">Edit Test</div>
+                                                <div class="item">Manage Keys</div>
+                                                <div class="ui divider"></div>
+                                                <div class="item">Export</div>
+                                                <div class="item">Print</div>
+                                            </div>
+                                        </div>
+                                    </span>
+
+                                    <div class="ui doubling grid">
+                                        <div class="four wide column"> 
+                                            <b>Created:</b> Feb 12, 2014<br>
+                                            <b>By:</b> Patrick Hennessy<br>
+                                            <span class="ui mini yellow label">Open</span>
+                                            <span class="ui mini purple label" data-content="Some questions require manual grading.">Needs Grading</span>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
+                                                <div class="value">25</div>
+                                                <div class="label">Questions</div>
+                                            </a>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
+                                                <div class="value">7</div>
+                                                <div class="label">Submissions</div>
+                                            </a>
+                                        </div>
+                                        <div class="seven wide column">
+                                            <div class="ui indicating fluid progress" data-percent="45">
+                                                <div class="bar">
+                                                    <div class="progress"></div>
+                                                </div>
+                                                <div class="label">Average Grade</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h2 href="#" class="ui header">Midterm</h2>
+                                <div class="meta">
+                                    <span class="right floated">
+                                        <div class="ui icon top right pointing dropdown">
+                                            <i class="ellipsis vertical icon"></i>
+                                            <div class="menu">
+                                                <div class="item">Preview</div>
+                                                <div class="item">Edit Test</div>
+                                                <div class="item">Manage Keys</div>
+                                                <div class="ui divider"></div>
+                                                <div class="item">Export</div>
+                                                <div class="item">Print</div>
+                                            </div>
+                                        </div>
+                                    </span>
+
+                                    <div class="ui doubling grid">
+                                        <div class="four wide column"> 
+                                            <b>Created:</b> Mar 15, 2014<br>
+                                            <b>By:</b> Patrick Hennessy<br>
+                                            <span class="ui mini red label">Closed</span>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
+                                                <div class="value">100</div>
+                                                <div class="label">Questions</div>
+                                            </a>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
+                                                <div class="value">0</div>
+                                                <div class="label">Submissions</div>
+                                            </a>
+                                        </div>
+                                        <div class="seven wide column">
+                                            <h3 class="ui centered disabled header">No Grades Available</h3>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="content">
+                                <h2 href="#" class="ui header">Final Exam</h2>
+                                <div class="meta">
+                                    <span class="right floated">
+                                        <div class="ui icon top right pointing dropdown">
+                                            <i class="ellipsis vertical icon"></i>
+                                            <div class="menu">
+                                                <div class="item">Preview</div>
+                                                <div class="item">Edit Test</div>
+                                                <div class="item">Manage Keys</div>
+                                                <div class="ui divider"></div>
+                                                <div class="item">Export</div>
+                                                <div class="item">Print</div>
+                                            </div>
+                                        </div>
+                                    </span>
+
+                                    <div class="ui doubling grid">
+                                        <div class="four wide column"> 
+                                            <b>Created:</b> Jan 1, 2011<br>
+                                            <b>By:</b> Department<br>
+                                            <span class="ui mini red label">Closed</span>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini blue statistic" data-content="Click to preview test">
+                                                <div class="value">200</div>
+                                                <div class="label">Questions</div>
+                                            </a>
+                                        </div>
+                                        <div class="two wide column">
+                                            <a href="#" class="ui mini green statistic" data-content="Click to view submissions">
+                                                <div class="value">0</div>
+                                                <div class="label">Submissions</div>
+                                            </a>
+                                        </div>
+                                        <div class="seven wide column">
+                                            <h3 class="ui centered disabled header">No Grades Available</h3>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+\
+                    </div>
+                    <!-- END Exam Data -->
                 </div>
             </div>
+            <!-- END Content Area -->
 
         </div>
 
@@ -215,12 +306,15 @@
 
             $('[data-content]').popup({
                 position: "top center",
-                transition:'drop'
+                transition:'drop',
+                variation:'inverted'
             });
 
             $('.ui.statistic[data-content]').popup({
                 position: "top center",
                 transition:'drop',
+                variation:'inverted',
+
                 delay: {
                     show: 500,
                     hide: 0
@@ -234,10 +328,14 @@
             $('.ui.progress').progress({
                 showActivity: false,
                 label: 'percent'
-
             });
 
             $('.ui.checkbox').checkbox();
+            
+            $('.ui.sticky').sticky({
+                context: "#mainpage",
+                offset: 12
+            });
         </script>
     </body>
 </html>
