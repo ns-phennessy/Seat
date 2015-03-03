@@ -64,22 +64,44 @@
                         </div>
                     </h1>
                     <form class="ui form">
-                        <div class="two fields">
-                            <div class="field">
-                                <label>Name</label>
-                                <input type="text" name="first-name" placeholder="Exam Name">
+                        <div class="three fields">
+                            <div class="one wide field"><label>Name</label></div>
+                            <div class="ten wide field"><input type="text" name="first-name" placeholder="Exam Name"> </div>
+                            <div class="four wide field">
+
+                                <div class="ui small blue buttons">
+                                    <div class="ui button">Save Exam</div>
+                                    <div class="ui floating dropdown icon button">
+                                        <i class="dropdown icon"></i>
+                                        <div class="menu">
+                                            <div class="item"><i class="eye icon"></i> Generate Token</div>
+                                            <div class="item"><i class="share icon"></i> Export</div>
+                                            <div class="item"><i class="file pdf outline icon"></i> Print</div>
+                                            <div class="ui divider"></div>
+                                            <div class="item"><i class="delete icon"></i> Delete</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
-                            <div class="field">
-                                <label>Class</label>
+                        </div>
+
+                        <div class="three fields">
+                            <div class="one wide field"><label>Course</label></div>
+                            <div class="ten wide field"> 
                                 <select class="ui dropdown">
                                     <option value="1">CS2050 - Advanced Algorithm Design</option>
                                     <option value="0">ECE 1210 - Digital Logic</option>
                                     <option value="0">CS1000 - Introduction to Computer Science</option>
                                 </select>
+
+
                             </div>
+                            <div class="four wide field"></div>
                         </div>
                     </form>
 
+                    <div class="ui hidden divider"></div>
                     <div class="ui top attached fluid two item tabular menu">
                         <a class="item" data-tab="first">Edit</a>
                         <a class="active item" data-tab="second">Preview</a>
