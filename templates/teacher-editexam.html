@@ -63,29 +63,28 @@
                             Create Exam
                         </div>
                     </h1>
-
-                    <div class="ui raised segment" style="padding:2em">
-
-                        <form class="ui form">
-                            <div class="two fields">
-                                <div class="field">
-                                    <label>Name</label>
-                                    <input type="text" name="first-name" placeholder="Exam Name">
-                                </div>
-                                <div class="field">
-                                    <label>Class</label>
-                                    <select class="ui dropdown">
-                                        <option value="1">CS2050 - Advanced Algorithm Design</option>
-                                        <option value="0">ECE 1210 - Digital Logic</option>
-                                        <option value="0">CS1000 - Introduction to Computer Science</option>
-                                    </select>
-                                </div>
+                    <form class="ui form">
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Name</label>
+                                <input type="text" name="first-name" placeholder="Exam Name">
                             </div>
-                        </form>
+                            <div class="field">
+                                <label>Class</label>
+                                <select class="ui dropdown">
+                                    <option value="1">CS2050 - Advanced Algorithm Design</option>
+                                    <option value="0">ECE 1210 - Digital Logic</option>
+                                    <option value="0">CS1000 - Introduction to Computer Science</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
 
-                        <h3 class="ui dividing header">Questions Preview</h3>
-
-
+                    <div class="ui top attached fluid two item tabular menu">
+                        <a class="item" data-tab="first">Edit</a>
+                        <a class="active item" data-tab="second">Preview</a>
+                    </div>
+                    <div class="ui bottom attached tab segment" data-tab="first">
 
 
                         <div class="ui divided items">
@@ -104,7 +103,7 @@
                                             <div class="ten wide column">
                                                 If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
                                             </div>
-                                            <div class="two wide column right aligned">
+                                            <div class="two wide column center aligned">
                                                 <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
                                                 <div class="ui mini red icon button" data-content="Delete"><i class="delete icon"></i></div>
                                             </div>
@@ -128,7 +127,7 @@
                                             <div class="ten wide column">
                                                 Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
                                             </div>
-                                            <div class="two wide column right aligned">
+                                            <div class="two wide column center aligned">
                                                 <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
                                                 <div class="ui mini red icon button" data-content="Delete"><i class="delete icon"></i></div>
                                             </div>
@@ -141,25 +140,84 @@
 
 
                         </div>
-                
-                <div class="ui fluid huge button"><i class="plus icon"></i> Add Question</div>
 
 
 
 
 
+                        <div class="ui hidden divider"></div>
+                        <div class="ui fluid huge button"><i class="plus icon"></i> Add Question</div>
+                    </div>
+                    <div class="ui bottom attached active tab segment" data-tab="second">
 
 
+                        <div class="ui divided items">
 
+                            <div class="item">
+                                <div class="content">
+                                    <div class="header">Question 1</div>
+                                    <div class="ui indented text">
 
+                                        If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
+                                        <div class="ui hidden divider"></div>
+                                        <form action="" class="ui form">
+                                            <div class="grouped fields">
+                                                <label>Answer:</label>
+                                                <div class="field">
+                                                    <div class="ui radio checkbox checked">
+                                                        <input type="radio" name="q1">
+                                                        <label>Cocktail Sort</label>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="ui radio checkbox checked">
+                                                        <input type="radio" name="q1">
+                                                        <label>Insertion Sort</label>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="ui radio checkbox checked">
+                                                        <input type="radio" name="q1">
+                                                        <label>Quicksort</label>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="ui radio checkbox checked">
+                                                        <input type="radio" name="q1">
+                                                        <label>Bubblesort</label>
+                                                    </div>
+                                                </div>
+                                            </div>                                   
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="item">
+                                <div class="content">
+                                    <div class="header">Question 2</div>
+                                    <div class="ui indented text">
 
+                                        Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
+                                        <div class="ui hidden divider"></div>
+                                        <form class="ui form">
+                                            <div class="eight wide field">
+                                                <label>Answer:</label>
+                                                <div class="ui input">
+                                                    <input type="text" placeholder="Username">
+                                                </div>
+                                            </div>                             
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
 
-
+                        </div>
 
 
 
                     </div>
+
                 </div>
 
             </div>
@@ -178,6 +236,8 @@
 
             $('.ui.dropdown').dropdown({
             });
+
+            $('.ui.radio.checkbox').checkbox();
         </script>
     </body>
 </html>
