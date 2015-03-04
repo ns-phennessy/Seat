@@ -4,7 +4,7 @@
 <div class="ui active tab">
     <h1 class="ui dividing header">
         <div class="content">
-            CS2050 - Algorithm Design II
+            {{ course.name }}
         </div>
     </h1>
     <div class="ui raised segment" style="padding:2em">
@@ -19,20 +19,23 @@
                 </tr>
             </thead>
             <tbody>
+            {% for exam in course.exams %}
                 <tr>
                     <td>
-                        <h3 class="ui header">Exam 1</h3>
+                        <h3 class="ui header">{{ exam.name }}</h3>
                     </td>
-                    <td>Feb 12, 2015</td>
+                    <td>
+                        {{ exam.updated_at|date:"DATE_FORMAT" }}
+                    </td>
                     <td>
                         <a href="#" class="ui mini blue statistic">
-                            <div class="value">15</div>
+                            <div class="value">{{ exam.questions|length }}</div>
                             <div class="label">Questions</div>
                         </a>
                     </td>
                     <td>
                         <a href="#" class="ui mini green statistic">
-                            <div class="value">30</div>
+                            <div class="value">{{ exam.submissions|length }}</div>
                             <div class="label">Submissions</div>
                         </a>
                     </td>
@@ -52,6 +55,7 @@
                         </div>
                     </td>
                 </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
