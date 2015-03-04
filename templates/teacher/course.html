@@ -1,0 +1,63 @@
+{% extends "teacher/dashboard.html" %}
+
+{% block content %}
+<div class="ui active tab">
+    <h1 class="ui dividing header">
+        <div class="content">
+            {{ course.name }}
+        </div>
+    </h1>
+    <div class="ui raised segment" style="padding:2em">
+        <table class="ui very basic padded table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Last Edit</th>
+                    <th>Questions</th>
+                    <th>Submissions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for exam in course.exams %}
+                <tr>
+                    <td>
+                        <h3 class="ui header">{{ exam.name }}</h3>
+                    </td>
+                    <td>
+                        {{ exam.updated_at|date:"DATE_FORMAT" }}
+                    </td>
+                    <td>
+                        <a href="#" class="ui mini blue statistic">
+                            <div class="value">{{ exam.questions|length }}</div>
+                            <div class="label">Questions</div>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" class="ui mini green statistic">
+                            <div class="value">{{ exam.submissions|length }}</div>
+                            <div class="label">Submissions</div>
+                        </a>
+                    </td>
+                    <td class="five wide right aligned">
+                        <div class="ui small blue buttons">
+                            <div class="ui button">Edit Exam</div>
+                            <div class="ui floating dropdown icon button">
+                                <i class="dropdown icon"></i>
+                                <div class="menu">
+                                    <div class="item"><i class="eye icon"></i> Preview</div>
+                                    <div class="item"><i class="share icon"></i> Export</div>
+                                    <div class="item"><i class="file pdf outline icon"></i> Print</div>
+                                    <div class="ui divider"></div>
+                                    <div class="item"><i class="delete icon"></i> Delete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
