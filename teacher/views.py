@@ -1,15 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate
+from django.shortcuts import render
 from datetime import date
-
-def login(request):
-    if (request.method == 'GET'):
-        return render(request, 'login.html')
-    elif (request.method == 'POST'):
-        # assume login successful for now
-        # in the future, redirect to teacher's _first_ course, from DB
-        return redirect('/courses/1')
 
 # fake exam data
 exam1 = { 'name': 'Exam 1',
@@ -32,7 +22,6 @@ cs2050 = { 'id': '1',
 ece1210 = { 'id': '2', 'name': 'ECE 1210 - Digital Logic' }
 cs1000 = { 'id': '3', 'name': 'CS1000 - Introduction to Computer Science' }
 teacher = { 'name': 'Joe Teach', 'courses': [cs2050, ece1210, cs1000] }
-
 
 def course(request, courseNum):
     if request.method == 'GET':
