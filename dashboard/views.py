@@ -17,12 +17,14 @@ question2 = {
 
 # fake exam data
 exam1 = {
+    'id': '1',
     'name': 'Exam 1',
     'updated_at': date(2015, 2, 12),
     'questions': [question1, question2],
     'submissions': [{} for i in range(30)],
     }
 exam2 = {
+    'id': '2',
     'name': 'Exam 2',
     'updated_at': date(2015, 3, 3),
     'questions': [{} for i in range(17)],

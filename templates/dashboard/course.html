@@ -44,7 +44,7 @@
                         </td>
                         <td class="five wide right aligned">
                             <div class="ui small blue buttons">
-                                <div class="ui button">Edit Exam</div>
+                                <a href="{% url 'dashboard.views.exam_edit' exam.id %}" class="ui button">Edit Exam</a>
                                 <div class="ui floating dropdown icon button">
                                     <i class="dropdown icon"></i>
                                     <div class="menu">
