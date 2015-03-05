@@ -50,9 +50,9 @@
                 <div class="ui fluid vertical blue menu">
                     {% for course in teacher.courses %}
                       {% if course.id == courseNum %}
-                      <a href="{% url 'teacher.views.course' course.id %}" class="active item">{{ course.name }}</a>
+                      <a href="{% url 'dashboard.views.course' course.id %}" class="active item">{{ course.name }}</a>
                       {% else %}
-                      <a href="{% url 'teacher.views.course' course.id %}" class="item">{{ course.name }}</a>
+                      <a href="{% url 'dashboard.views.course' course.id %}" class="item">{{ course.name }}</a>
                       {% endif %}
                     {% endfor %}
                     <a class="item ui faded text center aligned"> <span><i class="icon plus"></i>Add Course</span></a>

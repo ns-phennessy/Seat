@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from teacher import views
+from dashboard import views
 
 urlpatterns = patterns('',
     url(r'^courses/(\d+)/$', views.course)

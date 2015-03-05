@@ -20,19 +20,15 @@ exam2 = {
 exams = [exam1, exam2]
 
 # fake teacher data
-
-cs2050 = {'id': '1', 'name': 'CS2050 - Algorithm Design II',
-          'exams': exams}
+cs2050 = {'id': '1', 'name': 'CS2050 - Algorithm Design II', 'exams': exams}
 ece1210 = {'id': '2', 'name': 'ECE 1210 - Digital Logic'}
-cs1000 = {'id': '3',
-          'name': 'CS1000 - Introduction to Computer Science'}
+cs1000 = {'id': '3', 'name': 'CS1000 - Introduction to Computer Science'}
 teacher = {'name': 'Joe Teach', 'courses': [cs2050, ece1210, cs1000]}
 
 
 def course(request, courseNum):
     if request.method == 'GET':
-        context = {'teacher': teacher, 'courseNum': courseNum,
-                   'course': cs2050}
+        context = {'teacher': teacher, 'courseNum': courseNum, 'course': cs2050}
         return render(request, 'dashboard/course.html', context)
     
     elif request.method == 'POST':
