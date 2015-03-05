@@ -69,14 +69,6 @@ def course(request, courseNum):
         pass
 
 # GET, POST, PUT, DELETE
-def course(request, courseNum):
-    if request.method == 'GET':
-        context = {'teacher': teacher, 'courseNum': courseNum, 'course': cs2050}
-        return render(request, 'dashboard/course.html', context)
-    elif request.method == 'POST':
-        pass
-
-# GET, POST, PUT, DELETE
 def exam(request, exam_num):
     pass
 
