@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from datetime import date
-from dashboard.models import Teacher
-from dashboard.models import Course
-from dashboard.models import Exam
+from dashboard.models import Teacher,Course,Exam,Question
 
 def get_session():
     #hacky as fuck initialize db
@@ -15,6 +13,11 @@ def get_session():
         Course.objects.get_or_create(id=2,name="ECE 1210 - Digital Logic"),
         Course.objects.get_or_create(id=3,name="CS1000 - Introduction to Computer Science")
     ]
+    default_questions = [
+        Question.objects.get_or_create(id=1,category="Multiple Choice",text="Who's your daddy?"),
+        Question.objects.get_or_create(id=2,category="True/False",text="What is real?"),
+        Question.objects.get_or_create(id=3,category="Short Answer",text="Explain.")
+    ]
     default_exams= [
         Exam.objects.get_or_create(id=1, name='Ex 1'),
         Exam.objects.get_or_create(id=2, name='Ex 2'),
@@ -22,6 +25,9 @@ def get_session():
     for i in range(len(default_courses)):
         for j in range(len(default_exams)):
             default_exams[j][0].save()
+            for k in range(len(default_questions)):
+                default_questions[k][0].save()
+                default_exams[j][0].questions.add(default_questions[k][0])
             default_courses[i][0].exams.add(default_exams[j][0])
         default_courses[i][0].save()
         default_teacher.courses.add(default_courses[i][0])
