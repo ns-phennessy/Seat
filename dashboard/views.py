@@ -6,26 +6,6 @@ from dashboard.models import Teacher
 from dashboard.models import Course
 from dashboard.models import Exam
 
-
-# fake exam data
-# exam1 = {
-#     'name': 'Exam 1',
-#     'updated_at': date(2015, 2, 12),
-#     'questions': [{} for i in range(15)],
-#     'submissions': [{} for i in range(30)],
-#     }
-# exam2 = {
-#     'name': 'Exam 2',
-#     'updated_at': date(2015, 3, 3),
-#     'questions': [{} for i in range(17)],
-#     'submissions': [{} for i in range(29)],
-#     }
-# exams = [exam1, exam2]
-
-# # fake teacher data
-# cs2050 = {'id': '1', 'name': 'CS2050 - Algorithm Design II', 'exams': exams}
-# teacher = {'name': 'Joe Teach'}
-
 def get_session():
     #hacky as fuck initialize db
     default_teacher = Teacher.objects.get_or_create(name="joe", email="guilliamsd@mizzou.edu")[0]
