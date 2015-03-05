@@ -10,15 +10,6 @@
         <!-- CSS -->
         <link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
         <link rel="stylesheet" href="http://cdn.patcave.info/css/semantic-typography.css">
-        <style>
-            body{
-                min-width:960px;
-            }
-
-            .ui[class*="padded"].table td{
-                padding:1em !important;
-            }
-        </style>
     </head>
     <body>
         <div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
@@ -42,42 +33,14 @@
                 </div>
             </div>
         </div>
+
         <div class="ui page grid">
-            <div class="four wide column">
-                <div class="ui fluid blue button"><i class="icon plus"></i> New Test</div>
-
-                <h3 class="ui dividing header">Courses</h3>
-                <div class="ui fluid vertical blue menu">
-                    {% for course in teacher.courses %}
-                      {% if course.id == course_num %}
-                      <a href="{% url 'dashboard.views.course' course.id %}" class="active item">{{ course.name }}</a>
-                      {% else %}
-                      <a href="{% url 'dashboard.views.course' course.id %}" class="item">{{ course.name }}</a>
-                      {% endif %}
-                    {% endfor %}
-                    <a class="item ui faded text center aligned"> <span><i class="icon plus"></i>Add Course</span></a>
-                </div>
-            </div>
-            <div class="twelve wide column" id="main">
-              {% block content %}{% endblock %}
-            </div>
+            {% block pagecontent %}
+            {% endblock %}
         </div>
-
+        
         <!-- Javascript -->
         <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
         <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
-        <script>
-            $('[data-content]').popup({
-                position:'top center',
-                transition:'drop'
-            });
-
-            $('.ui.menu .item').tab();
-
-            $('.ui.dropdown').dropdown({
-            });
-
-            $('.ui.radio.checkbox').checkbox();
-        </script>
     </body>
 </html>
