@@ -35,6 +35,7 @@ def initialize_database_objects():
     default_teacher.save()
 
 def course(request, courseNum):
+    print request.session.keys()
     if 'user_id' not in request.session:
         return redirect('/login/')
     if request.method == 'GET':
