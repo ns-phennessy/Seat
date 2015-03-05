@@ -43,7 +43,11 @@ def course(request, courseNum):
 
 # GET, POST, PUT, DELETE
 def exam(request, exam_num):
-    pass
+    if request.method == 'GET':
+        context = {}
+        return render(request, 'dashboard/editexam-mockup.html', context)
+    elif request.method == 'POST':
+        pass
 
 # GET
 def exam_edit(request, exam_num):
