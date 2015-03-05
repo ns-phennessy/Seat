@@ -1,11 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
+from django.shortcuts import redirect
 from datetime import date
 from dashboard.models import Teacher,Course,Exam,Question
 
-def get_session():
-    #hacky as fuck initialize db
+#TODO: remove this whene there isa real db
+def initialize_database_objects():
     default_teacher = Teacher.objects.get_or_create(name="joe", email="guilliamsd@mizzou.edu")[0]
     default_teacher.save()
     default_courses = [
@@ -32,15 +33,14 @@ def get_session():
         default_courses[i][0].save()
         default_teacher.courses.add(default_courses[i][0])
     default_teacher.save()
-    return {
-        'user_id' : Teacher.objects.all()[0].id
-    }
 
 def course(request, courseNum):
+    if 'user_id' not in request.session:
+        return redirect('/login/')
     if request.method == 'GET':
-        session = get_session()
         try:
-            teacher = Teacher.objects.get(id=session['user_id'])
+            initialize_database_objects()
+            teacher = Teacher.objects.get(id=request.session['user_id'])
             course = Course.objects.get(id=courseNum)
         except Course.DoesNotExist:
             #TODO: handle error in the view
@@ -48,7 +48,7 @@ def course(request, courseNum):
         context = {
             'teacher': teacher,
             'courseNum': courseNum,
-            'course': course.name
+            'course': course
             }
         return render(request, 'dashboard/course.html', context)
     elif request.method == 'POST':

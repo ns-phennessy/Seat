@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for exam in course.exams %}
+                    {% for exam in course.exams.all %}
                     <tr>
                         <td>
                             <h3 class="ui header">{{ exam.name }}</h3>
