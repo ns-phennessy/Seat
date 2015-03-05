@@ -39,7 +39,7 @@
                 <div class="one wide field"><label>Course</label></div>
                 <div class="ten wide field">
                     <select class="ui dropdown">
-                        {% for course in teacher.courses %}
+                        {% for course in teacher.courses.all %}
                         <option value="{{ course.id }}">{{ course.name }}</option>
                         {% endfor %}
                     </select>
@@ -58,7 +58,7 @@
 
             <div class="ui divided items">
 
-                {% for question in exam.questions %}
+                {% for question in exam.questions.all %}
                 <div class="item">
                     <div class="content">
                         <div class="header">Question {{ forloop.counter }}</div>

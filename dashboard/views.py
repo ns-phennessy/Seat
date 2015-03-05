@@ -5,35 +5,6 @@ from django.shortcuts import redirect
 from datetime import date
 from dashboard.models import Teacher,Course,Exam,Question
 
-# fake question data
-question1 = {
-    'category': 'Multiple Choice',
-    'text': 'If you need to sort a very large list of integers (billions), what \
-             efficient sorting algorithm would be your best bet? '
-    }
-question2 = {
-    'category': 'Multiple Choice',
-    'text': 'Vint Cerf is regarded as the father of the Internet but who is the \
-             person that actually invented the World Wide Web? '
-    }
-
-# fake exam data
-exam1 = {
-    'id': '1',
-    'name': 'Exam 1',
-    'updated_at': date(2015, 2, 12),
-    'questions': [question1, question2],
-    'submissions': [{} for i in range(30)],
-    }
-exam2 = {
-    'id': '2',
-    'name': 'Exam 2',
-    'updated_at': date(2015, 3, 3),
-    'questions': [{} for i in range(17)],
-    'questions': [question1, question2],
-    'submissions': [{} for i in range(29)],
-    }
-
 #TODO: remove this whene there isa real db
 def initialize_database_objects():
     default_teacher = Teacher.objects.get_or_create(name="joe", email="guilliamsd@mizzou.edu")[0]
@@ -89,14 +60,17 @@ def exam(request, exam_num):
 
 # GET
 def exam_edit(request, exam_num):
-    teacher = Teacher.objects.get(id=session['user_id'])
-    context = { 'teacher': teacher, 'exam': exam1 }
+    initialize_database_objects()
+    teacher = Teacher.objects.get(id=request.session['user_id'])
+    exam = Exam.objects.get(id=exam_num)
+    context = { 'teacher': teacher, 'exam': exam }
     return render(request, 'dashboard/exam.html', context)
 
 # GET
 def exam_new(request):
     if request.method == 'GET':
-        teacher = Teacher.objects.get(id=session['user_id'])
+        initialize_database_objects()
+        teacher = Teacher.objects.get(id=request.session['user_id'])
         context = { 'teacher': teacher }
         return render(request, 'dashboard/exam.html', context)
 
