@@ -1,0 +1,97 @@
+{% extends "dashboard/common/base.html" %}
+
+{% block pagecontent %}
+
+{% include "dashboard/courses-list.html" %}
+
+<div class="twelve wide column" id="main">
+
+    <div class="ui active tab">
+        <h1 class="ui dividing header">
+            <div class="content">
+                Create Exam
+            </div>
+        </h1>
+        <form class="ui form">
+            <div class="three fields">
+                <div class="one wide field"><label>Name</label></div>
+                <div class="ten wide field">
+                    <input value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
+                </div>
+                <div class="four wide field">
+                    <div class="ui small blue buttons">
+                        <div class="ui button">Save Exam</div>
+                        <div class="ui floating dropdown icon button">
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item"><i class="eye icon"></i> Generate Token</div>
+                                <div class="item"><i class="share icon"></i> Export</div>
+                                <div class="item"><i class="file pdf outline icon"></i> Print</div>
+                                <div class="ui divider"></div>
+                                <div class="item"><i class="delete icon"></i> Delete</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="three fields">
+                <div class="one wide field"><label>Course</label></div>
+                <div class="ten wide field">
+                    <select class="ui dropdown">
+                        {% for course in teacher.courses %}
+                        <option value="{{ course.id }}">{{ course.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="four wide field"></div>
+            </div>
+        </form>
+
+        <div class="ui hidden divider"></div>
+        <div class="ui top attached fluid two item tabular menu">
+            <a class="item" data-tab="first">Edit</a>
+            <a class="active item" data-tab="second">Preview</a>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="first">
+
+            <div class="ui divided items">
+
+                {% for question in exam.question %}
+                <div class="item">
+                    <div class="content">
+                        <div class="header">Question {{ forloop.counter }}</div>
+                        <div class="meta">
+
+                            <div class="ui padded stackable grid">
+                                <div class="three wide column">
+                                    {{ question.category }}
+                                </div>
+                                <div class="ten wide column">
+                                    {{ question.question }}
+                                </div>
+                                <div class="two wide column center aligned">
+                                    <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
+                                    <div class="ui mini red icon button" data-content="Delete"><i class="delete icon"></i></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="ui hidden divider"></div>
+            <div class="ui fluid huge button"><i class="plus icon"></i> Add Question</div>
+        </div>
+        <div class="ui bottom attached active tab segment" data-tab="second">
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
