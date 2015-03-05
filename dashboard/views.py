@@ -3,17 +3,30 @@
 from django.shortcuts import render
 from datetime import date
 
+# fake question data
+question1 = {
+    'category': 'Multiple Choice',
+    'text': 'If you need to sort a very large list of integers (billions), what \
+             efficient sorting algorithm would be your best bet? '
+    }
+question2 = {
+    'category': 'Multiple Choice',
+    'text': 'Vint Cerf is regarded as the father of the Internet but who is the \
+             person that actually invented the World Wide Web? '
+    }
+
 # fake exam data
 exam1 = {
     'name': 'Exam 1',
     'updated_at': date(2015, 2, 12),
-    'questions': [{} for i in range(15)],
+    'questions': [question1, question2],
     'submissions': [{} for i in range(30)],
     }
 exam2 = {
     'name': 'Exam 2',
     'updated_at': date(2015, 3, 3),
     'questions': [{} for i in range(17)],
+    'questions': [question1, question2],
     'submissions': [{} for i in range(29)],
     }
 exams = [exam1, exam2]
@@ -42,16 +55,18 @@ def course(request, courseNum):
 
 # GET, POST, PUT, DELETE
 def exam(request, exam_num):
-    if request.method == 'GET':
-        return render(request, 'dashboard/exam.html')
+    pass
 
 # GET
 def exam_edit(request, exam_num):
-    return render(request, 'dashboard/exam.html')
+    context = { 'teacher': teacher, 'exam': exam1 }
+    return render(request, 'dashboard/exam.html', context)
 
 # GET
 def exam_new(request):
-    pass
+    if request.method == 'GET':
+        context = { 'teacher': teacher }
+        return render(request, 'dashboard/exam.html', context)
 
 # GET, POST, PUT, DELETE
 def exam_question(request, exam_num, question_num):

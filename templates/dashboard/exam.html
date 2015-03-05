@@ -51,14 +51,14 @@
 
         <div class="ui hidden divider"></div>
         <div class="ui top attached fluid two item tabular menu">
-            <a class="item" data-tab="first">Edit</a>
-            <a class="active item" data-tab="second">Preview</a>
+            <a class="active item" data-tab="first">Edit</a>
+            <a class="item" data-tab="second">Preview</a>
         </div>
-        <div class="ui bottom attached tab segment" data-tab="first">
+        <div class="ui bottom attached active tab segment" data-tab="first">
 
             <div class="ui divided items">
 
-                {% for question in exam.question %}
+                {% for question in exam.questions %}
                 <div class="item">
                     <div class="content">
                         <div class="header">Question {{ forloop.counter }}</div>
@@ -69,7 +69,7 @@
                                     {{ question.category }}
                                 </div>
                                 <div class="ten wide column">
-                                    {{ question.question }}
+                                    {{ question.text }}
                                 </div>
                                 <div class="two wide column center aligned">
                                     <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
@@ -87,7 +87,7 @@
             <div class="ui hidden divider"></div>
             <div class="ui fluid huge button"><i class="plus icon"></i> Add Question</div>
         </div>
-        <div class="ui bottom attached active tab segment" data-tab="second">
+        <div class="ui bottom attached tab segment" data-tab="second">
 
         </div>
 
