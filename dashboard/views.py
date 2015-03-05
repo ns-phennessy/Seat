@@ -25,7 +25,7 @@ ece1210 = {'id': '2', 'name': 'ECE 1210 - Digital Logic'}
 cs1000 = {'id': '3', 'name': 'CS1000 - Introduction to Computer Science'}
 teacher = {'name': 'Joe Teach', 'courses': [cs2050, ece1210, cs1000]}
 
-
+# GET, POST, PUT, DELETE
 def course(request, courseNum):
     if request.method == 'GET':
         context = {'teacher': teacher, 'courseNum': courseNum, 'course': cs2050}
@@ -34,4 +34,18 @@ def course(request, courseNum):
     elif request.method == 'POST':
         pass
 
+# GET, POST, PUT, DELETE
+def exam(request, exam_num):
+    pass
 
+# GET
+def exam_edit(request, exam_num):
+    pass
+
+# GET
+def exam_new(request):
+    pass
+
+# GET, POST, PUT, DELETE
+def exam_question(request, exam_num, question_num):
+    pass

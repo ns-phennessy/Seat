@@ -49,7 +49,7 @@
                 <h3 class="ui dividing header">Courses</h3>
                 <div class="ui fluid vertical blue menu">
                     {% for course in teacher.courses %}
-                      {% if course.id == courseNum %}
+                      {% if course.id == course_num %}
                       <a href="{% url 'dashboard.views.course' course.id %}" class="active item">{{ course.name }}</a>
                       {% else %}
                       <a href="{% url 'dashboard.views.course' course.id %}" class="item">{{ course.name }}</a>
