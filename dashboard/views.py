@@ -60,11 +60,19 @@ def exam(request, exam_num):
 
 # GET
 def exam_edit(request, exam_num):
-    pass
+    initialize_database_objects()
+    teacher = Teacher.objects.get(id=request.session['user_id'])
+    exam = Exam.objects.get(id=exam_num)
+    context = { 'teacher': teacher, 'exam': exam }
+    return render(request, 'dashboard/exam.html', context)
 
 # GET
 def exam_new(request):
-    pass
+    if request.method == 'GET':
+        initialize_database_objects()
+        teacher = Teacher.objects.get(id=request.session['user_id'])
+        context = { 'teacher': teacher }
+        return render(request, 'dashboard/exam.html', context)
 
 # GET, POST, PUT, DELETE
 def exam_question(request, exam_num, question_num):

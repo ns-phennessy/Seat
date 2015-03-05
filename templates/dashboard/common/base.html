@@ -38,9 +38,11 @@
             {% block pagecontent %}
             {% endblock %}
         </div>
-        
+
         <!-- Javascript -->
         <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
         <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
+        {% load static %}
+        <script src="{% static 'js/base.js' %}"></script>
     </body>
 </html>
