@@ -4,6 +4,7 @@ from django.shortcuts import render
 from datetime import date
 
 # fake exam data
+
 exam1 = {
     'name': 'Exam 1',
     'updated_at': date(2015, 2, 12),
@@ -42,12 +43,11 @@ def course(request, courseNum):
 
 # GET, POST, PUT, DELETE
 def exam(request, exam_num):
-    if request.method == 'GET':
-        return render(request, 'dashboard/exam.html')
+    pass
 
 # GET
 def exam_edit(request, exam_num):
-    return render(request, 'dashboard/exam.html')
+    pass
 
 # GET
 def exam_new(request):
