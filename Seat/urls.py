@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.shortcuts import redirect
 
 def redirect_to_login(request):
-	return redirect('login/')
+	return redirect('/login/')
 
 urlpatterns = patterns('',
     url(r'^admin/$', include(admin.site.urls)),
