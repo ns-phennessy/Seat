@@ -1,4 +1,4 @@
-[![Build Status](http://jenkins.patcave.info/buildStatus/icon?job=Capstone - SEAT)](http://jenkins.patcave.info/job/Capstone%20-%20SEAT/)
+Jenkins Build Status: [![Build Status](http://jenkins.patcave.info/buildStatus/icon?job=Capstone - SEAT)](http://jenkins.patcave.info/job/Capstone%20-%20SEAT/)
 
 # Simple Extensible Assessment Toolkit
 
