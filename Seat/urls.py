@@ -8,6 +8,6 @@ def redirect_to_login(request):
 urlpatterns = patterns('',
     url(r'^admin/$', include(admin.site.urls)),
     url(r'^login/', include('login.urls')),
-    url(r'^dashboard/', include('teacher.urls')),
+    url(r'^dashboard/', include('dashboard.urls')),
     url(r'$', redirect_to_login)
 )
