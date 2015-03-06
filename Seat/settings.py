@@ -46,10 +46,19 @@ WSGI_APPLICATION = 'Seat.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': {
+    'local': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'default':{
+        'NAME'      : 'seat',
+        'ENGINE'    : 'django.db.backends.mysql',
+        'USER'      : 'capstone',
+        'PASSWORD'  : '9324d1eb',
+        'HOST'      : 'patcave.info',
+        'PORT'      : '3306'
     }
+
 }
 
 # Template Settings
