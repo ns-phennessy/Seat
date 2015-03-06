@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ `id -u` != "0" ]; then
+    echo 'You must be root to execute this script'
+    exit
+fi
+
 success="\e[0;32m"
 error="\e[0;31m"
 white="\e[0;37m"
@@ -23,16 +28,18 @@ function chk_pkg(){
 		fi	
 	fi
 	
-	echo ''
+	echo -e '\e[0m'
 }
 
-# Python 2.7
-chk_pkg 'python2.7'
+REQUIRED_PACKAGES="
+    python2.7 
+    python-django 
+    python-django-extensions 
+    mysql-server-5.6 
+    python-mysqldb
+"
 
-# Django
-chk_pkg 'python-django'
-chk_pkg 'python-django-extensions'
+for PACKAGE in $REQUIRED_PACKAGES; do
+    chk_pkg $PACKAGE
+done
 
-# MySQL
-chk_pkg 'nysql-server'
-chk_pkg 'python-mysqldb'
