@@ -1,459 +1,454 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Meta data -->
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <title>Parkway Testing Application</title>
-
-        <!-- CSS -->
-        <link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
-        <link rel="stylesheet" href="http://cdn.patcave.info/css/semantic-typography.css">
-        <style>
-            body{
-                min-width:960px;   
-            }
-
-            .ui[class*="padded"].table td{
-                padding:1em !important;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
-            <div class="column row">
-                <a href="#" style="float:left">
-                    <h1 class="ui inverted header">Admin Dashboard</h1>
-                </a>
-                <div class="ui right floated text inverted menu">
-                    <div class="no hover item">
-                        <span class="ui bold text">Joe Teach</span>
-                    </div>
-                    <a href="#" class="item">Help</a>
-                    <a href="login.html" class="item">Logout</a>
-                </div>
-            </div>
-            <div class="row" style="padding-bottom:1px">
-                <div class="ui bold secondary inverted blue pointing menu" style="background:#1b1c1d;">
-                    <a class="active item">Manage Courses</a>
-                    <a class="item">Gradebook</a>
-                    <a class="item">Open Exams</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="ui page grid">
-            <div class="four wide column">
-                <div class="ui fluid blue button"><i class="icon plus"></i> New Test</div>
-
-                <h3 class="ui dividing header">Courses</h3>
-                <div class="ui fluid vertical blue menu">
-                    <a class="active item">CS2050 - Algorithm Design II</a>
-                    <a class="item">ECE 1210 - Digital Logic</a>
-                    <a class="item">CS1000 - Introduction to Computer Science</a>
-                    <a class="item ui faded text center aligned"> <span><i class="icon plus"></i>Add Course</span></a>
-                </div>
-            </div>
-            <div class="twelve wide column" id="main">
-
-                <h1 class="ui dividing header">
-                    <div class="content">
-                        Create Exam
-                    </div>
-                </h1>
-                <form class="ui form">
-                    <div class="three fields">
-                        <div class="one wide field"><label>Name</label></div>
-                        <div class="ten wide field"><input type="text" name="first-name" placeholder="Exam Name"> </div>
-                        <div class="four wide field">
-
-                            <div class="ui small blue buttons">
-                                <div class="ui button">Save Exam</div>
-                                <div class="ui floating dropdown icon button">
-                                    <i class="dropdown icon"></i>
-                                    <div class="menu">
-                                        <div class="item"><i class="eye icon"></i> Generate Token</div>
-                                        <div class="item"><i class="share icon"></i> Export</div>
-                                        <div class="item"><i class="file pdf outline icon"></i> Print</div>
-                                        <div class="ui divider"></div>
-                                        <div class="item"><i class="delete icon"></i> Delete</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="three fields">
-                        <div class="one wide field"><label>Course</label></div>
-                        <div class="ten wide field"> 
-                            <select class="ui dropdown">
-                                <option value="1">CS2050 - Advanced Algorithm Design</option>
-                                <option value="0">ECE 1210 - Digital Logic</option>
-                                <option value="0">CS1000 - Introduction to Computer Science</option>
-                            </select>
-
-
-                        </div>
-                        <div class="four wide field"></div>
-                    </div>
-                </form>
-
-                <div class="ui hidden divider"></div>
-                <div class="ui top attached fluid two item tabular menu">
-                    <a class="active item" data-tab="first">Edit</a>
-                    <a class="item" data-tab="second">Preview</a>
-                </div>
-                <div class="ui bottom attached active tab segment" data-tab="first">
-
-
-                    <div class="ui divided items">
-
-                        <div class="item">
-                            <div class="content">
-                                <div class="header">Question 1</div>
-                                <div class="meta">
-
-                                    <div class="ui padded stackable grid">
-                                        <div class="three wide column"> 
-                                            Multiple Choice
-                                            <br>
-                                            5 Options
-                                        </div>
-                                        <div class="ten wide column">
-                                            If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
-                                        </div>
-                                        <div class="two wide column center aligned">
-                                            <div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
-                                            <div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
-                                        </div>
-
-                                    </div>
-
-
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="content">
-                                <div class="header">Question 2</div>
-                                <div class="meta">
-
-                                    <div class="ui padded stackable grid">
-                                        <div class="three wide column"> 
-                                            Multiple Choice
-                                            <br>
-                                            5 Options
-                                        </div>
-                                        <div class="ten wide column">
-                                            Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
-                                        </div>
-                                        <div class="two wide column center aligned">
-                                            <div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
-                                            <div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
-
-
-
-
-
-                    <div class="ui form raised secondary segment">
-                        <h3 class="ui header">New Question</h3>
-                        <div class="field">
-                            <label for="">Prompt:</label>
-                            <input type="text" name="thing" placeholder="What is the..."> 
-                        </div>
-
-                        <div class="ui tiny header">Question Type:</div>
-                        <div class="ui fluid four item tabular top attached menu">
-                            <a class="active item">Multiple Choice</a>
-                            <a class="item">True / False</a>
-                            <a class="item">Short Answer</a>
-                            <a class="item">Essay</a>
-                        </div>
-                        <div class="ui bottom attached segment">
-
-                            <!-- Multiple Choice -->
-                            <form class="ui form">
-                                <div class="class five wide field">
-                                    <label>Options:</label>
-                                </div>
-                                <div class="two fields">
-                                    <div class="one wide field">
-                                        <label></label>
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="fruit" checked>
-                                        </div>
-                                    </div>
-                                    <div class="six wide field">
-                                        <label></label>
-                                        <div class="ui input">
-                                            <input type="text" placeholder="New Option...">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="two fields">
-                                    <div class="one wide field">
-                                        <label></label>
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="fruit">
-                                        </div>
-
-                                    </div>
-                                    <div class="six wide field">
-                                        <label></label>
-                                        <div class="ui input">
-                                            <input type="text" placeholder="New Option...">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="two fields">
-                                    <div class="one wide field">
-                                        <label></label>
-                                        <div class="ui radio checkbox">
-                                            <input type="radio" name="fruit">
-                                        </div>
-
-                                    </div>
-                                    <div class="six wide field">
-                                        <label></label>
-                                        <div class="ui input">
-                                            <input type="text" placeholder="New Option...">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-
-
-                        <!-- True / False-->
-                        <form class="ui hidden form">
-                            <div class="field">
-                                <label>Answer:</label>
-                                <span>False</span>
-                                <div class="ui toggle fitted checkbox" style="margin:0 1em">
-                                    <input type="checkbox" name="public">
-                                </div>
-                                <span>True</span>
-
-                            </div>
-
-                        </form>
-
-
-                        <div class="ui divider"></div>
-                        <div class="two fields">                                
-                            <div class="ui right floated button">Cancel</div>
-                            <div class="ui blue button">Save Question</div>
-                        </div>
-                    </div>
-
-                    <div class="ui hidden divider"></div>
-                    <div class="ui hidden fluid huge button"><i class="plus icon"></i> Add Question</div>
-                </div>
-                <div class="ui bottom attached tab segment" data-tab="second">
-
-
-                    <div class="ui divided items">
-
-                        <div class="item">
-                            <div class="content">
-                                <div class="header">Question 1</div>
-                                <div class="ui indented text">
-
-                                    If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
-                                    <div class="ui hidden divider"></div>
-                                    <form action="" class="ui form">
-                                        <div class="grouped fields">
-                                            <label>Answer:</label>
-                                            <div class="field">
-                                                <div class="ui radio checkbox checked">
-                                                    <input type="radio" name="q1">
-                                                    <label>Cocktail Sort</label>
-                                                </div>
-                                            </div>
-                                            <div class="field">
-                                                <div class="ui radio checkbox checked">
-                                                    <input type="radio" name="q1">
-                                                    <label>Insertion Sort</label>
-                                                </div>
-                                            </div>
-                                            <div class="field">
-                                                <div class="ui radio checkbox checked">
-                                                    <input type="radio" name="q1">
-                                                    <label>Quicksort</label>
-                                                </div>
-                                            </div>
-                                            <div class="field">
-                                                <div class="ui radio checkbox checked">
-                                                    <input type="radio" name="q1">
-                                                    <label>Bubblesort</label>
-                                                </div>
-                                            </div>
-                                        </div>                                   
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="content">
-                                <div class="header">Question 2</div>
-                                <div class="ui indented text">
-
-                                    Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
-                                    <div class="ui hidden divider"></div>
-                                    <form class="ui form">
-                                        <div class="eight wide field">
-                                            <label>Answer:</label>
-                                            <div class="ui input">
-                                                <input type="text">
-                                            </div>
-                                        </div>                             
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="content">
-                                <div class="header">Question 3</div>
-                                <div class="ui indented text">
-                                    Is the following statement true or false? Symmetric encryption involves use of a public and private key.
-
-                                    <div class="ui hidden divider"></div>
-                                    <form action="" class="ui form">
-                                        <div class="grouped fields">
-                                            <label>Answer:</label>
-                                            <div class="field">
-                                                <div class="ui radio checkbox checked">
-                                                    <input type="radio" name="q3">
-                                                    <label>True</label>
-                                                </div>
-                                            </div>
-                                            <div class="field">
-                                                <div class="ui radio checkbox checked">
-                                                    <input type="radio" name="q3">
-                                                    <label>False</label>
-                                                </div>
-                                            </div>
-                                        </div>                                   
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="content">
-                                <div class="header">Question 4</div>
-                                <div class="ui indented text">
-                                    Which of the following are methods for sorting an array? (Mark all that apply)
-
-                                    <div class="ui hidden divider"></div>
-                                    <form action="" class="ui form">
-                                        <div class="grouped fields">
-                                            <label>Answer:</label>
-                                            <div class="field">
-                                                <div class="ui checkbox checked">
-                                                    <input type="checkbox" name="q4">
-                                                    <label>Quicksort</label>
-                                                </div>
-                                            </div>
-                                            <div class="field">
-                                                <div class="ui checkbox checked">
-                                                    <input type="checkbox" name="q4">
-                                                    <label>Mergesort</label>
-                                                </div>
-                                            </div>
-                                            <div class="field">
-                                                <div class="ui checkbox checked">
-                                                    <input type="checkbox" name="q4">
-                                                    <label>Max Heapify</label>
-                                                </div>
-                                            </div>
-                                        </div>                                   
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-
-                    </div>
-
-
-
-                </div>
-
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-
-            </div>
-        </div>
-        <!-- Javascript -->
-        <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
-        <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
-        <script>
-            $('[data-content]').popup({
-                position:'top center',
-                transition:'drop'
-            });
-
-            $('.ui.menu .item').tab();
-
-            $('.ui.dropdown').dropdown({
-            });
-
-            $('.ui.checkbox').checkbox();
-        </script>
-    </body>
+	<head>
+		<!-- Meta data -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>Parkway Testing Application</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
+		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic-typography.css">
+		<style>
+			body{
+				min-width:960px;   
+			}
+
+			.ui[class*="padded"].table td{
+				padding:1em !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
+			<div class="column row">
+				<a href="#" style="float:left">
+					<h1 class="ui inverted header">Admin Dashboard</h1>
+				</a>
+				<div class="ui right floated text inverted menu">
+					<div class="no hover item">
+						<span class="ui bold text">Joe Teach</span>
+					</div>
+					<a href="#" class="item">Help</a>
+					<a href="login.html" class="item">Logout</a>
+				</div>
+			</div>
+			<div class="row" style="padding-bottom:1px">
+				<div class="ui bold secondary inverted blue pointing menu" style="background:#1b1c1d;">
+					<a class="active item">Manage Courses</a>
+					<a class="item">Gradebook</a>
+					<a class="item">Open Exams</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui page grid">
+			<div class="four wide column">
+				<div class="ui fluid blue button"><i class="icon plus"></i> New Test</div>
+
+				<h3 class="ui dividing header">Courses</h3>
+				<div class="ui fluid vertical blue menu">
+					<a class="active item">CS2050 - Algorithm Design II</a>
+					<a class="item">ECE 1210 - Digital Logic</a>
+					<a class="item">CS1000 - Introduction to Computer Science</a>
+					<a class="item ui faded text center aligned"> <span><i class="icon plus"></i>Add Course</span></a>
+				</div>
+			</div>
+			<div class="twelve wide column" id="main">
+
+				<h1 class="ui dividing header">
+					<div class="content">
+						Create Exam
+					</div>
+				</h1>
+				<form class="ui form">
+					<div class="three fields">
+						<div class="one wide field"><label>Name</label></div>
+						<div class="ten wide field"><input type="text" name="first-name" placeholder="Exam Name"> </div>
+						<div class="four wide field">
+
+							<div class="ui small blue buttons">
+								<div class="ui button">Save Exam</div>
+								<div class="ui floating dropdown icon button">
+									<i class="dropdown icon"></i>
+									<div class="menu">
+										<div class="item"><i class="eye icon"></i> Generate Token</div>
+										<div class="item"><i class="share icon"></i> Export</div>
+										<div class="item"><i class="file pdf outline icon"></i> Print</div>
+										<div class="ui divider"></div>
+										<div class="item"><i class="delete icon"></i> Delete</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="three fields">
+						<div class="one wide field"><label>Course</label></div>
+						<div class="ten wide field"> 
+							<select class="ui dropdown">
+								<option value="1">CS2050 - Advanced Algorithm Design</option>
+								<option value="0">ECE 1210 - Digital Logic</option>
+								<option value="0">CS1000 - Introduction to Computer Science</option>
+							</select>
+
+
+						</div>
+						<div class="four wide field"></div>
+					</div>
+				</form>
+
+				<div class="ui hidden divider"></div>
+				<div class="ui top attached fluid two item tabular menu">
+					<a class="active item" data-tab="first">Edit</a>
+					<a class="item" data-tab="second">Preview</a>
+				</div>
+				<div class="ui bottom attached active tab segment" data-tab="first">
+
+
+					<div class="ui divided items">
+
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 1</div>
+								<div class="meta">
+
+									<div class="ui padded stackable grid">
+										<div class="three wide column"> 
+											Multiple Choice
+											<br>
+											5 Options
+										</div>
+										<div class="ten wide column">
+											If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
+										</div>
+										<div class="two wide column center aligned">
+											<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
+											<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+										</div>
+
+									</div>
+
+
+								</div>
+
+
+							</div>
+						</div>
+
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 2</div>
+								<div class="meta">
+
+									<div class="ui padded stackable grid">
+										<div class="three wide column"> 
+											Multiple Choice
+											<br>
+											5 Options
+										</div>
+										<div class="ten wide column">
+											Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
+										</div>
+										<div class="two wide column center aligned">
+											<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
+											<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+
+
+
+
+
+
+					<div class="ui form raised secondary segment">
+						<h3 class="ui header">New Question</h3>
+						<div class="field">
+							<label for="">Prompt:</label>
+							<input type="text" name="thing" placeholder="What is the..."> 
+						</div>
+
+						<div class="ui tiny header">Question Type:</div>
+						<div class="ui fluid four item tabular top attached menu">
+							<a class="active item">Multiple Choice</a>
+							<a class="item">True / False</a>
+							<a class="item">Short Answer</a>
+							<a class="item">Essay</a>
+						</div>
+						<div class="ui bottom attached segment">
+
+							<!-- Multiple Choice -->
+							<form class="ui form">
+								<div class="class five wide field">
+									<label>Options:</label>
+								</div>
+								<div class="two fields">
+									<div class="one wide field">
+										<label></label>
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit" checked>
+										</div>
+									</div>
+									<div class="six wide field">
+										<label></label>
+										<div class="ui input">
+											<input type="text" placeholder="New Option...">
+										</div>
+									</div>
+								</div>
+
+								<div class="two fields">
+									<div class="one wide field">
+										<label></label>
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit">
+										</div>
+
+									</div>
+									<div class="six wide field">
+										<label></label>
+										<div class="ui input">
+											<input type="text" placeholder="New Option...">
+										</div>
+									</div>
+								</div>
+
+								<div class="two fields">
+									<div class="one wide field">
+										<label></label>
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit">
+										</div>
+
+									</div>
+									<div class="six wide field">
+										<label></label>
+										<div class="ui input">
+											<input type="text" placeholder="New Option...">
+										</div>
+									</div>
+								</div>
+							</form>
+
+						</div>
+
+
+						<!-- True / False-->
+						<form class="ui hidden form">
+							<div class="field">
+								<label>Answer:</label>
+								<span>False</span>
+								<div class="ui toggle fitted checkbox" style="margin:0 1em">
+									<input type="checkbox" name="public">
+								</div>
+								<span>True</span>
+
+							</div>
+
+						</form>
+
+
+						<div class="ui divider"></div>
+						<div class="two fields">                                
+							<div class="ui right floated button">Cancel</div>
+							<div class="ui blue button">Save Question</div>
+						</div>
+					</div>
+
+					<div class="ui hidden divider"></div>
+					<div class="ui hidden fluid huge button"><i class="plus icon"></i> Add Question</div>
+				</div>
+				<div class="ui bottom attached tab segment" data-tab="second">
+
+
+					<div class="ui divided items">
+
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 1</div>
+								<div class="ui indented text">
+									<p>If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?</p>
+									<div class="ui hidden divider"></div>
+									<form action="" class="ui form">
+										<div class="grouped fields">
+											<label>Answer:</label>
+											<div class="field">
+												<div class="ui radio checkbox checked">
+													<input type="radio" name="q1">
+													<label>Cocktail Sort</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui radio checkbox checked">
+													<input type="radio" name="q1">
+													<label>Insertion Sort</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui radio checkbox checked">
+													<input type="radio" name="q1">
+													<label>Quicksort</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui radio checkbox checked">
+													<input type="radio" name="q1">
+													<label>Bubblesort</label>
+												</div>
+											</div>
+										</div>                                   
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 2</div>
+								<div class="ui indented text">
+									<p>Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?</p>
+									<div class="ui hidden divider"></div>
+									<form class="ui form">
+										<div class="eight wide field">
+											<label>Answer:</label>
+											<div class="ui input">
+												<input type="text">
+											</div>
+										</div>                             
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 3</div>
+								<div class="ui indented text">
+									<p>Is the following statement true or false? Symmetric encryption involves use of a public and private key.</p>
+									<div class="ui hidden divider"></div>
+									<form action="" class="ui form">
+										<div class="grouped fields">
+											<label>Answer:</label>
+											<div class="field">
+												<div class="ui radio checkbox checked">
+													<input type="radio" name="q3">
+													<label>True</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui radio checkbox checked">
+													<input type="radio" name="q3">
+													<label>False</label>
+												</div>
+											</div>
+										</div>                                   
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 4</div>
+								<div class="ui indented text">
+									<p>Which of the following are methods for sorting an array? (Mark all that apply)</p>
+									<div class="ui hidden divider"></div>
+									<form action="" class="ui form">
+										<div class="grouped fields">
+											<label>Answer:</label>
+											<div class="field">
+												<div class="ui checkbox checked">
+													<input type="checkbox" name="q4">
+													<label>Quicksort</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui checkbox checked">
+													<input type="checkbox" name="q4">
+													<label>Mergesort</label>
+												</div>
+											</div>
+											<div class="field">
+												<div class="ui checkbox checked">
+													<input type="checkbox" name="q4">
+													<label>Max Heapify</label>
+												</div>
+											</div>
+										</div>                                   
+									</form>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+					</div>
+
+
+
+				</div>
+
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+			</div>
+		</div>
+		<!-- Javascript -->
+		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
+		<script src="http://cdn.patcave.info/js/semantic.min.js"></script>
+		<script>
+			$('[data-content]').popup({
+				position:'top center',
+				transition:'drop'
+			});
+
+			$('.ui.menu .item').tab();
+
+			$('.ui.dropdown').dropdown({
+			});
+
+			$('.ui.checkbox').checkbox();
+		</script>
+	</body>
 </html>
