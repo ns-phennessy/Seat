@@ -109,12 +109,10 @@
 
 
 					<div class="ui divided items">
-
 						<div class="item">
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
-
 									<div class="ui padded stackable grid">
 										<div class="three wide column"> 
 											Multiple Choice
@@ -125,16 +123,11 @@
 											If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
 										</div>
 										<div class="two wide column center aligned">
-											<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
+											<div class="ui mini basic icon button" data-content="Edit" id="editq1"><i class="pencil icon"></i></div>
 											<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
 										</div>
-
 									</div>
-
-
 								</div>
-
-
 							</div>
 						</div>
 
@@ -142,7 +135,6 @@
 							<div class="content">
 								<div class="header">Question 2</div>
 								<div class="meta">
-
 									<div class="ui padded stackable grid">
 										<div class="three wide column"> 
 											Multiple Choice
@@ -156,117 +148,15 @@
 											<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
 											<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
 										</div>
-
 									</div>
 								</div>
 							</div>
 						</div>
-
-
-
 					</div>
 
-
-
-
-
-
-					<div class="ui form raised secondary segment">
-						<h3 class="ui header">New Question</h3>
-						<div class="field">
-							<label for="">Prompt:</label>
-							<input type="text" name="thing" placeholder="What is the..."> 
-						</div>
-
-						<div class="ui tiny header">Question Type:</div>
-						<div class="ui fluid four item tabular top attached menu">
-							<a class="active item">Multiple Choice</a>
-							<a class="item">True / False</a>
-							<a class="item">Short Answer</a>
-							<a class="item">Essay</a>
-						</div>
-						<div class="ui bottom attached segment">
-
-							<!-- Multiple Choice -->
-							<form class="ui form">
-								<div class="class five wide field">
-									<label>Options:</label>
-								</div>
-								<div class="two fields">
-									<div class="one wide field">
-										<label></label>
-										<div class="ui radio checkbox">
-											<input type="radio" name="fruit" checked>
-										</div>
-									</div>
-									<div class="six wide field">
-										<label></label>
-										<div class="ui input">
-											<input type="text" placeholder="New Option...">
-										</div>
-									</div>
-								</div>
-
-								<div class="two fields">
-									<div class="one wide field">
-										<label></label>
-										<div class="ui radio checkbox">
-											<input type="radio" name="fruit">
-										</div>
-
-									</div>
-									<div class="six wide field">
-										<label></label>
-										<div class="ui input">
-											<input type="text" placeholder="New Option...">
-										</div>
-									</div>
-								</div>
-
-								<div class="two fields">
-									<div class="one wide field">
-										<label></label>
-										<div class="ui radio checkbox">
-											<input type="radio" name="fruit">
-										</div>
-
-									</div>
-									<div class="six wide field">
-										<label></label>
-										<div class="ui input">
-											<input type="text" placeholder="New Option...">
-										</div>
-									</div>
-								</div>
-							</form>
-
-						</div>
-
-
-						<!-- True / False-->
-						<form class="ui hidden form">
-							<div class="field">
-								<label>Answer:</label>
-								<span>False</span>
-								<div class="ui toggle fitted checkbox" style="margin:0 1em">
-									<input type="checkbox" name="public">
-								</div>
-								<span>True</span>
-
-							</div>
-
-						</form>
-
-
-						<div class="ui divider"></div>
-						<div class="two fields">                                
-							<div class="ui right floated button">Cancel</div>
-							<div class="ui blue button">Save Question</div>
-						</div>
-					</div>
 
 					<div class="ui hidden divider"></div>
-					<div class="ui hidden fluid huge button"><i class="plus icon"></i> Add Question</div>
+					<div class="ui fluid huge button" id="addquestion"><i class="plus icon"></i> Add Question</div>
 				</div>
 				<div class="ui bottom attached tab segment" data-tab="second">
 
@@ -399,41 +289,71 @@
 
 
 				</div>
-
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
 			</div>
 		</div>
+
+
+		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
+			<h3 class="ui header">New Question</h3>
+			<div class="field">
+				<label for="">Prompt:</label>
+				<input type="text" name="thing" placeholder="What is the..."> 
+			</div>
+
+			<div class="ui tiny header">Question Type:</div>
+			<div class="ui fluid four item tabular top attached menu">
+				<a class="active item">Multiple Choice</a>
+				<a class="item">True / False</a>
+				<a class="item">Short Answer</a>
+				<a class="item">Essay</a>
+			</div>
+			<div class="ui bottom attached segment">
+
+				<!-- Multiple Choice -->
+				<form class="ui form">
+					<div class="class five wide field">
+						<label>Options:</label>
+					</div>
+					<div class="two fields">
+						<div class="one wide field">
+							<label></label>
+							<div class="ui radio checkbox">
+								<input type="radio" name="fruit" checked>
+							</div>
+						</div>
+						<div class="six wide field">
+							<label></label>
+							<div class="ui input">
+								<input type="text" placeholder="New Option...">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<!-- True / False-->
+			<form class="ui hidden form">
+				<div class="field">
+					<label>Answer:</label>
+					<span>False</span>
+					<div class="ui toggle fitted checkbox" style="margin:0 1em">
+						<input type="checkbox" name="public">
+					</div>
+					<span>True</span>
+
+				</div>
+
+			</form>
+
+
+			<div class="ui divider"></div>
+			<div class="two fields">                                
+				<div class="ui right floated button">Cancel</div>
+				<div class="ui blue button">Save Question</div>
+			</div>
+		</div>
+
+
 		<!-- Javascript -->
 		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
 		<script src="http://cdn.patcave.info/js/semantic.min.js"></script>
@@ -449,6 +369,28 @@
 			});
 
 			$('.ui.checkbox').checkbox();
+
+			$('#addquestion').on('click', function(){
+				$(this).hide();
+
+				$('#newquestionform').appendTo($(this).parent());
+				$('#newquestionform').slideDown(100)
+
+			});
+
+			$('#editq1').on('click', function(){
+				$('#newquestionform').hide();
+				var item = $(this).closest('.content');
+
+				item.hide();
+
+				$('#newquestionform').appendTo(item.parent());
+				$('#newquestionform').slideDown({duration:100, easing:'swing'});
+
+				$('#newquestionform h3.header').text('Question 1');
+			});
+			
+			
 		</script>
 	</body>
 </html>
