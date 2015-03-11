@@ -6,6 +6,16 @@ from datetime import date
 from dashboard.models import Teacher,Course,Exam,Question
 from django.http import JsonResponse
 
+class MyExceptionMiddleware(object):
+    def process_exception(self, request, exception):
+        if not isinstance(exception, SomeExceptionType):
+            return None
+        return HttpResponse('some message')
+
+
+def show404(request):
+	return render(request, 'dashboard/404.html')
+
 def dashboard_index(request):
     #TODO: check the user has permissions (is a teacher)
     #TODO: check for unsupported methods
@@ -24,18 +34,21 @@ def course(request, courseNum):
         return redirect('/login/')
     if request.method == 'GET':
         #TODO: check user has permissions
-        try:
-            teacher = Teacher.objects.get(id=request.session['user_id'])
-            course = Course.objects.get(id=courseNum)
-        except Course.DoesNotExist:
-            #TODO: handle error in the view
-            raise Exception("course with specified coursname failed to load")
-        context = {
-            'teacher': teacher,
-            'courseNum': int(courseNum),
-            'course': course
-            }
-        return render(request, 'dashboard/course.html', context)
+		try:
+			teacher = Teacher.objects.get(id=request.session['user_id'])
+			course = Course.objects.get(id=courseNum)
+		except Course.DoesNotExist:
+			raise Exception("Course with specified coursname failed to load")
+
+		
+		else:
+			context = {
+				'teacher': teacher,
+				'courseNum': int(courseNum),
+				'course': course
+			}
+			return render(request, 'dashboard/course.html', context)
+		
     elif request.method == 'POST':
         pass
     #TODO: handle other methods
@@ -101,5 +114,4 @@ def course_new(request):
             print e
             return JsonResponse({ 'success' : False, 'error' : True,  'message' : str(e) })
     #TODO: handle else condition
-        
-    
+
