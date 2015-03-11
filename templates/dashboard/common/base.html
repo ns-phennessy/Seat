@@ -44,5 +44,7 @@
         <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
         {% load static %}
         <script src="{% static 'js/base.js' %}"></script>
+        {% block javascript %}
+        {% endblock %}
     </body>
 </html>

@@ -95,17 +95,27 @@ def exam_new(request):
         teacher = Teacher.objects.get(id=request.session['user_id'])
         context = { 'teacher': teacher }
         return render(request, 'dashboard/exam.html', context)
+    #TODO: handle else condition
 
 # GET, POST, PUT, DELETE
 def exam_question(request, exam_num, question_num):
     pass
 
+# POST
 def course_new(request):
     #TODO: check user has permissions
-    try:
-        new_course = Course.objects.get_or_create(name=request.POST['name'])
-        return JsonResponse({'success' : True, 'id':str(new_course.id)})
-    except Exception, e:
-        return JsonResponse({'success' : False})
+    if request.method == 'POST':
+        try:
+            new_course = Course.objects.get_or_create(name=request.POST['name'])[0]
+            teacher = Teacher.objects.get(id=request.session['user_id'])
+            new_course.save()
+            teacher.courses.add(new_course)
+            teacher.save()
+            return JsonResponse({ 'success' : True, 'error' : False, 'id' : str(new_course.id) })
+        except Exception, e:
+            #TODO: handle error case properly, still haven't hit enough of these to decide yet how
+            print e
+            return JsonResponse({ 'success' : False, 'error' : True,  'message' : str(e) })
+    #TODO: handle else condition
         
     

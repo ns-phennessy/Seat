@@ -3,7 +3,23 @@
 {% block pagecontent %}
 
     {% include "dashboard/courses-list.html" %}
-
+    {% block javascript %}
+        <script>
+        $(document).ready(function() {
+            $('#modal-course-save').click(function(e) {
+                console.log($('#modal-course-name').val())
+                $.post('/dashboard/courses/new', {
+                    name : $('#modal-course-name').val(),
+                    csrfmiddlewaretoken : $('#new-course-form input[name=csrfmiddlewaretoken]').val()
+                }, function() { /* when the connection succeeds */
+                    console.log(arguments)
+                }).fail(function() { /* when there is a generic failure */
+                    console.log(arguments)
+                })
+            })
+        })
+        </script>
+    {% endblock %}
     <div class="twelve wide column" id="main">
         <h1 class="ui dividing header">
             <div class="content">
