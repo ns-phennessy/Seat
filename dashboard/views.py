@@ -25,7 +25,6 @@ def course(request, courseNum):
     if request.method == 'GET':
         #TODO: check user has permissions
         try:
-            initialize_database_objects()
             teacher = Teacher.objects.get(id=request.session['user_id'])
             course = Course.objects.get(id=courseNum)
         except Course.DoesNotExist:
@@ -68,7 +67,6 @@ def exam(request):
 # GET
 def exam_edit(request, exam_num):
     #TODO: check user has permissions
-    initialize_database_objects()
     teacher = Teacher.objects.get(id=request.session['user_id'])
     exam = Exam.objects.get(id=exam_num)
     context = { 'teacher': teacher, 'exam': exam }
@@ -78,7 +76,6 @@ def exam_edit(request, exam_num):
 def exam_new(request):
     #TODO: check user has permissions
     if request.method == 'GET':
-        initialize_database_objects()
         teacher = Teacher.objects.get(id=request.session['user_id'])
         context = { 'teacher': teacher }
         return render(request, 'dashboard/exam.html', context)
