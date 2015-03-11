@@ -4,17 +4,17 @@
 		New Course
 	</div>
 	<div class="content">
-		<form id="new-course-form" class="ui form">
+		<form class="ui form">
 			<div class="field">
 				<label>Course Name</label>
-				<input id="modal-course-name" type="text">
+				<input name="course_name" type="text">
 			</div>
 			{% csrf_token %}
 		</form>
 	</div>
 	<div class="actions">
-		<div id="modal-course-save" class="ui blue button">Save</div>
-		<div class="ui button">Cancel</div>
+		<div class="ui blue save button">Save</div>
+		<div class="ui close button">Cancel</div>
 	</div>
 </div>
 
