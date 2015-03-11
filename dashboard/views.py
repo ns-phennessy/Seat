@@ -32,7 +32,7 @@ def course(request, courseNum):
             raise Exception("course with specified coursname failed to load")
         context = {
             'teacher': teacher,
-            'courseNum': courseNum,
+            'courseNum': int(courseNum),
             'course': course
             }
         return render(request, 'dashboard/course.html', context)
