@@ -106,7 +106,7 @@ def course_new(request):
     #TODO: check user has permissions
     if request.method == 'POST':
         try:
-            new_course = Course.objects.get_or_create(name=request.POST['name'])[0]
+            new_course = Course.objects.create(name=request.POST['name'])
             teacher = Teacher.objects.get(id=request.session['user_id'])
             new_course.save()
             teacher.courses.add(new_course)
