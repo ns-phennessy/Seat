@@ -8,4 +8,4 @@ def login(request):
     	request.session['user_id'] = 1#TODO: actually authenticate
         # assume login successful for now
         # in the future, redirect to teacher's _first_ course, from DB
-        return redirect('/dashboard/courses/1')
+        return redirect('/dashboard/courses/')

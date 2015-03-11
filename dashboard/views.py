@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from datetime import date
 from dashboard.models import Teacher,Course,Exam,Question
+from django.http import JsonResponse
 
 #TODO: remove this whene there isa real db
 def initialize_database_objects():
@@ -34,11 +35,24 @@ def initialize_database_objects():
         default_teacher.courses.add(default_courses[i][0])
     default_teacher.save()
 
+def dashboard_index(request):
+    #TODO: check the user has permissions (is a teacher)
+    #TODO: check for unsupported methods
+    try:
+        print 'start db call'
+        teacher = Teacher.objects.get(id=request.session['user_id'])
+        print 'end db call'
+        first_course_id = teacher.courses.all()[0].id
+        return redirect('/dashboard/courses/'+str(first_course_id))
+    except Exception, e:
+        print e
+        return redirect('/logout?message=therewasanerror')#TODO handle this more rightly
+
 def course(request, courseNum):
-    print request.session.keys()
     if 'user_id' not in request.session:
         return redirect('/login/')
     if request.method == 'GET':
+        #TODO: check user has permissions
         try:
             initialize_database_objects()
             teacher = Teacher.objects.get(id=request.session['user_id'])
@@ -57,6 +71,7 @@ def course(request, courseNum):
 
 # GET, POST, PUT, DELETE
 def exam(request, exam_num):
+    #TODO: check user has permissions
     if request.method == 'GET':
         context = {}
         return render(request, 'dashboard/editexam-mockup.html', context)
@@ -65,6 +80,7 @@ def exam(request, exam_num):
 
 # GET
 def exam_edit(request, exam_num):
+    #TODO: check user has permissions
     initialize_database_objects()
     teacher = Teacher.objects.get(id=request.session['user_id'])
     exam = Exam.objects.get(id=exam_num)
@@ -73,6 +89,7 @@ def exam_edit(request, exam_num):
 
 # GET
 def exam_new(request):
+    #TODO: check user has permissions
     if request.method == 'GET':
         initialize_database_objects()
         teacher = Teacher.objects.get(id=request.session['user_id'])
@@ -82,3 +99,13 @@ def exam_new(request):
 # GET, POST, PUT, DELETE
 def exam_question(request, exam_num, question_num):
     pass
+
+def course_new(request):
+    #TODO: check user has permissions
+    try:
+        new_course = Course.objects.get_or_create(name=request.POST['name'])
+        return JsonResponse({'success' : True, 'id':str(new_course.id)})
+    except Exception, e:
+        return JsonResponse({'success' : False})
+        
+    
