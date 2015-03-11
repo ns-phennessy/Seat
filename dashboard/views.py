@@ -6,35 +6,6 @@ from datetime import date
 from dashboard.models import Teacher,Course,Exam,Question
 from django.http import JsonResponse
 
-#TODO: remove this whene there isa real db
-def initialize_database_objects():
-    default_teacher = Teacher.objects.get_or_create(name="joe", email="guilliamsd@mizzou.edu")[0]
-    default_teacher.save()
-    default_courses = [
-        Course.objects.get_or_create(id=1,name="CS2050 - Algorithm Design II"),
-        Course.objects.get_or_create(id=2,name="ECE 1210 - Digital Logic"),
-        Course.objects.get_or_create(id=3,name="CS1000 - Introduction to Computer Science")
-    ]
-    default_questions = [
-        Question.objects.get_or_create(id=1,category="Multiple Choice",text="Who's your daddy?"),
-        Question.objects.get_or_create(id=2,category="True/False",text="What is real?"),
-        Question.objects.get_or_create(id=3,category="Short Answer",text="Explain.")
-    ]
-    default_exams= [
-        Exam.objects.get_or_create(id=1, name='Ex 1'),
-        Exam.objects.get_or_create(id=2, name='Ex 2'),
-    ]
-    for i in range(len(default_courses)):
-        for j in range(len(default_exams)):
-            default_exams[j][0].save()
-            for k in range(len(default_questions)):
-                default_questions[k][0].save()
-                default_exams[j][0].questions.add(default_questions[k][0])
-            default_courses[i][0].exams.add(default_exams[j][0])
-        default_courses[i][0].save()
-        default_teacher.courses.add(default_courses[i][0])
-    default_teacher.save()
-
 def dashboard_index(request):
     #TODO: check the user has permissions (is a teacher)
     #TODO: check for unsupported methods
