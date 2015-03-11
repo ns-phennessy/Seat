@@ -10,6 +10,9 @@
                 <a href="{% url 'dashboard.views.course' course.id %}" class="item">{{ course.name }}</a>
             {% endif %}
         {% endfor %}
-        <a class="item ui faded text center aligned"> <span><i class="icon plus"></i>Add Course</span></a>
+        <a class="item ui faded text center aligned" id="addCourseBtn"> <span><i class="icon plus"></i>Add Course</span></a>
+        
     </div>
+    {% include "dashboard/modals/addCourse.html" %}
 </div>
+
