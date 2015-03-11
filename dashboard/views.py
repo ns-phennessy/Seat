@@ -68,15 +68,31 @@ def course(request, courseNum):
         return render(request, 'dashboard/course.html', context)
     elif request.method == 'POST':
         pass
+    #TODO: handle other methods
+
+def exam_index(request):
+    #TODO: check user has permissions
+    if (request.method == 'GET'):
+        try:
+            teacher = Teacher.objects.get(id=request.session['user_id'])
+            context = {}
+            default_exam_id = teacher.courses.all()[0].exams.all()[0].id
+            return redirect('dashboard/exams/'+str(default_exam_id)+'?course_num='+str(course_num))
+        except Exception, e:
+            print e
+            return redirect('/dashboard/exams/new')
+            #TODO: handle error  properly
+    #TODO: handle other methods
 
 # GET, POST, PUT, DELETE
-def exam(request, exam_num):
+def exam(request):
     #TODO: check user has permissions
     if request.method == 'GET':
         context = {}
         return render(request, 'dashboard/editexam-mockup.html', context)
     elif request.method == 'POST':
         pass
+    #TODO: handle other methods
 
 # GET
 def exam_edit(request, exam_num):
