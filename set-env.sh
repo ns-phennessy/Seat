@@ -37,6 +37,8 @@ REQUIRED_PACKAGES="
     python-django-extensions 
     mysql-server-5.6 
     python-mysqldb
+    libmysqlclient-dev
+    python-dev
 "
 
 for PACKAGE in $REQUIRED_PACKAGES; do
