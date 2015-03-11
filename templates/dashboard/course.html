@@ -3,7 +3,23 @@
 {% block pagecontent %}
 
     {% include "dashboard/courses-list.html" %}
-
+    {% block javascript %}
+        <script>
+        $(document).ready(function() {
+            $('#modal-course-save').click(function(e) {
+                console.log($('#modal-course-name').val())
+                $.post('/dashboard/courses/new', {
+                    name : $('#modal-course-name').val(),
+                    csrfmiddlewaretoken : $('#new-course-form input[name=csrfmiddlewaretoken]').val()
+                }, function() { /* when the connection succeeds */
+                    console.log(arguments)
+                }).fail(function() { /* when there is a generic failure */
+                    console.log(arguments)
+                })
+            })
+        })
+        </script>
+    {% endblock %}
     <div class="twelve wide column" id="main">
         <h1 class="ui dividing header">
             <div class="content">
@@ -22,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for exam in course.exams %}
+                    {% for exam in course.exams.all %}
                     <tr>
                         <td>
                             <h3 class="ui header">{{ exam.name }}</h3>
@@ -32,7 +48,7 @@
                         </td>
                         <td>
                             <a href="#" class="ui mini blue statistic">
-                                <div class="value">{{ exam.questions|length }}</div>
+                                <div class="value">{{ exam.questions.all|length }}</div>
                                 <div class="label">Questions</div>
                             </a>
                         </td>
@@ -44,7 +60,7 @@
                         </td>
                         <td class="five wide right aligned">
                             <div class="ui small blue buttons">
-                                <div class="ui button">Edit Exam</div>
+                                <a href="{% url 'dashboard.views.exam_edit' exam.id %}" class="ui button">Edit Exam</a>
                                 <div class="ui floating dropdown icon button">
                                     <i class="dropdown icon"></i>
                                     <div class="menu">

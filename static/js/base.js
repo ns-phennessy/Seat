@@ -9,8 +9,6 @@ $('.ui.dropdown').dropdown({});
 
 $('.ui.checkbox').checkbox();
 
-$('.ui.button');
-
 $('#addCourseBtn').on('click', function(){
 	$('#addCourseModal.ui.modal').modal('show');
 });

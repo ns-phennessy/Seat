@@ -1,9 +1,9 @@
 <div class="four wide column">
-    <div class="ui fluid blue button"><i class="icon plus"></i> New Test</div>
+    <a class="ui fluid blue button" href="/dashboard/exams/?course_num={{courseNum}}"><i class="icon plus"></i>New Test</a>
 
     <h3 class="ui dividing header">Courses</h3>
     <div class="ui fluid vertical blue menu">
-        {% for course in teacher.courses %}
+        {% for course in teacher.courses.all %}
             {% if course.id == courseNum %}
                 <a href="{% url 'dashboard.views.course' course.id %}" class="active item">{{ course.name }}</a>
             {% else %}
