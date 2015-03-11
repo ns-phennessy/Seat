@@ -11,7 +11,7 @@ def logout(request):
 	return redirect('/login/')
 
 urlpatterns = patterns('',
-    url(r'^admin/$', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', include('login.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^$', lambda request: redirect('/login/')),
