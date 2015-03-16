@@ -85,8 +85,74 @@
             </div>
 
             <div class="ui hidden divider"></div>
-            <div class="ui fluid huge button"><i class="plus icon"></i> Add Question</div>
+            <div class="ui fluid huge button" id="addquestion">
+                <i class="plus icon"></i>
+                Add Question
+            </div>
+
+
+            <div class="ui form raised secondary segment" id="newquestionform" style="display:none">
+                <h3 class="ui header">New Question</h3>
+                <div class="field">
+                    <label for="">Prompt:</label>
+                    <input type="text" name="thing" placeholder="What is the..."> 
+                </div>
+
+                <div class="ui tiny header">Question Type:</div>
+                <div class="ui fluid four item tabular top attached menu">
+                    <a class="active item">Multiple Choice</a>
+                    <a class="item">True / False</a>
+                    <a class="item">Short Answer</a>
+                    <a class="item">Essay</a>
+                </div>
+                <div class="ui bottom attached segment">
+
+                    <!-- Multiple Choice -->
+                    <form class="ui form">
+                        <div class="class five wide field">
+                            <label>Options:</label>
+                        </div>
+                        <div class="two fields">
+                            <div class="one wide field">
+                                <label></label>
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="fruit" checked>
+                                </div>
+                            </div>
+                            <div class="six wide field">
+                                <label></label>
+                                <div class="ui input">
+                                    <input type="text" placeholder="New Option...">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- True / False-->
+                <form class="ui hidden form">
+                    <div class="field">
+                        <label>Answer:</label>
+                        <span>False</span>
+                        <div class="ui toggle fitted checkbox" style="margin:0 1em">
+                            <input type="checkbox" name="public">
+                        </div>
+                        <span>True</span>
+
+                    </div>
+
+                </form>
+
+
+                <div class="ui divider"></div>
+                <div class="two fields">
+                    <div class="ui right floated button">Cancel</div>
+                    <div class="ui blue button">Save Question</div>
+                </div>
+            </div>
+
         </div>
+
         <div class="ui bottom attached tab segment" data-tab="second">
 
         </div>
@@ -94,4 +160,11 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block javascript %}
+
+{% load static %}
+<script src="{% static 'js/course-list.js' %}"></script>
+<script src="{% static 'js/exam.js' %}"></script>
 {% endblock %}
