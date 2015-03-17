@@ -119,7 +119,7 @@
 			<h3 class="ui header">New Question</h3>
 			<div class="field">
 				<label for="">Prompt:</label>
-				<input type="text" name="thing" placeholder="What is the..."> 
+				<input type="text" name="prompt" placeholder="What is the..."> 
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
@@ -168,8 +168,8 @@
 
 			<div class="ui divider"></div>
 			<div class="two fields">                                
-				<div class="ui right floated button">Cancel</div>
-				<div class="ui blue button">Save Question</div>
+				<div class="ui right floated button" data-role="close">Cancel</div>
+				<div class="ui blue button" data-role="save">Save Question</div>
 			</div>
 		</div>
 
@@ -228,8 +228,18 @@
 						animationDuration: "100"
 					}, options );
 					
-					form.clear = function(){
+					form.clear = function(){};
 					
+					form.setValue = function(item, value){
+						switch(item){
+							case 'header':
+								form.find('h3.header').text(value);	
+								break;
+								
+							case 'prompt':
+								form.find('input[name="prompt"]').val(value);
+								break;
+						}
 					};
 					
 					//Moves the form to different locations
@@ -240,12 +250,23 @@
 					};
 					
 					form.hide = function(){
-						
-					}
+						form.slideUp(settings.animationDuration);
+					};
 					
 					//Listener for new question at bottom of page
 					$('#addquestion').on('click', function(){
+						form.setValue('header', 'New Question 2');
+						form.setValue('prompt', '');
 						form.move( $('.ui.segment[data-tab="tab_edit"]') );
+					});
+					
+					form.find('.ui.button[data-role="close"]').on('click', function(){
+						form.hide();
+					});
+					
+					form.find('.ui.button[data-role="save"]').on('click', function(){
+						//TODO save stuff!!!
+						form.hide();
 					});
 										
 				};
@@ -253,27 +274,7 @@
 			
 			$('#newquestionform').questionForm();
 			
-			/*$('#addquestion').on('click', function(){
-				$(this).hide();
-
-				$('#newquestionform').appendTo($(this).parent());
-				$('#newquestionform').slideDown(100)
-			});
-
-						
-			$('#editq1').on('click', function(){
-				$('#newquestionform').hide();
-				var item = $(this).closest('.content');
-
-				item.hide();
-
-				$('#newquestionform').appendTo(item.parent());
-				$('#newquestionform').slideDown({duration:100, easing:'swing'});
-
-				$('#newquestionform h3.header').text('Question 1');
-			});
-			*/
-
+				
 
 		</script>
 	</body>
