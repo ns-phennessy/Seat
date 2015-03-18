@@ -104,19 +104,60 @@
 					<a class="item" data-tab="tab_preview">Preview</a>
 				</div>
 				<div class="ui bottom attached active tab segment" data-tab="tab_edit">
+					<div class="ui divided items">
+					
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 1</div>
+								<div class="meta">
+									<div class="ui padded stackable grid">
+										<div class="three wide column">Multiple Choice<br>5 Options</div>
+										<div class="ten wide column">
+											If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
+										</div>
+										<div class="two wide column center aligned">
+											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+											<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="item">
+							<div class="content">
+								<div class="header">Question 2</div>
+								<div class="meta">
+									<div class="ui padded stackable grid">
+										<div class="three wide column">Multiple Choice<br>5 Options
+										</div>
+										<div class="ten wide column">
+											Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
+										</div>
+										<div class="two wide column center aligned">
+											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+											<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="ui hidden divider"></div>
-					<div class="ui fluid huge button" id="addquestion"><i class="plus icon"></i> Add Question</div>
+					<div class="ui fluid huge button" data-role="newQuestion"><i class="plus icon"></i> Add Question</div>
 				</div>
 				<div class="ui bottom attached tab segment" data-tab="tab_preview">
-					<div class="ui divided items">
-					</div>
+
 				</div>
 			</div>
 		</div>
 
 
 		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
-			<h3 class="ui header">New Question</h3>
+			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
+			<h3 class="ui left floated header">New Question</h3>
+			
 			<div class="field">
 				<label for="">Prompt:</label>
 				<input type="text" name="prompt" placeholder="What is the..."> 
@@ -173,36 +214,6 @@
 			</div>
 		</div>
 
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
 
 		<!-- Javascript -->
 		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
@@ -217,64 +228,85 @@
 			$('.ui.dropdown').dropdown();
 			$('.ui.checkbox').checkbox();
 
-			
+
 			(function ($) {
- 				$.fn.questionForm = function(options){
-					
+				$.fn.questionForm = function(options){
+
 					var form = this;
+					var items = $('[data-tab="tab_edit"]').find('.items');
+					
 					var settings = $.extend({
-						editButton: ".ui.button[data-role='edit']",
-						deleteQuestionButton: ".ui.button[data-role='delete']",
-						animationDuration: "100"
+						newQuestionButton: 		".ui.button[data-role='newQuestion']",
+						editButton: 			".ui.button[data-role='edit']",
+						deleteQuestionButton: 	".ui.button[data-role='delete']",
+						saveButton:				".ui.button[data-role='save']",
+						closeButton:			"[data-role='close']",
+						animationDuration: 		"0"
 					}, options );
-					
+
 					form.clear = function(){};
-					
+
 					form.setValue = function(item, value){
 						switch(item){
 							case 'header':
 								form.find('h3.header').text(value);	
 								break;
-								
+
 							case 'prompt':
 								form.find('input[name="prompt"]').val(value);
 								break;
+
+							case 'questionType':
+								form.find();
+								break;
 						}
 					};
-					
+
 					//Moves the form to different locations
 					form.move = function(location){
 						form.hide();						
 						form.appendTo(location);
-						form.slideDown(settings.animationDuration);
+						form.slideDown(settings.animationDuration);						
 					};
-					
+
 					form.hide = function(){
-						form.slideUp(settings.animationDuration);
+						form.slideUp( settings.animationDuration, function(){
+							$(settings.newQuestionButton).show();
+							items.find('.item .content').show();
+						});
 					};
-					
+
 					//Listener for new question at bottom of page
-					$('#addquestion').on('click', function(){
-						form.setValue('header', 'New Question 2');
+					$(settings.newQuestionButton).on('click', function(){
+						form.setValue('header', 'New Question');
 						form.setValue('prompt', '');
 						form.move( $('.ui.segment[data-tab="tab_edit"]') );
+						$(this).hide();
 					});
-					
-					form.find('.ui.button[data-role="close"]').on('click', function(){
+
+					form.find(settings.closeButton).on('click', function(){
 						form.hide();
 					});
 					
-					form.find('.ui.button[data-role="save"]').on('click', function(){
+					$(settings.editButton).on('click', function(){
+						var parent = this.closest('.item');
+						
+						form.move(parent);
+						$(parent).children('.content').hide();
+						
+					});
+
+					form.find(settings.saveButton).on('click', function(){
 						//TODO save stuff!!!
-						form.hide();
+						//form.hide();
 					});
-										
+
 				};
 			}(jQuery));
-			
+
 			$('#newquestionform').questionForm();
-			
-				
+
+
 
 		</script>
 	</body>
