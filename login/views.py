@@ -5,7 +5,7 @@ def login(request):
     if (request.method == 'GET'):
         return render(request, 'login/login.html')
     elif (request.method == 'POST'):
-    	request.session['user_id'] = 1#TODO: actually authenticate
+    	request.session['user_id'] = 6#TODO: actually authenticate
         # assume login successful for now
         # in the future, redirect to teacher's _first_ course, from DB
         return redirect('/dashboard/courses/')
