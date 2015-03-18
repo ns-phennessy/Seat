@@ -154,24 +154,7 @@
         </div>
 
         <div class="ui bottom attached tab segment" data-tab="second">
-            <div class="ui divided items">
-                {% for question in exam.questions.all %}
-                <div class="item">
-                    <div class="content">
-                        <div class="header">Question {{ forloop.counter }}</div>
-                        {% if question.category == 'Multiple Choice' %}
-                            {% include 'dashboard/multiple-choice.html' %}
-                        {% elif question.category == 'True/False' %}
-                            {% include 'dashboard/true-false.html' %}
-                        {% elif question.category == 'Short Answer' %}
-                            {% include 'dashboard/short-answer.html' %}
-                        {% else %}
-                            {# essay template not yet implemented #}
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
+           {% include 'dashboard/questions.html' %}
         </div>
 
     </div>

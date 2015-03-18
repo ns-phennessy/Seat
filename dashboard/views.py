@@ -100,6 +100,13 @@ question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
                 , 'Essay': ''
                 }
 
+# GET
+def questions_index(request, exam_id):
+    if request.method == 'GET':
+        exam = Exam.objects.get(id=exam_id)
+        context = { 'exam': exam }
+        return render(request, 'dashboard/questions.html', context)
+
 # GET, POST, PUT, DELETE
 def question(request, question_id):
     #TODO: check user has permissions
