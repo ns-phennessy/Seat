@@ -94,9 +94,19 @@ def exam_new(request):
         return render(request, 'dashboard/exam.html', context)
     #TODO: handle else condition
 
+question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
+                , 'True/False': 'dashboard/true-false.html'
+                , 'Short Answer': 'dashboard/short-answer.html'
+                , 'Essay': ''
+                }
+
 # GET, POST, PUT, DELETE
-def exam_question(request, exam_num, question_num):
-    pass
+def question(request, question_id):
+    #TODO: check user has permissions
+    if request.method == 'GET':
+        question = Question.objects.get(id=question_id)
+        context = { 'question': question }
+        return render(request, question_urls[question.category], context)
 
 # POST
 def course_new(request):

@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     url(r'^exams/(\d+)/?$', views.exam),
     url(r'^exams/(\d+)/edit/?$', views.exam_edit),
     url(r'^exams/new/?$', views.exam),#TODO: change to own endpoint when view ready
-    url(r'^exams/(\d+)/questions/(\d+)/?$', views.exam_question)
+    url(r'^questions/(\d+)/?$', views.question)
 )
