@@ -264,16 +264,16 @@
 
 					//Moves the form to different locations
 					form.move = function(location){
-						form.hide();						
+						form.hidee();						
 						form.appendTo(location);
-						form.slideDown(settings.animationDuration);						
+						form.show();
+						//form.slideDown(settings.animationDuration);						
 					};
 
-					form.hide = function(){
-						form.slideUp( settings.animationDuration, function(){
-							$(settings.newQuestionButton).show();
-							items.find('.item .content').show();
-						});
+					form.hidee = function(){
+						form.hide();
+						$(settings.newQuestionButton).show();
+						items.find('.item .content').show();
 					};
 
 					//Listener for new question at bottom of page
@@ -285,7 +285,7 @@
 					});
 
 					form.find(settings.closeButton).on('click', function(){
-						form.hide();
+						form.hidee();
 					});
 					
 					$(settings.editButton).on('click', function(){
