@@ -105,7 +105,7 @@
 				</div>
 				<div class="ui bottom attached active tab segment" data-tab="tab_edit">
 					<div class="ui divided items">
-					
+
 						<div class="item">
 							<div class="content">
 								<div class="header">Question 1</div>
@@ -157,9 +157,9 @@
 		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
 			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
 			<h3 class="ui left floated header">New Question</h3>
-			
+
 			<div class="field">
-				<label for="">Prompt:</label>
+				<label for="prompt">Prompt:</label>
 				<input type="text" name="prompt" placeholder="What is the..."> 
 			</div>
 
@@ -212,6 +212,14 @@
 				<div class="ui right floated button" data-role="close">Cancel</div>
 				<div class="ui blue button" data-role="save">Save Question</div>
 			</div>
+
+
+			<div class="ui inverted dimmer">
+				<h2 class="ui icon header">
+					<i class="green checkmark icon"></i>
+					Question Saved!
+				</h2>
+			</div>
 		</div>
 
 
@@ -234,7 +242,7 @@
 
 					var form = this;
 					var items = $('[data-tab="tab_edit"]').find('.items');
-					
+
 					var settings = $.extend({
 						newQuestionButton: 		".ui.button[data-role='newQuestion']",
 						editButton: 			".ui.button[data-role='edit']",
@@ -262,6 +270,10 @@
 						}
 					};
 
+					form.setLoading = function(){
+						form.addClass('loading');
+					};
+
 					//Moves the form to different locations
 					form.move = function(location){
 						form.hidee();						
@@ -287,25 +299,35 @@
 					form.find(settings.closeButton).on('click', function(){
 						form.hidee();
 					});
-					
+
 					$(settings.editButton).on('click', function(){
 						var parent = this.closest('.item');
-						
+
 						form.move(parent);
 						$(parent).children('.content').hide();
-						
+
 					});
 
 					form.find(settings.saveButton).on('click', function(){
 						//TODO save stuff!!!
-						//form.hide();
+						form.setLoading();
+						setTimeout(	function(){ 
+							$('#newquestionform .dimmer').dimmer('show'); 
+
+							setTimeout(	function(){ 
+								form.hidee()
+							}, 1000);
+
+						}, 5000);
+
+
+
 					});
 
 				};
 			}(jQuery));
 
 			$('#newquestionform').questionForm();
-
 
 
 		</script>
