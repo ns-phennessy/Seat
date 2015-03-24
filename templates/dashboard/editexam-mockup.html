@@ -189,6 +189,12 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="ui toggle truefalse checkbox">
+						<input type="checkbox" name="truefalse">
+						<label for="truefalse">True</label>
+					</div>
+
 				</form>
 			</div>
 
@@ -234,7 +240,23 @@
 
 			$('.ui.menu .item').tab();
 			$('.ui.dropdown').dropdown();
-			$('.ui.checkbox').checkbox();
+			
+			var testdata = {
+				name:'',
+				courseID:'',
+				
+				questions:{
+					question:{
+						prompt:'',
+						type:'multichoice',
+						options:{
+							answer:'',
+							choice:'',
+							choice:''
+						}
+					}
+				}
+			};
 
 
 			(function ($) {
