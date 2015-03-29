@@ -23,8 +23,9 @@ def dashboard_index(request):
         print 'start db call'
         teacher = Teacher.objects.get(id=request.session['user_id'])
         print 'end db call'
-        first_course_id = teacher.courses.all()[0].id
-        return redirect('/dashboard/courses/'+str(first_course_id))
+        first_course = teacher.courses.all()[0]
+        print first_course
+        return redirect('/dashboard/courses/'+str(first_course.id))
     except Exception, e:
         print e
         return redirect('/logout?message=therewasanerror')#TODO handle this more rightly
