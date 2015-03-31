@@ -19,9 +19,19 @@ def show404(request):
 def dashboard_index(request):
     #TODO: check the user has permissions (is a teacher)
     #TODO: check for unsupported methods
-    
-    return render(request, 'dashboard/nocourse.html')
-    
+    try:
+        teacher = Teacher.objects.get(id=request.session['user_id'])
+        if (teacher.courses.count() > 0):
+            first_course = teacher.courses.all()[0]
+            return redirect('/dashboard/courses/'+str(first_course.id))
+        context = {
+            'teacher': teacher,
+        }
+        return render(request, 'dashboard/nocourse.html', context)
+    except Exception, e:
+        print e
+        return redirect('/logout?message=therewasanerror')#TODO handle this more rightly
+
 def course(request, courseNum):
     if 'user_id' not in request.session:
         return redirect('/login/')

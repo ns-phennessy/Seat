@@ -18,6 +18,10 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
+#LDAP information
+LDAP_HOST = 'ldap://ldap.patcave.info'
+LDAP_ROOT_SEARCH_DN = 'dc=ldap,dc=patcave,dc=info'# we happen to log in as the root node when testing
+
 # Applications
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -39,7 +43,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'dashboard.middleware.DashboardExceptionMiddleware'
+	# 'dashboard.middleware.DashboardExceptionMiddleware'
 )
 
 ROOT_URLCONF = 'Seat.urls'
@@ -47,11 +51,11 @@ WSGI_APPLICATION = 'Seat.wsgi.application'
 
 # Database
 DATABASES = {
-    'local': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'default':{
+    'prod':{
         'NAME'      : 'seat',
         'ENGINE'    : 'django.db.backends.mysql',
         'USER'      : 'capstone',
