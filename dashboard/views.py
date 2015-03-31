@@ -20,30 +20,28 @@ def dashboard_index(request):
     #TODO: check the user has permissions (is a teacher)
     #TODO: check for unsupported methods
     try:
-        teacher = request.session['user']
-        courseCount = teacher.courses.count()
-        if (courseCount > 0):
-            first_course = teacher.courses.all()[0]
-        else:
-            first_course = Course.objects.create(name="default course")
-            first_course.save()
-        teacher.courses.add(first_course)
-        teacher.save()
+        print 'start db call'
+        teacher = Teacher.objects.get(id=request.session['user_id'])
+        print 'end db call'
+        first_course = teacher.courses.all()[0]
+        print first_course
         return redirect('/dashboard/courses/'+str(first_course.id))
     except Exception, e:
         print e
         return redirect('/logout?message=therewasanerror')#TODO handle this more rightly
 
 def course(request, courseNum):
-    if 'user' not in request.session:
+    if 'user_id' not in request.session:
         return redirect('/login/')
     if request.method == 'GET':
         #TODO: check user has permissions
 		try:
-			teacher = request.session['user']
+			teacher = Teacher.objects.get(id=request.session['user_id'])
 			course = Course.objects.get(id=courseNum)
 		except Course.DoesNotExist:
 			raise Exception("Course with specified coursname failed to load")
+
+		
 		else:
 			context = {
 				'teacher': teacher,
@@ -60,7 +58,7 @@ def exam_index(request):
     #TODO: check user has permissions
     if (request.method == 'GET'):
         try:
-            teacher = request.session['user']
+            teacher = Teacher.objects.get(id=request.session['user_id'])
             context = {}
             default_exam_id = teacher.courses.all()[0].exams.all()[0].id
             return redirect('dashboard/exams/'+str(default_exam_id)+'?course_num='+str(course_num))
@@ -83,7 +81,7 @@ def exam(request):
 # GET
 def exam_edit(request, exam_num):
     #TODO: check user has permissions
-    teacher = request.session['user']
+    teacher = Teacher.objects.get(id=request.session['user_id'])
     exam = Exam.objects.get(id=exam_num)
     context = { 'teacher': teacher, 'exam': exam }
     return render(request, 'dashboard/exam.html', context)
@@ -92,7 +90,7 @@ def exam_edit(request, exam_num):
 def exam_new(request):
     #TODO: check user has permissions
     if request.method == 'GET':
-        teacher = request.session['user']
+        teacher = Teacher.objects.get(id=request.session['user_id'])
         context = { 'teacher': teacher }
         return render(request, 'dashboard/exam.html', context)
     #TODO: handle else condition
@@ -124,7 +122,7 @@ def course_new(request):
     if request.method == 'POST':
         try:
             new_course = Course.objects.create(name=request.POST['name'])
-            teacher = request.session['user']
+            teacher = Teacher.objects.get(id=request.session['user_id'])
             new_course.save()
             teacher.courses.add(new_course)
             teacher.save()
