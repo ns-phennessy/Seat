@@ -93,8 +93,6 @@
 								<option value="0">ECE 1210 - Digital Logic</option>
 								<option value="0">CS1000 - Introduction to Computer Science</option>
 							</select>
-
-
 						</div>
 						<div class="four wide field"></div>
 					</div>
@@ -102,29 +100,24 @@
 
 				<div class="ui hidden divider"></div>
 				<div class="ui top attached fluid two item tabular menu">
-					<a class="active item" data-tab="first">Edit</a>
-					<a class="item" data-tab="second">Preview</a>
+					<a class="active item" data-tab="tab_edit">Edit</a>
+					<a class="item" data-tab="tab_preview">Preview</a>
 				</div>
-				<div class="ui bottom attached active tab segment" data-tab="first">
-
-
+				<div class="ui bottom attached active tab segment" data-tab="tab_edit">
 					<div class="ui divided items">
+
 						<div class="item">
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
 									<div class="ui padded stackable grid">
-										<div class="three wide column"> 
-											Multiple Choice
-											<br>
-											5 Options
-										</div>
+										<div class="three wide column">Multiple Choice<br>5 Options</div>
 										<div class="ten wide column">
 											If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
 										</div>
 										<div class="two wide column center aligned">
-											<div class="ui mini basic icon button" data-content="Edit" id="editq1"><i class="pencil icon"></i></div>
-											<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+											<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
 										</div>
 									</div>
 								</div>
@@ -136,17 +129,14 @@
 								<div class="header">Question 2</div>
 								<div class="meta">
 									<div class="ui padded stackable grid">
-										<div class="three wide column"> 
-											Multiple Choice
-											<br>
-											5 Options
+										<div class="three wide column">Multiple Choice<br>5 Options
 										</div>
 										<div class="ten wide column">
 											Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
 										</div>
 										<div class="two wide column center aligned">
-											<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
-											<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+											<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
 										</div>
 									</div>
 								</div>
@@ -154,139 +144,10 @@
 						</div>
 					</div>
 
-
 					<div class="ui hidden divider"></div>
-					<div class="ui fluid huge button" id="addquestion"><i class="plus icon"></i> Add Question</div>
+					<div class="ui fluid huge button" data-role="newQuestion"><i class="plus icon"></i> Add Question</div>
 				</div>
-				<div class="ui bottom attached tab segment" data-tab="second">
-
-
-					<div class="ui divided items">
-
-						<div class="item">
-							<div class="content">
-								<div class="header">Question 1</div>
-								<div class="ui indented text">
-									<p>If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?</p>
-									<div class="ui hidden divider"></div>
-									<form action="" class="ui form">
-										<div class="grouped fields">
-											<label>Answer:</label>
-											<div class="field">
-												<div class="ui radio checkbox checked">
-													<input type="radio" name="q1">
-													<label>Cocktail Sort</label>
-												</div>
-											</div>
-											<div class="field">
-												<div class="ui radio checkbox checked">
-													<input type="radio" name="q1">
-													<label>Insertion Sort</label>
-												</div>
-											</div>
-											<div class="field">
-												<div class="ui radio checkbox checked">
-													<input type="radio" name="q1">
-													<label>Quicksort</label>
-												</div>
-											</div>
-											<div class="field">
-												<div class="ui radio checkbox checked">
-													<input type="radio" name="q1">
-													<label>Bubblesort</label>
-												</div>
-											</div>
-										</div>                                   
-									</form>
-								</div>
-							</div>
-						</div>
-
-						<div class="item">
-							<div class="content">
-								<div class="header">Question 2</div>
-								<div class="ui indented text">
-									<p>Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?</p>
-									<div class="ui hidden divider"></div>
-									<form class="ui form">
-										<div class="eight wide field">
-											<label>Answer:</label>
-											<div class="ui input">
-												<input type="text">
-											</div>
-										</div>                             
-									</form>
-								</div>
-							</div>
-						</div>
-
-						<div class="item">
-							<div class="content">
-								<div class="header">Question 3</div>
-								<div class="ui indented text">
-									<p>Is the following statement true or false? Symmetric encryption involves use of a public and private key.</p>
-									<div class="ui hidden divider"></div>
-									<form action="" class="ui form">
-										<div class="grouped fields">
-											<label>Answer:</label>
-											<div class="field">
-												<div class="ui radio checkbox checked">
-													<input type="radio" name="q3">
-													<label>True</label>
-												</div>
-											</div>
-											<div class="field">
-												<div class="ui radio checkbox checked">
-													<input type="radio" name="q3">
-													<label>False</label>
-												</div>
-											</div>
-										</div>                                   
-									</form>
-								</div>
-							</div>
-						</div>
-
-						<div class="item">
-							<div class="content">
-								<div class="header">Question 4</div>
-								<div class="ui indented text">
-									<p>Which of the following are methods for sorting an array? (Mark all that apply)</p>
-									<div class="ui hidden divider"></div>
-									<form action="" class="ui form">
-										<div class="grouped fields">
-											<label>Answer:</label>
-											<div class="field">
-												<div class="ui checkbox checked">
-													<input type="checkbox" name="q4">
-													<label>Quicksort</label>
-												</div>
-											</div>
-											<div class="field">
-												<div class="ui checkbox checked">
-													<input type="checkbox" name="q4">
-													<label>Mergesort</label>
-												</div>
-											</div>
-											<div class="field">
-												<div class="ui checkbox checked">
-													<input type="checkbox" name="q4">
-													<label>Max Heapify</label>
-												</div>
-											</div>
-										</div>                                   
-									</form>
-								</div>
-							</div>
-						</div>
-
-
-
-
-
-					</div>
-
-
+				<div class="ui bottom attached tab segment" data-tab="tab_preview">
 
 				</div>
 			</div>
@@ -294,20 +155,20 @@
 
 
 		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
-			<h3 class="ui header">New Question</h3>
+			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
+			<h3 class="ui left floated header">New Question</h3>
+
 			<div class="field">
-				<label for="">Prompt:</label>
-				<input type="text" name="thing" placeholder="What is the..."> 
+				<label for="prompt">Prompt:</label>
+				<input type="text" name="prompt" placeholder="What is the..."> 
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
-			<div class="ui fluid four item tabular top attached menu">
-				<a class="active item">Multiple Choice</a>
-				<a class="item">True / False</a>
-				<a class="item">Short Answer</a>
-				<a class="item">Essay</a>
-			</div>
-			<div class="ui bottom attached segment">
+			<select class="ui tabular dropdown">
+				<option value="1">Multiple Choice</option>
+				<option value="0">True / False</option>
+			</select>
+			<div class="ui segment">
 
 				<!-- Multiple Choice -->
 				<form class="ui form">
@@ -328,6 +189,12 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="ui toggle truefalse checkbox">
+						<input type="checkbox" name="truefalse">
+						<label for="truefalse">True</label>
+					</div>
+
 				</form>
 			</div>
 
@@ -348,8 +215,16 @@
 
 			<div class="ui divider"></div>
 			<div class="two fields">                                
-				<div class="ui right floated button">Cancel</div>
-				<div class="ui blue button">Save Question</div>
+				<div class="ui right floated button" data-role="close">Cancel</div>
+				<div class="ui blue button" data-role="save">Save Question</div>
+			</div>
+
+
+			<div class="ui inverted dimmer">
+				<h2 class="ui icon header">
+					<i class="green checkmark icon"></i>
+					Question Saved!
+				</h2>
 			</div>
 		</div>
 
@@ -364,33 +239,119 @@
 			});
 
 			$('.ui.menu .item').tab();
+			$('.ui.dropdown').dropdown();
 
-			$('.ui.dropdown').dropdown({
-			});
+			var testdata = {
+				"name":'',
+				"courseID":'',
 
-			$('.ui.checkbox').checkbox();
+				"questions":[
+					{
+						prompt:'',
+						type:'multichoice',
+						options:{
+							answer:'',
+							choice:'',
+							choice:''
+						}
+					}
+				]
+			};
 
-			$('#addquestion').on('click', function(){
-				$(this).hide();
 
-				$('#newquestionform').appendTo($(this).parent());
-				$('#newquestionform').slideDown(100)
+			(function ($) {
+				$.fn.questionForm = function(options){
 
-			});
+					var form = this;
+					var items = $('[data-tab="tab_edit"]').find('.items');
 
-			$('#editq1').on('click', function(){
-				$('#newquestionform').hide();
-				var item = $(this).closest('.content');
+					var settings = $.extend({
+						newQuestionButton: 		".ui.button[data-role='newQuestion']",
+						editButton: 			".ui.button[data-role='edit']",
+						deleteQuestionButton: 	".ui.button[data-role='delete']",
+						saveButton:				".ui.button[data-role='save']",
+						closeButton:			"[data-role='close']",
+						animationDuration: 		"0"
+					}, options );
 
-				item.hide();
+					form.clear = function(){};
 
-				$('#newquestionform').appendTo(item.parent());
-				$('#newquestionform').slideDown({duration:100, easing:'swing'});
+					form.setValue = function(item, value){
+						switch(item){
+							case 'header':
+								form.find('h3.header').text(value);	
+								break;
 
-				$('#newquestionform h3.header').text('Question 1');
-			});
-			
-			
+							case 'prompt':
+								form.find('input[name="prompt"]').val(value);
+								break;
+
+							case 'questionType':
+								form.find();
+								break;
+						}
+					};
+
+					form.setLoading = function(){
+						form.addClass('loading');
+					};
+
+					//Moves the form to different locations
+					form.move = function(location){
+						form.hidee();						
+						form.appendTo(location);
+						form.show();
+						//form.slideDown(settings.animationDuration);						
+					};
+
+					form.hidee = function(){
+						form.hide();
+						$(settings.newQuestionButton).show();
+						items.find('.item .content').show();
+					};
+
+					//Listener for new question at bottom of page
+					$(settings.newQuestionButton).on('click', function(){
+						form.setValue('header', 'New Question');
+						form.setValue('prompt', '');
+						form.move( $('.ui.segment[data-tab="tab_edit"]') );
+						$(this).hide();
+					});
+
+					form.find(settings.closeButton).on('click', function(){
+						form.hidee();
+					});
+
+					$(settings.editButton).on('click', function(){
+						var parent = this.closest('.item');
+
+						form.move(parent);
+						$(parent).children('.content').hide();
+
+					});
+
+					form.find(settings.saveButton).on('click', function(){
+						//TODO save stuff!!!
+						form.setLoading();
+						setTimeout(	function(){ 
+							$('#newquestionform .dimmer').dimmer('show'); 
+
+							setTimeout(	function(){ 
+								form.hidee()
+							}, 1000);
+
+						}, 5000);
+
+
+
+					});
+
+				};
+			}(jQuery));
+
+			$('#newquestionform').questionForm();
+
+
 		</script>
 	</body>
 </html>
