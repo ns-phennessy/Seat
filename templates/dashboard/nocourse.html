@@ -9,4 +9,29 @@
         
         <div class="ui huge blue button" id="addCourseBtn">Click to add a course</div>       
     </div>
+     {% include "dashboard/modals/addCourse.html" %}
+
 {% endblock %}
+    
+    {% block javascript %}
+        <script>
+			$('#addCourseModal .ui.save.button').click(function(e) {
+
+				var courseName = $('#addCourseModal .ui.form input[name="course_name"]').val();
+				var middlewareToken = $('#addCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
+
+				$('#addCourseModal .ui.form').addClass('loading');
+
+				$.post('/dashboard/courses/new', {
+					name : courseName,
+					csrfmiddlewaretoken : middlewareToken
+				}, function() {
+					$('#addCourseModal.ui.modal').modal('hide');
+					location.reload();
+
+				}).fail(function() {
+					console.log(arguments);
+				})
+			});
+        </script>
+    {% endblock %}
