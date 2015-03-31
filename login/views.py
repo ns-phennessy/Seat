@@ -36,7 +36,7 @@ def login(request):
 
 			# finally, put the user_id in the session so we can get the user back later, 
 			# the user is now authenticated, assuming our sessions are not spoofed	
-			request.session['user_id'] = user.id
+			request.session['user'] = user
 
 			#TODO: should this be different if the user is a teacher/student?
 			return redirect('/dashboard/courses/')
