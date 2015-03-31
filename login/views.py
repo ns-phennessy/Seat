@@ -12,9 +12,6 @@ def login(request):
 		password = request.POST['password']
 		print 'attempted authentication of %s' % username
 		try:
-			# the comma is there to be sure the full cn are ===
-			# otherwise a username can be a subset of another one
-			# and still match
 			search = '(cn=%s*)' % username
 
 			# match first user with name
