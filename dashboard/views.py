@@ -23,7 +23,7 @@ def dashboard_index(request):
         teacher = Teacher.objects.get(id=request.session['user_id'])
         if (teacher.courses.count() > 0):
             first_course = teacher.courses.all()[0]
-            return redirect('/dashboard/courses/'+first_course.id)
+            return redirect('/dashboard/courses/'+str(first_course.id))
         context = {
             'teacher': teacher,
         }
