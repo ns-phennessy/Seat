@@ -51,11 +51,11 @@ WSGI_APPLICATION = 'Seat.wsgi.application'
 
 # Database
 DATABASES = {
-    'local': {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'default':{
+    'prod':{
         'NAME'      : 'seat',
         'ENGINE'    : 'django.db.backends.mysql',
         'USER'      : 'capstone',
