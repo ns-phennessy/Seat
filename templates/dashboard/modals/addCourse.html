@@ -5,6 +5,7 @@
 	</div>
 	<div class="content">
 		<form class="ui form">
+      {% csrf_token %}
 			<div class="field">
 				<label>Course Name</label>
 				<input name="course_name" type="text">

@@ -18,3 +18,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
     })
   })
 });
+
+$('#addCourseModal.ui.modal').modal(
+	{
+		transition:'fly down',
+		duration:500, 
+		closable:false,
+		selector:{
+			approve:'.actions .save'
+		},
+		onShow:function(){
+			$(this).find('.ui.form').removeClass('loading');
+      $(this).find('input[name=course_name]').val('');
+		},
+		onApprove: function(){
+			return false;
+		}
+	}
+);
+
+$('#addCourseBtn').on('click', function(){
+	$('#addCourseModal.ui.modal').modal('show');
+});
