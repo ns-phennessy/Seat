@@ -13,28 +13,5 @@
         <a class="item ui faded text center aligned" id="addCourseBtn"> <span><i class="icon plus"></i>Add Course</span></a>
     </div>
     {% include "dashboard/modals/addCourse.html" %}
-    
-    {% block javascript %}
-        <script>
-			$('#addCourseModal .ui.save.button').click(function(e) {
-
-				var courseName = $('#addCourseModal .ui.form input[name="course_name"]').val();
-				var middlewareToken = "{{ csrf_token }}"
-
-				$('#addCourseModal .ui.form').addClass('loading');
-
-				$.post('/dashboard/courses/new', {
-					name : courseName,
-					csrfmiddlewaretoken : middlewareToken
-				}, function() {
-					$('#addCourseModal.ui.modal').modal('hide');
-					location.reload();
-
-				}).fail(function() {
-					console.log(arguments);
-				})
-			});
-        </script>
-    {% endblock %}
 </div>
 
