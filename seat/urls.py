@@ -4,8 +4,8 @@ from django.shortcuts import redirect
 
 # obliterates user session
 def logout(request):
-	if request.session['user']:
-		print "Logging user out", request.session['user'] 
+	if request.session['user_id']:
+		print "Logging out user with id", request.session['user_id'] 
 	for key in request.session.keys():
 		del request.session[key]
 	request.session.flush() # force this through the db

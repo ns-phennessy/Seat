@@ -44,7 +44,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'seat.custom_middleware.DashboardExceptionMiddleware'
+	'seat.middleware.exceptions.ExceptionMiddleware'
 )
 
 ROOT_URLCONF = 'seat.urls'
