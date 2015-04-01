@@ -3,8 +3,13 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from datetime import date
-from seat.models import Teacher,Course,Exam,Question
+from seat.models.teacher import Teacher
+from seat.models.exam import Question, Submission, Exam
+from seat.models.course import Course
 from django.http import JsonResponse
+import logging
+
+logger = logging.getLogger(__name__)
 
 class MyExceptionMiddleware(object):
     def process_exception(self, request, exception):
@@ -14,7 +19,7 @@ class MyExceptionMiddleware(object):
 
 
 def show404(request):
-	return render(request, 'dashboard/404.html')
+    return render(request, 'dashboard/404.html')
 
 def dashboard_index(request):
     #TODO: check the user has permissions (is a teacher)
@@ -29,27 +34,29 @@ def dashboard_index(request):
         }
         return render(request, 'dashboard/nocourse.html', context)
     except Exception, e:
-        print e
+        log.error("error caught in dashboard_index:", e, "with request:", request)
         return redirect('/logout?message=therewasanerror')#TODO handle this more rightly
 
 def course(request, courseNum):
     if 'user_id' not in request.session:
         return redirect('/login/')
     if request.method == 'GET':
-        #TODO: check user has permissions
-		try:
-			teacher = Teacher.objects.get(id=request.session['user_id'])
-			course = Course.objects.get(id=courseNum)
-		except Course.DoesNotExist:
-			raise Exception("Course with specified coursname failed to load")
-
-		else:
-			context = {
-				'teacher': teacher,
-				'courseNum': int(courseNum),
-				'course': course
-			}
-			return render(request, 'dashboard/course.html', context)
+        try:
+            teacher = Teacher.objects.get(id=request.session['user_id'])
+            course = Course.objects.get(id=courseNum)
+        except Course.DoesNotExist:
+            print "course was not found"
+            raise Exception("Course with specified coursname failed to load")
+        except Exception, e:
+            print e, "uncaught error happened in 'course' logic"
+            raise(e)
+        print "success"
+        context = {
+            'teacher': teacher,
+            'courseNum': int(courseNum),
+            'course': course
+        }
+        return render(request, 'dashboard/course.html', context)
 
     elif request.method == 'POST':
         pass
