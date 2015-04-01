@@ -52,11 +52,11 @@
                                         <div class="item"><i class="share icon"></i> Export</div>
                                         <div class="item"><i class="file pdf outline icon"></i> Print</div>
                                         <div class="ui divider"></div>
-                                        <div class="item delete-exam" href="{% url 'dashboard.views.exam' exam.id %}">
+                                        <a class="item delete-exam" href="{% url 'dashboard.views.exam' exam.id %}">
                                             {% csrf_token %}
                                             <i class="delete icon"></i>
                                             Delete
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

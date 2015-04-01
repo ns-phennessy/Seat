@@ -1,4 +1,6 @@
-$('.delete-exam').click(function() {
+$('.delete-exam').on('click', function(e) {
+  e.preventDefault();
+
   var _this = this;
 
   $.ajax({
