@@ -106,7 +106,7 @@
 				<div class="ui bottom attached active tab segment" data-tab="tab_edit">
 					<div class="ui divided items">
 
-						<div class="item">
+						<div class="item" data-qid="0">
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
@@ -124,7 +124,7 @@
 							</div>
 						</div>
 
-						<div class="item">
+						<div class="item" data-qid="1">
 							<div class="content">
 								<div class="header">Question 2</div>
 								<div class="meta">
@@ -189,12 +189,6 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="ui toggle truefalse checkbox">
-						<input type="checkbox" name="truefalse">
-						<label for="truefalse">True</label>
-					</div>
-
 				</form>
 			</div>
 
@@ -241,23 +235,41 @@
 			$('.ui.menu .item').tab();
 			$('.ui.dropdown').dropdown();
 
-			var testdata = {
-				"name":'',
-				"courseID":'',
+			var examData = {
+				"name":'Example Exam',
+				"courseID":'1',
 
 				"questions":[
 					{
-						prompt:'',
+						qid:0,
+						prompt:'If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?',
 						type:'multichoice',
 						options:{
-							answer:'',
-							choice:'',
-							choice:''
+							answer:'Auckland',
+							choice:'New York',
+							choice:'Gondor'
+						}
+					},
+					{
+						qid:1,
+						prompt:'Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?',
+						type:'truefalse',
+						options:{
+							answer:true
 						}
 					}
 				]
 			};
 
+			var questionDataTemplate = {
+				qid:0,
+				prompt:'',
+				type:'',
+				options:{},
+				clone:function(){
+					return $.extend({}, this)
+				}
+			};
 
 			(function ($) {
 				$.fn.questionForm = function(options){
@@ -271,7 +283,6 @@
 						deleteQuestionButton: 	".ui.button[data-role='delete']",
 						saveButton:				".ui.button[data-role='save']",
 						closeButton:			"[data-role='close']",
-						animationDuration: 		"0"
 					}, options );
 
 					form.clear = function(){};
@@ -285,10 +296,6 @@
 							case 'prompt':
 								form.find('input[name="prompt"]').val(value);
 								break;
-
-							case 'questionType':
-								form.find();
-								break;
 						}
 					};
 
@@ -298,13 +305,12 @@
 
 					//Moves the form to different locations
 					form.move = function(location){
-						form.hidee();						
+						form.close();						
 						form.appendTo(location);
 						form.show();
-						//form.slideDown(settings.animationDuration);						
 					};
 
-					form.hidee = function(){
+					form.close = function(){
 						form.hide();
 						$(settings.newQuestionButton).show();
 						items.find('.item .content').show();
@@ -319,11 +325,23 @@
 					});
 
 					form.find(settings.closeButton).on('click', function(){
-						form.hidee();
+						form.close();
 					});
 
 					$(settings.editButton).on('click', function(){
 						var parent = this.closest('.item');
+
+						var qid = $(parent).attr('data-qid');
+						var question;
+						
+						$.each(examData.questions, function(i, v) {
+							if (v.qid == qid) {
+								question = v;
+							}
+						});
+						
+						form.setValue('prompt', question.prompt);
+
 
 						form.move(parent);
 						$(parent).children('.content').hide();
@@ -337,7 +355,7 @@
 							$('#newquestionform .dimmer').dimmer('show'); 
 
 							setTimeout(	function(){ 
-								form.hidee()
+								form.close()
 							}, 1000);
 
 						}, 5000);
