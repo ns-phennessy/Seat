@@ -6,7 +6,6 @@
 
 from seat.models.teacher import Teacher
 from django.conf import settings
-from seat.helpers import string_things
 import logging
 import ldap
 
