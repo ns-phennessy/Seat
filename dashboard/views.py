@@ -3,7 +3,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from datetime import date
-from dashboard.models import Teacher,Course,Exam,Question
+from Seat.models import Teacher,Course,Exam,Question
 from django.http import JsonResponse
 
 class MyExceptionMiddleware(object):
