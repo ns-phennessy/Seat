@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from Seat.models import Teacher
+from seat.models import Teacher
 from django.conf import settings
 import ldap
 

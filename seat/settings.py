@@ -1,5 +1,5 @@
 """
-Django settings for Seat project.
+Django settings for seat project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'seat',
     'dashboard',
     'login',
     'student'
@@ -43,11 +44,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	# 'dashboard.middleware.DashboardExceptionMiddleware'
+	'seat.custom_middleware.DashboardExceptionMiddleware'
 )
 
-ROOT_URLCONF = 'Seat.urls'
-WSGI_APPLICATION = 'Seat.wsgi.application'
+ROOT_URLCONF = 'seat.urls'
+WSGI_APPLICATION = 'seat.wsgi.application'
 
 # Database
 DATABASES = {

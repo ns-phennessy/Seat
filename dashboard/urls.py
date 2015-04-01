@@ -1,16 +1,17 @@
 from django.conf.urls import patterns, url
 from dashboard import views
 from django.shortcuts import redirect
+from seat.route_right_guards import teacher,student
 
 urlpatterns = patterns('',
 	url(r'^/?$', lambda req: redirect('courses/')),
-	url(r'^courses/?$', views.dashboard_index),
-    url(r'^courses/(\d+)/?$', views.course),
-    url(r'^courses/new/?$', views.course_new),
-    url(r'^exams/?$',views.exam_index),
-    url(r'^exams/(\d+)/?$', views.exam),
-    url(r'^exams/(\d+)/edit/?$', views.exam_edit),
-    url(r'^exams/new/?$', views.exam),#TODO: change to own endpoint when view ready
-    url(r'^exams/(\d+)/questions/?$', views.questions_index),
-    url(r'^questions/(\d+)/?$', views.question)
+	url(r'^courses/?$',                 views.dashboard_index),
+    url(r'^courses/(\d+)/?$',           views.course),
+    url(r'^courses/new/?$',             views.course_new),
+    url(r'^exams/?$',                   views.exam_index),
+    url(r'^exams/(\d+)/?$',             views.exam),
+    url(r'^exams/(\d+)/edit/?$',        views.exam_edit),
+    url(r'^exams/new/?$',               views.exam),#TODO: change to own endpoint when view ready
+    url(r'^exams/(\d+)/questions/?$',   views.questions_index),
+    url(r'^questions/(\d+)/?$',         views.question)
 )
