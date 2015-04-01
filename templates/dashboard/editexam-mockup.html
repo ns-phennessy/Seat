@@ -164,7 +164,7 @@
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
-			<select class="ui tabular dropdown">
+			<select class="ui dropdown">
 				<option value="1">Multiple Choice</option>
 				<option value="0">True / False</option>
 			</select>
@@ -296,6 +296,10 @@
 							case 'prompt':
 								form.find('input[name="prompt"]').val(value);
 								break;
+							
+							case 'questionType':
+								form.find('div.ui.dropdown.selection').dropdown('set selected', value);
+								break;
 						}
 					};
 
@@ -339,6 +343,16 @@
 								question = v;
 							}
 						});
+						
+						switch(question.type){
+							case "multichoice":
+								form.setValue('questionType', 'Multiple Choice');
+							break;
+								
+							case "truefalse":
+								form.setValue('questionType', 'True / False');
+							break;
+						}
 						
 						form.setValue('prompt', question.prompt);
 
