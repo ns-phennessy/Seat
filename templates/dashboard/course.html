@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                     {% for exam in course.exams.all %}
-                    <tr>
+                    <tr class="exam">
                         <td>
                             <h3 class="ui header">{{ exam.name }}</h3>
                         </td>
@@ -52,11 +52,11 @@
                                         <div class="item"><i class="share icon"></i> Export</div>
                                         <div class="item"><i class="file pdf outline icon"></i> Print</div>
                                         <div class="ui divider"></div>
-                                        <a class="item delete-exam" href="{% url 'dashboard.views.exam' exam.id %}">
+                                        <div class="item" data-role="delete" data-action="{% url 'dashboard.views.exam' exam.id %}">
                                             {% csrf_token %}
                                             <i class="delete icon"></i>
                                             Delete
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

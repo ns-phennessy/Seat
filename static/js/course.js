@@ -1,16 +1,14 @@
-$('.delete-exam').on('click', function(e) {
-  e.preventDefault();
-
-  var _this = this;
+$('.exam .menu div[data-role=delete]').on('click', function(e) {
+  var optionDelete = this;
 
   $.ajax({
-    url: $(this).attr('href'),
+    url: $(this).data('action'),
     type: 'DELETE',
     beforeSend: function(xhr) {
       xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));
     },
     success: function() {
-      $(_this).closest('tr').remove();
+      $(optionDelete).closest('tr').remove();
     }
   });
 });
