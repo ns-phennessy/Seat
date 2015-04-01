@@ -1,6 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(event) {
-  $('#addCourseModal .ui.save.button').click(function(e) {
-
+function submitAddCourse() {
     var courseName = $('#addCourseModal .ui.form input[name="course_name"]').val();
     var middlewareToken = $('#addCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
 
@@ -16,13 +14,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }).fail(function() {
       console.log(arguments);
     })
-  })
-});
+}
+
+$('#addCourseModal .ui.save.button').click(function(e) {
+  submitAddCourse();
+})
 
 $('#addCourseModal.ui.modal').modal(
 	{
 		transition:'fly down',
-		duration:500, 
+		duration:500,
 		closable:false,
 		selector:{
 			approve:'.actions .save'
@@ -39,4 +40,11 @@ $('#addCourseModal.ui.modal').modal(
 
 $('#addCourseBtn').on('click', function(){
 	$('#addCourseModal.ui.modal').modal('show');
+});
+
+$('input[name=course_name]').keypress(function(e) {
+  if (e.keyCode == 13) {
+    e.preventDefault();
+    submitAddCourse();
+  }
 });
