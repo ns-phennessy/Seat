@@ -52,7 +52,11 @@
                                         <div class="item"><i class="share icon"></i> Export</div>
                                         <div class="item"><i class="file pdf outline icon"></i> Print</div>
                                         <div class="ui divider"></div>
-                                        <div class="item"><i class="delete icon"></i> Delete</div>
+                                        <div class="item delete-exam" href="{% url 'dashboard.views.exam' exam.id %}">
+                                            {% csrf_token %}
+                                            <i class="delete icon"></i>
+                                            Delete
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -70,5 +74,7 @@
 
 {% load static %}
 <script src="{% static 'js/add-course.js' %}"></script>
+<script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script src="{% static 'js/course.js' %}"></script>
 
 {% endblock %}

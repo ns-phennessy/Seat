@@ -74,7 +74,12 @@ def course_new(request):
 
 # GET?, POST, PUT, DELETE
 def exam(request, exam_num):
-    pass
+    #TODO: check user has permissions
+    exam = Exam.objects.get(id=exam_num)
+    if request.method == 'DELETE':
+        exam.delete()
+        return JsonResponse({ 'success' : True, 'error' : False })
+    #TODO: handle other methods
 
 # GET
 def exam_edit(request, exam_num):
