@@ -114,7 +114,10 @@ def questions_index(request, exam_id):
 # GET, POST, PUT, DELETE
 def question(request, question_id):
     #TODO: check user has permissions
+    question = Question.objects.get(id=question_id)
     if request.method == 'GET':
-        question = Question.objects.get(id=question_id)
         context = { 'question': question }
         return render(request, question_urls[question.category], context)
+    elif request.method == 'DELETE':
+        question.delete()
+        return JsonResponse({ 'success' : True, 'error' : False })
