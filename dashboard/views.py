@@ -72,23 +72,14 @@ def course_new(request):
             return JsonResponse({ 'success' : False, 'error' : True,  'message' : str(e) })
     #TODO: handle else condition
 
-def exam_index(request):
-    #TODO: check user has permissions
-    if (request.method == 'GET'):
-        try:
-            teacher = Teacher.objects.get(id=request.session['user_id'])
-            context = {}
-            default_exam_id = teacher.courses.all()[0].exams.all()[0].id
-            return redirect('dashboard/exams/'+str(default_exam_id)+'?course_num='+str(course_num))
-        except Exception, e:
-            print e
-            return redirect('/dashboard/exams/new')
-            #TODO: handle error  properly
-    #TODO: handle other methods
-
 # GET?, POST, PUT, DELETE
-def exam(request):
-    pass
+def exam(request, exam_num):
+    #TODO: check user has permissions
+    exam = Exam.objects.get(id=exam_num)
+    if request.method == 'DELETE':
+        exam.delete()
+        return JsonResponse({ 'success' : True, 'error' : False })
+    #TODO: handle other methods
 
 # GET
 def exam_edit(request, exam_num):
