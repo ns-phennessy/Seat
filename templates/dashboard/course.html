@@ -75,7 +75,7 @@
 				<h1 class="ui faded text huge header">
 					No exams exist for this course!
 				</h1>
-       			<a class="ui basic blue button" href="/dashboard/exams/?course_num={{courseNum}}"><i class="plus icon"></i>Create a new exam</a>
+       			<a class="ui basic blue button" href="{% url 'dashboard.views.exam_new' %}"><i class="plus icon"></i>Create a new exam</a>
         	</div>
         	{% endif %}
 
