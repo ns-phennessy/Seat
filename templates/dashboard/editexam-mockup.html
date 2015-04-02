@@ -285,7 +285,10 @@
 						closeButton:			"[data-role='close']",
 					}, options );
 
-					form.clear = function(){};
+					form.clear = function(){
+						form.removeClass('loading');
+						form.find('.dimmer').dimmer('hide');
+					};
 
 					form.setValue = function(item, value){
 						switch(item){
@@ -296,7 +299,7 @@
 							case 'prompt':
 								form.find('input[name="prompt"]').val(value);
 								break;
-							
+
 							case 'questionType':
 								form.find('div.ui.dropdown.selection').dropdown('set selected', value);
 								break;
@@ -309,7 +312,7 @@
 
 					//Moves the form to different locations
 					form.move = function(location){
-						form.close();						
+						form.close();				
 						form.appendTo(location);
 						form.show();
 					};
@@ -337,25 +340,24 @@
 
 						var qid = $(parent).attr('data-qid');
 						var question;
-						
+
 						$.each(examData.questions, function(i, v) {
 							if (v.qid == qid) {
 								question = v;
 							}
 						});
-						
+
 						switch(question.type){
 							case "multichoice":
 								form.setValue('questionType', 'Multiple Choice');
-							break;
-								
+								break;
+
 							case "truefalse":
 								form.setValue('questionType', 'True / False');
-							break;
+								break;
 						}
-						
-						form.setValue('prompt', question.prompt);
 
+						form.setValue('prompt', question.prompt);
 
 						form.move(parent);
 						$(parent).children('.content').hide();
@@ -369,11 +371,11 @@
 							$('#newquestionform .dimmer').dimmer('show'); 
 
 							setTimeout(	function(){ 
-								form.close()
+								form.close();
+								form.clear();
 							}, 1000);
 
 						}, 5000);
-
 
 
 					});
