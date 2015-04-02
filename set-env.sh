@@ -39,6 +39,7 @@ REQUIRED_PACKAGES="
     python-mysqldb
     libmysqlclient-dev
     python-dev
+    python-django-auth-ldap
 "
 
 for PACKAGE in $REQUIRED_PACKAGES; do
