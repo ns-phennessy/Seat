@@ -10,7 +10,12 @@
                 {{ course.name }}
             </div>
         </h1>
+        
+        <div class="ui tiny button">Rename</div>
+        <div class="ui tiny right floated red button">Delete Course</div>
+        	
         <div class="ui raised segment" style="padding:2em">
+			{% if course.exams.all %}
             <table class="ui very basic padded table">
                 <thead>
                     <tr>
@@ -61,6 +66,15 @@
                     {% endfor %}
                 </tbody>
             </table>
+			{% else %}
+       		<div class="center aligned column" style="padding:3em">
+				<h1 class="ui faded text huge header">
+					No exams exist for this course!
+				</h1>
+       			<a class="ui basic blue button" href="/dashboard/exams/?course_num={{courseNum}}"><i class="plus icon"></i>Create a new exam</a>
+        	</div>
+        	{% endif %}
+
         </div>
     </div>
 {% endblock %}
