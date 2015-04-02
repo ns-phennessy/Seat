@@ -3,6 +3,7 @@
 {% block pagecontent %}
 
     {% include "dashboard/courses-list.html" %}
+
     <div class="twelve wide column" id="main">
         <h1 class="ui dividing header">
             <div class="content">
@@ -76,4 +77,12 @@
 
         </div>
     </div>
+{% endblock %}
+
+
+{% block javascript %}
+
+{% load static %}
+<script src="{% static 'js/add-course.js' %}"></script>
+
 {% endblock %}

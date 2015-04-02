@@ -43,7 +43,6 @@ def course(request, courseNum):
 		except Course.DoesNotExist:
 			raise Exception("Course with specified coursname failed to load")
 
-		
 		else:
 			context = {
 				'teacher': teacher,
@@ -51,10 +50,27 @@ def course(request, courseNum):
 				'course': course
 			}
 			return render(request, 'dashboard/course.html', context)
-		
+
     elif request.method == 'POST':
         pass
     #TODO: handle other methods
+
+# POST
+def course_new(request):
+    #TODO: check user has permissions
+    if request.method == 'POST':
+        try:
+            new_course = Course.objects.create(name=request.POST['name'])
+            teacher = Teacher.objects.get(id=request.session['user_id'])
+            new_course.save()
+            teacher.courses.add(new_course)
+            teacher.save()
+            return JsonResponse({ 'success' : True, 'error' : False, 'id' : str(new_course.id) })
+        except Exception, e:
+            #TODO: handle error case properly, still haven't hit enough of these to decide yet how
+            print e
+            return JsonResponse({ 'success' : False, 'error' : True,  'message' : str(e) })
+    #TODO: handle else condition
 
 def exam_index(request):
     #TODO: check user has permissions
@@ -70,15 +86,9 @@ def exam_index(request):
             #TODO: handle error  properly
     #TODO: handle other methods
 
-# GET, POST, PUT, DELETE
+# GET?, POST, PUT, DELETE
 def exam(request):
-    #TODO: check user has permissions
-    if request.method == 'GET':
-        context = {}
-        return render(request, 'dashboard/editexam-mockup.html', context)
-    elif request.method == 'POST':
-        pass
-    #TODO: handle other methods
+    pass
 
 # GET
 def exam_edit(request, exam_num):
@@ -117,21 +127,3 @@ def question(request, question_id):
         question = Question.objects.get(id=question_id)
         context = { 'question': question }
         return render(request, question_urls[question.category], context)
-
-# POST
-def course_new(request):
-    #TODO: check user has permissions
-    if request.method == 'POST':
-        try:
-            new_course = Course.objects.create(name=request.POST['name'])
-            teacher = Teacher.objects.get(id=request.session['user_id'])
-            new_course.save()
-            teacher.courses.add(new_course)
-            teacher.save()
-            return JsonResponse({ 'success' : True, 'error' : False, 'id' : str(new_course.id) })
-        except Exception, e:
-            #TODO: handle error case properly, still haven't hit enough of these to decide yet how
-            print e
-            return JsonResponse({ 'success' : False, 'error' : True,  'message' : str(e) })
-    #TODO: handle else condition
-
