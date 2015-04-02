@@ -59,7 +59,7 @@
             <div class="ui divided items">
 
                 {% for question in exam.questions.all %}
-                <div class="item" data-role="question" data-id="{{ question.id }}">
+                <div class="item">
                     <div class="content">
                         <div class="header">Question {{ forloop.counter }}</div>
                         <div class="meta">
@@ -73,7 +73,8 @@
                                 </div>
                                 <div class="two wide column center aligned">
                                     <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
-                                    <div class="ui mini red icon button" data-role="delete" data-content="Delete">
+                                    <div class="ui mini red icon button" data-role="delete" data-action="{% url 'dashboard.views.question' question.id %}" data-content="Delete">
+                                        {% csrf_token %}
                                         <i class="delete icon"></i>
                                     </div>
                                 </div>
