@@ -34,7 +34,8 @@ INSTALLED_APPS = (
     'seat',
     'dashboard',
     'login',
-    'student'
+    'student',
+    'api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -126,6 +127,10 @@ LOGGING = {
             'handlers': ['console', 'logfile'],
             'level': 'INFO',
         },
+        'api':{
+            'handlers': ['console', 'logfile'],
+            'level': 'INFO',
+        }
     }
 }
 
