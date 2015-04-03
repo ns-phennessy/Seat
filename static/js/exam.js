@@ -7,7 +7,7 @@ $('#addquestion').on('click', function(){
 
 $('div[data-role=question] div[data-role=delete]').on('click', function() {
     $.ajax({
-        url: $(this).data('action');
+        url: $(this).data('action'),
         type: 'DELETE',
         beforeSend: function(xhr) {
           xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));

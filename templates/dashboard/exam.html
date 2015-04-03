@@ -59,7 +59,7 @@
             <div class="ui divided items">
 
                 {% for question in exam.questions.all %}
-                <div class="item">
+                <div class="item" data-role="question">
                     <div class="content">
                         <div class="header">Question {{ forloop.counter }}</div>
                         <div class="meta">
