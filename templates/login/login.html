@@ -21,6 +21,7 @@
 				<div class="ui tall bottom attached segment">
 					<form class="ui {{ error|yesno:'error,' }} form" method="POST">
 						{% csrf_token %}
+						{% if error %}
 						<div class="ui small error icon message">
 							<i class="warning icon"></i>
 							<div class="content">
@@ -28,6 +29,7 @@
 								<p>{{ error }}</p>
 							</div>
 						</div>
+						{% endif %}
 						<div class="field">
 							<label>Username</label>
 							<div class="ui large left icon input">
@@ -69,6 +71,27 @@
 			$('.message .close').on('click', function() {
 				$(this).closest('.message').fadeOut();
 			});
+
+			$('.ui.form').form({
+				inline:true,
+				username:{
+					identifier:'username',
+					rules:[
+						{type:'empty', prompt:'Please enter a username'}
+					]
+				},
+				password:{
+					identifier:'password',
+					rules:[
+						{type:'empty', prompt:'Please enter a password'}
+					]
+				}				
+			},
+			{
+				inline:true, 
+				on:'blur'
+			});
+
 		</script>
 	</body>
 </html>
