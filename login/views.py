@@ -19,6 +19,9 @@ def login(request):
             #TODO: should this be different if the user is a teacher/student?
             return redirect('/dashboard/courses/')
         except Exception, error:
-            print error
-            logger.info('failed to authenticate user due to error: ', str(error))
-            return redirect('/login?message=failed+to+authenticate')
+			print error
+			logger.info('Failed to authenticate user due to error: ', str(error))
+			
+			context = { 'error': str(error).capitalize() }
+			
+			return render(request, 'login/login.html', context)

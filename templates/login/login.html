@@ -19,15 +19,17 @@
 			<div class="seven wide column" style="padding-top:150px">
 				<h1 class="ui top attached block centered header" style="font-size:2.5em">Login</h1>
 				<div class="ui tall bottom attached segment">
-					<form class="ui form" method="POST">
+					<form class="ui {{ error|yesno:'error,' }} form" method="POST">
 						{% csrf_token %}
+						{% if error %}
 						<div class="ui small error icon message">
 							<i class="warning icon"></i>
 							<div class="content">
 								<div class="header">Error</div>
-								<p>Invalid username or password. Please try again.</p>
+								<p>{{ error }}</p>
 							</div>
 						</div>
+						{% endif %}
 						<div class="field">
 							<label>Username</label>
 							<div class="ui large left icon input">
@@ -69,6 +71,27 @@
 			$('.message .close').on('click', function() {
 				$(this).closest('.message').fadeOut();
 			});
+
+			$('.ui.form').form({
+				inline:true,
+				username:{
+					identifier:'username',
+					rules:[
+						{type:'empty', prompt:'Please enter a username'}
+					]
+				},
+				password:{
+					identifier:'password',
+					rules:[
+						{type:'empty', prompt:'Please enter a password'}
+					]
+				}				
+			},
+			{
+				inline:true, 
+				on:'blur'
+			});
+
 		</script>
 	</body>
 </html>
