@@ -4,21 +4,21 @@ from seat.applications.seat_application import AuthenticatingApplication
 import ldap
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('login')
 
 def login(request):
-	if (request.method == 'GET'):
-		return render(request, 'login/login.html')
-	elif (request.method == 'POST'):
-		try:
-			logger.info('trying to authenticate', request.POST['username'])
-			user = AuthenticatingApplication().authenticate(
-				username = request.POST['username'],
-				password = request.POST['password'])
-			request.session['user_id'] = user.id
-			#TODO: should this be different if the user is a teacher/student?
-			return redirect('/dashboard/courses/')
-		except Exception, error:
-			print error
-			logger.info('failed to authenticate user due to error: ', error)
-			return redirect('/login?message=failed+to+authenticate')
+    if (request.method == 'GET'):
+        return render(request, 'login/login.html')
+    elif (request.method == 'POST'):
+        try:
+            logger.info('trying to authenticate %s' % request.POST['username'])
+            user = AuthenticatingApplication().authenticate(
+                username = request.POST['username'],
+                password = request.POST['password'])
+            request.session['user_id'] = user.id
+            #TODO: should this be different if the user is a teacher/student?
+            return redirect('/dashboard/courses/')
+        except Exception, error:
+            print error
+            logger.info('failed to authenticate user due to error: ', str(error))
+            return redirect('/login?message=failed+to+authenticate')

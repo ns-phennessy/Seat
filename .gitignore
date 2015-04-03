@@ -4,3 +4,4 @@
 migrations/
 .secretKey
 db.sqlite3
+logfile
