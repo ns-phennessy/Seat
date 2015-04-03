@@ -1,4 +1,4 @@
-$('.exam .menu div[data-role=delete]').on('click', function(e) {
+$('tr[data-role=exam] div[data-role=delete]').on('click', function(e) {
   var optionDelete = this;
 
   $.ajax({
