@@ -13,7 +13,7 @@ import sys
 basePath = '/var/www/capstone'
 
 sys.path.append(basePath)
-sys.path.append(basePath + '/Seat')
+sys.path.append(basePath + '/seat')
 
 os.environ["DJANGO_SETTINGS_MODULE"] = "seat.settings"
 
