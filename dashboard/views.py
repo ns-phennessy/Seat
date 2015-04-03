@@ -5,45 +5,64 @@ from django.shortcuts import redirect
 from datetime import date
 from seat.models.teacher import Teacher
 from seat.models.exam import Question, Submission, Exam
+from seat.applications.seat_application import AuthenticatingApplication
+from seat.applications.seat_application import SessionApplication
+from seat.applications.seat_application import TeacherApplication
+from seat.applications.seat_application import RoutingApplication
 from seat.models.course import Course
 from django.http import JsonResponse
 import logging
+logging.basicConfig()
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('dashboard')
 
-class MyExceptionMiddleware(object):
-    def process_exception(self, request, exception):
-        if not isinstance(exception, SomeExceptionType):
-            return None
-        return HttpResponse('some message')
-
-
-def show404(request):
-    return render(request, 'dashboard/404.html')
+authenticationApplication = AuthenticatingApplication()
+sessionApplication = SessionApplication()
+routingApplication = RoutingApplication()
+teacherApplication = TeacherApplication()
 
 def dashboard_index(request):
-    #TODO: check the user has permissions (is a teacher)
-    #TODO: check for unsupported methods
     try:
-        teacher = Teacher.objects.get(id=request.session['user_id'])
-        if (teacher.courses.count() > 0):
-            first_course = teacher.courses.all()[0]
-            return redirect('/dashboard/courses/'+str(first_course.id))
-        context = {
-            'teacher': teacher,
-        }
-        return render(request, 'dashboard/nocourse.html', context)
-    except Exception, e:
-        log.error("error caught in dashboard_index:", e, "with request:", request)
-        return redirect('/logout?message=therewasanerror')#TODO handle this more rightly
+        if request.method != 'GET':
+            logger.info("non-get request received at dashboard_index endpoint"+str(request))
+            return redirect( routingApplication.invalid_request_url(request) )
 
-def course(request, courseNum):
+        teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
+        if not teacher:
+            logger.info("user who was not teacher hit dashboard_index:"+str(request))
+            sessionApplication.logout(request)
+            return redirect( routingApplication.invalid_permissions_url(request) )
+
+        # send teacher to go see their courses
+        return redirect( teacherApplication.landing_page_url(teacher) )
+    except Exception, error:
+        logger.error("unhandled error in dashboard_index:"+str(error))
+        return redirect( routingApplication.error_url(request) )
+
+def course(request, course_id):
+    try:
+        if request.method != 'GET':
+            logger.info("non-get request received at course endpoint"+str(request))
+            return redirect( routingApplication.invalid_request_url(request) )
+
+        teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
+        if not teacher:
+            logger.info("user who was not teacher hit course endpoint"+str(request))
+            sessionApplication.logout(request)
+            return redirect( routingApplication.invalid_permissions_url(request) )
+
+        if course_id:
+            course_to_display = courseApplication.get_by_id(course_id)
+            
+    except Exception, error:
+        logger.error("unhandled error in course:"+str(error))
+        return redirect( routingApplication.error_url(request) )
     if 'user_id' not in request.session:
         return redirect('/login/')
     if request.method == 'GET':
         try:
             teacher = Teacher.objects.get(id=request.session['user_id'])
-            course = Course.objects.get(id=courseNum)
+            course = Course.objects.get(id=course_num)
         except Course.DoesNotExist:
             print "course was not found"
             raise Exception("Course with specified coursname failed to load")
@@ -53,7 +72,7 @@ def course(request, courseNum):
         print "success"
         context = {
             'teacher': teacher,
-            'courseNum': int(courseNum),
+            'course_num': int(course_num),
             'course': course
         }
         return render(request, 'dashboard/course.html', context)
