@@ -1,0 +1,65 @@
+.ui.hidden{
+     display:none !important   
+}
+
+.ui.text[class*="center aligned"] { text-align: center; }
+.ui.text[class*="right aligned"]  { text-align: right;  }
+.ui.text[class*="left aligned"]   { text-align: left;   }
+
+.ui.text.bold,
+.ui.bold.menu *{
+    font-weight:bold;   
+}
+
+.ui.text.italic{
+     font-style: italic;   
+}
+
+.ui.text.strikethrough{
+    text-decoration: line-through;
+}
+
+.ui.text.inverted{
+    color:#fff;
+}
+
+.ui.text.secondary,
+.ui.text.faded{
+    opacity: 0.6 
+}
+
+.ui.text.indented{
+     padding-left:1em;   
+}
+
+.ui.text.blue    { color:#3B83C0 }
+.ui.text.green   { color:#5BBD72 }
+.ui.text.orange  { color:#E07B53 }
+.ui.text.yellow  { color:#F2C61F }
+.ui.text.red     { color:#D95C5C }
+.ui.text.teal    { color:#00B5AD }
+.ui.text.purple  { color:#564F8A }
+.ui.text.pink    { color:#D9499A }
+
+.inverted .ui.text.blue,    .ui.text.inverted.blue,     .ui.text.light.blue   { color: #54C8FF}
+.inverted .ui.text.green,   .ui.text.inverted.green,    .ui.text.light.green  { color: #2ECC40}
+.inverted .ui.text.orange,  .ui.text.inverted.orange,   .ui.text.light.orange { color: #FF851B}
+.inverted .ui.text.pink,    .ui.text.inverted.pink,     .ui.text.light.pink   { color: #FF8EDF}
+.inverted .ui.text.purple,  .ui.text.inverted.purple,   .ui.text.light.purple { color: #CDC6FF}
+.inverted .ui.text.red,     .ui.text.inverted.red,      .ui.text.light.red    { color: #FF695E}
+.inverted .ui.text.teal,    .ui.text.inverted.teal,     .ui.text.light.teal   { color: #6DFFFF}
+.inverted .ui.text.yellow,  .ui.text.inverted.yellow,   .ui.text.light.yellow { color: #FFE21F}
+
+
+.item.no.hover{
+    background-color:inherit !important;
+    color:inherit !important;
+    opacity:inherit !important;
+}
+
+.ui.inverted.transparent.input input::-webkit-input-placeholder { color: white !important;  opacity:0.5}
+.ui.inverted.transparent.input input::-moz-placeholder          { color: white !important;  opacity:0.5 }
+.ui.inverted.transparent.input input:-moz-placeholder           { color: white !important;  opacity:0.5 }
+.ui.inverted.transparent.input input:-ms-input-placeholder      { color: white !important;  opacity:0.5 }
+
+

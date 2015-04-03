@@ -7,9 +7,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <title>Parkway Testing Application</title>
 
+        {% load static %}
+       
         <!-- CSS -->
-        <link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
-        <link rel="stylesheet" href="http://cdn.patcave.info/css/semantic-typography.css">
+        <link rel="stylesheet" href="{% static 'css/semantic.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/semantic-typography.css' %}">
     </head>
     <body>
         <div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
@@ -42,7 +44,6 @@
         <!-- Javascript -->
         <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
         <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
-        {% load static %}
         <script src="{% static 'js/base.js' %}"></script>
         {% block javascript %}
         {% endblock %}
