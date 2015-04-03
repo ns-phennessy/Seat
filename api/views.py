@@ -1,4 +1,5 @@
 from api.resources import course_methods
+from django.http import HttpResponseNotAllowed
 
 def course(request, course_id = None):
     if request.method == 'POST':
@@ -10,4 +11,18 @@ def course(request, course_id = None):
     elif request.method == 'GET':
         return course_methods.get_course(request, course_id)
     else:
-        return HttpResponseBadRequest("unsupported method")
+        return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
+
+def exam(request):
+    if request.method == 'POST':
+        return exam_methods.create_course(request)
+    elif request.method == 'PUT':
+        return exam_methods.update_course(request, course_id)
+    elif request.method == 'DELETE':
+        return exam_methods.delete_course(request, course_id)
+    elif request.method == 'GET':
+        return exam_methods.get_course(request, course_id)
+    else:
+        return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
+
+

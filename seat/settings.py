@@ -44,6 +44,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'seat.middleware.methods.HttpPostTunnelingMiddleware',
 	# 'seat.middleware.exceptions.ExceptionMiddleware'
 )
 
