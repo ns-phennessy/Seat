@@ -15,7 +15,7 @@ basePath = '/var/www/capstone'
 sys.path.append(basePath)
 sys.path.append(basePath + '/Seat')
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "Seat.settings"
+os.environ["DJANGO_SETTINGS_MODULE"] = "seat.settings"
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
