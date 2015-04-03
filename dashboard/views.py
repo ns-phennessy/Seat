@@ -9,6 +9,8 @@ from seat.applications.seat_application import AuthenticatingApplication
 from seat.applications.seat_application import SessionApplication
 from seat.applications.seat_application import TeacherApplication
 from seat.applications.seat_application import RoutingApplication
+from seat.applications.seat_application import CourseApplication
+from dashboard import dashboard_view_models
 from seat.models.course import Course
 from django.http import JsonResponse
 import logging
@@ -20,6 +22,7 @@ authenticationApplication = AuthenticatingApplication()
 sessionApplication = SessionApplication()
 routingApplication = RoutingApplication()
 teacherApplication = TeacherApplication()
+courseApplication = CourseApplication()
 
 def dashboard_index(request):
     try:
@@ -42,44 +45,40 @@ def dashboard_index(request):
 def course(request, course_id):
     try:
         if request.method != 'GET':
-            logger.info("non-get request received at course endpoint"+str(request))
+            logger.info("course::non-get request received at course endpoint"+str(request))
             return redirect( routingApplication.invalid_request_url(request) )
 
         teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
         if not teacher:
-            logger.info("user who was not teacher hit course endpoint"+str(request))
+            logger.info("course::user who was not teacher hit course endpoint"+str(request))
             sessionApplication.logout(request)
             return redirect( routingApplication.invalid_permissions_url(request) )
 
-        if course_id:
-            course_to_display = courseApplication.get_by_id(course_id)
-            
-    except Exception, error:
-        logger.error("unhandled error in course:"+str(error))
-        return redirect( routingApplication.error_url(request) )
-    if 'user_id' not in request.session:
-        return redirect('/login/')
-    if request.method == 'GET':
-        try:
-            teacher = Teacher.objects.get(id=request.session['user_id'])
-            course = Course.objects.get(id=course_num)
-        except Course.DoesNotExist:
-            print "course was not found"
-            raise Exception("Course with specified coursname failed to load")
-        except Exception, e:
-            print e, "uncaught error happened in 'course' logic"
-            raise(e)
-        print "success"
-        context = {
-            'teacher': teacher,
-            'course_num': int(course_num),
-            'course': course
-        }
-        return render(request, 'dashboard/course.html', context)
+        course_to_display = None # defining here just to be clear
 
-    elif request.method == 'POST':
-        pass
-    #TODO: handle other methods
+        if course_id:
+            try:
+                course_to_display = courseApplication.get_course_by_id(course_id)
+            except Exception, error:
+                logger.info("course::course not found with id "+str(course_id)+" error:"+str(error))
+                return redirect( '/dashboard/courses/' )
+        else: 
+            course_to_display = teacherApplication.get_first_course(teacher)
+        
+        if course_to_display is not None:
+            return render(
+                request,
+                dashboard_view_models.get_course_url(),
+                dashboard_view_models.get_course_context(teacher, course_id, course))
+        else:
+            return render(
+                request,
+                dashboard_view_models.get_nocourse_url(),
+                dashboard_view_models.get_nocourse_context(teacher))
+
+    except Exception, error:
+        logger.error("course::unhandled error in course:"+str(error))
+        return redirect( routingApplication.error_url(request) )
 
 # POST
 def course_new(request):

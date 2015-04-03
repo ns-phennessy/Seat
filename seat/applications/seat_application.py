@@ -5,6 +5,7 @@
 # - Ben
 
 from seat.models.teacher import Teacher
+from seat.models.course import Course
 from django.conf import settings
 import logging
 import ldap
@@ -70,12 +71,20 @@ class TeacherApplication:
         try:
             return Teacher.objects.get(id=user_id)
         except Exception, error:
-            log.warn(str(error))
+            log.info(str(error))
             raise "failed to get_teacher_by_id with id:", user_id
-            return None
 
     def landing_page_url(self, teacher):
         return '/dashboard/courses/'
+
+    def get_first_course(self, teacher):
+        try:
+            if teacher.courses.count() == 0:
+                return None
+            return teacher.courses.all()[0]
+        except Exception, error:
+            logger.info(str(error))
+            raise "failed to get teacher's first course"
 
 class SessionApplication:
     def logout(self, request):
@@ -93,11 +102,12 @@ class RoutingApplication:
 
 class CourseApplication:
     def get_course_by_id(self, course_id):
-         try:
-            return Course.objects.get(id=course_id)
+        try:
+            course = Course.objects.get(id=course_id)
+            return course
         except Exception, error:
-            log.warn(str(error))
-            raise "failed to get course with id:", course_id
+            logger.info("get_course_by_id error:"+str(error))
+            raise error
             return None       
 
 class EditingExamsApplication:
