@@ -42,15 +42,15 @@ def dashboard_index(request):
         logger.error("unhandled error in dashboard_index:"+str(error))
         return redirect( routingApplication.error_url(request) )
 
-def course(request, course_id):
+def courses(request, course_id):
     try:
         if request.method != 'GET':
-            logger.info("course::non-get request received at course endpoint"+str(request))
+            logger.info("courses::non-get request received at courses endpoint"+str(request))
             return redirect( routingApplication.invalid_request_url(request) )
 
         teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
         if not teacher:
-            logger.info("course::user who was not teacher hit course endpoint"+str(request))
+            logger.info("courses::user who was not teacher hit courses endpoint"+str(request))
             sessionApplication.logout(request)
             return redirect( routingApplication.invalid_permissions_url(request) )
 
@@ -60,7 +60,7 @@ def course(request, course_id):
             try:
                 course_to_display = courseApplication.get_course_by_id(course_id)
             except Exception, error:
-                logger.info("course::course not found with id "+str(course_id)+" error:"+str(error))
+                logger.info("courses::courses not found with id "+str(course_id)+" error:"+str(error))
                 return redirect( '/dashboard/courses/' )
         else: 
             course_to_display = teacherApplication.get_first_course(teacher)
@@ -69,7 +69,7 @@ def course(request, course_id):
             return render(
                 request,
                 dashboard_view_models.get_course_url(),
-                dashboard_view_models.get_course_context(teacher, course_id, course))
+                dashboard_view_models.get_course_context(teacher, course_id, course_to_display))
         else:
             return render(
                 request,
@@ -77,7 +77,7 @@ def course(request, course_id):
                 dashboard_view_models.get_nocourse_context(teacher))
 
     except Exception, error:
-        logger.error("course::unhandled error in course:"+str(error))
+        logger.error("courses::unhandled error:"+str(error))
         return redirect( routingApplication.error_url(request) )
 
 # POST

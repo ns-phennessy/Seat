@@ -4,7 +4,7 @@ function submitAddCourse() {
 
     $('#addCourseModal .ui.form').addClass('loading');
 
-    $.post('/dashboard/courses/new', {
+    $.post('/api/course', {
       name : courseName,
       csrfmiddlewaretoken : middlewareToken
     }, function() {

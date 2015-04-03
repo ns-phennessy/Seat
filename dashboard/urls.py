@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 
 urlpatterns = patterns('',
 	url(r'^/?$', 						views.dashboard_index),
-    url(r'^courses/(\d+)?/?$',          views.course),
+    url(r'^courses/(\d+)?/?$',          views.courses),
     url(r'^courses/new/?$',             views.course_new),
     url(r'^exams/(\d+)/?$',             views.exam),
     url(r'^exams/(\d+)/edit/?$',        views.exam_edit),

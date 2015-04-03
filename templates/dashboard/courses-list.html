@@ -4,9 +4,9 @@
     <div class="ui fluid vertical blue menu">
         {% for course in teacher.courses.all %}
             {% if course.id == courseNum %}
-                <a href="{% url 'dashboard.views.course' course.id %}" class="active item">{{ course.name }}</a>
+                <a href="{% url 'dashboard.views.courses' course.id %}" class="active item">{{ course.name }}</a>
             {% else %}
-                <a href="{% url 'dashboard.views.course' course.id %}" class="item">{{ course.name }}</a>
+                <a href="{% url 'dashboard.views.courses' course.id %}" class="item">{{ course.name }}</a>
             {% endif %}
         {% endfor %}
         <a class="item ui faded text center aligned" id="addCourseBtn"> <span><i class="icon plus"></i>Add Course</span></a>
