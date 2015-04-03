@@ -134,7 +134,19 @@ class CourseApplication:
         except Exception, error:
             logger.info("get_course_by_id error:"+str(error))
             raise error
-            return None       
+            return None
+            
+    def create_exam(self, course, name):
+        try:
+            new_exam = Exam.objects.create(name=name)
+            new_exam.save()
+            course.exams.add(new_exam)
+            course.save()
+            return new_exam
+        except Exception, error:
+            logger.info("create_exam error:"+str(error))
+            raise error
+            return None
 
 class EditingExamsApplication:
     pass
