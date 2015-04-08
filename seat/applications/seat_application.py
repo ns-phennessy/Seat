@@ -98,14 +98,14 @@ class TeacherApplication:
             logger.warn("failed to add course!:"+str(error))
             raise(error)
 
-    def update_course(teacher, course_id, name):
+    def update_course(self, teacher, course_id, name):
         try:
             Course.objects.update(id=course_id, name=name)
         except Exception, error:
             logger.warn("failed to update course!:"+str(error))
             raise(error)
 
-    def delete_course(teacher, course_id):
+    def delete_course(self, teacher, course_id):
         try:
             Course.objects.delete(id=course_id)
         except Exception, error:
@@ -134,7 +134,37 @@ class CourseApplication:
         except Exception, error:
             logger.info("get_course_by_id error:"+str(error))
             raise error
-            return None       
+            return None
+            
+    def create_exam(self, course, name):
+        try:
+            new_exam = Exam.objects.create(name=name)
+            new_exam.save()
+            course.exams.add(new_exam)
+            course.save()
+            return new_exam
+        except Exception, error:
+            logger.info("create_exam error:"+str(error))
+            raise error
+            return None
+
+class ExamApplication:
+    def get_exam_by_id(self, exam_id):
+        try:
+            exam = Exam.objects.get(id=exam_id)
+            return exam
+
+        except Exception, error:
+            logger.info("get_exam_by_id error:"+str(error))
+            raise error
+
+    def delete_exam(self, exam_id):
+        try:
+            Exam.objects.delete(id=exam_id)
+            
+        except Exception, error:
+            logger.warn("failed to delete exam!:"+str(error))
+            raise(error)
 
 class EditingExamsApplication:
     pass
