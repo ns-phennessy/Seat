@@ -12,7 +12,7 @@ Test Deployment Server: http://test.patcave.info/
 ## Members
  Name             | Role(s)                                                       | Github Handle
  ---------------- | ------------------------------------------------------------- | -------------
- Pat Hennessy     | Point of Contact, Front End Development, Security, Deployment | [ph7vc](http://github.com/ph7vc)
+ Pat Hennessy     | Point of Contact, Front End Development, Security, System Administrator | [ph7vc](http://github.com/ph7vc)
  Nick Pierson     | Front End Development, Back-End Development                   | [ncpierson](http://github.com/ncpierson)
  Ben Sammons      | Back-end Development, Web Services                            | [sammons](http://github.com/sammons)
  Graham Satherlie | Task Management, Database Architect, Data Management Tools    | [gsatherlie](http://github.com/gsatherlie)
