@@ -167,25 +167,37 @@ class ExamApplication:
             logger.warn("failed to delete exam!:"+str(error))
             raise(error)
 
-class EditExamApplication:
-    def get_exam_by_id(self, exam_id):
-        exam = Exam.objects.get(id=exam_id)
-        return exam
-
-    def create_question(self, question):
-        answer = self.create_choice(question['options']['answer'])
-        text = question['prompt']
-        cat = question['type']
-        new_question = Question.objects.create(text=text, category=cat, answer=answer)
-        for choice in question['options']['choices']:
-            new_choice = self.create_choice(choice)
-            new_question.choices.add(new_choice)
-        return new_question
-
+class MultipleChoiceQuestionApplication:
     def create_choice(self, choice):
         new_choice = Choice.objects.create(text=choice)
         new_choice.save()
         return new_choice
+
+    def create_multiple_choice_question(self, question):
+        try:
+            answer = self.create_choice(question['options']['answer'])
+            text = question['prompt']
+            category = question['type']
+            new_question = Question.objects.create(text=text, category=category, answer=answer)
+            for choice in question['options']['choices']:
+                new_choice = self.create_choice(choice)
+                new_question.choices.add(new_choice)
+            new_question.save()
+        except Exception, error:
+            logger.warn("failed to create question in MultipleChoiceQuestionApplication!: "+str(question))
+            raise(error)
+
+class EditExamApplication:
+    def create_question(self, exam_id, question):
+        try:
+            category = question['type']
+            if category == "multiple":
+                return MultipleChoiceQuestionApplication().create_multiple_choice_question(question)
+            else:
+                raise Exception("UNSUPPORTED-TYPE, only supports multiple right now.")
+        except Exception, error:
+            logger.warn("failed to create question in EditExamApplication!: "+str(question))
+            raise(error)
 
 class ManagingCoursesApplication:
     pass

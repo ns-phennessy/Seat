@@ -1,9 +1,11 @@
 from seat.applications.seat_application import TeacherApplication, EditExamApplication
 from django.http import JsonResponse
+from api.helpers import endpoint_checks
 import json
 
 editExamApplication = EditExamApplication()
 
+# POST
 def create_question_success_json_model(id):
     return JsonResponse({
         'success': True,
@@ -11,12 +13,27 @@ def create_question_success_json_model(id):
         'id': str(id)
     })
 
-# POST
+def create_question_failure_json_model():
+    return JsonResponse({
+        'success' : False,
+        'error' : True,
+        'message' : str(message)
+    })
+
+def create_question_logic(teacher, request):
+    try:
+        exam_id = request.POST['exam_id']
+        new_question = editExamApplication.create_question(exam_id, request.POST['question'])
+        return create_question_success_json_model(new_question.id)
+    except Exception, error:
+        logger.warn("problem creating question! :"+str(error))
+        return create_question_failure_json_model('failed to create the question, sorry. This is probably a db error.')
+
 def create_question(request):
-    # TODO: tell Pat I need an exam ID (generated when page loaded)
-    exam_data = json.loads(request.body)
-    exam = editExamApplication.get_exam_by_id(exam_data['exam_id'])
-    new_question = editExamApplication.create_question(exam_data['question'])
-    new_question.save()
-    exam.questions.add(new_question)
-    return create_question_success_json_model(new_question.id)
+    return endpoint_checks.standard_teacher_endpoint(
+        "create_question",
+        ['exam_id', 'question'],
+        'POST',
+        request,
+        create_question_logic
+        )

@@ -13,4 +13,28 @@
     </div>
     {% include "dashboard/modals/addCourse.html" %}
 </div>
+<script type="text/javascript">
+ var question = {
+  prompt: 'Sup bro?',
+  type: 'multichoice',
+  options: {
+    answer: 'Blue',
+    choices: ['Green', 'Red']
+  }
+}
+
+var data = {
+    exam_id: 1,
+    question: question
+}
+
+$.ajax({
+  url: '/api/question',
+  type: 'POST',
+  data: JSON.stringify(data),
+  beforeSend: function(xhr) {
+    xhr.setRequestHeader('X-CSRFToken', '{{csrf_token}}');
+  }
+});
+</script>
 

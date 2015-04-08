@@ -4,8 +4,10 @@ class Choice(models.Model):
     text = models.TextField()
 
 class Question(models.Model):
-    category = models.TextField()
     text = models.TextField()
+    category = models.TextField()
+
+class MultipleChoiceQuestion(Question):
     choices = models.ManyToManyField(Choice, related_name='question_choices')
     answer = models.ForeignKey(Choice, related_name='question_answer', null=True)
 
