@@ -5,3 +5,5 @@
 migrations/
 .secretKey
 db.sqlite3
+log.txt
+logfile
