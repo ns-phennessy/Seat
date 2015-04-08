@@ -15,13 +15,13 @@ def course(request, course_id = None):
 
 def exam(request):
     if request.method == 'POST':
-        return exam_methods.create_course(request)
+        return exam_methods.create_exam(request)
     elif request.method == 'PUT':
-        return exam_methods.update_course(request, course_id)
+        return exam_methods.update_exam(request)
     elif request.method == 'DELETE':
-        return exam_methods.delete_course(request, course_id)
+        return exam_methods.delete_exam(request)
     elif request.method == 'GET':
-        return exam_methods.get_course(request, course_id)
+        return exam_methods.get_exam(request)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
 
