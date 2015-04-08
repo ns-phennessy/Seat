@@ -2,6 +2,9 @@ from seat.applications.seat_application import TeacherApplication, EditExamAppli
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
 import json
+import logging
+
+logger = logging.getLogger('api')
 
 editExamApplication = EditExamApplication()
 
@@ -13,7 +16,7 @@ def create_question_success_json_model(id):
         'id': str(id)
     })
 
-def create_question_failure_json_model():
+def create_question_failure_json_model(message):
     return JsonResponse({
         'success' : False,
         'error' : True,
@@ -22,8 +25,9 @@ def create_question_failure_json_model():
 
 def create_question_logic(teacher, request):
     try:
+        question = json.loads(request.POST.get('question'))
         exam_id = request.POST['exam_id']
-        new_question = editExamApplication.create_question(exam_id, request.POST['question'])
+        new_question = editExamApplication.create_question(exam_id, question)
         return create_question_success_json_model(new_question.id)
     except Exception, error:
         logger.warn("problem creating question! :"+str(error))

@@ -6,7 +6,7 @@
 
 from seat.models.teacher import Teacher
 from seat.models.course import Course
-from seat.models.exam import Exam, Question, Choice
+from seat.models.exam import Exam, Question, MultipleChoiceQuestion, Choice
 from django.conf import settings
 import logging
 import ldap
@@ -167,6 +167,7 @@ class ExamApplication:
             logger.warn("failed to delete exam!:"+str(error))
             raise(error)
 
+
 class MultipleChoiceQuestionApplication:
     def create_choice(self, choice):
         new_choice = Choice.objects.create(text=choice)
@@ -178,11 +179,16 @@ class MultipleChoiceQuestionApplication:
             answer = self.create_choice(question['options']['answer'])
             text = question['prompt']
             category = question['type']
-            new_question = Question.objects.create(text=text, category=category, answer=answer)
+            new_question = MultipleChoiceQuestion.objects.create(
+                text = text,
+                answer = answer,
+                category = 'multichoice'
+                )
             for choice in question['options']['choices']:
                 new_choice = self.create_choice(choice)
                 new_question.choices.add(new_choice)
             new_question.save()
+            return new_question
         except Exception, error:
             logger.warn("failed to create question in MultipleChoiceQuestionApplication!: "+str(question))
             raise(error)
@@ -191,7 +197,7 @@ class EditExamApplication:
     def create_question(self, exam_id, question):
         try:
             category = question['type']
-            if category == "multiple":
+            if category == "multichoice":
                 return MultipleChoiceQuestionApplication().create_multiple_choice_question(question)
             else:
                 raise Exception("UNSUPPORTED-TYPE, only supports multiple right now.")
