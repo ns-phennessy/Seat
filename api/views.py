@@ -1,4 +1,4 @@
-from api.resources import course_methods
+from api.resources import course_methods, question_methods
 from django.http import HttpResponseNotAllowed
 
 def course(request, course_id = None):
@@ -25,4 +25,6 @@ def exam(request):
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
 
-
+def question(request):
+    if request.method == 'POST':
+        return question_methods.create_question(request)

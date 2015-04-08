@@ -6,6 +6,7 @@
 
 from seat.models.teacher import Teacher
 from seat.models.course import Course
+from seat.models.exam import Exam, Question, Choice
 from django.conf import settings
 import logging
 import ldap
@@ -135,7 +136,7 @@ class CourseApplication:
             logger.info("get_course_by_id error:"+str(error))
             raise error
             return None
-            
+
     def create_exam(self, course, name):
         try:
             new_exam = Exam.objects.create(name=name)
@@ -148,8 +149,25 @@ class CourseApplication:
             raise error
             return None
 
-class EditingExamsApplication:
-    pass
+class EditExamApplication:
+    def get_exam_by_id(self, exam_id):
+        exam = Exam.objects.get(id=exam_id)
+        return exam
+
+    def create_question(self, question):
+        answer = self.create_choice(question['options']['answer'])
+        text = question['prompt']
+        cat = question['type']
+        new_question = Question.objects.create(text=text, category=cat, answer=answer)
+        for choice in question['options']['choices']:
+            new_choice = self.create_choice(choice)
+            new_question.choices.add(new_choice)
+        return new_question
+
+    def create_choice(self, choice):
+        new_choice = Choice.objects.create(text=choice)
+        new_choice.save()
+        return new_choice
 
 class ManagingCoursesApplication:
     pass
