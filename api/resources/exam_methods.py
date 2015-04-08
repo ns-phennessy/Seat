@@ -56,7 +56,7 @@ def create_exam(request):
                     return create_exam_success_json_model(new_exam.id)
                 except Exception, error:
                     logger.warn("problem creating exam! :"+str(error))
-                    return create_exam_failure_json_model('failed to delete the exam, sorry. This is probably a db error.')
+                    return create_exam_failure_json_model('failed to create the exam, sorry. This is probably a db error.')
     except Exception, error:
         logger.info("error in api endpoint create_exam:"+str(error))
         return HttpResponseServerError("unhandled error when creating the exam!")
