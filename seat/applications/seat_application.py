@@ -99,14 +99,14 @@ class TeacherApplication:
             logger.warn("failed to add course!:"+str(error))
             raise(error)
 
-    def update_course(teacher, course_id, name):
+    def update_course(self, teacher, course_id, name):
         try:
             Course.objects.update(id=course_id, name=name)
         except Exception, error:
             logger.warn("failed to update course!:"+str(error))
             raise(error)
 
-    def delete_course(teacher, course_id):
+    def delete_course(self, teacher, course_id):
         try:
             Course.objects.delete(id=course_id)
         except Exception, error:
