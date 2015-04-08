@@ -16,7 +16,10 @@ def get_dict_by_method(request, method):
     if method == "PUT": return request.PUT
 
 def all_required_values_present(values, request, method):
-    
+    dict = get_dict_by_method(request, method)
+    for key in values:
+        if not key in dict:
+            return False
     return True
 
 # @required_values = array of necessary values for the endpoint to function
