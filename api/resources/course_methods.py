@@ -92,7 +92,7 @@ def update_course_failure_json_model(message):
 def update_course_logic(teacher, request):
     try:
         # presently only the name can be updated
-        new_course = teacherApplication.update_course(teacher, course_id, name)
+        new_course = teacherApplication.update_course(teacher, request.PUT['course_id'], request.PUT['name'])
         return update_course_success_json_model()
     except Exception, error:
         logger.warn("problem updating course! :"+str(error))
