@@ -92,6 +92,7 @@
 		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
 			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
 			<h3 class="ui left floated header">New Question</h3>
+            {% csrf_token %}
 
 			<div class="field">
 				<label for="prompt">Prompt:</label>
@@ -99,7 +100,7 @@
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
-			<select class="ui dropdown">
+			<select class="ui dropdown" name="type">
 				<option value="multichoice">Multiple Choice</option>
 				<option value="truefalse">True / False</option>
 				<option value="shortanswer">Short Answer</option>
@@ -123,7 +124,7 @@
 						<div class="six wide field">
 							<label></label>
 							<div class="ui icon input">
-								<input type="text" placeholder="New Option...">
+								<input type="text" name="choice" placeholder="New Option...">
 								<i class="delete icon"></i>
 							</div>
 						</div>
@@ -139,7 +140,7 @@
 						<div class="six wide field">
 							<label></label>
 							<div class="ui input">
-								<input type="text" placeholder="New Option...">
+								<input type="text" name="choice" placeholder="New Option...">
 							</div>
 						</div>
 					</div>
@@ -184,6 +185,10 @@
 {% block javascript %}
 
 {% load static %}
+<script src="{% static 'js/jquery.cookie.js' %}"></script>
+<script src="{% static 'js/add-course.js' %}"></script>
+<script src="{% static 'js/exam.js' %}"></script>
+
 <script>
     (function ($) {
         $.fn.questionForm = function(options){
@@ -279,7 +284,39 @@
             });
 
             form.find(settings.saveButton).on('click', function(){
-                //TODO save stuff!!!
+                question = form.form('get values');
+                question.options = {}
+
+                var choices = $('input[name=choice]');
+                choices = choices.map(function() { return $(this).val() }).get();
+
+                var selectedRadio = form.find('input:radio[checked=checked]');
+                var selectedInput = selectedRadio.closest('.fields').find('input:text');
+                var answer = selectedInput.val();
+
+                var answerIndex = choices.indexOf(answer);
+                choices.splice(answerIndex, 1);
+
+                question.options.choices = choices;
+                question.options.answer = answer;
+
+                data = {
+                    exam_id: {{ exam.id }},
+                    question: JSON.stringify(question)
+                }
+
+                var token = form.find('input[name=csrfmiddlewaretoken]').val();
+                console.log(token);
+
+                $.ajax({
+                    url: '/api/question',
+                    type: 'POST',
+                    data: data,
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('X-CSRFToken', token);
+                    }
+                });
+
                 form.setLoading();
                 setTimeout(	function(){
                     $('#newquestionform .dimmer').dimmer('show'); 
@@ -293,15 +330,11 @@
 
 
             });
-
+            return this;
         };
     }(jQuery));
 
     $('#newquestionform').questionForm();
 </script>
-
-<script src="{% static 'js/jquery.cookie.js' %}"></script>
-<script src="{% static 'js/add-course.js' %}"></script>
-<script src="{% static 'js/exam.js' %}"></script>
 
 {% endblock %}
