@@ -1,20 +1,20 @@
 <div class="ui small modal" id="renameCourseModal">
-	<i class="close icon"></i>
-	<div class="header">
-		Rename Course
-	</div>
-	<div class="content">
-		<form class="ui form">
- 			{% csrf_token %}
+	<form class="ui form">
+		<i class="close icon"></i>
+		<div class="header">
+			Rename Course
+		</div>
+		<div class="content">
+			{% csrf_token %}
 			<div class="field">
 				<label>Course Name</label>
 				<input name="course_name" type="text">
 			</div>
-		</form>
-	</div>
-	<div class="actions">
-		<div class="ui blue save button">Save</div>
-		<div class="ui close button">Cancel</div>
-	</div>
+		</div>
+		<div class="actions">
+			<div class="ui blue save button">Save</div>
+			<div class="ui close button">Cancel</div>
+		</div>
+	</form>
 </div>
 

@@ -48,9 +48,3 @@ $('.ui.button[data-role="renameCourse"]').on('click', function(){
 	$('#renameCourseModal.ui.modal').modal('show');
 });
 
-$('input[name=course_name]').keypress(function(e) {
-	if (e.keyCode == 13) {
-		e.preventDefault();
-		submitAddCourse();
-	}
-});
