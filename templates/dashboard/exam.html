@@ -109,7 +109,7 @@
 			<div class="ui segment">
 
 				<!-- Multiple Choice -->
-				<form class="ui form">
+				<form class="ui form" name="multichoice">
 					<div class="class five wide field">
 						<label>Options:</label>
 					</div>
@@ -148,7 +148,7 @@
 			</div>
 
 			<!-- True / False-->
-			<form class="ui hidden form">
+			<form class="ui hidden form" name="truefalse">
 				<div class="field">
 					<label>Answer:</label>
 					<span>False</span>
@@ -283,14 +283,17 @@
 
             });
 
-            form.find(settings.saveButton).on('click', function(){
+            form.multiChoiceData = function() {
                 question = form.form('get values');
                 question.options = {}
 
-                var choices = $('input[name=choice]');
-                choices = choices.map(function() { return $(this).val() }).get();
+                var multiform = form.find('form[name=multichoice]');
+                var choices = multiform.find('input[name=choice]');
+                choices = choices.map(function() {
+                    return $(this).val();
+                }).get();
 
-                var selectedRadio = form.find('input:radio[checked=checked]');
+                var selectedRadio = multiform.find('input:radio[checked=checked]');
                 var selectedInput = selectedRadio.closest('.fields').find('input:text');
                 var answer = selectedInput.val();
 
@@ -300,13 +303,24 @@
                 question.options.choices = choices;
                 question.options.answer = answer;
 
+                return question;
+            };
+
+            form.find(settings.saveButton).on('click', function(){
+                form.setLoading();
+
+                var type = form.find('select[name=type]').val();
+                var question;
+                if (type === 'multichoice') {
+                    question = form.multiChoiceData();
+                }
+
                 data = {
                     exam_id: {{ exam.id }},
                     question: JSON.stringify(question)
                 }
 
                 var token = form.find('input[name=csrfmiddlewaretoken]').val();
-                console.log(token);
 
                 $.ajax({
                     url: '/api/question',
@@ -314,22 +328,14 @@
                     data: data,
                     beforeSend: function(xhr) {
                         xhr.setRequestHeader('X-CSRFToken', token);
+                    },
+                    success: function() {
+                        $('#newquestionform .dimmer').dimmer('show');
+                        location.reload();
                     }
                 });
-
-                form.setLoading();
-                setTimeout(	function(){
-                    $('#newquestionform .dimmer').dimmer('show'); 
-
-                    setTimeout(	function(){
-                        form.close();
-                        form.clear();
-                    }, 1000);
-
-                }, 5000);
-
-
             });
+
             return this;
         };
     }(jQuery));
