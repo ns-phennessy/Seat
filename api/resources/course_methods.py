@@ -67,7 +67,7 @@ def delete_course_logic(teacher, request):
         logger.warn("problem deleting course! :"+str(error))
         return delete_course_failure_json_model('failed to delete the course, sorry. This is probably a db error.')
 
-def delete_course(request, course_id):
+def delete_course(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_course",
         ['course_id'],
@@ -92,7 +92,7 @@ def update_course_failure_json_model(message):
 def update_course_logic(teacher, request):
     try:
         # presently only the name can be updated
-        new_course = teacherApplication.update_course(teacher, course_id, name)
+        new_course = teacherApplication.update_course(teacher, request.PUT['course_id'], request.PUT['name'])
         return update_course_success_json_model()
     except Exception, error:
         logger.warn("problem updating course! :"+str(error))

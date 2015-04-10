@@ -41,10 +41,3 @@ $('#addCourseModal.ui.modal').modal(
 $('#addCourseBtn').on('click', function(){
 	$('#addCourseModal.ui.modal').modal('show');
 });
-
-$('input[name=course_name]').keypress(function(e) {
-  if (e.keyCode == 13) {
-    e.preventDefault();
-    submitAddCourse();
-  }
-});
