@@ -8,7 +8,7 @@ function submitDeleteCourse() {
        url: '/api/course/',
        data: { course_id: $('#course-id').val() },
        beforeSend: function(xhr) {
-           xhr.setRequestHeader('X-CSRFToken', middlewareToken );
+           xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken') );
            xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE');
        },
        success: function() {

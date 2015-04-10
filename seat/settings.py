@@ -52,8 +52,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'seat.urls'
 WSGI_APPLICATION = 'seat.wsgi.application'
 
-CSRF_COOKIE_HTTPONLY = True
-
 # Database
 DATABASES = {
     'default': {
