@@ -10,9 +10,9 @@
                 {{ course.name }}
             </div>
         </h1>
-        
         <div class="ui tiny button">Rename</div>
-        <div class="ui tiny right floated red button">Delete Course</div>
+        <input type="hidden" value="{{course.id}}" id="course-id">
+        <div class="ui tiny right floated red button" id="delete-course">Delete Course</div>
         	
         <div class="ui raised segment" style="padding:2em">
 			{% if course.exams.all %}
@@ -88,6 +88,7 @@
 
 {% load static %}
 <script src="{% static 'js/add-course.js' %}"></script>
+<script src="{% static 'js/delete-course.js' %}"></script>
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/course.js' %}"></script>
 

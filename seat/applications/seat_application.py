@@ -108,7 +108,7 @@ class TeacherApplication:
 
     def delete_course(self, teacher, course_id):
         try:
-            Course.objects.delete(id=course_id)
+            Course.objects.get(id=course_id).delete()
         except Exception, error:
             logger.warn("failed to delete course!:"+str(error))
             raise(error)
