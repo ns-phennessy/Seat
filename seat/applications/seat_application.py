@@ -101,7 +101,9 @@ class TeacherApplication:
 
     def update_course(self, teacher, course_id, name):
         try:
-            Course.objects.update(id=course_id, name=name)
+            course = Course.objects.get(id=course_id)
+            course.name = name
+            course.save()
         except Exception, error:
             logger.warn("failed to update course!:"+str(error))
             raise(error)

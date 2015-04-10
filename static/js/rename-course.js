@@ -1,19 +1,25 @@
 function submitRenameCourse() {
-	var courseName = $('#addCourseModal .ui.form input[name="course_name"]').val();
-	var middlewareToken = $('#addCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
+	var courseName = $('#renameCourseModal .ui.form input[name="course_name"]').val();
+	var middlewareToken = $('#renameCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
 
-	$('#addCourseModal .ui.form').addClass('loading');
+	$('#renameCourseModal .ui.form').addClass('loading');
 
-	$.post('/api/course', {
-		name : courseName,
-		csrfmiddlewaretoken : middlewareToken
-	}, function() {
-		$('#renameCourseModal.ui.modal').modal('hide');
-		location.reload();
-
-	}).fail(function() {
-		console.log(arguments);
-	})
+	$.ajax({
+       type: "POST",
+       url: '/api/course/',
+       data: { course_id: $('#course-id').val(), name: courseName },
+       beforeSend: function(xhr) {
+           xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken') );
+           xhr.setRequestHeader('X-METHODOVERRIDE', 'PUT');
+       },
+       success: function() {
+           console.log('success');
+           location.reload();
+       },
+       fail : function() {
+       		console.log('failure');
+       }
+   })
 }
 
 $('#renameCourseModal .ui.save.button').click(function(e) {
@@ -42,9 +48,3 @@ $('.ui.button[data-role="renameCourse"]').on('click', function(){
 	$('#renameCourseModal.ui.modal').modal('show');
 });
 
-$('input[name=course_name]').keypress(function(e) {
-	if (e.keyCode == 13) {
-		e.preventDefault();
-		submitAddCourse();
-	}
-});
