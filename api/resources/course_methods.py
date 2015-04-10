@@ -67,7 +67,7 @@ def delete_course_logic(teacher, request):
         logger.warn("problem deleting course! :"+str(error))
         return delete_course_failure_json_model('failed to delete the course, sorry. This is probably a db error.')
 
-def delete_course(request, course_id):
+def delete_course(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_course",
         ['course_id'],
