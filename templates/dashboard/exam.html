@@ -58,7 +58,7 @@
 
             <div class="ui divided items">
 
-                {% for question in exam.questions.all %}
+                {% for question in exam.question_set.all %}
                 <div class="item" data-role="question">
                     <div class="content">
                         <div class="header">Question {{ forloop.counter }}</div>
