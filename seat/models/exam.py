@@ -6,8 +6,6 @@ class Choice(models.Model):
 class Question(models.Model):
     text = models.TextField()
     category = models.TextField()
-
-class MultipleChoiceQuestion(Question):
     choices = models.ManyToManyField(Choice, related_name='question_choices')
     answer = models.ForeignKey(Choice, related_name='question_answer', null=True)
 
