@@ -162,8 +162,10 @@
 
 			<div class="ui tiny header">Question Type:</div>
 			<select class="ui dropdown">
-				<option value="1">Multiple Choice</option>
-				<option value="0">True / False</option>
+				<option value="multichoice">Multiple Choice</option>
+				<option value="truefalse">True / False</option>
+				<option value="shortanswer">Short Answer</option>
+				<option value="essay">Essay</option>
 			</select>
 			<div class="ui segment">
 
@@ -172,11 +174,28 @@
 					<div class="class five wide field">
 						<label>Options:</label>
 					</div>
+					
 					<div class="two fields">
-						<div class="one wide field">
-							<label></label>
+						<div class="one wide field" style="line-height: 3rem">
 							<div class="ui radio checkbox">
-								<input type="radio" name="fruit" checked>
+								<input type="radio" name="option" checked="checked">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<label></label>
+							<div class="ui icon input">
+								<input type="text" placeholder="New Option...">
+								<i class="delete icon"></i>
+							</div>
+						</div>
+					</div>
+					
+					<div class="two fields">
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option">
+								<label for="option"></label>
 							</div>
 						</div>
 						<div class="six wide field">
@@ -186,6 +205,7 @@
 							</div>
 						</div>
 					</div>
+					
 				</form>
 			</div>
 
@@ -198,18 +218,14 @@
 						<input type="checkbox" name="public">
 					</div>
 					<span>True</span>
-
 				</div>
-
 			</form>
-
 
 			<div class="ui divider"></div>
 			<div class="two fields">                                
 				<div class="ui right floated button" data-role="close">Cancel</div>
 				<div class="ui blue button" data-role="save">Save Question</div>
 			</div>
-
 
 			<div class="ui inverted dimmer">
 				<h2 class="ui icon header">
@@ -231,6 +247,7 @@
 
 			$('.ui.menu .item').tab();
 			$('.ui.dropdown').dropdown();
+			$('.ui.checkbox').checkbox();
 
 			var examData = {
 				"name":'Example Exam',

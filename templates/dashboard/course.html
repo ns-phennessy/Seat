@@ -3,6 +3,7 @@
 {% block pagecontent %}
 
     {% include "dashboard/courses-list.html" %}
+	{% include "dashboard/modals/renameCourse.html" %}
 
     <div class="twelve wide column" id="main">
         <h1 class="ui dividing header">
@@ -10,7 +11,7 @@
                 {{ course.name }}
             </div>
         </h1>
-        <div class="ui tiny button">Rename</div>
+        <div class="ui tiny button" data-role="renameCourse">Rename</div>
         <input type="hidden" value="{{course.id}}" id="course-id">
         <div class="ui tiny right floated red button" id="delete-course">Delete Course</div>
         	
@@ -88,6 +89,7 @@
 
 {% load static %}
 <script src="{% static 'js/add-course.js' %}"></script>
+<script src="{% static 'js/rename-course.js' %}"></script>
 <script src="{% static 'js/delete-course.js' %}"></script>
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/course.js' %}"></script>
