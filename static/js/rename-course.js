@@ -26,6 +26,11 @@ $('#renameCourseModal .ui.save.button').click(function(e) {
 	submitRenameCourse();
 });
 
+$('#renameCourseModal .ui.form').on('submit', function(e){
+	e.preventDefault();
+	submitRenameCourse();
+});
+
 $('#renameCourseModal.ui.modal').modal(
 	{
 		transition:'fly down',
