@@ -15,10 +15,18 @@ def get_dict_by_method(request, method):
     if method == "DELETE": return request.DELETE
     if method == "PUT": return request.PUT
 
+
+def key_is_substring_of_some_dict_key(key, dict):
+    for dict_key in dict.keys():
+        if dict_key.find(key) >= 0:
+            return True
+    return False
+
 def all_required_values_present(values, request, method):
     dict = get_dict_by_method(request, method)
+    keys = dict.keys()
     for key in values:
-        if key not in dict:
+        if not key_is_substring_of_some_dict_key(key, dict):
             return False
     return True
 

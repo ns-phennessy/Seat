@@ -10,12 +10,6 @@ logger = logging.getLogger('api')
 teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
 
-def all_required_values_present(values, dict):
-    for key in values:
-        if key not in dict:
-            return False
-    return True
-
 # POST
 def create_exam_success_json_model(id):
     return JsonResponse({

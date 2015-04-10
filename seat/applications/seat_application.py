@@ -6,6 +6,7 @@
 
 from seat.models.teacher import Teacher
 from seat.models.course import Course
+from seat.models.exam import Exam, Question, Question, Choice
 from django.conf import settings
 import logging
 import ldap
@@ -107,7 +108,7 @@ class TeacherApplication:
 
     def delete_course(self, teacher, course_id):
         try:
-            Course.objects.delete(id=course_id)
+            Course.objects.get(id=course_id).delete()
         except Exception, error:
             logger.warn("failed to delete course!:"+str(error))
             raise(error)
@@ -135,7 +136,7 @@ class CourseApplication:
             logger.info("get_course_by_id error:"+str(error))
             raise error
             return None
-            
+
     def create_exam(self, course, name):
         try:
             new_exam = Exam.objects.create(name=name)
@@ -166,8 +167,43 @@ class ExamApplication:
             logger.warn("failed to delete exam!:"+str(error))
             raise(error)
 
-class EditingExamsApplication:
-    pass
+
+class QuestionApplication:
+    def create_choice(self, choice):
+        new_choice = Choice.objects.create(text=choice)
+        new_choice.save()
+        return new_choice
+
+    def create_multiple_choice_question(self, question):
+        try:
+            answer = self.create_choice(question['options']['answer'])
+            text = question['prompt']
+            category = question['type']
+            new_question = Question.objects.create(
+                text = text,
+                answer = answer,
+                category = 'multichoice'
+                )
+            for choice in question['options']['choices']:
+                new_choice = self.create_choice(choice)
+                new_question.choices.add(new_choice)
+            new_question.save()
+            return new_question
+        except Exception, error:
+            logger.warn("failed to create question in QuestionApplication!: "+str(question))
+            raise(error)
+
+class EditExamApplication:
+    def create_question(self, exam_id, question):
+        try:
+            category = question['type']
+            if category == "multichoice":
+                return QuestionApplication().create_multiple_choice_question(question)
+            else:
+                raise Exception("UNSUPPORTED-TYPE, only supports multiple right now.")
+        except Exception, error:
+            logger.warn("failed to create question in EditExamApplication!: "+str(question))
+            raise(error)
 
 class ManagingCoursesApplication:
     pass
