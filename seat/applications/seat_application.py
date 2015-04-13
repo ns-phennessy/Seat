@@ -73,8 +73,8 @@ class TeacherApplication:
         try:
             return Teacher.objects.get(id=user_id)
         except Exception, error:
-            log.info(str(error))
-            raise "failed to get_teacher_by_id with id:", user_id
+            logger.info("failed to get_teacher_by_id with id:", user_id)
+            raise Exception("failed to get_teacher_by_id with id:", user_id)
 
     def landing_page_url(self, teacher):
         return "/dashboard/courses/"
