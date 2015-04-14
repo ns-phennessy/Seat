@@ -13,4 +13,5 @@ obj/
 bin/
 web.config
 web.debug.config
+seat.v12*
 debug.log*
