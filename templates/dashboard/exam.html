@@ -30,15 +30,11 @@
             <div class="two fields">
                 <div class="field">
                     <label>Exam Name</label>
-                    <input value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
+                    <input disabled value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
                 </div>
                 <div class="field">
                     <label>Course</label>
-                    <select class="ui dropdown">
-                        {% for course in teacher.courses.all %}
-                        <option value="{{ course.id }}">{{ course.name }}</option>
-                        {% endfor %}
-                    </select>
+                    <input disabled value="{{ exam.course.name }}" type="text">
                 </div>
 
             </div>
