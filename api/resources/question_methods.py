@@ -92,7 +92,9 @@ def delete_question_failure_json_model(message):
 def delete_question_logic(teacher, request):
     try:
         #TODO: test that teacher owns resource
-        raise Exception("UNSUPPORTED")
+        question_id = request.DELETE['question_id']
+        questionApplication.delete_question(question_id)
+        return delete_question_success_json_model()
     except Exception, error:
         logger.warn("problem deleting question! :"+str(error))
         return delete_question_failure_json_model('failed to delete the question, sorry. This is probably a db error.')
@@ -100,8 +102,8 @@ def delete_question_logic(teacher, request):
 def delete_question(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_question",
-        ['exam_id', 'question'],
-        'POST',
+        ['question_id'],
+        'DELETE',
         request,
         delete_question_logic
         )

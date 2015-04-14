@@ -41,3 +41,10 @@ class QuestionApplication(object):
         except Exception, error:
             logger.warn("failed to create question in QuestionApplication!: "+str(question))
             raise(error)
+
+    def delete_question(self, question_id):
+        try:
+            Question.objects.get(id=question_id).delete()
+        except Exception, error:
+            logger.warn("failed to delete question!:"+str(error))
+            raise(error)

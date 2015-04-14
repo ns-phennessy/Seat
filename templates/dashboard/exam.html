@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="two wide column center aligned">
                                     <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
-                                    <div class="ui mini red icon button" data-role="delete" data-action="{% url 'dashboard.views.question' question.id %}" data-content="Delete">
+                                    <div class="ui mini red icon button" data-role="delete" data-id="{{ question.id }}" data-content="Delete">
                                         {% csrf_token %}
                                         <i class="delete icon"></i>
                                     </div>
