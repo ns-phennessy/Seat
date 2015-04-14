@@ -1,4 +1,4 @@
-from api.resources import course_methods, question_methods, exam_methods
+from api.resources import course_methods, question_methods, exam_methods, token_methods
 from django.http import HttpResponseNotAllowed
 
 def course(request, course_id = None):
@@ -34,5 +34,17 @@ def question(request):
         return question_methods.delete_question(request)
     elif request.method == 'GET':
         return question_methods.get_question(request)
+    else:
+        return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
+
+def token(request):
+    if request.method == 'POST':
+        return token_methods.create_token(request)
+    elif request.method == 'PUT':
+        return token_methods.update_token(request)
+    elif request.method == 'DELETE':
+        return token_methods.delete_token(request)
+    elif request.method == 'GET':
+        return token_methods.get_token(request)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
