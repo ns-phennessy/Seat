@@ -37,6 +37,7 @@
     <Compile Include="api\resources\course_methods.py" />
     <Compile Include="api\resources\exam_methods.py" />
     <Compile Include="api\resources\question_methods.py" />
+    <Compile Include="api\resources\token_methods.py" />
     <Compile Include="api\resources\__init__.py" />
     <Compile Include="api\urls.py" />
     <Compile Include="api\views.py" />
