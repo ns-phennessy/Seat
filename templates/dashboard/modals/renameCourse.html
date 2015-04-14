@@ -3,14 +3,16 @@
 	<div class="header">
 		Rename Course
 	</div>
+
 	<div class="content">
 		<form class="ui form">
- 			{% csrf_token %}
+			{% csrf_token %}
 			<div class="field">
 				<label>Course Name</label>
 				<input name="course_name" type="text">
 			</div>
 		</form>
+
 	</div>
 	<div class="actions">
 		<div class="ui blue save button">Save</div>

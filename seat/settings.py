@@ -40,6 +40,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'seat.middleware.methods.HttpPostTunnelingMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,8 +52,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'seat.urls'
 WSGI_APPLICATION = 'seat.wsgi.application'
-
-CSRF_COOKIE_HTTPONLY = True
 
 # Database
 DATABASES = {

@@ -18,7 +18,12 @@ function submitAddCourse() {
 
 $('#addCourseModal .ui.save.button').click(function(e) {
   submitAddCourse();
-})
+});
+
+$('#addCourseModal .ui.form').on('submit', function(e){
+	e.preventDefault();
+	submitAddCourse();
+});
 
 $('#addCourseModal.ui.modal').modal(
 	{
@@ -40,11 +45,4 @@ $('#addCourseModal.ui.modal').modal(
 
 $('#addCourseBtn').on('click', function(){
 	$('#addCourseModal.ui.modal').modal('show');
-});
-
-$('input[name=course_name]').keypress(function(e) {
-  if (e.keyCode == 13) {
-    e.preventDefault();
-    submitAddCourse();
-  }
 });
