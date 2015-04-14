@@ -1,6 +1,6 @@
 from seat.applications.seat_application import TeacherApplication, CourseApplication
 from seat.models.teacher import Teacher
-from seat.models.exam import Course
+from seat.models.course import Course
 from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError, JsonResponse
 from api.helpers import endpoint_checks
 import logging
