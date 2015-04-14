@@ -1,7 +1,7 @@
 import ldap
 import logging
-import django.conf
-
+from django.conf import settings
+from seat.models.teacher import Teacher
 
 class AuthenticationApplication(object):
 
