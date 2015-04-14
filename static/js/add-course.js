@@ -18,7 +18,12 @@ function submitAddCourse() {
 
 $('#addCourseModal .ui.save.button').click(function(e) {
   submitAddCourse();
-})
+});
+
+$('#addCourseModal .ui.form').on('submit', function(e){
+	e.preventDefault();
+	submitAddCourse();
+});
 
 $('#addCourseModal.ui.modal').modal(
 	{
