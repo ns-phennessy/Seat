@@ -14,7 +14,7 @@
         <div class="ui tiny button" data-role="renameCourse">Rename</div>
         <input type="hidden" value="{{course.id}}" id="course-id">
         <div class="ui tiny right floated red button" id="delete-course">Delete Course</div>
-        	
+
         <div class="ui raised segment" style="padding:2em">
 			{% if course.exams.all %}
             <table class="ui very basic padded table">
@@ -76,7 +76,7 @@
 				<h1 class="ui faded text huge header">
 					No exams exist for this course!
 				</h1>
-       			<a class="ui basic blue button" href="{% url 'dashboard.views.exam_new' %}"><i class="plus icon"></i>Create a new exam</a>
+       			<a class="ui basic blue button" href="#"><i class="plus icon"></i>Create a new exam</a>
         	</div>
         	{% endif %}
 
