@@ -11,3 +11,6 @@ requirements.txt
 readme.mht
 obj/
 bin/
+web.config
+web.debug.config
+debug.log*
