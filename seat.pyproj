@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Name>seat</Name>
+    <RootNamespace>seat</RootNamespace>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
+    <InterpreterVersion>2.7</InterpreterVersion>
+    <PythonRunWebServerCommandArguments>runserver --settings $(DjangoSettingsModule) %SERVER_PORT% $(CommandLineArguments)</PythonRunWebServerCommandArguments>
+    <PythonDebugWebServerCommandArguments>runserver --noreload --settings $(DjangoSettingsModule) %SERVER_PORT% $(CommandLineArguments)</PythonDebugWebServerCommandArguments>
+    <DjangoSettingsModule>$(MSBuildProjectName).settings.development</DjangoSettingsModule>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>097d7162-8cb3-459a-9748-2518f3948380</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <OutputPath>.</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="api\helpers\endpoint_checks.py" />
+    <Compile Include="api\helpers\__init__.py" />
+    <Compile Include="api\resources\course_methods.py" />
+    <Compile Include="api\resources\exam_methods.py" />
+    <Compile Include="api\resources\question_methods.py" />
+    <Compile Include="api\resources\__init__.py" />
+    <Compile Include="api\urls.py" />
+    <Compile Include="api\views.py" />
+    <Compile Include="api\__init__.py" />
+    <Compile Include="dashboard\dashboard_view_models.py" />
+    <Compile Include="dashboard\tests.py" />
+    <Compile Include="dashboard\urls.py" />
+    <Compile Include="dashboard\views.py" />
+    <Compile Include="dashboard\__init__.py" />
+    <Compile Include="login\tests.py" />
+    <Compile Include="login\urls.py" />
+    <Compile Include="login\views.py" />
+    <Compile Include="login\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="seat\admin.py" />
+    <Compile Include="seat\applications\seat_application.py" />
+    <Compile Include="seat\applications\__init__.py" />
+    <Compile Include="seat\middleware\exceptions.py" />
+    <Compile Include="seat\middleware\methods.py" />
+    <Compile Include="seat\middleware\__init__.py" />
+    <Compile Include="seat\models\course.py" />
+    <Compile Include="seat\models\exam.py" />
+    <Compile Include="seat\models\student.py" />
+    <Compile Include="seat\models\teacher.py" />
+    <Compile Include="seat\models\user.py" />
+    <Compile Include="seat\models\__init__.py" />
+    <Compile Include="seat\settings\development.py" />
+    <Compile Include="seat\settings\production.py" />
+    <Compile Include="seat\settings\shared.py" />
+    <Compile Include="seat\settings\__init__.py" />
+    <Compile Include="seat\__init__.py" />
+    <Compile Include="seat\urls.py" />
+    <Compile Include="seat\wsgi.py" />
+    <Compile Include="student\tests.py" />
+    <Compile Include="student\views.py" />
+    <Compile Include="student\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="api\" />
+    <Folder Include="api\helpers\" />
+    <Folder Include="api\resources\" />
+    <Folder Include="dashboard\" />
+    <Folder Include="login\" />
+    <Folder Include="seat\" />
+    <Folder Include="seat\applications\" />
+    <Folder Include="seat\middleware\" />
+    <Folder Include="seat\models\" />
+    <Folder Include="seat\settings\" />
+    <Folder Include="static\" />
+    <Folder Include="static\css\" />
+    <Folder Include="static\font\" />
+    <Folder Include="static\img\" />
+    <Folder Include="static\js\" />
+    <Folder Include="student\" />
+    <Folder Include="templates\" />
+    <Folder Include="templates\dashboard\" />
+    <Folder Include="templates\dashboard\common\" />
+    <Folder Include="templates\dashboard\modals\" />
+    <Folder Include="templates\login\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="README.md" />
+    <Content Include="requirements.txt" />
+    <Content Include="db.sqlite3" />
+    <Content Include="seat\models\course.pyc" />
+    <Content Include="seat\models\exam.pyc" />
+    <Content Include="seat\models\student.pyc" />
+    <Content Include="seat\models\teacher.pyc" />
+    <Content Include="seat\models\user.pyc" />
+    <Content Include="seat\models\__init__.pyc" />
+    <Content Include="seat\settings\secret.key" />
+    <Content Include="static\css\semantic-typography.css" />
+    <Content Include="static\css\semantic.min.css" />
+    <Content Include="static\font\icons.eot" />
+    <Content Include="static\font\icons.otf" />
+    <Content Include="static\font\icons.svg" />
+    <Content Include="static\font\icons.ttf" />
+    <Content Include="static\font\icons.woff" />
+    <Content Include="static\font\icons.woff2" />
+    <Content Include="static\img\placeholder" />
+    <Content Include="static\js\add-course.js" />
+    <Content Include="static\js\base.js" />
+    <Content Include="static\js\course.js" />
+    <Content Include="static\js\delete-course.js" />
+    <Content Include="static\js\exam.js" />
+    <Content Include="static\js\jquery.cookie.js" />
+    <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\rename-course.js" />
+    <Content Include="static\js\semantic.min.js" />
+    <Content Include="templates\404.html" />
+    <Content Include="templates\500.html" />
+    <Content Include="templates\dashboard\common\base.html" />
+    <Content Include="templates\dashboard\course.html" />
+    <Content Include="templates\dashboard\courses-list.html" />
+    <Content Include="templates\dashboard\editexam-mockup.html" />
+    <Content Include="templates\dashboard\exam.html" />
+    <Content Include="templates\dashboard\modals\addCourse.html" />
+    <Content Include="templates\dashboard\modals\renameCourse.html" />
+    <Content Include="templates\dashboard\multiple-choice.html" />
+    <Content Include="templates\dashboard\nocourse.html" />
+    <Content Include="templates\dashboard\questions.html" />
+    <Content Include="templates\dashboard\short-answer.html" />
+    <Content Include="templates\dashboard\true-false.html" />
+    <Content Include="templates\login\login.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.mht">
+      <SubType>WebBrowser</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

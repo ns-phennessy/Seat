@@ -7,3 +7,11 @@ migrations/
 db.sqlite3
 log.txt
 logfile
+requirements.txt
+readme.mht
+obj/
+bin/
+web.config
+web.debug.config
+seat.v12*
+debug.log*
