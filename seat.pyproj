@@ -52,7 +52,17 @@
     <Compile Include="login\__init__.py" />
     <Compile Include="manage.py" />
     <Compile Include="seat\admin.py" />
-    <Compile Include="seat\applications\seat_application.py" />
+    <Compile Include="seat\applications\AuthenticationApplication.py" />
+    <Compile Include="seat\applications\CourseApplication.py" />
+    <Compile Include="seat\applications\ExamApplication.py" />
+    <Compile Include="seat\applications\QuestionApplication.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="seat\applications\RoutingApplication.py" />
+    <Compile Include="seat\applications\SessionApplication.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="seat\applications\TeacherApplication.py" />
     <Compile Include="seat\applications\__init__.py" />
     <Compile Include="seat\middleware\exceptions.py" />
     <Compile Include="seat\middleware\methods.py" />

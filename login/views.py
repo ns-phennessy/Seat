@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
-from django.conf import settings
-from seat.applications.seat_application import AuthenticatingApplication
-import ldap
+from seat.applications.AuthenticationApplication import AuthenticationApplication
 import logging
 
+authenticationApplication = AuthenticationApplication()
 logger = logging.getLogger('login')
 
 def login(request):
@@ -12,7 +11,7 @@ def login(request):
     elif (request.method == 'POST'):
         try:
             logger.info('trying to authenticate %s' % request.POST['username'])
-            user = AuthenticatingApplication().authenticate(
+            user = authenticationApplication.authenticate(
                 username = request.POST['username'],
                 password = request.POST['password'])
             request.session['user_id'] = user.id
