@@ -25,6 +25,7 @@ def create_question_failure_json_model(message):
 
 def create_question_logic(teacher, request):
     try:
+        #TODO test that teacher owns logic
         question = json.loads(request.POST.get('question'))
         exam_id = request.POST['exam_id']
         new_question = questionApplication.create_question(exam_id, question)
@@ -40,4 +41,97 @@ def create_question(request):
         'POST',
         request,
         create_question_logic
+        )
+
+# PUT
+def update_question_success_json_model():
+    return JsonResponse({
+        'success': True,
+        'error': False
+    })
+
+def update_question_failure_json_model(message):
+    return JsonResponse({
+        'success' : False,
+        'error' : True,
+        'message' : str(message)
+    })
+
+def update_question_logic(teacher, request):
+    try:
+        #TODO: test that teacher owns resource
+        raise Exception("UNSUPPORTED")
+    except Exception, error:
+        logger.warn("problem updating question! :"+str(error))
+        return update_question_failure_json_model('failed to update the question, sorry. This is probably a db error.')
+
+def update_question(request):
+    return endpoint_checks.standard_teacher_endpoint(
+        "update_question",
+        ['exam_id', 'question'],
+        'POST',
+        request,
+        update_question_logic
+        )
+
+# DELETE
+def delete_question_success_json_model():
+    return JsonResponse({
+        'success': True,
+        'error': False
+    })
+
+def delete_question_failure_json_model(message):
+    return JsonResponse({
+        'success' : False,
+        'error' : True,
+        'message' : str(message)
+    })
+
+def delete_question_logic(teacher, request):
+    try:
+        #TODO: test that teacher owns resource
+        raise Exception("UNSUPPORTED")
+    except Exception, error:
+        logger.warn("problem deleting question! :"+str(error))
+        return delete_question_failure_json_model('failed to delete the question, sorry. This is probably a db error.')
+
+def delete_question(request):
+    return endpoint_checks.standard_teacher_endpoint(
+        "delete_question",
+        ['exam_id', 'question'],
+        'POST',
+        request,
+        delete_question_logic
+        )
+
+# GET
+def get_question_success_json_model():
+    return JsonResponse({
+        'success': True,
+        'error': False
+    })
+
+def get_question_failure_json_model(message):
+    return JsonResponse({
+        'success' : False,
+        'error' : True,
+        'message' : str(message)
+    })
+
+def get_question_logic(teacher, request):
+    try:
+        #TODO: test that teacher owns resource
+        raise Exception("UNSUPPORTED")
+    except Exception, error:
+        logger.warn("problem getting question! :"+str(error))
+        return get_question_failure_json_model('failed to get the question, sorry. This is probably a db error.')
+
+def get_question(request):
+    return endpoint_checks.standard_teacher_endpoint(
+        "get_question",
+        ['exam_id', 'question'],
+        'POST',
+        request,
+        get_question_logic
         )
