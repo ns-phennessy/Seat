@@ -16,7 +16,7 @@
         <div class="ui tiny right floated red button" id="delete-course">Delete Course</div>
 
         <div class="ui raised segment" style="padding:2em">
-			{% if course.exams.all %}
+			{% if course.exam_set.all %}
             <table class="ui very basic padded table">
                 <thead>
                     <tr>
@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for exam in course.exams.all %}
+                    {% for exam in course.exam_set.all %}
                     <tr data-role="exam">
                         <td>
                             <h3 class="ui header">{{ exam.name }}</h3>
@@ -58,7 +58,7 @@
                                         <div class="item"><i class="share icon"></i> Export</div>
                                         <div class="item"><i class="file pdf outline icon"></i> Print</div>
                                         <div class="ui divider"></div>
-                                        <div class="item" data-role="delete" data-action="{% url 'dashboard.views.exam' exam.id %}">
+                                        <div class="item" data-role="delete" data-id="{{ exam.id }}">
                                             {% csrf_token %}
                                             <i class="delete icon"></i>
                                             Delete
