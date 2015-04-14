@@ -1,38 +1,12 @@
-# this is the root of all evil
-# the goal is to start with a single application that contains
-# way more logic than it should, and decompile it into its many
-# pieces.
-# - Ben
-
-from seat.models.teacher import Teacher
-from seat.models.course import Course
-from seat.models.exam import Exam, Question, Choice
-from django.conf import settings
 import logging
-import ldap
+from seat.models.exam import Choice, Question, Exam
 
 logger = logging.getLogger(__name__)
 
+class QuestionApplication(object):
 
-class ExamApplication:
-    def get_exam_by_id(self, exam_id):
-        try:
-            exam = Exam.objects.get(id=exam_id)
-            return exam
+    """complex functionality for dealing with question objects"""
 
-        except Exception, error:
-            logger.info("get_exam_by_id error:"+str(error))
-            raise error
-
-    def delete_exam(self, exam_id):
-        try:
-            Exam.objects.delete(id=exam_id)
-        except Exception, error:
-            logger.warn("failed to delete exam!:"+str(error))
-            raise(error)
-
-
-class QuestionApplication:
     def create_question(self, exam_id, question):
         try:
             category = question['type']
@@ -67,15 +41,3 @@ class QuestionApplication:
         except Exception, error:
             logger.warn("failed to create question in QuestionApplication!: "+str(question))
             raise(error)
-
-class ManagingCoursesApplication:
-    pass
-
-class GivingExamsApplication:
-    pass
-
-class RenderingApplication:
-    pass
-
-class RedirectingApplication:
-    pass

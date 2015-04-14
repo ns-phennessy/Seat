@@ -2,6 +2,8 @@ import logging
 from seat.models.teacher import Teacher
 from seat.models.course import Course
 
+logger = logging.getLogger(__name__)
+
 class TeacherApplication(object):
 
     """core functionality for interacting with teacher entities, abstracts away our models"""
@@ -10,7 +12,7 @@ class TeacherApplication(object):
         try:
             return Teacher.objects.get(id=user_id)
         except Exception, error:
-            log.info(str(error))
+            logger.info(str(error))
             raise "failed to get_teacher_by_id with id:", user_id
 
     def landing_page_url(self, teacher):

@@ -1,7 +1,8 @@
-from seat.applications.seat_application import TeacherApplication, CourseApplication
-from seat.models.teacher import Teacher
+from seat.applications.TeacherApplication import TeacherApplication
+from seat.applications.CourseApplication import CourseApplication
+from seat.applications.ExamApplication import ExamApplication
 from seat.models.course import Course
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError, JsonResponse
+from django.http import JsonResponse
 from api.helpers import endpoint_checks
 import logging
 
@@ -9,13 +10,14 @@ logger = logging.getLogger('api')
 
 teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
+examApplication = ExamApplication()
 
 # POST
-def create_exam_success_json_model(id):
+def create_exam_success_json_model(exam_id):
     return JsonResponse({
         'success' : True,
         'error' : False,
-        'id' : str(id)
+        'id' : str(exam_id)
     })
 
 def create_exam_failure_json_model(message):

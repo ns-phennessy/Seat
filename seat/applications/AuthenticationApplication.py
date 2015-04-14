@@ -3,6 +3,8 @@ import logging
 from django.conf import settings
 from seat.models.teacher import Teacher
 
+logger = logging.getLogger(__name__)
+
 class AuthenticationApplication(object):
 
     """
@@ -13,7 +15,6 @@ class AuthenticationApplication(object):
         how the ldap library wants to work as far as can
         be easily seen (python-ldap module)
     """
-    logger = logging.getLogger(__name__)
 
     def connect_to_ldap_server(self):
         logger.debug("connecting to LDAP server host", settings.LDAP_HOST)
@@ -21,12 +22,12 @@ class AuthenticationApplication(object):
         return conn
 
     def search_for_user(self, username, attributes, conn):
-        filter = ('(cn=%s*)' % username)
-        logger.debug("searching for user with filter:", filter)
+        ldapfilter = ('(cn=%s*)' % username)
+        logger.debug("searching for user with filter:", ldapfilter)
         result_user_list = conn.search_s(
             settings.LDAP_ROOT_SEARCH_DN,
             ldap.SCOPE_SUBTREE,
-            filter,
+            ldapfilter,
             attributes)
         if not result_user_list:
             logger.info("no user found with username", username)

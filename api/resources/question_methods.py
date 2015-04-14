@@ -1,4 +1,5 @@
-from seat.applications.seat_application import TeacherApplication, QuestionApplication
+from seat.applications.TeacherApplication import TeacherApplication
+from seat.applications.QuestionApplication import QuestionApplication
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
 import json
@@ -9,11 +10,11 @@ logger = logging.getLogger('api')
 questionApplication = QuestionApplication()
 
 # POST
-def create_question_success_json_model(id):
+def create_question_success_json_model(question_id):
     return JsonResponse({
         'success': True,
         'error': False,
-        'id': str(id)
+        'id': str(question_id)
     })
 
 def create_question_failure_json_model(message):

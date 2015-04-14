@@ -2,6 +2,8 @@ import logging
 from seat.models.course import Course
 from seat.models.exam import Exam
 
+logger = logging.getLogger(__name__)
+
 class CourseApplication(object):
 
     """interactions with courses"""

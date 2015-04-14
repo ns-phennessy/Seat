@@ -1,7 +1,6 @@
-from seat.applications.seat_application import TeacherApplication, CourseApplication
-from seat.models.teacher import Teacher
-from seat.models.course import Course
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError, JsonResponse
+from seat.applications.TeacherApplication import TeacherApplication
+from seat.applications.CourseApplication import CourseApplication
+from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
 import logging
 
 logger = logging.getLogger('api')
@@ -16,17 +15,16 @@ def get_dict_by_method(request, method):
     if method == "PUT": return request.PUT
 
 
-def key_is_substring_of_some_dict_key(key, dict):
-    for dict_key in dict.keys():
+def key_is_substring_of_some_dict_key(key, dictionary):
+    for dict_key in dictionary.keys():
         if dict_key.find(key) >= 0:
             return True
     return False
 
 def all_required_values_present(values, request, method):
-    dict = get_dict_by_method(request, method)
-    keys = dict.keys()
+    dictionary = get_dict_by_method(request, method)
     for key in values:
-        if not key_is_substring_of_some_dict_key(key, dict):
+        if not key_is_substring_of_some_dict_key(key, dictionary):
             return False
     return True
 

@@ -1,6 +1,6 @@
 
 
-class RoutingApplication:
+class RoutingApplication(object):
 
     """object for abstracting out all those hardcoded urls"""
 

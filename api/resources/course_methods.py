@@ -1,7 +1,7 @@
-from seat.applications.seat_application import TeacherApplication, CourseApplication
-from seat.models.teacher import Teacher
-from seat.models.course import Course
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError, JsonResponse
+from seat.applications.AuthenticationApplication import AuthenticationApplication
+from seat.applications.TeacherApplication import TeacherApplication
+from seat.applications.CourseApplication import CourseApplication
+from django.http import JsonResponse
 from api.helpers import endpoint_checks
 import logging
 
@@ -9,19 +9,20 @@ logger = logging.getLogger('api')
 
 teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
+authenticationApplication = AuthenticationApplication()
 
-def all_required_values_present(values, dict):
+def all_required_values_present(values, dictionary):
     for key in values:
-        if key not in dict:
+        if key not in dictionary:
             return False
     return True
 
 # POST 
-def create_course_success_json_model(id):
+def create_course_success_json_model(course_id):
     return JsonResponse({
         'success' : True,
         'error' : False,
-        'id' : str(id)
+        'id' : str(course_id)
     })
 def create_course_failure_json_model(message):
     return JsonResponse({
@@ -92,7 +93,7 @@ def update_course_failure_json_model(message):
 def update_course_logic(teacher, request):
     try:
         # presently only the name can be updated
-        new_course = teacherApplication.update_course(teacher, request.PUT['course_id'], request.PUT['name'])
+        teacherApplication.update_course(teacher, request.PUT['course_id'], request.PUT['name'])
         return update_course_success_json_model()
     except Exception, error:
         logger.warn("problem updating course! :"+str(error))
@@ -126,7 +127,7 @@ def get_course_failure_json_model(message):
 
 def get_course_logic(teacher, request):
     try:
-        course = courseApplication.get_course_by_id(course_id)
+        course = courseApplication.get_course_by_id(request.GET['course_id'])
         return get_course_success_json_model(course)
     except Exception, error:
         logger.warn("problem getting course! :"+str(error))

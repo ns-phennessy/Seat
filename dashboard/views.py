@@ -2,23 +2,22 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.shortcuts import redirect
-from datetime import date
 from seat.models.teacher import Teacher
-from seat.models.exam import Question, Submission, Exam
-from seat.applications.seat_application import AuthenticatingApplication
-from seat.applications.seat_application import SessionApplication
-from seat.applications.seat_application import TeacherApplication
-from seat.applications.seat_application import RoutingApplication
-from seat.applications.seat_application import CourseApplication
-from dashboard import dashboard_view_models
+from seat.applications.SessionApplication import SessionApplication
+from seat.applications.RoutingApplication import RoutingApplication
+from seat.applications.CourseApplication import CourseApplication
+from seat.applications.AuthenticationApplication import AuthenticationApplication
+from seat.applications.ExamApplication import ExamApplication
+from seat.applications.TeacherApplication import TeacherApplication
+import seat.applications.CourseApplication
+import dashboard.dashboard_view_models as models
 from seat.models.course import Course
 from django.http import JsonResponse
 import logging
-logging.basicConfig()
 
-logger = logging.getLogger('dashboard')
+logger = logging.getLogger(__name__)
 
-authenticationApplication = AuthenticatingApplication()
+authenticationApplication = AuthenticationApplication()
 sessionApplication = SessionApplication()
 routingApplication = RoutingApplication()
 teacherApplication = TeacherApplication()
@@ -68,81 +67,16 @@ def courses(request, course_id):
         if course_to_display is not None:
             return render(
                 request,
-                dashboard_view_models.get_course_url(),
-                dashboard_view_models.get_course_context(teacher, course_id, course_to_display))
+                models.get_course_url(),
+                models.get_course_context(teacher, course_id, course_to_display))
         else:
             return render(
                 request,
-                dashboard_view_models.get_nocourse_url(),
-                dashboard_view_models.get_nocourse_context(teacher))
+                models.get_nocourse_url(),
+                models.get_nocourse_context(teacher))
 
     except Exception, error:
         logger.error("courses::unhandled error:"+str(error))
         return redirect( routingApplication.error_url(request) )
 
-# POST
-def course_new(request):
-    #TODO: check user has permissions
-    if request.method == 'POST':
-        try:
-            new_course = Course.objects.create(name=request.POST['name'])
-            teacher = Teacher.objects.get(id=request.session['user_id'])
-            new_course.save()
-            teacher.courses.add(new_course)
-            teacher.save()
-            return JsonResponse({ 'success' : True, 'error' : False, 'id' : str(new_course.id) })
-        except Exception, e:
-            #TODO: handle error case properly, still haven't hit enough of these to decide yet how
-            print e
-            return JsonResponse({ 'success' : False, 'error' : True,  'message' : str(e) })
-    #TODO: handle else condition
 
-# GET?, POST, PUT, DELETE
-def exam(request, exam_num):
-    #TODO: check user has permissions
-    exam = Exam.objects.get(id=exam_num)
-    if request.method == 'DELETE':
-        exam.delete()
-        return JsonResponse({ 'success' : True, 'error' : False })
-    #TODO: handle other methods
-
-# GET
-def exam_edit(request, exam_num):
-    #TODO: check user has permissions
-    teacher = Teacher.objects.get(id=request.session['user_id'])
-    exam = Exam.objects.get(id=exam_num)
-    context = { 'teacher': teacher, 'exam': exam }
-    return render(request, 'dashboard/exam.html', context)
-
-# GET
-def exam_new(request):
-    #TODO: check user has permissions
-    if request.method == 'GET':
-        teacher = Teacher.objects.get(id=request.session['user_id'])
-        context = { 'teacher': teacher }
-        return render(request, 'dashboard/exam.html', context)
-    #TODO: handle else condition
-
-question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
-                , 'True/False': 'dashboard/true-false.html'
-                , 'Short Answer': 'dashboard/short-answer.html'
-                , 'Essay': ''
-                }
-
-# GET
-def questions_index(request, exam_id):
-    if request.method == 'GET':
-        exam = Exam.objects.get(id=exam_id)
-        context = { 'exam': exam }
-        return render(request, 'dashboard/questions.html', context)
-
-# GET, POST, PUT, DELETE
-def question(request, question_id):
-    #TODO: check user has permissions
-    question = Question.objects.get(id=question_id)
-    if request.method == 'GET':
-        context = { 'question': question }
-        return render(request, question_urls[question.category], context)
-    elif request.method == 'DELETE':
-        question.delete()
-        return JsonResponse({ 'success' : True, 'error' : False })
