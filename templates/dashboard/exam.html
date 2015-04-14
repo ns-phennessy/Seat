@@ -12,40 +12,35 @@
                 Create Exam
             </div>
         </h1>
-        <form class="ui form">
-            <div class="three fields">
-                <div class="one wide field"><label>Name</label></div>
-                <div class="ten wide field">
-                    <input value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
-                </div>
-                <div class="four wide field">
-                    <div class="ui small blue buttons">
-                        <div class="ui button">Save Exam</div>
-                        <div class="ui floating dropdown icon button">
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item"><i class="eye icon"></i> Generate Token</div>
-                                <div class="item"><i class="share icon"></i> Export</div>
-                                <div class="item"><i class="file pdf outline icon"></i> Print</div>
-                                <div class="ui divider"></div>
-                                <div class="item"><i class="delete icon"></i> Delete</div>
-                            </div>
-                        </div>
-                    </div>
+
+        <div class="row">
+            <div class="ui small buttons">
+                <div class="ui button"><i class="privacy icon"></i> Generate Token</div>
+                <div class="ui button"><i class="share icon"></i> Export</div>
+                <div class="ui button"><i class="print icon"></i> Print</div>
+            </div>
+            <div class="column right floated">
+                <div class="ui small buttons">
+                    <div class="ui red button"><i class="delete icon"></i> Delete Exam</div>
                 </div>
             </div>
-
-            <div class="three fields">
-                <div class="one wide field"><label>Course</label></div>
-                <div class="ten wide field">
+        </div>
+        <br>
+        <form class="ui form">
+            <div class="two fields">
+                <div class="field">
+                    <label>Exam Name</label>
+                    <input value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
+                </div>
+                <div class="field">
+                    <label>Course</label>
                     <select class="ui dropdown">
                         {% for course in teacher.courses.all %}
                         <option value="{{ course.id }}">{{ course.name }}</option>
                         {% endfor %}
                     </select>
-
                 </div>
-                <div class="four wide field"></div>
+
             </div>
         </form>
 
@@ -94,67 +89,89 @@
             </div>
 
 
-            <div class="ui form raised secondary segment" id="newquestionform" style="display:none">
-                <h3 class="ui header">New Question</h3>
-                <div class="field">
-                    <label for="">Prompt:</label>
-                    <input type="text" name="thing" placeholder="What is the..."> 
-                </div>
+		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
+			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
+			<h3 class="ui left floated header">New Question</h3>
+            {% csrf_token %}
 
-                <div class="ui tiny header">Question Type:</div>
-                <div class="ui fluid four item tabular top attached menu">
-                    <a class="active item">Multiple Choice</a>
-                    <a class="item">True / False</a>
-                    <a class="item">Short Answer</a>
-                    <a class="item">Essay</a>
-                </div>
-                <div class="ui bottom attached segment">
+			<div class="field">
+				<label for="prompt">Prompt:</label>
+				<input type="text" name="prompt" placeholder="What is the..."> 
+			</div>
 
-                    <!-- Multiple Choice -->
-                    <form class="ui form">
-                        <div class="class five wide field">
-                            <label>Options:</label>
-                        </div>
-                        <div class="two fields">
-                            <div class="one wide field">
-                                <label></label>
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="fruit" checked>
-                                </div>
-                            </div>
-                            <div class="six wide field">
-                                <label></label>
-                                <div class="ui input">
-                                    <input type="text" placeholder="New Option...">
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+			<div class="ui tiny header">Question Type:</div>
+			<select class="ui dropdown" name="type">
+				<option value="multichoice">Multiple Choice</option>
+				<option value="truefalse">True / False</option>
+				<option value="shortanswer">Short Answer</option>
+				<option value="essay">Essay</option>
+			</select>
+			<div class="ui segment">
 
-                <!-- True / False-->
-                <form class="ui hidden form">
-                    <div class="field">
-                        <label>Answer:</label>
-                        <span>False</span>
-                        <div class="ui toggle fitted checkbox" style="margin:0 1em">
-                            <input type="checkbox" name="public">
-                        </div>
-                        <span>True</span>
+				<!-- Multiple Choice -->
+				<form class="ui form" name="multichoice">
+					<div class="class five wide field">
+						<label>Options:</label>
+					</div>
 
-                    </div>
+					<div class="two fields">
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option" checked="checked">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<label></label>
+							<div class="ui icon input">
+								<input type="text" name="choice" placeholder="New Option...">
+								<i class="delete icon"></i>
+							</div>
+						</div>
+					</div>
 
-                </form>
+					<div class="two fields">
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<label></label>
+							<div class="ui input">
+								<input type="text" name="choice" placeholder="New Option...">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
 
+			<!-- True / False-->
+			<form class="ui hidden form" name="truefalse">
+				<div class="field">
+					<label>Answer:</label>
+					<span>False</span>
+					<div class="ui toggle fitted checkbox" style="margin:0 1em">
+						<input type="checkbox" name="public">
+					</div>
+					<span>True</span>
+				</div>
+			</form>
 
-                <div class="ui divider"></div>
-                <div class="two fields">
-                    <div class="ui right floated button">Cancel</div>
-                    <div class="ui blue button">Save Question</div>
-                </div>
-            </div>
+			<div class="ui divider"></div>
+			<div class="two fields">
+				<div class="ui right floated button" data-role="close">Cancel</div>
+				<div class="ui blue button" data-role="save">Save Question</div>
+			</div>
 
-        </div>
+			<div class="ui inverted dimmer">
+				<h2 class="ui icon header">
+					<i class="green checkmark icon"></i>
+					Question Saved!
+				</h2>
+			</div>
+		</div>
 
         <div class="ui bottom attached tab segment" data-tab="second">
            {% include 'dashboard/questions.html' %}
@@ -171,5 +188,159 @@
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/add-course.js' %}"></script>
 <script src="{% static 'js/exam.js' %}"></script>
+
+<script>
+    (function ($) {
+        $.fn.questionForm = function(options){
+
+            var form = this;
+            var items = $('[data-tab="tab_edit"]').find('.items');
+
+            var settings = $.extend({
+                newQuestionButton: 		".ui.button[data-role='newQuestion']",
+                editButton: 			".ui.button[data-role='edit']",
+                deleteQuestionButton: 	".ui.button[data-role='delete']",
+                saveButton:				".ui.button[data-role='save']",
+                closeButton:			"[data-role='close']",
+            }, options );
+
+            form.clear = function(){
+                form.removeClass('loading');
+                form.find('.dimmer').dimmer('hide');
+            };
+
+            form.setValue = function(item, value){
+                switch(item){
+                    case 'header':
+                        form.find('h3.header').text(value);
+                        break;
+
+                    case 'prompt':
+                        form.find('input[name="prompt"]').val(value);
+                        break;
+
+                    case 'questionType':
+                        form.find('div.ui.dropdown.selection').dropdown('set selected', value);
+                        break;
+                }
+            };
+
+            form.setLoading = function(){
+                form.addClass('loading');
+            };
+
+            //Moves the form to different locations
+            form.move = function(location){
+                form.close();
+                form.appendTo(location);
+                form.show();
+            };
+
+            form.close = function(){
+                form.hide();
+                $(settings.newQuestionButton).show();
+                items.find('.item .content').show();
+            };
+
+            //Listener for new question at bottom of page
+            $(settings.newQuestionButton).on('click', function(){
+                form.setValue('header', 'New Question');
+                form.setValue('prompt', '');
+                form.move( $('.ui.segment[data-tab="tab_edit"]') );
+                $(this).hide();
+            });
+
+            form.find(settings.closeButton).on('click', function(){
+                form.close();
+            });
+
+            $(settings.editButton).on('click', function(){
+                var parent = this.closest('.item');
+
+                var qid = $(parent).attr('data-qid');
+                var question;
+
+                $.each(examData.questions, function(i, v) {
+                    if (v.qid == qid) {
+                        question = v;
+                    }
+                });
+
+                switch(question.type){
+                    case "multichoice":
+                        form.setValue('questionType', 'Multiple Choice');
+                        break;
+
+                    case "truefalse":
+                        form.setValue('questionType', 'True / False');
+                        break;
+                }
+
+                form.setValue('prompt', question.prompt);
+
+                form.move(parent);
+                $(parent).children('.content').hide();
+
+            });
+
+            form.multiChoiceData = function() {
+                question = form.form('get values');
+                question.options = {}
+
+                var multiform = form.find('form[name=multichoice]');
+                var choices = multiform.find('input[name=choice]');
+                choices = choices.map(function() {
+                    return $(this).val();
+                }).get();
+
+                var selectedRadio = multiform.find('input:radio[checked=checked]');
+                var selectedInput = selectedRadio.closest('.fields').find('input:text');
+                var answer = selectedInput.val();
+
+                var answerIndex = choices.indexOf(answer);
+                choices.splice(answerIndex, 1);
+
+                question.options.choices = choices;
+                question.options.answer = answer;
+
+                return question;
+            };
+
+            form.find(settings.saveButton).on('click', function(){
+                form.setLoading();
+
+                var type = form.find('select[name=type]').val();
+                var question;
+                if (type === 'multichoice') {
+                    question = form.multiChoiceData();
+                }
+
+                data = {
+                    exam_id: {{ exam.id }},
+                    question: JSON.stringify(question)
+                }
+
+                var token = form.find('input[name=csrfmiddlewaretoken]').val();
+
+                $.ajax({
+                    url: '/api/question',
+                    type: 'POST',
+                    data: data,
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('X-CSRFToken', token);
+                    },
+                    success: function() {
+                        $('#newquestionform .dimmer').dimmer('show');
+                        location.reload();
+                    }
+                });
+            });
+
+            return this;
+        };
+    }(jQuery));
+
+    $('#newquestionform').questionForm();
+</script>
 
 {% endblock %}
