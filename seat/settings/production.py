@@ -1,7 +1,14 @@
 try:
-    from settings import *
+    from shared import *
 except:
     pass
+
+with open(os.path.join(BASE_DIR, 'seat/settings/secret.key')) as f:
+    SECRET_KEY = f.read().strip()
+
+DEBUG = False
+TEMPLATE_DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 # Database
 DATABASES = {

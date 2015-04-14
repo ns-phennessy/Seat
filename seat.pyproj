@@ -4,6 +4,11 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <Name>seat</Name>
     <RootNamespace>seat</RootNamespace>
+    <InterpreterId>{9a7a9026-48c1-4688-9d5d-e5699d47d074}</InterpreterId>
+    <InterpreterVersion>2.7</InterpreterVersion>
+    <PythonRunWebServerCommandArguments>runserver --settings $(DjangoSettingsModule) %SERVER_PORT% $(CommandLineArguments)</PythonRunWebServerCommandArguments>
+    <PythonDebugWebServerCommandArguments>runserver --noreload --settings $(DjangoSettingsModule) %SERVER_PORT% $(CommandLineArguments)</PythonDebugWebServerCommandArguments>
+    <DjangoSettingsModule>$(MSBuildProjectName).settings.development</DjangoSettingsModule>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -58,9 +63,11 @@
     <Compile Include="seat\models\teacher.py" />
     <Compile Include="seat\models\user.py" />
     <Compile Include="seat\models\__init__.py" />
-    <Compile Include="seat\settings-prod.py" />
+    <Compile Include="seat\settings\development.py" />
+    <Compile Include="seat\settings\production.py" />
+    <Compile Include="seat\settings\shared.py" />
+    <Compile Include="seat\settings\__init__.py" />
     <Compile Include="seat\__init__.py" />
-    <Compile Include="seat\settings.py" />
     <Compile Include="seat\urls.py" />
     <Compile Include="seat\wsgi.py" />
     <Compile Include="student\tests.py" />
@@ -77,6 +84,7 @@
     <Folder Include="seat\applications\" />
     <Folder Include="seat\middleware\" />
     <Folder Include="seat\models\" />
+    <Folder Include="seat\settings\" />
     <Folder Include="static\" />
     <Folder Include="static\css\" />
     <Folder Include="static\font\" />
@@ -100,6 +108,7 @@
     <Content Include="seat\models\teacher.pyc" />
     <Content Include="seat\models\user.pyc" />
     <Content Include="seat\models\__init__.pyc" />
+    <Content Include="seat\settings\secret.key" />
     <Content Include="static\css\semantic-typography.css" />
     <Content Include="static\css\semantic.min.css" />
     <Content Include="static\font\icons.eot" />
@@ -138,6 +147,9 @@
     <None Include="readme.mht">
       <SubType>WebBrowser</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 

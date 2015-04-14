@@ -1,28 +1,19 @@
-"""
-Django settings for seat project.
 
-For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
-"""
-
+import sys
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# Production
-SECRET_KEY = 'placeholder'
+# 2 levels up from this file
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
-DEBUG = True
-TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = []
+ROOT_URLCONF = 'seat.urls'
+WSGI_APPLICATION = 'seat.wsgi.application'
 
-#LDAP information
+#LDAP
 LDAP_HOST = 'ldap://ldap.patcave.info'
 LDAP_ROOT_SEARCH_DN = 'dc=ldap,dc=patcave,dc=info'# we happen to log in as the root node when testing
 LDAP_DISPLAY_NAME_ATTR = 'givenName'
 LDAP_MAIL_ATTR = 'mail'
+
 # Applications
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -38,37 +29,18 @@ INSTALLED_APPS = (
     'api',
 )
 
+# Middleware
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'seat.middleware.methods.HttpPostTunnelingMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'seat.middleware.methods.HttpPostTunnelingMiddleware',
-	# 'seat.middleware.exceptions.ExceptionMiddleware'
+	#'seat.middleware.exceptions.ExceptionMiddleware'
 )
-
-ROOT_URLCONF = 'seat.urls'
-WSGI_APPLICATION = 'seat.wsgi.application'
-
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'prod':{
-        'NAME'      : 'seat',
-        'ENGINE'    : 'django.db.backends.mysql',
-        'USER'      : 'capstone',
-        'PASSWORD'  : '9324d1eb',
-        'HOST'      : 'patcave.info',
-        'PORT'      : '3306'
-    }
-
-}
 
 # Template Settings
 TEMPLATE_DIRS = (
