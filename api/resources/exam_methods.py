@@ -72,7 +72,7 @@ def delete_exam_logic(teacher, request):
 def delete_exam(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_exam",
-        ['course_id'],
+        ['exam_id'],
         'DELETE',
         request,
         delete_exam_logic

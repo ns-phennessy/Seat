@@ -30,15 +30,11 @@
             <div class="two fields">
                 <div class="field">
                     <label>Exam Name</label>
-                    <input value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
+                    <input disabled value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
                 </div>
                 <div class="field">
                     <label>Course</label>
-                    <select class="ui dropdown">
-                        {% for course in teacher.courses.all %}
-                        <option value="{{ course.id }}">{{ course.name }}</option>
-                        {% endfor %}
-                    </select>
+                    <input disabled value="{{ exam.course.name }}" type="text">
                 </div>
 
             </div>
@@ -68,7 +64,7 @@
                                 </div>
                                 <div class="two wide column center aligned">
                                     <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
-                                    <div class="ui mini red icon button" data-role="delete" data-action="{% url 'dashboard.views.question' question.id %}" data-content="Delete">
+                                    <div class="ui mini red icon button" data-role="delete" data-id="{{ question.id }}" data-content="Delete">
                                         {% csrf_token %}
                                         <i class="delete icon"></i>
                                     </div>

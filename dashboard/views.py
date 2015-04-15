@@ -62,9 +62,9 @@ def courses(request, course_id):
             except Exception, error:
                 logger.info("courses::courses not found with id "+str(course_id)+" error:"+str(error))
                 return redirect( '/dashboard/courses/' )
-        else: 
+        else:
             course_to_display = teacherApplication.get_first_course(teacher)
-        
+
         if course_to_display is not None:
             return render(
                 request,
@@ -81,22 +81,13 @@ def courses(request, course_id):
         return redirect( routingApplication.error_url(request) )
 
 
-    # GET
+# GET
 def exam_edit(request, exam_num):
     #TODO: check user has permissions
     teacher = Teacher.objects.get(id=request.session['user_id'])
     exam = Exam.objects.get(id=exam_num)
     context = { 'teacher': teacher, 'exam': exam }
     return render(request, 'dashboard/exam.html', context)
-
-# GET
-def exam_new(request):
-    #TODO: check user has permissions
-    if request.method == 'GET':
-        teacher = Teacher.objects.get(id=request.session['user_id'])
-        context = { 'teacher': teacher }
-        return render(request, 'dashboard/exam.html', context)
-    #TODO: handle else condition
 
 question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
                 , 'True/False': 'dashboard/true-false.html'
