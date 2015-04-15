@@ -1,7 +1,6 @@
 
 
 class RoutingApplication(object):
-
     """object for abstracting out all those hardcoded urls"""
 
     def error_url(self, request):
@@ -11,8 +10,15 @@ class RoutingApplication(object):
         return '/invalidpermissions/' #TODO
 
     def invalid_request_url(self, request):
-        return '/invalidrequest/' #TODO(object):
-    pass
+        return '/invalidrequest/' #TODO:
+    
+    def teacher_index(self, request=None):
+        """ indicates the default landing page for a teacher upon login """
+        return '/dashboard/courses/'
+
+    def student_index(self, request=None):
+        """ indicates the default landing page for a student upon login """
+        return '/student/'
 
 
 

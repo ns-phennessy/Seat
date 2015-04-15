@@ -13,7 +13,7 @@ class TeacherApplication(object):
             return Teacher.objects.get(id=user_id)
         except Exception, error:
             logger.info(str(error))
-            raise "failed to get_teacher_by_id with id:", user_id
+            raise Exception( "failed to get_teacher_by_id with id:", user_id )
 
     def landing_page_url(self, teacher):
         return "/dashboard/courses/"
@@ -25,7 +25,7 @@ class TeacherApplication(object):
             return teacher.courses.all()[0]
         except Exception, error:
             logger.info(str(error))
-            raise "failed to get teacher's first course"
+            raise Exception( "failed to get teacher's first course" )
 
     def create_course(self, teacher, name):
         try:
@@ -36,7 +36,7 @@ class TeacherApplication(object):
             return new_course
         except Exception, error:
             logger.warn("failed to add course!:"+str(error))
-            raise(error)
+            raise Exception(error)
 
     def update_course(self, teacher, course_id, name):
         try:
@@ -45,11 +45,11 @@ class TeacherApplication(object):
             course.save()
         except Exception, error:
             logger.warn("failed to update course!:"+str(error))
-            raise(error)
+            raise Exception(error)
 
     def delete_course(self, teacher, course_id):
         try:
             Course.objects.get(id=course_id).delete()
         except Exception, error:
             logger.warn("failed to delete course!:"+str(error))
-            raise(error)
+            raise Exception(error)

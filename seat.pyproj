@@ -111,13 +111,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="README.md" />
-    <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
-    <Content Include="seat\models\course.pyc" />
-    <Content Include="seat\models\exam.pyc" />
-    <Content Include="seat\models\student.pyc" />
-    <Content Include="seat\models\teacher.pyc" />
-    <Content Include="seat\models\user.pyc" />
     <Content Include="seat\models\__init__.pyc" />
     <Content Include="seat\settings\secret.key" />
     <Content Include="static\css\semantic-typography.css" />
@@ -153,11 +147,6 @@
     <Content Include="templates\dashboard\short-answer.html" />
     <Content Include="templates\dashboard\true-false.html" />
     <Content Include="templates\login\login.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="readme.mht">
-      <SubType>WebBrowser</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />

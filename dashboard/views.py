@@ -23,6 +23,7 @@ sessionApplication = SessionApplication()
 routingApplication = RoutingApplication()
 teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
+teacherApplication = TeacherApplication()
 
 def dashboard_index(request):
     try:
