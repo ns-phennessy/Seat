@@ -5,6 +5,6 @@ $('[data-content]').popup({
 
 $('.ui.menu .item').tab();
 
-$('.ui.dropdown').dropdown({});
+$('.ui.dropdown:not[data-role="questionType"]').dropdown({});
 
 $('.ui.checkbox').checkbox();
