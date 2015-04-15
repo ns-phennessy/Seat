@@ -13,8 +13,12 @@
       <div class="field">
         <label>Course</label>
           <select class="ui dropdown" name="course_id">
-          {% for course in teacher.courses.all %}
-          <option value="{{ course.id }}">{{ course.name }}</option>
+          {% for c in teacher.courses.all %}
+          {% if c.id == course.id %}
+          <option selected value="{{ c.id }}">{{ c.name }}</option>
+          {% else %}
+          <option value="{{ c.id }}">{{ c.name }}</option>
+          {% endif %}
           {% endfor %}
         </select>
       </div>
