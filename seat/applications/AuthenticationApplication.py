@@ -12,9 +12,7 @@ class AuthenticationApplication(object):
         handles no errors, errors are thrown when
         auth fails so if something happens that is unexpected
         it WILL throw an error, so wrap calls to this class in
-        try-catch logic. this can't be beaten since its
-        how the ldap library wants to work as far as can
-        be easily seen (python-ldap module)
+        try-catch logic.
     """
 
     def connect_to_ldap_server(self):
@@ -77,12 +75,14 @@ class AuthenticationApplication(object):
             if distinguishedName:
                 is_student = True
             else:
-                raise AssertionError("Credentials are invalid")
+                raise AuthenticationError("User not found")
 
-        self.verify_user_credentials_or_throw(distinguishedName, password, conn)
-        logger.debug("user attributes:"+str(user_attrs))
-                
-        # interact with database to actually gather the user
+        try: 
+            self.verify_user_credentials_or_throw(distinguishedName, password, conn)
+            logger.debug("user attributes:"+str(user_attrs))
+        except Exception as error:
+            raise AssertionError("Authentication has failed")  
+         
         if not is_student:
             teacher, new_user_created = Teacher.objects.get_or_create(
                 email = user_attrs[settings.LDAP_MAIL_ATTR][0],
