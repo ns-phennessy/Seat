@@ -306,7 +306,7 @@
 					form.clear = function(){
 						form.removeClass('loading');
 						form.find('.dimmer').dimmer('hide');
-						
+
 						//TODO clear options form data
 					};
 
@@ -354,11 +354,11 @@
 					$('.truefalse.options [data-role="setTrue"]').on('click', function(){
 						$('.truefalse.options .ui.checkbox').checkbox('check');
 					});
-					
+
 					$('.truefalse.options [data-role="setFalse"]').on('click', function(){
 						$('.truefalse.options .ui.checkbox').checkbox('uncheck');
 					});
-					
+
 					form.find(settings.closeButton).on('click', function(){
 						form.close();
 					});
@@ -414,7 +414,17 @@
 						form.setValue('prompt', questionData.prompt);
 						form.setValue('questionType', questionData.type);
 
-						//TODO Load options
+						//Load question option data!
+						switch(questionData.type){
+							case 'multichoice':
+								break;
+							case 'truefalse':
+								if( questionData.options.answer == true)
+									$('.truefalse.options .ui.checkbox').checkbox('check');
+								else
+									$('.truefalse.options .ui.checkbox').checkbox('uncheck');
+								break;
+						}
 
 						form.move(questionSummary);
 						$(questionSummary).children('.content').hide();
@@ -448,7 +458,6 @@
 
 						//Set values
 						prompt.text(questionData.prompt);
-						dataHolder.val(JSON.stringify(questionData));
 
 						switch(questionData.type){
 							case 'multichoice':
@@ -458,6 +467,13 @@
 							case 'truefalse':
 								type.text("True / False");
 								options.text('True');
+
+								var answerOption = $('.truefalse.options .ui.checkbox').checkbox('is checked');
+								
+								questionData.options = {
+									answer: answerOption
+								};
+
 								break;	
 							case 'shortanswer':
 								type.text('Short Answer');
@@ -467,6 +483,7 @@
 								break;	
 						}
 
+						dataHolder.val(JSON.stringify(questionData));
 						$('#newquestionform .dimmer').dimmer('show');
 
 						setTimeout(function(){
