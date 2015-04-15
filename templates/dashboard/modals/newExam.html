@@ -1,0 +1,27 @@
+<div class="ui small modal" id="newExamModal">
+  <i class="close icon"></i>
+  <div class="header">
+    New Exam
+  </div>
+  <div class="content">
+    <form class="ui form">
+      {% csrf_token %}
+      <div class="field">
+        <label>Exam Name</label>
+        <input name="course_name" type="text">
+      </div>
+      <div class="field">
+        <label>Course</label>
+          <select class="ui dropdown" name="course">
+          {% for course in teacher.courses.all %}
+          <option value="{{ course.id }}">{{ course.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="actions">
+    <div class="ui blue save button">Save</div>
+    <div class="ui close button">Cancel</div>
+  </div>
+</div>
