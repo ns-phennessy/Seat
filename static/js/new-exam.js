@@ -1,3 +1,27 @@
+function submitNewExam() {
+  var data = $('#newExamModal form').form('get values');
+
+  $('#newExamModal .ui.form').addClass('loading');
+
+  $.ajax({
+    type: 'POST',
+    url:  '/api/exam',
+    data: data,
+    success: function(res) {
+      location.reload()
+    }
+  });
+}
+
+$('#newExamModal .ui.save.button').click(function(e) {
+  submitNewExam();
+});
+
+$('#newExamModal .ui.form').on('submit', function(e){
+	e.preventDefault();
+	submitNewExam();
+});
+
 $('#newExamModal.ui.modal').modal(
 	{
 		transition:'fly down',
@@ -8,8 +32,7 @@ $('#newExamModal.ui.modal').modal(
 		},
 		onShow:function(){
 			$(this).find('.ui.form').removeClass('loading');
-      $(this).find('input[name=exam-name]').val('');
-      $(this).find('input[name=course]').val('');
+      $(this).find('input[name=name]').val('');
 		},
 		onApprove: function(){
 			return false;

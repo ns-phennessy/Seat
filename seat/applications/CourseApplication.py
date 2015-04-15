@@ -19,10 +19,8 @@ class CourseApplication(object):
 
     def create_exam(self, course, name):
         try:
-            new_exam = Exam.objects.create(name=name)
+            new_exam = Exam.objects.create(name=name, course=course)
             new_exam.save()
-            course.exams.add(new_exam)
-            course.save()
             return new_exam
         except Exception, error:
             logger.info("create_exam error:"+str(error))

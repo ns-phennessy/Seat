@@ -8,11 +8,11 @@
       {% csrf_token %}
       <div class="field">
         <label>Exam Name</label>
-        <input name="exam-name" type="text">
+        <input name="name" type="text">
       </div>
       <div class="field">
         <label>Course</label>
-          <select class="ui dropdown" name="course">
+          <select class="ui dropdown" name="course_id">
           {% for course in teacher.courses.all %}
           <option value="{{ course.id }}">{{ course.name }}</option>
           {% endfor %}
