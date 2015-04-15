@@ -258,22 +258,9 @@
 		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
 		<script src="http://cdn.patcave.info/js/semantic.min.js"></script>
 		<script>
-			$('[data-content]').popup({
-				position:'top center',
-				transition:'drop'
-			});
-
 			$('.ui.menu .item').tab();
 			$('.ui.dropdown:not(select[data-role="questionType"])').dropdown();
 			$('.ui.checkbox').checkbox();
-
-			$('#newquestionform .dimmer').dimmer({
-				duration:{
-					show:500, 
-					hide:0
-				}
-			});
-
 
 			var questionDataTemplate = {
 				question_id:'',
@@ -287,7 +274,6 @@
 
 			(function ($) {
 				$.fn.questionForm = function(options){
-
 					//Globals
 					var form = this;
 					var items = $('[data-tab="tab_edit"]').find('.items');
@@ -295,12 +281,73 @@
 					//Settings
 					var settings = $.extend({
 						newQuestionButton: 		".ui.button[data-role='newQuestion']",
-						editButton: 			".ui.button[data-role='edit']",
+						editQuestionButton: 	".ui.button[data-role='edit']",
 						deleteQuestionButton: 	".ui.button[data-role='delete']",
 						saveButton:				".ui.button[data-role='save']",
 						closeButton:			"[data-role='close']",
 						questionTypeSelector:	"select[data-role='questionType']"
 					}, options );
+
+					form.init = function(){
+						$('[data-content]').popup({
+							position:'top center',
+							transition:'drop'
+						});
+
+						$('#newquestionform .dimmer').dimmer({
+							duration:{
+								show:500, 
+								hide:0
+							}
+						});
+
+						$(settings.editQuestionButton).on('click', function(){
+							var questionSummary = this.closest('.item');
+							var dataHolder = $(questionSummary).find('input[type="hidden"]');
+
+							var questionData = JSON.parse(dataHolder.val());	
+
+							form.setValue('prompt', questionData.prompt);
+							form.setValue('questionType', questionData.type);
+
+							//Load question option data!
+							switch(questionData.type){
+								case 'multichoice':
+									break;
+								case 'truefalse':
+									if( questionData.options.answer == true)
+										$('.truefalse.options .ui.checkbox').checkbox('check');
+									else
+										$('.truefalse.options .ui.checkbox').checkbox('uncheck');
+									break;
+							}
+
+							form.move(questionSummary);
+							$(questionSummary).children('.content').hide();
+						});
+
+						$(settings.deleteQuestionButton).on('click', function(){
+							var questionSummary = button.closest('.item');
+
+							var ajaxData;
+							var token;
+
+							//TODO Hookup to deletion endpoint
+							$.ajax({
+								url: '/api/question',
+								type: 'POST',
+								data: ajaxData,
+								beforeSend: function(xhr) {
+									xhr.setRequestHeader('X-CSRFToken', token);
+								},
+								success: function() {
+									$(questionSummary).remove();
+								}
+							});
+						});
+					};
+					form.init();
+
 
 					//Aux functions
 					form.clear = function(){
@@ -386,51 +433,6 @@
 						}
 					});
 
-					$(settings.deleteQuestionButton).on('click', function(){
-						var questionSummary = this.closest('.item');
-
-						//TODO Hookup to deletion endpoint
-						$.ajax({
-							url: '/api/question',
-							type: 'POST',
-							data: ajaxData,
-							beforeSend: function(xhr) {
-								xhr.setRequestHeader('X-CSRFToken', token);
-							},
-							success: function() {
-								$(questionSummary).remove();
-							}
-						});
-
-
-					});
-
-					$(settings.editButton).on('click', function(){
-						var questionSummary = this.closest('.item');
-						var dataHolder = $(questionSummary).find('input[type="hidden"]');
-
-						var questionData = JSON.parse(dataHolder.val());	
-
-						form.setValue('prompt', questionData.prompt);
-						form.setValue('questionType', questionData.type);
-
-						//Load question option data!
-						switch(questionData.type){
-							case 'multichoice':
-								break;
-							case 'truefalse':
-								if( questionData.options.answer == true)
-									$('.truefalse.options .ui.checkbox').checkbox('check');
-								else
-									$('.truefalse.options .ui.checkbox').checkbox('uncheck');
-								break;
-						}
-
-						form.move(questionSummary);
-						$(questionSummary).children('.content').hide();
-
-					});
-
 					form.find(settings.saveButton).on('click', function(){
 						form.setLoading();
 						var questionSummary = this.closest('.item');
@@ -469,7 +471,7 @@
 								options.text('True');
 
 								var answerOption = $('.truefalse.options .ui.checkbox').checkbox('is checked');
-								
+
 								questionData.options = {
 									answer: answerOption
 								};
@@ -492,6 +494,8 @@
 
 						}, 250);
 
+						//Update event listeners?
+						form.init();
 
 						return;
 
