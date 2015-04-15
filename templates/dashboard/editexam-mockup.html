@@ -375,6 +375,25 @@
 						}
 					});
 
+					$(settings.deleteQuestionButton).on('click', function(){
+						var questionSummary = this.closest('.item');
+
+						//TODO Hookup to deletion endpoint
+						$.ajax({
+							url: '/api/question',
+							type: 'POST',
+							data: ajaxData,
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader('X-CSRFToken', token);
+							},
+							success: function() {
+								$(questionSummary).remove();
+							}
+						});
+
+
+					});
+
 					$(settings.editButton).on('click', function(){
 						var questionSummary = this.closest('.item');
 						var dataHolder = $(questionSummary).find('input[type="hidden"]');
@@ -448,7 +467,7 @@
 
 						return;
 
-						//Perform AJAX call
+						//TODO Perform AJAX call
 						var ajaxData;
 						var token = form.find('input[name=csrfmiddlewaretoken]').val();
 
