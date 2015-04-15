@@ -145,7 +145,7 @@
 
 			<div class="ui tiny header">Question Type:</div>
 			<div class="field">
-				<select class="ui dropdown" name="questionType">
+				<select class="ui dropdown" name="type">
 					<option value="multichoice">Multiple Choice</option>
 					<option value="truefalse">True / False</option>
 					<option value="shortanswer">Short Answer</option>
@@ -262,7 +262,7 @@
 				type:'',
 				options:{},
 				clone:function(){
-					return $.extend({}, this)
+					return $.extend(true, {}, this)
 				}
 			};
 
@@ -348,8 +348,15 @@
 						var questionSummary = this.closest('.item');
 
 						//Get form data
-						console.log( form.form('get values') );
-
+						var questionData = questionDataTemplate.clone();
+						var formData = form.form('get values');
+						
+						questionData.prompt = formData.prompt;
+						questionData.type = formData.type;
+						
+						console.log(questionData);
+						
+						
 
 						// Check if it is editing a question or not
 						if(questionSummary != null){
