@@ -22,26 +22,26 @@ $('#newExamModal .ui.save.button').click(function(e) {
 });
 
 $('#newExamModal .ui.form').on('submit', function(e){
-	e.preventDefault();
-	submitNewExam();
+  e.preventDefault();
+  submitNewExam();
 });
 
 $('#newExamModal.ui.modal').modal(
-	{
-		transition:'fly down',
-		duration:500,
-		closable:false,
-		selector:{
-			approve:'.actions .save'
-		},
-		onShow:function(){
-			$(this).find('.ui.form').removeClass('loading');
+  {
+    transition:'fly down',
+    duration:500,
+    closable:false,
+    selector:{
+      approve:'.actions .save'
+    },
+    onShow:function(){
+      $(this).find('.ui.form').removeClass('loading');
       $(this).find('input[name=name]').val('');
-		},
-		onApprove: function(){
-			return false;
-		}
-	}
+    },
+    onApprove: function(){
+      return false;
+    }
+}
 );
 
 $('.new-exam-btn').on('click', function() {
