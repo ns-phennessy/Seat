@@ -104,14 +104,18 @@
 					<div class="ui divided items" data-role="questionContainer">
 
 						<div class="item">
-							<input type="hidden">
+							<input type="hidden" value='{"prompt":"butts","type":"multichoice","options":{}}'>
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
 									<div class="ui padded stackable grid">
-										<div class="three wide column">Multiple Choice<br>5 Options</div>
+										<div class="three wide column">
+											<span class="type">Multiple Choice</span>
+											<br>
+											<span class="options">5 Options</span>
+										</div>
 										<div class="ten wide column">
-											If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
+											<span class="prompt">What?</span>
 										</div>
 										<div class="two wide column center aligned">
 											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
@@ -121,6 +125,7 @@
 								</div>
 							</div>
 						</div>
+
 
 					</div>
 
@@ -307,7 +312,8 @@
 
 					//Moves the form to different locations
 					form.move = function(location){
-						form.close();				
+						form.close();
+						form.clear();
 						form.appendTo(location);
 						form.show();
 					};
@@ -350,39 +356,45 @@
 						//Get form data
 						var questionData = questionDataTemplate.clone();
 						var formData = form.form('get values');
-						
+
 						questionData.prompt = formData.prompt;
 						questionData.type = formData.type;
-						
-						console.log(questionData);
-						
-						
 
-						// Check if it is editing a question or not
-						if(questionSummary != null){
-							var prompt = questionSummary.find('.prompt');
-							var type = questionSummary.find('.type');
-							var options = questionSummary.find('.options');
-							var dataHolder = questionSummary.find('input[type="hidden"]');
+						//Check if question is new or exists
+						if(questionSummary == null){
+							questionSummary = $(".item.questionSummary").clone();
 
-
-
+							questionSummary.removeClass('questionSummary');
+							questionSummary.appendTo(items);
 						}
-						else{
-							var newQuestion = $(".item.questionSummary").clone();
-							newQuestion.removeClass('questionSummary');
 
-							var prompt = newQuestion.find('.prompt');
-							var type = newQuestion.find('.type');
-							var options = newQuestion.find('.options');
-							var dataHolder = newQuestion.find('input[type="hidden"]');
+						var prompt = $(questionSummary).find('.prompt');
+						var type = $(questionSummary).find('.type');
+						var options = $(questionSummary).find('.options');
+						var dataHolder = $(questionSummary).find('input[type="hidden"]');
 
-
-							newQuestion.appendTo(items);
-
+						prompt.text(questionData.prompt);
+						dataHolder.val(JSON.stringify(questionData));
+						
+						switch(questionData.type){
+							case 'multichoice':
+								type.text("Multiple Choice");
+								options.text('5 Options');
+								break;	
+							case 'truefalse':
+								type.text("True / False");
+								options.text('True');
+								break;	
+							case 'shortanswer':
+								type.text('Short Answer');
+								break;	
+							case 'essay':
+								type.text('Essay');
+								break;	
 						}
+
 						form.close();
-
+						$(questionSummary).show();
 
 					});
 
