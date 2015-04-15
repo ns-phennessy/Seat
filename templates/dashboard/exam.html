@@ -2,7 +2,7 @@
 
 {% block pagecontent %}
 
-{% include "dashboard/courses-list.html" %}
+{% include "dashboard/courses-list.html" with course=exam.course %}
 
 <div class="twelve wide column" id="main">
 
@@ -183,6 +183,7 @@
 {% load static %}
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/add-course.js' %}"></script>
+<script src="{% static 'js/new-exam.js' %}"></script>
 <script src="{% static 'js/exam.js' %}"></script>
 
 <script>
