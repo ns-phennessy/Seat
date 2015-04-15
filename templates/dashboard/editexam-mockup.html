@@ -327,7 +327,9 @@
 						});
 
 						$(settings.deleteQuestionButton).on('click', function(){
-							var questionSummary = button.closest('.item');
+							var questionSummary = this.closest('.item');
+							//TODO remove this when doing ajax
+							$(questionSummary).remove();
 
 							var ajaxData;
 							var token;
@@ -465,6 +467,15 @@
 							case 'multichoice':
 								type.text("Multiple Choice");
 								options.text('5 Options');
+								
+								//TODO load options
+								questionData.options = {
+								
+								};
+								
+								//Get total number of options we have
+								options.text(Object.keys(questionData.options).length + " Options");
+								
 								break;	
 							case 'truefalse':
 								type.text("True / False");
@@ -475,6 +486,8 @@
 								questionData.options = {
 									answer: answerOption
 								};
+								
+								options.text(answerOption);
 
 								break;	
 							case 'shortanswer':
@@ -491,7 +504,6 @@
 						setTimeout(function(){
 							form.close();
 							$(questionSummary).show();
-
 						}, 250);
 
 						//Update event listeners?
