@@ -329,6 +329,8 @@
 						$(settings.deleteQuestionButton).on('click', function(){
 							var questionSummary = this.closest('.item');
 							//TODO remove this when doing ajax
+							$(this).popup('hide');
+
 							$(questionSummary).remove();
 
 							var ajaxData;
@@ -467,15 +469,15 @@
 							case 'multichoice':
 								type.text("Multiple Choice");
 								options.text('5 Options');
-								
+
 								//TODO load options
 								questionData.options = {
-								
+
 								};
-								
+
 								//Get total number of options we have
 								options.text(Object.keys(questionData.options).length + " Options");
-								
+
 								break;	
 							case 'truefalse':
 								type.text("True / False");
@@ -486,7 +488,7 @@
 								questionData.options = {
 									answer: answerOption
 								};
-								
+
 								options.text(answerOption);
 
 								break;	
