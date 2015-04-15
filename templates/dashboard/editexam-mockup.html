@@ -101,9 +101,10 @@
 					<a class="item" data-tab="tab_preview">Preview</a>
 				</div>
 				<div class="ui bottom attached active tab segment" data-tab="tab_edit">
-					<div class="ui divided items">
+					<div class="ui divided items" data-role="questionContainer">
 
-						<div class="item" data-qid="0">
+						<div class="item">
+							<input type="hidden">
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
@@ -121,24 +122,6 @@
 							</div>
 						</div>
 
-						<div class="item" data-qid="1">
-							<div class="content">
-								<div class="header">Question 2</div>
-								<div class="meta">
-									<div class="ui padded stackable grid">
-										<div class="three wide column">Multiple Choice<br>5 Options
-										</div>
-										<div class="ten wide column">
-											Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
-										</div>
-										<div class="two wide column center aligned">
-											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
-											<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 
 					<div class="ui hidden divider"></div>
@@ -161,52 +144,53 @@
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
-			<select class="ui dropdown">
-				<option value="multichoice">Multiple Choice</option>
-				<option value="truefalse">True / False</option>
-				<option value="shortanswer">Short Answer</option>
-				<option value="essay">Essay</option>
-			</select>
+			<div class="field">
+				<select class="ui dropdown" name="questionType">
+					<option value="multichoice">Multiple Choice</option>
+					<option value="truefalse">True / False</option>
+					<option value="shortanswer">Short Answer</option>
+					<option value="essay">Essay</option>
+				</select>
+			</div>
+
 			<div class="ui segment">
 
 				<!-- Multiple Choice -->
-				<form class="ui form">
-					<div class="class five wide field">
-						<label>Options:</label>
-					</div>
-					
-					<div class="two fields">
-						<div class="one wide field" style="line-height: 3rem">
-							<div class="ui radio checkbox">
-								<input type="radio" name="option" checked="checked">
-								<label for="option"></label>
-							</div>
-						</div>
-						<div class="six wide field">
-							<label></label>
-							<div class="ui icon input">
-								<input type="text" placeholder="New Option...">
-								<i class="delete icon"></i>
-							</div>
+				<div class="class five wide field">
+					<label>Options:</label>
+				</div>
+
+				<div class="two fields">
+					<div class="one wide field" style="line-height: 3rem">
+						<div class="ui radio checkbox">
+							<input type="radio" name="option" checked="checked">
+							<label for="option"></label>
 						</div>
 					</div>
-					
-					<div class="two fields">
-						<div class="one wide field" style="line-height: 3rem">
-							<div class="ui radio checkbox">
-								<input type="radio" name="option">
-								<label for="option"></label>
-							</div>
-						</div>
-						<div class="six wide field">
-							<label></label>
-							<div class="ui input">
-								<input type="text" placeholder="New Option...">
-							</div>
+					<div class="six wide field">
+						<label></label>
+						<div class="ui icon input">
+							<input type="text" placeholder="New Option..." name="option">
+							<i class="delete icon"></i>
 						</div>
 					</div>
-					
-				</form>
+				</div>
+
+				<div class="two fields">
+					<div class="one wide field" style="line-height: 3rem">
+						<div class="ui radio checkbox">
+							<input type="radio" name="option">
+							<label for="option"></label>
+						</div>
+					</div>
+					<div class="six wide field">
+						<label></label>
+						<div class="ui input">
+							<input type="text" placeholder="New Option...">
+						</div>
+					</div>
+				</div>
+
 			</div>
 
 			<!-- True / False-->
@@ -235,6 +219,29 @@
 			</div>
 		</div>
 
+		<div class="item questionSummary" style="display:none">
+			<input type="hidden">
+			<div class="content">
+				<div class="header">Question</div>
+				<div class="meta">
+					<div class="ui padded stackable grid">
+						<div class="three wide column">
+							<span class="type"></span>
+							<br>
+							<span class="options"></span>
+						</div>
+						<div class="ten wide column">
+							<span class="prompt"></span>
+						</div>
+						<div class="two wide column center aligned">
+							<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+							<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 
 		<!-- Javascript -->
 		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
@@ -249,36 +256,8 @@
 			$('.ui.dropdown').dropdown();
 			$('.ui.checkbox').checkbox();
 
-			var examData = {
-				"name":'Example Exam',
-				"courseID":'1',
-
-				"questions":[
-					{
-						qid:0,
-						prompt:'If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?',
-						type:'multichoice',
-						options:{
-							answer:'Auckland',
-							choices:[
-								'New York',
-								'Gondor'
-							]
-						}
-					},
-					{
-						qid:1,
-						prompt:'Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?',
-						type:'truefalse',
-						options:{
-							answer:true
-						}
-					}
-				]
-			};
 
 			var questionDataTemplate = {
-				qid:0,
 				prompt:'',
 				type:'',
 				options:{},
@@ -357,23 +336,7 @@
 						var qid = $(parent).attr('data-qid');
 						var question;
 
-						$.each(examData.questions, function(i, v) {
-							if (v.qid == qid) {
-								question = v;
-							}
-						});
-
-						switch(question.type){
-							case "multichoice":
-								form.setValue('questionType', 'Multiple Choice');
-								break;
-
-							case "truefalse":
-								form.setValue('questionType', 'True / False');
-								break;
-						}
-
-						form.setValue('prompt', question.prompt);
+						// Load question data
 
 						form.move(parent);
 						$(parent).children('.content').hide();
@@ -381,17 +344,37 @@
 					});
 
 					form.find(settings.saveButton).on('click', function(){
-						//TODO save stuff!!!
 						form.setLoading();
-						setTimeout(	function(){ 
-							$('#newquestionform .dimmer').dimmer('show'); 
+						var questionSummary = this.closest('.item');
 
-							setTimeout(	function(){ 
-								form.close();
-								form.clear();
-							}, 1000);
+						//Get form data
+						console.log( form.form('get values') );
 
-						}, 5000);
+
+						// Check if it is editing a question or not
+						if(questionSummary != null){
+							var prompt = questionSummary.find('.prompt');
+							var type = questionSummary.find('.type');
+							var options = questionSummary.find('.options');
+							var dataHolder = questionSummary.find('input[type="hidden"]');
+
+
+
+						}
+						else{
+							var newQuestion = $(".item.questionSummary").clone();
+							newQuestion.removeClass('questionSummary');
+
+							var prompt = newQuestion.find('.prompt');
+							var type = newQuestion.find('.type');
+							var options = newQuestion.find('.options');
+							var dataHolder = newQuestion.find('input[type="hidden"]');
+
+
+							newQuestion.appendTo(items);
+
+						}
+						form.close();
 
 
 					});
