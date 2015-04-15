@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from seat.applications.AuthenticationApplication import AuthenticationApplication
+from seat.applications.RoutingApplication import RoutingApplication
 import logging
 
 authenticationApplication = AuthenticationApplication()
+routingApplication = RoutingApplication()
 logger = logging.getLogger('login')
 
 def login(request):
@@ -11,14 +13,17 @@ def login(request):
     elif (request.method == 'POST'):
         try:
             logger.info('trying to authenticate %s' % request.POST['username'])
-            user = authenticationApplication.authenticate(
+            user, is_teacher = authenticationApplication.authenticate(
                 username = request.POST['username'],
                 password = request.POST['password'])
             request.session['user_id'] = user.id
-            #TODO: should this be different if the user is a teacher/student?
-            return redirect('/dashboard/courses/')
-        except Exception, error:
-            print error
-            logger.info('Failed to authenticate user due to error: ', str(error))
+            request.session['is_teacher'] = is_teacher
+            
+            if is_teacher:
+                return redirect(routingApplication.teacher_index())
+            else:
+                return redirect(routingApplication.student_index())
+        except Exception as error:
+            logger.info('Failed to authenticate user due to error: ' + str(error))
             context = { 'error': str(error).capitalize() }
             return render(request, 'login/login.html', context)
