@@ -104,7 +104,7 @@
 					<div class="ui divided items" data-role="questionContainer">
 
 						<div class="item">
-							<input type="hidden" value='{"prompt":"What?","type":"truefalse","options":{}}'>
+							<input type="hidden" value='{"prompt":"What?","type":"multichoice","options":{}}'>
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
@@ -151,6 +151,7 @@
 			<div class="ui tiny header">Question Type:</div>
 			<div class="field">
 				<select class="ui dropdown" name="type" data-role="questionType">
+					<option value="">Select a question type!</option>
 					<option value="multichoice">Multiple Choice</option>
 					<option value="truefalse">True / False</option>
 					<option value="shortanswer">Short Answer</option>
@@ -165,7 +166,7 @@
 
 				<div class="field">
 					<!-- Multiple Choice -->
-					<div class="ui multichoice options">
+					<div class="ui hidden multichoice options">
 						<div class="two fields">
 							<div class="one wide field" style="line-height: 3rem">
 								<div class="ui radio checkbox">
@@ -185,7 +186,7 @@
 					</div>
 
 					<!-- True / False-->
-					<div class="ui truefalse options">
+					<div class="ui hidden truefalse options">
 						<div class="field">
 							<span data-role="setFalse" style="cursor:pointer">False</span>
 							<div class="ui toggle fitted checkbox" style="margin:0 1em">
@@ -196,7 +197,7 @@
 					</div>
 
 					<!-- Short Answer -->
-					<div class="ui shortanswer options">
+					<div class="ui hidden shortanswer options">
 						<div class="field">
 							<h2 class="ui faded centered text header">No options available</h2>						
 						</div>
@@ -204,7 +205,7 @@
 					</div>
 
 					<!-- Essay -->
-					<div class="ui essay options">
+					<div class="ui hidden essay options">
 						<div class="field">
 							<h2 class="ui faded centered text header">No options available</h2>						
 						</div>
@@ -305,6 +306,8 @@
 					form.clear = function(){
 						form.removeClass('loading');
 						form.find('.dimmer').dimmer('hide');
+						
+						//TODO clear options form data
 					};
 
 					form.setValue = function(item, value){
@@ -361,7 +364,7 @@
 					});
 
 					$(settings.questionTypeSelector).dropdown({
-						onChange: function(value, text, $choice){
+						onChange: function(value, text, $choice){							
 							form.find('.options').each(function(){
 								$(this).addClass('hidden')
 							});
