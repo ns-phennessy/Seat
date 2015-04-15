@@ -44,6 +44,6 @@ $('#newExamModal.ui.modal').modal(
 	}
 );
 
-$('#newExamBtn').on('click', function() {
+$('.new-exam-btn').on('click', function() {
   $('#newExamModal.ui.modal').modal('show');
 });
