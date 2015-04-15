@@ -12,6 +12,8 @@ class QuestionApplication(object):
             category = question['type']
             if category == "multichoice":
                 return self.create_multiple_choice_question(exam_id, question)
+            elif category == "truefalse":
+                return self.create_true_false_question(exam_id, question)
             else:
                 raise Exception("UNSUPPORTED-TYPE, only supports multiple right now.")
         except Exception, error:
@@ -22,6 +24,22 @@ class QuestionApplication(object):
         new_choice = Choice.objects.create(text=choice)
         new_choice.save()
         return new_choice
+
+    def create_true_false_question(self, exam_id, question):
+        try:
+            answer = self.create_choice(question['boolean'])
+            text = question['prompt']
+            new_question = Question.objects.create(
+                text = text,
+                answer = answer,
+                category = 'truefalse',
+                exam = Exam.objects.get(id=exam_id))
+            # no choices since its t/f, implied
+            new_question.save()
+            return new_question
+        except Exception as error:
+            logger.warn("failed to create truefalse question!")
+            raise(error)
 
     def create_multiple_choice_question(self, exam_id, question):
         try:

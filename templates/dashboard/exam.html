@@ -164,7 +164,7 @@
 					<label>Answer:</label>
 					<span>False</span>
 					<div class="ui toggle fitted checkbox" style="margin:0 1em">
-						<input type="checkbox" name="public">
+						<input type="checkbox" name="boolean">
 					</div>
 					<span>True</span>
 				</div>
@@ -323,9 +323,15 @@
                 form.setLoading();
 
                 var type = form.find('select[name=type]').val();
-                var question;
+                var question = {};
                 if (type === 'multichoice') {
                     question = form.multiChoiceData();
+                } else if (type === 'truefalse') {
+                    $('.form[name=truefalse] input').each(function(i,v) {
+                        question[$(v).attr('name')] = $(v).val() // should be "boolean" : true/false
+                    });
+                    question.type = 'truefalse';
+                    question.prompt = $('input[name=prompt]').val()
                 }
 
                 data = {
@@ -343,6 +349,7 @@
                         xhr.setRequestHeader('X-CSRFToken', token);
                     },
                     success: function() {
+                        /*TODO: GUYS success just means 200, you still have to check for failure */
                         $('#newquestionform .dimmer').dimmer('show');
                         location.reload();
                     }
