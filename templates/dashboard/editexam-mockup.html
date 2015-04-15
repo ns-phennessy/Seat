@@ -209,7 +209,7 @@
 			</div>
 
 			<div class="ui inverted dimmer">
-				<h2 class="ui icon header">
+				<h2 class="ui icon header" style="position:absolute; top:25%; left:0; right:0">
 					<i class="green checkmark icon"></i>
 					Question Saved!
 				</h2>
@@ -252,6 +252,13 @@
 			$('.ui.menu .item').tab();
 			$('.ui.dropdown:not(select[data-role="questionType"])').dropdown();
 			$('.ui.checkbox').checkbox();
+			
+			$('#newquestionform .dimmer').dimmer({
+				duration:{
+					show:500, 
+					hide:0
+				}
+			});
 
 
 			var questionDataTemplate = {
@@ -267,9 +274,11 @@
 			(function ($) {
 				$.fn.questionForm = function(options){
 
+					//Globals
 					var form = this;
 					var items = $('[data-tab="tab_edit"]').find('.items');
 
+					//Settings
 					var settings = $.extend({
 						newQuestionButton: 		".ui.button[data-role='newQuestion']",
 						editButton: 			".ui.button[data-role='edit']",
@@ -279,6 +288,7 @@
 						questionTypeSelector:	"select[data-role='questionType']"
 					}, options );
 
+					//Aux functions
 					form.clear = function(){
 						form.removeClass('loading');
 						form.find('.dimmer').dimmer('hide');
@@ -304,7 +314,6 @@
 						form.addClass('loading');
 					};
 
-					//Moves the form to different locations
 					form.move = function(location){
 						form.close();
 						form.clear();
@@ -318,7 +327,7 @@
 						items.find('.item .content').show();
 					};
 
-					//Listener for new question at bottom of page
+					//Event listeners
 					$(settings.newQuestionButton).on('click', function(){
 						form.setValue('header', 'New Question');
 						form.setValue('prompt', '');
@@ -335,7 +344,7 @@
 							form.find('.options').each(function(){
 								$(this).hide();
 							});
-							
+
 							switch(value){
 								case 'multichoice':
 									form.find('.multichoice.options').show();
@@ -412,6 +421,17 @@
 								type.text('Essay');
 								break;	
 						}
+
+						$('#newquestionform .dimmer').dimmer('show');
+
+						setTimeout(function(){
+							form.close();
+							$(questionSummary).show();
+
+						}, 250);
+
+
+						return;
 
 						//Perform AJAX call
 						var ajaxData;
