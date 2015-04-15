@@ -140,7 +140,7 @@
 
 
 		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
-			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
+			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
 			<h3 class="ui left floated header">New Question</h3>
 
 			<div class="field">
@@ -159,50 +159,63 @@
 			</div>
 
 			<div class="ui segment">
-
-				<div class="five wide field">
+				<div class="field">
 					<label>Options:</label>
 				</div>
 
-				<!-- Multiple Choice -->
-				<div class="ui multichoice options">
-					<div class="two fields">
-						<div class="one wide field" style="line-height: 3rem">
-							<div class="ui radio checkbox">
-								<input type="radio" name="option" checked="checked">
-								<label for="option"></label>
+				<div class="field">
+					<!-- Multiple Choice -->
+					<div class="ui multichoice options">
+						<div class="two fields">
+							<div class="one wide field" style="line-height: 3rem">
+								<div class="ui radio checkbox">
+									<input type="radio" name="option" checked="checked">
+									<label for="option"></label>
+								</div>
+							</div>
+							<div class="six wide field">
+								<label></label>
+								<div class="ui icon input">
+									<input type="text" placeholder="New Option..." name="option">
+									<i class="delete icon"></i>
+								</div>
 							</div>
 						</div>
-						<div class="six wide field">
-							<label></label>
-							<div class="ui icon input">
-								<input type="text" placeholder="New Option..." name="option">
-								<i class="delete icon"></i>
+
+					</div>
+
+					<!-- True / False-->
+					<div class="ui truefalse options">
+						<div class="field">
+							<span>False</span>
+							<div class="ui toggle fitted checkbox" style="margin:0 1em">
+								<input type="checkbox" name="public">
 							</div>
+							<span>True</span>
 						</div>
 					</div>
 
-				</div>
-
-				<!-- True / False-->
-				<div class="ui truefalse options">
-					<div class="field">
-						<span>False</span>
-						<div class="ui toggle fitted checkbox" style="margin:0 1em">
-							<input type="checkbox" name="public">
+					<!-- Short Answer -->
+					<div class="ui shortanswer options">
+						<div class="field">
+							<h2 class="ui faded centered text header">No options available</h2>						
 						</div>
-						<span>True</span>
+						<br>
+					</div>
+
+					<!-- Essay -->
+					<div class="ui essay options">
+						<div class="field">
+							<h2 class="ui faded centered text header">No options available</h2>						
+						</div>
+						<br>
 					</div>
 				</div>
 
-				<!-- Short Answer -->
-				<!-- Essay -->
+
 
 			</div>
-
-
-
-			<div class="ui divider"></div>
+			<br>
 			<div class="two fields">                                
 				<div class="ui right floated button" data-role="close">Cancel</div>
 				<div class="ui blue button" data-role="save">Save Question</div>
@@ -252,7 +265,7 @@
 			$('.ui.menu .item').tab();
 			$('.ui.dropdown:not(select[data-role="questionType"])').dropdown();
 			$('.ui.checkbox').checkbox();
-			
+
 			$('#newquestionform .dimmer').dimmer({
 				duration:{
 					show:500, 
@@ -353,8 +366,10 @@
 									form.find('.truefalse.options').show();
 									break;	
 								case 'shortanswer':
+									form.find('.shortanswer.options').show();
 									break;	
 								case 'essay':
+									form.find('.essay.options').show();
 									break;	 
 							}
 						}
@@ -396,9 +411,9 @@
 						}
 
 						//Get elements to load data into
-						var prompt = $(questionSummary).find('.prompt');
-						var type = $(questionSummary).find('.type');
-						var options = $(questionSummary).find('.options');
+						var prompt = $(questionSummary).find('span.prompt');
+						var type = $(questionSummary).find('span.type');
+						var options = $(questionSummary).find('span.options');
 						var dataHolder = $(questionSummary).find('input[type="hidden"]');
 
 						//Set values
