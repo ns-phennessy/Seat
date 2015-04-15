@@ -9,7 +9,7 @@
     <div class="ui active tab">
         <h1 class="ui dividing header">
             <div class="content">
-                Create Exam
+                Edit Exam
             </div>
         </h1>
 
@@ -96,16 +96,17 @@
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
-			<select class="ui dropdown" name="type">
+			<select id="question-type-selection" class="ui dropdown" name="type">
+                <option></option>
 				<option value="multichoice">Multiple Choice</option>
 				<option value="truefalse">True / False</option>
 				<option value="shortanswer">Short Answer</option>
 				<option value="essay">Essay</option>
 			</select>
-			<div class="ui segment">
+			<div id="question-specifics-segment" class="ui segment" hidden>
 
 				<!-- Multiple Choice -->
-				<form class="ui form" name="multichoice">
+				<form class="ui form" name="multichoice" hidden>
 					<div class="class five wide field">
 						<label>Options:</label>
 					</div>
@@ -141,10 +142,9 @@
 						</div>
 					</div>
 				</form>
-			</div>
 
 			<!-- True / False-->
-			<form class="ui hidden form" name="truefalse">
+			<form class="ui form" name="truefalse" hidden>
 				<div class="field">
 					<label>Answer:</label>
 					<span>False</span>
@@ -154,9 +154,10 @@
 					<span>True</span>
 				</div>
 			</form>
+			</div>
 
 			<div class="ui divider"></div>
-			<div class="two fields">
+			<div id="question-save-bar" class="two fields" hidden>
 				<div class="ui right floated button" data-role="close">Cancel</div>
 				<div class="ui blue button" data-role="save">Save Question</div>
 			</div>
