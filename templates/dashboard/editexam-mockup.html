@@ -104,7 +104,7 @@
 					<div class="ui divided items" data-role="questionContainer">
 
 						<div class="item">
-							<input type="hidden" value='{"prompt":"butts","type":"multichoice","options":{}}'>
+							<input type="hidden" value='{"prompt":"What?","type":"truefalse","options":{}}'>
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
@@ -337,15 +337,18 @@
 					});
 
 					$(settings.editButton).on('click', function(){
-						var parent = this.closest('.item');
+						var questionSummary = this.closest('.item');
+						var dataHolder = $(questionSummary).find('input[type="hidden"]');
 
-						var qid = $(parent).attr('data-qid');
-						var question;
-
-						// Load question data
-
-						form.move(parent);
-						$(parent).children('.content').hide();
+						var questionData = JSON.parse(dataHolder.val());	
+						
+						form.setValue('prompt', questionData.prompt);
+						form.setValue('questionType', questionData.type);
+						
+						//TODO Load options
+															  
+						form.move(questionSummary);
+						$(questionSummary).children('.content').hide();
 
 					});
 
@@ -368,14 +371,16 @@
 							questionSummary.appendTo(items);
 						}
 
+						//Get elements to load data into
 						var prompt = $(questionSummary).find('.prompt');
 						var type = $(questionSummary).find('.type');
 						var options = $(questionSummary).find('.options');
 						var dataHolder = $(questionSummary).find('input[type="hidden"]');
 
+						//Set values
 						prompt.text(questionData.prompt);
 						dataHolder.val(JSON.stringify(questionData));
-						
+
 						switch(questionData.type){
 							case 'multichoice':
 								type.text("Multiple Choice");
@@ -393,8 +398,24 @@
 								break;	
 						}
 
-						form.close();
-						$(questionSummary).show();
+						//Perform AJAX call
+						var ajaxData;
+						var token = form.find('input[name=csrfmiddlewaretoken]').val();
+						
+						$.ajax({
+							url: '/api/question',
+							type: 'POST',
+							data: ajaxData,
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader('X-CSRFToken', token);
+							},
+							success: function() {
+								$('#newquestionform .dimmer').dimmer('show');
+								form.close();
+								$(questionSummary).show();
+							}
+						});
+
 
 					});
 
