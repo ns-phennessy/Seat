@@ -187,11 +187,11 @@
 					<!-- True / False-->
 					<div class="ui truefalse options">
 						<div class="field">
-							<span>False</span>
+							<span data-role="setFalse" style="cursor:pointer">False</span>
 							<div class="ui toggle fitted checkbox" style="margin:0 1em">
 								<input type="checkbox" name="public">
 							</div>
-							<span>True</span>
+							<span data-role="setTrue" style="cursor:pointer">True</span>
 						</div>
 					</div>
 
@@ -348,6 +348,14 @@
 						$(this).hide();
 					});
 
+					$('.truefalse.options [data-role="setTrue"]').on('click', function(){
+						$('.truefalse.options .ui.checkbox').checkbox('check');
+					});
+					
+					$('.truefalse.options [data-role="setFalse"]').on('click', function(){
+						$('.truefalse.options .ui.checkbox').checkbox('uncheck');
+					});
+					
 					form.find(settings.closeButton).on('click', function(){
 						form.close();
 					});
@@ -355,21 +363,21 @@
 					$(settings.questionTypeSelector).dropdown({
 						onChange: function(value, text, $choice){
 							form.find('.options').each(function(){
-								$(this).hide();
+								$(this).addClass('hidden')
 							});
 
 							switch(value){
 								case 'multichoice':
-									form.find('.multichoice.options').show();
+									form.find('.multichoice.options').removeClass('hidden');
 									break;	
 								case 'truefalse':
-									form.find('.truefalse.options').show();
+									form.find('.truefalse.options').removeClass('hidden');
 									break;	
 								case 'shortanswer':
-									form.find('.shortanswer.options').show();
+									form.find('.shortanswer.options').removeClass('hidden');
 									break;	
 								case 'essay':
-									form.find('.essay.options').show();
+									form.find('.essay.options').removeClass('hidden');
 									break;	 
 							}
 						}
