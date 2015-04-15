@@ -8,7 +8,11 @@ function submitNewExam() {
     url:  '/api/exam',
     data: data,
     success: function(res) {
-      location.reload()
+      if (res.success) {
+        location = res.edit_url
+      } else {
+        location.reload()
+      }
     }
   });
 }
