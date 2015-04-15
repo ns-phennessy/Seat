@@ -23,7 +23,13 @@ def login(request):
                 return redirect(routingApplication.teacher_index())
             else:
                 return redirect(routingApplication.student_index())
-        except Exception as error:
-            logger.info('Failed to authenticate user due to error: ' + str(error))
+
+        except AssertionError as error:
+            logger.debug('Failed to authenticate user due to error: ' + str(error))
             context = { 'error': str(error).capitalize() }
+            return render(request, 'login/login.html', context)
+
+        except Exception as error:
+            logger.debug('Failed to authenticate user due to error: ' + str(error))
+            context = { 'error': "The server encountered an error" }
             return render(request, 'login/login.html', context)

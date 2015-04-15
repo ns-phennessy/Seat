@@ -29,31 +29,31 @@ def dashboard_index(request):
     try:
         if request.method != 'GET':
             logger.info("non-get request received at dashboard_index endpoint"+str(request))
-            return redirect( routingApplication.invalid_request_url(request) )
+            return routingApplication.invalid_request(request)
 
         teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
         if not teacher:
             logger.info("user who was not teacher hit dashboard_index:"+str(request))
             sessionApplication.logout(request)
-            return redirect( routingApplication.invalid_permissions_url(request) )
+            return routingApplication.invalid_permissions(request)
 
         # send teacher to go see their courses
         return redirect( teacherApplication.landing_page_url(teacher) )
     except Exception, error:
         logger.error("unhandled error in dashboard_index:"+str(error))
-        return redirect( routingApplication.error_url(request) )
+        return routingApplication.error(request, error)
 
 def courses(request, course_id):
     try:
         if request.method != 'GET':
             logger.info("courses::non-get request received at courses endpoint"+str(request))
-            return redirect( routingApplication.invalid_request_url(request) )
+            return routingApplication.invalid_request(request)
 
         teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
         if not teacher:
             logger.info("courses::user who was not teacher hit courses endpoint"+str(request))
             sessionApplication.logout(request)
-            return redirect( routingApplication.invalid_permissions_url(request) )
+            return routingApplication.invalid_permissions(request)
 
         course_to_display = None # defining here just to be clear
 
@@ -79,7 +79,7 @@ def courses(request, course_id):
 
     except Exception, error:
         logger.error("courses::unhandled error:"+str(error))
-        return redirect( routingApplication.error_url(request) )
+        return routingApplication.error(request, error)
 
 
 # GET
