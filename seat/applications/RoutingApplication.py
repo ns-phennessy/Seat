@@ -4,7 +4,7 @@ from django.shortcuts import render
 class RoutingApplication(object):
     """object for abstracting out all those hardcoded urls"""
 
-    def error_url(self, request, error):
+    def error(self, request, error):
         return render('error.html',{ 'code':500, 'error' : error })
 
     def invalid_permissions(self, request):
