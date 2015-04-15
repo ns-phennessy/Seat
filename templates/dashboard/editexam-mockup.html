@@ -150,7 +150,7 @@
 
 			<div class="ui tiny header">Question Type:</div>
 			<div class="field">
-				<select class="ui dropdown" name="type">
+				<select class="ui dropdown" name="type" data-role="questionType">
 					<option value="multichoice">Multiple Choice</option>
 					<option value="truefalse">True / False</option>
 					<option value="shortanswer">Short Answer</option>
@@ -160,55 +160,47 @@
 
 			<div class="ui segment">
 
-				<!-- Multiple Choice -->
-				<div class="class five wide field">
+				<div class="five wide field">
 					<label>Options:</label>
 				</div>
 
-				<div class="two fields">
-					<div class="one wide field" style="line-height: 3rem">
-						<div class="ui radio checkbox">
-							<input type="radio" name="option" checked="checked">
-							<label for="option"></label>
+				<!-- Multiple Choice -->
+				<div class="ui multichoice options">
+					<div class="two fields">
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option" checked="checked">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<label></label>
+							<div class="ui icon input">
+								<input type="text" placeholder="New Option..." name="option">
+								<i class="delete icon"></i>
+							</div>
 						</div>
 					</div>
-					<div class="six wide field">
-						<label></label>
-						<div class="ui icon input">
-							<input type="text" placeholder="New Option..." name="option">
-							<i class="delete icon"></i>
+
+				</div>
+
+				<!-- True / False-->
+				<div class="ui truefalse options">
+					<div class="field">
+						<span>False</span>
+						<div class="ui toggle fitted checkbox" style="margin:0 1em">
+							<input type="checkbox" name="public">
 						</div>
+						<span>True</span>
 					</div>
 				</div>
 
-				<div class="two fields">
-					<div class="one wide field" style="line-height: 3rem">
-						<div class="ui radio checkbox">
-							<input type="radio" name="option">
-							<label for="option"></label>
-						</div>
-					</div>
-					<div class="six wide field">
-						<label></label>
-						<div class="ui input">
-							<input type="text" placeholder="New Option...">
-						</div>
-					</div>
-				</div>
+				<!-- Short Answer -->
+				<!-- Essay -->
 
 			</div>
 
-			<!-- True / False-->
-			<form class="ui hidden form">
-				<div class="field">
-					<label>Answer:</label>
-					<span>False</span>
-					<div class="ui toggle fitted checkbox" style="margin:0 1em">
-						<input type="checkbox" name="public">
-					</div>
-					<span>True</span>
-				</div>
-			</form>
+
 
 			<div class="ui divider"></div>
 			<div class="two fields">                                
@@ -258,11 +250,12 @@
 			});
 
 			$('.ui.menu .item').tab();
-			$('.ui.dropdown').dropdown();
+			$('.ui.dropdown:not(select[data-role="questionType"])').dropdown();
 			$('.ui.checkbox').checkbox();
 
 
 			var questionDataTemplate = {
+				question_id:'',
 				prompt:'',
 				type:'',
 				options:{},
@@ -283,6 +276,7 @@
 						deleteQuestionButton: 	".ui.button[data-role='delete']",
 						saveButton:				".ui.button[data-role='save']",
 						closeButton:			"[data-role='close']",
+						questionTypeSelector:	"select[data-role='questionType']"
 					}, options );
 
 					form.clear = function(){
@@ -336,17 +330,38 @@
 						form.close();
 					});
 
+					$(settings.questionTypeSelector).dropdown({
+						onChange: function(value, text, $choice){
+							form.find('.options').each(function(){
+								$(this).hide();
+							});
+							
+							switch(value){
+								case 'multichoice':
+									form.find('.multichoice.options').show();
+									break;	
+								case 'truefalse':
+									form.find('.truefalse.options').show();
+									break;	
+								case 'shortanswer':
+									break;	
+								case 'essay':
+									break;	 
+							}
+						}
+					});
+
 					$(settings.editButton).on('click', function(){
 						var questionSummary = this.closest('.item');
 						var dataHolder = $(questionSummary).find('input[type="hidden"]');
 
 						var questionData = JSON.parse(dataHolder.val());	
-						
+
 						form.setValue('prompt', questionData.prompt);
 						form.setValue('questionType', questionData.type);
-						
+
 						//TODO Load options
-															  
+
 						form.move(questionSummary);
 						$(questionSummary).children('.content').hide();
 
@@ -401,7 +416,7 @@
 						//Perform AJAX call
 						var ajaxData;
 						var token = form.find('input[name=csrfmiddlewaretoken]').val();
-						
+
 						$.ajax({
 							url: '/api/question',
 							type: 'POST',
