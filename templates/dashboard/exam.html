@@ -107,8 +107,8 @@
 
 				<!-- Multiple Choice -->
 				<form class="ui form" name="multichoice" hidden>
-					<div class="class five wide field">
-						<label>Options:</label>
+					<div class="class six wide field">
+						<label>Options (the one selected is the answer):</label>
 					</div>
 
 					<div class="two fields">
@@ -141,8 +141,23 @@
 							</div>
 						</div>
 					</div>
+                    <div class="ui blue button add-multichoice-choice">+</div>
 				</form>
-
+                <div id="default-multichoice-option" class="two fields" hidden>
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<label></label>
+							<div class="ui input">
+								<input type="text" name="choice" placeholder="New Option...">
+							</div>
+						</div>
+                        <div class="ui button right red small delete" style="margin-top: 8px;" onclick="$(this).parent().remove();">-</div>
+					</div>
 			<!-- True / False-->
 			<form class="ui form" name="truefalse" hidden>
 				<div class="field">
