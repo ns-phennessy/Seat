@@ -10,6 +10,6 @@ class TakenExam(models.Model):
     student = models.ForeignKey(Student)
     completed = models.BooleanField(default=False)
     token = models.ForeignKey(Token)
-    score = models.DecimalField(decimal_places=2, max_digits = 100)
+    score = models.DecimalField(decimal_places=2, max_digits = 10)
 
 
