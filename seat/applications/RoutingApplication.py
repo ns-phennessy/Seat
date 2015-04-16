@@ -7,8 +7,8 @@ class RoutingApplication(object):
     def error_url(self, request, error):
         return render('error.html',{ 'code':500, 'error' : error })
 
-    def invalid_permissions(self, request, msg="proper authentication required"):
-        return render('error.html',{ 'code':401, 'error' : msg })
+    def invalid_permissions(self, request):
+        return render('error.html',{ 'code':401, 'error' : "proper authentication required" })
 
     def invalid_request(self, request):
         return render('error.html',{ 'code':406, 'error' : "not acceptable" })

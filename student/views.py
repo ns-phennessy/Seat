@@ -2,19 +2,15 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 import student.student_view_models as models
-from seat.models.exam import Question
 from seat.applications.RoutingApplication import RoutingApplication
 from seat.applications.AuthenticationApplication import AuthenticationApplication
 from seat.applications.StudentApplication import StudentApplication
 from seat.applications.ExamApplication import ExamApplication
-from seat.applications.TokenApplication import TokenApplication
 
 routingApplication = RoutingApplication()
 authenticationApplication = AuthenticationApplication()
 studentApplication = StudentApplication()
 examApplication = ExamApplication()
-tokenApplication = TokenApplication()
-
 def index(request):
     if 'user_id' not in request.session:
         # user not allowed here, kick em out
@@ -33,20 +29,3 @@ def index(request):
 
     # student dashboard
     return render(request, 'student/index.html', models.index_view_model(student, released_taken_exams))
-
-def take_exam(request):
-    if 'user_id' not in request.session: # set when logged in
-        return routingApplication.logout(request)
-    
-    if 'token' not in request.session: # set when the token was validated
-        return routingApplication.logout(request)
-    
-    student = studentApplication.get_student_by_id(request.session['user_id'])
-    token = tokenApplication.is_valid(request.session['token'])
-
-    if not token:
-        return routingApplication.invalid_permissions(request, "token not valid")
-
-    exam = token.exam
-    questions = Question.objects.filter(exam=exam)
-    return render(request, 'student/take-exam.html', {'exam':exam, 'questions':questions})
