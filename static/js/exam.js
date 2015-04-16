@@ -60,12 +60,19 @@ var questionDataTemplate = {
 
 				var questionData = JSON.parse(dataHolder.val());	
 
+				form.clear();
+
 				form.setValue('prompt', questionData.prompt);
 				form.setValue('questionType', questionData.type);
 
 				//Load question option data!
 				switch(questionData.type){
 					case 'multichoice':
+						$.each(questionData.options, function(){
+							
+						});
+						
+						
 						break;
 					case 'truefalse':
 						if( questionData.options.answer == true)
@@ -149,7 +156,6 @@ var questionDataTemplate = {
 
 		form.move = function(location){
 			form.close();
-			form.clear();
 			form.appendTo(location);
 			form.show();
 		};
@@ -188,6 +194,8 @@ var questionDataTemplate = {
 
 		//Event listeners
 		$(settings.newQuestionButton).on('click', function(){
+			form.clear();
+
 			form.setValue('header', 'New Question');
 			form.setValue('prompt', '');
 			form.move( $('.ui.segment[data-tab="tab_edit"]') );
@@ -262,16 +270,8 @@ var questionDataTemplate = {
 				case 'multichoice':
 					type.text("Multiple Choice");
 					options.text('5 Options');
-
-					//TODO load options
-					questionData.options = {
-
-					};
-
-					console.log(form.multiChoiceData());
-
-					//Get total number of options we have
-					options.text(Object.keys(questionData.options).length + " Options");
+					questionData.options = form.multiChoiceData().options;
+					options.text( (Object.keys(questionData.options.choices).length + 1) + " Options");
 
 					break;	
 				case 'truefalse':
