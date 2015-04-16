@@ -21,6 +21,13 @@ class RoutingApplication(object):
         """ indicates the default landing page for a student upon login """
         return '/student/'
 
+    def logout(self, request):
+        if request.session['user_id']:
+            print "Logging out user with id", request.session['user_id'] 
+        for key in request.session.keys():
+            del request.session[key]
+        request.session.flush() # force this through the db
+        return redirect('/login/')
 
 
 
