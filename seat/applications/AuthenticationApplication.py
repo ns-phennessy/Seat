@@ -47,7 +47,7 @@ class AuthenticationApplication(object):
         return [user_dn, user_attrs]
 
     def verify_user_credentials_or_throw(self, dn, password, conn):
-        conn.simple_bind(dn, password)
+        return conn.simple_bind_s(dn, password)
 
     def authenticate(
             self,
@@ -77,8 +77,8 @@ class AuthenticationApplication(object):
             else:
                 raise AuthenticationError("User not found")
 
-        try: 
-            self.verify_user_credentials_or_throw(distinguishedName, password, conn)
+        try:
+            result = self.verify_user_credentials_or_throw(distinguishedName, password, conn)
             logger.debug("user attributes:"+str(user_attrs))
         except Exception as error:
             raise AssertionError("Authentication has failed")  

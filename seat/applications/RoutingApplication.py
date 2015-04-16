@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 class RoutingApplication(object):
     """object for abstracting out all those hardcoded urls"""
@@ -22,7 +22,7 @@ class RoutingApplication(object):
         return '/student/'
 
     def logout(self, request):
-        if request.session['user_id']:
+        if 'user_id' in request.session:
             print "Logging out user with id", request.session['user_id'] 
         for key in request.session.keys():
             del request.session[key]

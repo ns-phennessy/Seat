@@ -29,15 +29,17 @@
             </div>
         </div>
 
-        <div class="ui form raised segment">
+        <div class="ui raised form">
             <div id="token-segment" class="ui segment page">
                 <div class="two fields">
                     <h1 class="ui header bold field">
                     Enter token to begin exam:
                     </h1>
-                    <div class="ui input field">
-                        <input class="text" type="text" name="token" value="" placeholder="test token here" />
-                    </div>
+                    <form id="token-input" class="ui form field">
+                        {% csrf_token %}
+                        <input autocomplete="off" class="text" type="text" name="token" value="" placeholder="test token here" />
+                        <div class="ui error message red"></div>
+                    </form>
                 </div>
             </div>
             
@@ -73,6 +75,7 @@
         <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
         <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
         <script src="{% static 'js/base.js' %}"></script>
+        <script src="{% static 'js/student-index.js' %}"></script>
         {% block javascript %}
         {% endblock %}
     </body>
