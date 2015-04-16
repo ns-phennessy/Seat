@@ -11,7 +11,7 @@
     <div id="question-{{question.id}}-msg" class="ui field message" hidden></div>
   </form>
 </div>
-
+{% if taking_test %}
 <script>
 //http://stackoverflow.com/questions/799981/document-ready-equivalent-without-jquery
 document.addEventListener("DOMContentLoaded", function() {
@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $input.on('change', function() {
         if (!in_progress) {
             in_progress = true;
+            $msg.hide()
         } else {
             return;
         }
@@ -31,12 +32,16 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 
     $input.on('blur',function() {
+        $msg.hide()
         update_submission(question_id, $input.val());
     })
     function update_submission(question_id, answer) {
-        $.post('api/submission',{
-            'question_id': question_id,
-            'answer' : answer
+        $.post('/api/submission',{
+            'submission' : JSON.stringify({
+                'question_id': question_id,
+                'text' : answer,
+            }),
+            'csrfmiddlewaretoken' : "{{csrf_token}}"
         }, function(data, success) {
             /* TODO: handle no internet */
             in_progress = false;
@@ -55,3 +60,4 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 </script>
+{% endif %}

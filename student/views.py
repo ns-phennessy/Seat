@@ -49,4 +49,4 @@ def take_exam(request):
 
     exam = token.exam
     questions = Question.objects.filter(exam=exam)
-    return render(request, 'student/take-exam.html', {'exam':exam, 'questions':questions})
+    return render(request, 'student/take-exam.html', {'exam':exam, 'questions':questions, 'taking_test':True})

@@ -43,7 +43,7 @@
         }
         if (data.success === true) {
           console.log('valid token')
-          location.href = '/student/take_exam.html'
+          location.href = '/student/take_exam'
         } else {
           $('#custom-errors').text(data.message).show()
         }

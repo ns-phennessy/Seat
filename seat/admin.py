@@ -1,11 +1,11 @@
 from django.contrib import admin
 
 from seat.models.user import User
-from seat.models.exam import Question, Submission, Exam, Choice
+from seat.models.exam import Question, Exam, Choice
 from seat.models.course import Course
 from seat.models.teacher import Teacher
 from seat.models.student import Student
-from seat.models.taken_exam import TakenExam
+from seat.models.taken_exam import TakenExam, Submission
 from seat.models.token import Token
 
 admin.site.register(User)

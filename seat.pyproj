@@ -36,6 +36,12 @@
     <Compile Include="api\helpers\__init__.py" />
     <Compile Include="api\resources\course_methods.py" />
     <Compile Include="api\resources\exam_methods.py" />
+    <Compile Include="api\resources\exam_completion_methods.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\resources\submission_methods.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="api\resources\token_validation.py">
       <SubType>Code</SubType>
     </Compile>
