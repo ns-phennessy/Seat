@@ -37,7 +37,8 @@ var questionDataTemplate = {
 			deleteQuestionButton: 	".ui.button[data-role='delete']",
 			saveButton:				".ui.button[data-role='save']",
 			closeButton:			"[data-role='close']",
-			questionTypeSelector:	"select[data-role='questionType']"
+			questionTypeSelector:	"select[data-role='questionType']",
+			deleteOptionSelector:	".ui.button[data-role='deleteOption']"
 		}, options );
 
 		form.init = function(){
@@ -110,7 +111,20 @@ var questionDataTemplate = {
 			form.removeClass('loading');
 			form.find('.dimmer').dimmer('hide');
 
-			//TODO clear options form data
+			var multichoiceForm = form.find('form[name=multichoice]');
+			
+			multichoiceForm.find('.three.fields').each(function(index, value){
+				if(index < 2){
+					$(this).find('input').val('');
+				}
+				else{
+					console.log($(this));
+					$(this).remove();
+				}
+			});
+			
+			var truefalse = form.find('.truefalse.options .ui.checkbox').checkbox('uncheck');
+			
 		};
 
 		form.setValue = function(item, value){
@@ -324,6 +338,10 @@ var questionDataTemplate = {
 			$('.ui.checkbox').checkbox();
 
 			template.show();
+			
+			$(settings.deleteOptionSelector).on('click', function(){				
+				$(this).closest('div.three.fields').remove();
+			});
 		});
 
 	};
