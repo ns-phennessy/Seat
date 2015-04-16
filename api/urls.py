@@ -5,5 +5,6 @@ urlpatterns = patterns('',
     url(r'course/?$', views.course),
     url(r'exam/?$', views.exam),
     url(r'question/?$', views.question),
-    url(r'token/?$', views.token)
+    url(r'validate_token/?$', views.validate_token),
+    url(r'token/?$', views.token),
 )

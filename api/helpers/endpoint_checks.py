@@ -1,4 +1,5 @@
 from seat.applications.TeacherApplication import TeacherApplication
+from seat.applications.StudentApplication import StudentApplication
 from seat.applications.CourseApplication import CourseApplication
 from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
 import logging
@@ -7,6 +8,7 @@ logger = logging.getLogger('api')
 
 teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
+studentApplication = StudentApplication()
 
 def get_dict_by_method(request, method):
     if method == "POST": return request.POST
@@ -27,6 +29,40 @@ def all_required_values_present(values, request, method):
         if not key_is_substring_of_some_dict_key(key, dictionary):
             return False
     return True
+
+# @required_values = array of necessary values for the endpoint to function
+# @method = POST, PUT, GET, DELETE
+# @request = request object from django
+# @functor = function that actually does the functionality the request is intended for, takes teacher,request as param
+def standard_student_endpoint(
+    endpoint_name,
+    required_values,
+    method,
+    request,
+    functor):
+        try:
+            if request.method != method:
+                logger.warn("non-"+method+" request landed in "+method+" logic at "+endpoint_name+" in the api:"+str(request))
+                return HttpResponseBadRequest("bummer. your non-"+method+" request landed in the "+method+" logic.")
+            else:
+                if 'user_id' not in request.session:
+                    logger.debug("unauthenticated request to "+endpoint_name+":"+str(request))
+                    return HttpResponseForbidden('not authenticated')
+
+                student = studentApplication.get_student_by_id( request.session['user_id'] )
+
+                if not student:
+                    logger.info("user who was not a student made a request to "+endpoint_name+", id of user:"+str(request.session['user_id']))
+                    return HttpResponseForbidden('not a student!')
+
+                if not all_required_values_present(required_values, request, method):
+                    logger.info("bad request made to "+endpoint_name+", not enough params "+str(request))
+                    return HttpResponseBadRequest("expected more values, expected these:"+str(required_values))
+                else:
+                    return functor(student, request)
+        except Exception, error:
+            logger.info("error in api endpoint "+endpoint_name+":"+str(error))
+            return HttpResponseServerError("unhandled error??!")
 
 # @required_values = array of necessary values for the endpoint to function
 # @method = POST, PUT, GET, DELETE
@@ -60,4 +96,4 @@ def standard_teacher_endpoint(
                     return functor(teacher, request)
         except Exception, error:
             logger.info("error in api endpoint "+endpoint_name+":"+str(error))
-            return HttpResponseServerError("unhandled error!")
+            return HttpResponseServerError("unhandled error?!")

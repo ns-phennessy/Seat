@@ -1,4 +1,4 @@
-from api.resources import course_methods, question_methods, exam_methods, token_methods
+from api.resources import course_methods, question_methods, exam_methods, token_methods, token_validation
 from django.http import HttpResponseNotAllowed
 
 def course(request, course_id = None):
@@ -48,3 +48,7 @@ def token(request):
         return token_methods.get_token(request)
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
+
+
+def validate_token(request):
+    return token_validation.validate_token(request)

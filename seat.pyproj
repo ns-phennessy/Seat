@@ -36,6 +36,9 @@
     <Compile Include="api\helpers\__init__.py" />
     <Compile Include="api\resources\course_methods.py" />
     <Compile Include="api\resources\exam_methods.py" />
+    <Compile Include="api\resources\token_validation.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="api\resources\question_methods.py" />
     <Compile Include="api\resources\token_methods.py" />
     <Compile Include="api\resources\__init__.py" />
@@ -148,6 +151,7 @@
     <Content Include="static\js\jquery.min.js" />
     <Content Include="static\js\rename-course.js" />
     <Content Include="static\js\semantic.min.js" />
+    <Content Include="static\js\student-index.js" />
     <Content Include="templates\dashboard\common\base.html" />
     <Content Include="templates\dashboard\course.html" />
     <Content Include="templates\dashboard\courses-list.html" />
@@ -163,7 +167,6 @@
     <Content Include="templates\dashboard\true-false.html" />
     <Content Include="templates\login\login.html" />
     <Content Include="templates\student\index.html" />
-    <Content Include="templates\student\test-listing-template.html" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />

@@ -28,7 +28,10 @@ def login(request):
             logger.debug('Failed to authenticate user due to error: ' + str(error))
             context = { 'error': str(error).capitalize() }
             return render(request, 'login/login.html', context)
-
+        except NameError as error:
+            logger.debug("failed to auth user")
+            context = { 'error': "User not found" }
+            return render(request, 'login/login.html', context)
         except Exception as error:
             logger.debug('Failed to authenticate user due to error: ' + str(error))
             context = { 'error': "The server encountered an error" }
