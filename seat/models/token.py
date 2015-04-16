@@ -7,7 +7,7 @@ def random_token():
 
 class Token(models.Model):
     """key to taking an exam"""
-    token = models.TextField(default=random_token)
+    token = models.TextField(default=random_token, unique=True)
     exam = models.ForeignKey(Exam)
     open = models.BooleanField(default=False)
     released = models.BooleanField(default=False)
