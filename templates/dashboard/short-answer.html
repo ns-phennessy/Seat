@@ -1,12 +1,57 @@
-<div class="ui indented text">
-  <p>{{ question.text }}</p>
-  <div class="ui hidden divider"></div>
-  <form class="ui form">
+<div id="question-{{question.id}}" class="ui indented text">
+  <form id="question-{{question.id}}-form" class="ui form">
+  <span class="ui field">Question:</span>
+  <span class="ui bold field">{{ question.text }}</span>
     <div class="eight wide field">
-      <label>Answer:</label>
-      <div class="ui input">
-        <input type="text">
-      </div>
+        <label>Answer:</label>
+          <div class="ui input">
+            <input id="question-{{question.id}}-input" type="text">
+          </div>
     </div>
+    <div id="question-{{question.id}}-msg" class="ui field message" hidden></div>
   </form>
 </div>
+
+<script>
+//http://stackoverflow.com/questions/799981/document-ready-equivalent-without-jquery
+document.addEventListener("DOMContentLoaded", function() {
+    /* TODO: maybe delay saves to throttle*/
+    var $input = $('#question-{{question.id}}-input');
+    var $msg = $("#question-{{question.id}}-msg");
+    var question_id = {{question.id}};
+    
+    var in_progress = false;
+    $input.on('change', function() {
+        if (!in_progress) {
+            in_progress = true;
+        } else {
+            return;
+        }
+        update_submission(question_id, $input.val());
+    })
+
+    $input.on('blur',function() {
+        update_submission(question_id, $input.val());
+    })
+    function update_submission(question_id, answer) {
+        $.post('api/submission',{
+            'question_id': question_id,
+            'answer' : answer
+        }, function(data, success) {
+            /* TODO: handle no internet */
+            in_progress = false;
+            if (data.success === false) {
+                console.log('failure to save')
+                $msg.removeClass('green').addClass('red').show().text('Not Saved!');
+            } else {
+                console.log('success!')
+                $msg.removeClass('red').addClass('green').show().text('Saved');
+            }
+        }).fail(function() {
+            in_progress = false;
+            console.log('fail')
+            $msg.removeClass('green').addClass('red').show().text('Not Saved!');
+        })
+    }
+});
+</script>
