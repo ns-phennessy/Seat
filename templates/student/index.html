@@ -35,11 +35,12 @@
                     <h1 class="ui header bold field">
                     Enter token to begin exam:
                     </h1>
-                    <form id="token-input" class="ui form field">
+                    <div id="token-input" class="ui form field">
                         {% csrf_token %}
                         <input autocomplete="off" class="text" type="text" name="token" value="" placeholder="test token here" />
                         <div class="ui error message red"></div>
-                    </form>
+                        <div id="custom-errors" class="ui message red" hidden></div>
+                    </div>
                 </div>
             </div>
             

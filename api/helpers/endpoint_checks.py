@@ -62,7 +62,7 @@ def standard_student_endpoint(
                     return functor(student, request)
         except Exception, error:
             logger.info("error in api endpoint "+endpoint_name+":"+str(error))
-            return HttpResponseServerError("unhandled error!")
+            return HttpResponseServerError("unhandled error??!")
 
 # @required_values = array of necessary values for the endpoint to function
 # @method = POST, PUT, GET, DELETE
@@ -96,4 +96,4 @@ def standard_teacher_endpoint(
                     return functor(teacher, request)
         except Exception, error:
             logger.info("error in api endpoint "+endpoint_name+":"+str(error))
-            return HttpResponseServerError("unhandled error!")
+            return HttpResponseServerError("unhandled error?!")

@@ -14,20 +14,37 @@
         }
       ]
     }
-  }).submit(function (e) {
-    e.preventDefault()
-    const token = $('#token-input input[name=token]').val();
-    /*loading*/
-    verify_token_and_redirect_to_exam(token)
+  }, {
+    'onSuccess': function () {
+        $('#custom-errors').text('').hide()
+        const token = $('#token-input input[name=token]').val();
+        /*TODO: loading*/
+        verify_token_and_redirect_to_exam(token)
+    },
+    'onFailure': function () {
+      $('#custom-errors').text('').hide()
+    }
   })
-
+  var duplicate_send_blocker = false;
   function verify_token_and_redirect_to_exam(token) {
+    if (duplicate_send_blocker === true) return;
+    console.log('submitting')
+    duplicate_send_blocker = true;
     $.post('/api/validate_token'
       ,{
         'token': token,
         'csrfmiddlewaretoken': $('[name=csrfmiddlewaretoken]').val()
-      }, function () {
-        console.log(arguments)
+      }, function (data, success) {
+        duplicate_send_blocker = false;
+        if (!success) {
+          $('.ui.error.message.red').text('connection failure')
+          return;
+        }
+        if (data.success === true) {
+          console.log('valid token')
+        } else {
+          $('#custom-errors').text(data.message).show()
+        }
       });
   }
 
