@@ -63,15 +63,24 @@
     <Compile Include="seat\applications\SessionApplication.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="seat\applications\StudentApplication.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\applications\TeacherApplication.py" />
     <Compile Include="seat\applications\__init__.py" />
     <Compile Include="seat\middleware\exceptions.py" />
     <Compile Include="seat\middleware\methods.py" />
     <Compile Include="seat\middleware\__init__.py" />
+    <Compile Include="seat\models\taken_exam.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\models\course.py" />
     <Compile Include="seat\models\exam.py" />
     <Compile Include="seat\models\student.py" />
     <Compile Include="seat\models\teacher.py" />
+    <Compile Include="seat\models\token.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\models\user.py" />
     <Compile Include="seat\models\__init__.py" />
     <Compile Include="seat\settings\development.py" />
@@ -81,7 +90,13 @@
     <Compile Include="seat\__init__.py" />
     <Compile Include="seat\urls.py" />
     <Compile Include="seat\wsgi.py" />
+    <Compile Include="student\student_view_models.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="student\tests.py" />
+    <Compile Include="student\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="student\views.py" />
     <Compile Include="student\__init__.py" />
   </ItemGroup>
@@ -107,6 +122,7 @@
     <Folder Include="templates\dashboard\common\" />
     <Folder Include="templates\dashboard\modals\" />
     <Folder Include="templates\login\" />
+    <Folder Include="templates\student\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
@@ -146,6 +162,8 @@
     <Content Include="templates\dashboard\short-answer.html" />
     <Content Include="templates\dashboard\true-false.html" />
     <Content Include="templates\login\login.html" />
+    <Content Include="templates\student\index.html" />
+    <Content Include="templates\student\test-listing-template.html" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />

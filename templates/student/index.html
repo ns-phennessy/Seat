@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Meta data -->
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Parkway Testing Application</title>
+
+        {% load static %}
+       
+        <!-- CSS -->
+        <link rel="stylesheet" href="{% static 'css/semantic.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/semantic-typography.css' %}">
+    </head>
+    <body>
+        <div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
+            <div class="column row">
+                <a href="#" style="float:left">
+                    <h1 class="ui inverted header">Test Dashboard</h1>
+                </a>
+                <div class="ui right floated text inverted menu">
+                    <div class="no hover item">
+                        <span class="ui bold text">{{ student.name }}</span>
+                    </div>
+                    <a href="#" class="item">Help</a>
+                    <a href="/logout/" class="item">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui form raised segment">
+            <div id="token-segment" class="ui segment page">
+                <div class="two fields">
+                    <h1 class="ui header bold field">
+                    Enter token to begin exam:
+                    </h1>
+                    <div class="ui input field">
+                        <input class="text" type="text" name="token" value="" placeholder="test token here" />
+                    </div>
+                </div>
+            </div>
+            
+            <div id="past-test-listing" class="ui segment">
+                <div class="two fields">
+                    <div class="ui header field">
+                        <h1>Past Exams:</h1>
+                        <div class="four fields">
+                            <div class="field">TEST</div>
+                            <div class="field">COURSE</div>
+                            <div class="field">GRADE</div>
+                        </div>
+                        <div class="ui list">
+                            {% for taken_exam in exams.all %}
+                           <div class="four fields item">
+                                <div class="field">{{ taken_exam.exam.name }}</div>
+                                <div class="field">{{ taken_exam.exam.course.name }}</div>
+                                <div class="field">{{ taken_exam.score }}%</div>
+                                {% if taken_exam.token.released %}
+                                    <div class="field">
+                                        <a href="/review/{{taken_exam.exam.id}}" title="your instructor has opened this exam for you to review">view</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Javascript -->
+        <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
+        <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
+        <script src="{% static 'js/base.js' %}"></script>
+        {% block javascript %}
+        {% endblock %}
+    </body>
+</html>
