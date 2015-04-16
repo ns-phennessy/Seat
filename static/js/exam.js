@@ -146,6 +146,32 @@ var questionDataTemplate = {
 			items.find('.item .content').show();
 		};
 
+		form.multiChoiceData = function() {
+
+			question = form.form('get values');
+			question.options = {}
+
+			var multiform = form.find('form[name=multichoice]');
+			var choices = multiform.find('input[name=choice]');
+
+			choices = choices.map(function() {
+				return $(this).val();
+			}).get();
+
+			var selectedRadio = multiform.find('input:radio[checked=checked]');
+			var selectedInput = selectedRadio.closest('.fields').find('input:text');
+
+			var answer = selectedInput.val();
+			var answerIndex = choices.indexOf(answer);
+
+			choices.splice(answerIndex, 1);
+
+			question.options.choices = choices;
+			question.options.answer = answer;
+
+			return question;
+		};
+
 		//Event listeners
 		$(settings.newQuestionButton).on('click', function(){
 			form.setValue('header', 'New Question');
@@ -228,6 +254,8 @@ var questionDataTemplate = {
 
 					};
 
+					console.log(form.multiChoiceData());
+
 					//Get total number of options we have
 					options.text(Object.keys(questionData.options).length + " Options");
 
@@ -285,6 +313,17 @@ var questionDataTemplate = {
 			});
 
 
+		});
+
+		$('.ui.button[data-role="add-multichoice-choice"]').on('click', function(){
+			var template = $('.multichoiceTemplate').clone();
+
+			template.removeClass('multichoiceTemplate');
+
+			template.insertBefore(this);
+			$('.ui.checkbox').checkbox();
+
+			template.show();
 		});
 
 	};

@@ -46,39 +46,39 @@
 		<a class="active item" data-tab="tab_edit">Edit</a>
 		<a class="item" data-tab="tab_preview">Preview</a>
 	</div>
-	
+
 	<div class="ui bottom attached active tab segment" data-tab="tab_edit">
 		<div class="ui divided items" data-role="questionContainer">
 
-		     {% for question in exam.question_set.all %}
-                <div class="item" data-role="question">
-                   <input type="hidden" value="">
-                    <div class="content">
-                        <div class="header">Question {{ forloop.counter }}</div>
-                        <div class="meta">
+			{% for question in exam.question_set.all %}
+			<div class="item" data-role="question">
+				<input type="hidden" value="">
+				<div class="content">
+					<div class="header">Question {{ forloop.counter }}</div>
+					<div class="meta">
 
-                            <div class="ui padded stackable grid">
-                                <div class="three wide column">
-                                    <span class="type">{{ question.category }}</span>
-                                    <br>
-                                    <span class="options"></span>
-                                </div>
-                                <div class="ten wide column">
-                                    <span class="prompt">{{ question.text }}</span>
-                                </div>
-                                <div class="two wide column center aligned">
-                                    <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
-                                    <div class="ui mini red icon button" data-role="delete" data-action="{% url 'dashboard.views.question' question.id %}" data-content="Delete">
-                                        {% csrf_token %}
-                                        <i class="delete icon"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-		
+						<div class="ui padded stackable grid">
+							<div class="three wide column">
+								<span class="type">{{ question.category }}</span>
+								<br>
+								<span class="options"></span>
+							</div>
+							<div class="ten wide column">
+								<span class="prompt">{{ question.text }}</span>
+							</div>
+							<div class="two wide column center aligned">
+								<div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini red icon button" data-role="delete" data-action="{% url 'dashboard.views.question' question.id %}" data-content="Delete">
+									{% csrf_token %}
+									<i class="delete icon"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+
 
 		</div>
 
@@ -119,22 +119,36 @@
 		<div class="field">
 			<!-- Multiple Choice -->
 			<div class="ui hidden multichoice options">
-				<div class="two fields">
-					<div class="one wide field" style="line-height: 3rem">
-						<div class="ui radio checkbox">
-							<input type="radio" name="option" checked="checked">
-							<label for="option"></label>
+				<form class="ui form">
+					<div class="two fields">
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option" checked="checked">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<div class="ui icon input">
+								<input type="text" name="choice" placeholder="New Option...">
+							</div>
 						</div>
 					</div>
-					<div class="six wide field">
-						<label></label>
-						<div class="ui icon input">
-							<input type="text" placeholder="New Option..." name="option">
-							<i class="delete icon"></i>
-						</div>
-					</div>
-				</div>
 
+					<div class="two fields">
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<div class="ui input">
+								<input type="text" name="choice" placeholder="New Option...">
+							</div>
+						</div>
+					</div>
+					<div class="ui blue icon button" data-role="add-multichoice-choice" data-content="New option"><i class="plus icon"></i></div>
+				</form>
 			</div>
 
 			<!-- True / False-->
@@ -177,6 +191,24 @@
 			<i class="green checkmark icon"></i>
 			Question Saved!
 		</h2>
+	</div>
+</div>
+
+
+<div class="two fields multichoiceTemplate" style="display:none">
+	<div class="one wide field" style="line-height: 3rem">
+		<div class="ui radio checkbox">
+			<input type="radio" name="option">
+			<label for="option"></label>
+		</div>
+	</div>
+	<div class="six wide field">
+		<div class="ui input">
+			<input type="text" name="choice" placeholder="New Option...">
+		</div>
+	</div>
+	<div class="one wide field">
+		<div class="ui small red icon button"><i class="delete icon"></i></div>
 	</div>
 </div>
 
