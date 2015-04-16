@@ -37,11 +37,13 @@
       }, function (data, success) {
         duplicate_send_blocker = false;
         if (!success) {
+          /* TODO: handle no internet */
           $('.ui.error.message.red').text('connection failure')
           return;
         }
         if (data.success === true) {
           console.log('valid token')
+          location.href = '/student/take_exam'
         } else {
           $('#custom-errors').text(data.message).show()
         }
