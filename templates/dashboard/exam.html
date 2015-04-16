@@ -9,7 +9,7 @@
     <div class="ui active tab">
         <h1 class="ui dividing header">
             <div class="content">
-                Create Exam
+                Edit Exam
             </div>
         </h1>
 
@@ -96,18 +96,19 @@
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
-			<select class="ui dropdown" name="type">
+			<select id="question-type-selection" class="ui dropdown" name="type">
+                <option></option>
 				<option value="multichoice">Multiple Choice</option>
 				<option value="truefalse">True / False</option>
 				<option value="shortanswer">Short Answer</option>
 				<option value="essay">Essay</option>
 			</select>
-			<div class="ui segment">
+			<div id="question-specifics-segment" class="ui segment" hidden>
 
 				<!-- Multiple Choice -->
-				<form class="ui form" name="multichoice">
-					<div class="class five wide field">
-						<label>Options:</label>
+				<form class="ui form" name="multichoice" hidden>
+					<div class="class six wide field">
+						<label>Options (the one selected is the answer):</label>
 					</div>
 
 					<div class="two fields">
@@ -140,23 +141,38 @@
 							</div>
 						</div>
 					</div>
+                    <div class="ui blue button add-multichoice-choice">+</div>
 				</form>
-			</div>
-
+                <div id="default-multichoice-option" class="two fields" hidden>
+						<div class="one wide field" style="line-height: 3rem">
+							<div class="ui radio checkbox">
+								<input type="radio" name="option">
+								<label for="option"></label>
+							</div>
+						</div>
+						<div class="six wide field">
+							<label></label>
+							<div class="ui input">
+								<input type="text" name="choice" placeholder="New Option...">
+							</div>
+						</div>
+                        <div class="ui button right red small delete" style="margin-top: 8px;" onclick="$(this).parent().remove();">-</div>
+					</div>
 			<!-- True / False-->
-			<form class="ui hidden form" name="truefalse">
+			<form class="ui form" name="truefalse" hidden>
 				<div class="field">
 					<label>Answer:</label>
 					<span>False</span>
 					<div class="ui toggle fitted checkbox" style="margin:0 1em">
-						<input type="checkbox" name="public">
+						<input type="checkbox" name="boolean">
 					</div>
 					<span>True</span>
 				</div>
 			</form>
+			</div>
 
 			<div class="ui divider"></div>
-			<div class="two fields">
+			<div id="question-save-bar" class="two fields" hidden>
 				<div class="ui right floated button" data-role="close">Cancel</div>
 				<div class="ui blue button" data-role="save">Save Question</div>
 			</div>
@@ -307,9 +323,15 @@
                 form.setLoading();
 
                 var type = form.find('select[name=type]').val();
-                var question;
+                var question = {};
                 if (type === 'multichoice') {
                     question = form.multiChoiceData();
+                } else if (type === 'truefalse') {
+                    $('.form[name=truefalse] input').each(function(i,v) {
+                        question[$(v).attr('name')] = $(v).val() // should be "boolean" : true/false
+                    });
+                    question.type = 'truefalse';
+                    question.prompt = $('input[name=prompt]').val()
                 }
 
                 data = {
@@ -327,6 +349,7 @@
                         xhr.setRequestHeader('X-CSRFToken', token);
                     },
                     success: function() {
+                        /*TODO: GUYS success just means 200, you still have to check for failure */
                         $('#newquestionform .dimmer').dimmer('show');
                         location.reload();
                     }

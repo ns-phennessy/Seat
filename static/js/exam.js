@@ -5,6 +5,19 @@ $('#addquestion').on('click', function(){
     $('#newquestionform').slideDown(100)
 });
 
+$('#question-type-selection').on('change', function () {
+  $('#question-specifics-segment').show()
+  $('#question-specifics-segment .form').hide()
+  $('#question-specifics-segment .form[name=' + $(this).val() + ']').show()
+  $('#question-save-bar').show()
+})
+
+$('.add-multichoice-choice').on('click', function () {
+  $('#default-multichoice-option').clone().show().insertBefore(this)
+})
+$('.form[name=multichoice] .delete').on('click', function () {
+  $(this).parent().remove()
+})
 $('div[data-role=question] div[data-role=delete]').on('click', function() {
     data = { question_id: $(this).data('id') }
 
