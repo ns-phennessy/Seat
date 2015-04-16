@@ -57,6 +57,9 @@
     <Compile Include="manage.py" />
     <Compile Include="seat\admin.py" />
     <Compile Include="seat\applications\AuthenticationApplication.py" />
+    <Compile Include="seat\applications\TokenApplication.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\applications\CourseApplication.py" />
     <Compile Include="seat\applications\ExamApplication.py" />
     <Compile Include="seat\applications\QuestionApplication.py">
@@ -167,6 +170,7 @@
     <Content Include="templates\dashboard\true-false.html" />
     <Content Include="templates\login\login.html" />
     <Content Include="templates\student\index.html" />
+    <Content Include="templates\student\take-exam.html" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
