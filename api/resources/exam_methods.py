@@ -4,6 +4,7 @@ from seat.applications.ExamApplication import ExamApplication
 from seat.models.course import Course
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
+from django.core.urlresolvers import reverse
 import logging
 
 logger = logging.getLogger('api')
@@ -17,7 +18,8 @@ def create_exam_success_json_model(exam_id):
     return JsonResponse({
         'success' : True,
         'error' : False,
-        'id' : str(exam_id)
+        'id' : str(exam_id),
+        'edit_url': reverse('dashboard.views.exam_edit', args=[exam_id])
     })
 
 def create_exam_failure_json_model(message):
@@ -72,7 +74,7 @@ def delete_exam_logic(teacher, request):
 def delete_exam(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_exam",
-        ['course_id'],
+        ['exam_id'],
         'DELETE',
         request,
         delete_exam_logic

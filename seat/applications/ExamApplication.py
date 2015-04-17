@@ -18,7 +18,7 @@ class ExamApplication(object):
 
     def delete_exam(self, exam_id):
         try:
-            Exam.objects.delete(id=exam_id)
+            Exam.objects.get(id=exam_id).delete()
         except Exception, error:
             logger.warn("failed to delete exam!:"+str(error))
             raise(error)

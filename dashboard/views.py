@@ -23,36 +23,37 @@ sessionApplication = SessionApplication()
 routingApplication = RoutingApplication()
 teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
+teacherApplication = TeacherApplication()
 
 def dashboard_index(request):
     try:
         if request.method != 'GET':
             logger.info("non-get request received at dashboard_index endpoint"+str(request))
-            return redirect( routingApplication.invalid_request_url(request) )
+            return routingApplication.invalid_request(request)
 
         teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
         if not teacher:
             logger.info("user who was not teacher hit dashboard_index:"+str(request))
             sessionApplication.logout(request)
-            return redirect( routingApplication.invalid_permissions_url(request) )
+            return routingApplication.invalid_permissions(request)
 
         # send teacher to go see their courses
         return redirect( teacherApplication.landing_page_url(teacher) )
     except Exception, error:
         logger.error("unhandled error in dashboard_index:"+str(error))
-        return redirect( routingApplication.error_url(request) )
+        return routingApplication.error(request, error)
 
 def courses(request, course_id):
     try:
         if request.method != 'GET':
             logger.info("courses::non-get request received at courses endpoint"+str(request))
-            return redirect( routingApplication.invalid_request_url(request) )
+            return routingApplication.invalid_request(request)
 
         teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
         if not teacher:
             logger.info("courses::user who was not teacher hit courses endpoint"+str(request))
             sessionApplication.logout(request)
-            return redirect( routingApplication.invalid_permissions_url(request) )
+            return routingApplication.invalid_permissions(request)
 
         course_to_display = None # defining here just to be clear
 
@@ -62,9 +63,9 @@ def courses(request, course_id):
             except Exception, error:
                 logger.info("courses::courses not found with id "+str(course_id)+" error:"+str(error))
                 return redirect( '/dashboard/courses/' )
-        else: 
+        else:
             course_to_display = teacherApplication.get_first_course(teacher)
-        
+
         if course_to_display is not None:
             return render(
                 request,
@@ -78,25 +79,16 @@ def courses(request, course_id):
 
     except Exception, error:
         logger.error("courses::unhandled error:"+str(error))
-        return redirect( routingApplication.error_url(request) )
+        return routingApplication.error(request, error)
 
 
-    # GET
+# GET
 def exam_edit(request, exam_num):
     #TODO: check user has permissions
     teacher = Teacher.objects.get(id=request.session['user_id'])
     exam = Exam.objects.get(id=exam_num)
     context = { 'teacher': teacher, 'exam': exam }
     return render(request, 'dashboard/exam.html', context)
-
-# GET
-def exam_new(request):
-    #TODO: check user has permissions
-    if request.method == 'GET':
-        teacher = Teacher.objects.get(id=request.session['user_id'])
-        context = { 'teacher': teacher }
-        return render(request, 'dashboard/exam.html', context)
-    #TODO: handle else condition
 
 question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
                 , 'True/False': 'dashboard/true-false.html'

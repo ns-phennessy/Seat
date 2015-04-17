@@ -6,6 +6,5 @@ urlpatterns = patterns('',
 	url(r'^/?$', 						views.dashboard_index),
     url(r'^courses/(\d+)?/?$',          views.courses),
     url(r'^exams/(\d+)/edit/?$',        views.exam_edit),
-    url(r'^exams/new/?$',               views.exam_new),
     url(r'^exams/(\d+)/questions/?$',   views.questions_index),
 )

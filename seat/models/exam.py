@@ -1,14 +1,11 @@
 from django.db import models
-
-class Submission(models.Model):
-	pass#circular reference avoidance
+from seat.models.course import Course
 
 class Exam(models.Model):
-	name = models.TextField()
-	updated_at = models.DateTimeField(auto_now=True)
-	def submissions():
-		return Submission.objects.get(exam=id)
-
+    name = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
+    course = models.ForeignKey(Course)
+    
 class Choice(models.Model):
     text = models.TextField()
 
@@ -18,7 +15,3 @@ class Question(models.Model):
     choices = models.ManyToManyField(Choice, related_name='question_choices')
     answer = models.ForeignKey(Choice, related_name='question_answer', null=True)
     exam = models.ForeignKey(Exam)
-
-#circular reference patch
-Submission.question = models.OneToOneField(Question)
-Submission.exam = models.ForeignKey(Exam)

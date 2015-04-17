@@ -1,14 +1,18 @@
 $('div[data-role=question] div[data-role=delete]').on('click', function() {
-	$.ajax({
-		url: $(this).data('action'),
-		type: 'DELETE',
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));
-		},
-		success: function() {
-			location.reload();
-		}
-	});
+    data = { question_id: $(this).data('id') }
+
+    $.ajax({
+        type: 'POST',
+        url:  $(this).data('action'),
+        data: data,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));
+          xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE');
+        },
+        success: function() {
+          location.reload();
+        }
+    });
 });
 
 $('.ui.menu .item').tab();

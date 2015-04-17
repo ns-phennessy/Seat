@@ -8,11 +8,30 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 ROOT_URLCONF = 'seat.urls'
 WSGI_APPLICATION = 'seat.wsgi.application'
 
-#LDAP
-LDAP_HOST = 'ldap://ldap.patcave.info'
-LDAP_ROOT_SEARCH_DN = 'dc=ldap,dc=patcave,dc=info'# we happen to log in as the root node when testing
-LDAP_DISPLAY_NAME_ATTR = 'givenName'
-LDAP_MAIL_ATTR = 'mail'
+#LDAP---------->
+LDAP_HOST = 'ldap://ldap.patcave.info'   # Server to connect to
+LDAP_STAFF_ORGANIZATIONAL_UNIT = 'staff' # OU for teachers
+LDAP_STUDENT_ORGANIZATIONAL_UNIT = 'students' # OU for students
+
+# LDAP is a b-tree type thing (its really a big directory structure) this is the root directory
+LDAP_STAFF_SEARCH_DN = 'ou='+LDAP_STAFF_ORGANIZATIONAL_UNIT+',ou=users,dc=ldap,dc=patcave,dc=info'  
+LDAP_STUDENT_SEARCH_DN = 'ou='+LDAP_STUDENT_ORGANIZATIONAL_UNIT+',ou=users,dc=ldap,dc=patcave,dc=info'  
+
+#TODO: when we deploy to using LDAP, cn 
+# should become sAMAccountName per
+# http://stackoverflow.com/questions/29641901/ldap-and-ad-are-we-always-allowed-to-search/29642063#29642063
+LDAP_FILTER = 'cn=%s' # LDAP search filter: we replace %s with the username given in login
+
+LDAP_DISPLAY_NAME_ATTR = 'givenName'    # Attribute to be used as the user's display name
+LDAP_MAIL_ATTR = 'mail'                 # Attribute to be used to get the user's email
+
+# we have to authenticate with AD to even search the tree.
+# in the school system this will probably be a new user
+# just for this application
+# -> change this when deploying to school
+LDAP_APP_USER = 'cn=admin,dc=ldap,dc=patcave,dc=info' # this is the DN for a user who can search and read the tree, but not modify it
+LDAP_APP_PASS = 'takeaseat!'                          # this is the password for the user who is searching the tree
+#LDAP------------< 
 
 # Applications
 INSTALLED_APPS = (

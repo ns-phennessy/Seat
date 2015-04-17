@@ -36,6 +36,15 @@
     <Compile Include="api\helpers\__init__.py" />
     <Compile Include="api\resources\course_methods.py" />
     <Compile Include="api\resources\exam_methods.py" />
+    <Compile Include="api\resources\exam_completion_methods.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\resources\submission_methods.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="api\resources\token_validation.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="api\resources\question_methods.py" />
     <Compile Include="api\resources\token_methods.py" />
     <Compile Include="api\resources\__init__.py" />
@@ -54,6 +63,9 @@
     <Compile Include="manage.py" />
     <Compile Include="seat\admin.py" />
     <Compile Include="seat\applications\AuthenticationApplication.py" />
+    <Compile Include="seat\applications\TokenApplication.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\applications\CourseApplication.py" />
     <Compile Include="seat\applications\ExamApplication.py" />
     <Compile Include="seat\applications\QuestionApplication.py">
@@ -63,15 +75,24 @@
     <Compile Include="seat\applications\SessionApplication.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="seat\applications\StudentApplication.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\applications\TeacherApplication.py" />
     <Compile Include="seat\applications\__init__.py" />
     <Compile Include="seat\middleware\exceptions.py" />
     <Compile Include="seat\middleware\methods.py" />
     <Compile Include="seat\middleware\__init__.py" />
+    <Compile Include="seat\models\taken_exam.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\models\course.py" />
     <Compile Include="seat\models\exam.py" />
     <Compile Include="seat\models\student.py" />
     <Compile Include="seat\models\teacher.py" />
+    <Compile Include="seat\models\token.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seat\models\user.py" />
     <Compile Include="seat\models\__init__.py" />
     <Compile Include="seat\settings\development.py" />
@@ -81,7 +102,13 @@
     <Compile Include="seat\__init__.py" />
     <Compile Include="seat\urls.py" />
     <Compile Include="seat\wsgi.py" />
+    <Compile Include="student\student_view_models.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="student\tests.py" />
+    <Compile Include="student\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="student\views.py" />
     <Compile Include="student\__init__.py" />
   </ItemGroup>
@@ -107,17 +134,12 @@
     <Folder Include="templates\dashboard\common\" />
     <Folder Include="templates\dashboard\modals\" />
     <Folder Include="templates\login\" />
+    <Folder Include="templates\student\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="README.md" />
-    <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
-    <Content Include="seat\models\course.pyc" />
-    <Content Include="seat\models\exam.pyc" />
-    <Content Include="seat\models\student.pyc" />
-    <Content Include="seat\models\teacher.pyc" />
-    <Content Include="seat\models\user.pyc" />
     <Content Include="seat\models\__init__.pyc" />
     <Content Include="seat\settings\secret.key" />
     <Content Include="static\css\semantic-typography.css" />
@@ -138,12 +160,12 @@
     <Content Include="static\js\jquery.min.js" />
     <Content Include="static\js\rename-course.js" />
     <Content Include="static\js\semantic.min.js" />
-    <Content Include="templates\404.html" />
-    <Content Include="templates\500.html" />
+    <Content Include="static\js\student-index.js" />
     <Content Include="templates\dashboard\common\base.html" />
     <Content Include="templates\dashboard\course.html" />
     <Content Include="templates\dashboard\courses-list.html" />
     <Content Include="templates\dashboard\editexam-mockup.html" />
+    <Content Include="templates\dashboard\error.html" />
     <Content Include="templates\dashboard\exam.html" />
     <Content Include="templates\dashboard\modals\addCourse.html" />
     <Content Include="templates\dashboard\modals\renameCourse.html" />
@@ -153,11 +175,8 @@
     <Content Include="templates\dashboard\short-answer.html" />
     <Content Include="templates\dashboard\true-false.html" />
     <Content Include="templates\login\login.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="readme.mht">
-      <SubType>WebBrowser</SubType>
-    </None>
+    <Content Include="templates\student\index.html" />
+    <Content Include="templates\student\take-exam.html" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\2.7" />
