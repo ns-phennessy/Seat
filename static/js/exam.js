@@ -68,11 +68,38 @@ var questionDataTemplate = {
 				//Load question option data!
 				switch(questionData.type){
 					case 'multichoice':
-						$.each(questionData.options, function(){
-							
+
+						var inputs = $('.multichoice.options input[type="text"]');
+						
+						$(inputs[0]).val(questionData.options.answer);
+
+						$.each(questionData.options.choices, function(index, value){
+
+							if(index == 0){
+								$(inputs[1]).val(value);		
+							}
+							else{
+						
+								var place = $('.ui.button[data-role="add-multichoice-choice"]');
+								var template = $('.multichoiceTemplate').clone();
+
+								template.removeClass('multichoiceTemplate');
+
+								template.insertBefore(place);
+								template.find('input[type="text"]').val(value);
+								$('.ui.checkbox').checkbox();
+
+								template.show();
+
+								$(settings.deleteOptionSelector).on('click', function(){				
+									$(place).closest('div.three.fields').remove();
+								});
+
+
+							}
 						});
-						
-						
+
+
 						break;
 					case 'truefalse':
 						if( questionData.options.answer == true)
@@ -119,19 +146,18 @@ var questionDataTemplate = {
 			form.find('.dimmer').dimmer('hide');
 
 			var multichoiceForm = form.find('form[name=multichoice]');
-			
+
 			multichoiceForm.find('.three.fields').each(function(index, value){
 				if(index < 2){
 					$(this).find('input').val('');
 				}
 				else{
-					console.log($(this));
 					$(this).remove();
 				}
 			});
-			
+
 			var truefalse = form.find('.truefalse.options .ui.checkbox').checkbox('uncheck');
-			
+
 		};
 
 		form.setValue = function(item, value){
@@ -338,7 +364,7 @@ var questionDataTemplate = {
 			$('.ui.checkbox').checkbox();
 
 			template.show();
-			
+
 			$(settings.deleteOptionSelector).on('click', function(){				
 				$(this).closest('div.three.fields').remove();
 			});
