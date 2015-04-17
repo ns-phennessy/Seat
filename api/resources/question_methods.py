@@ -5,7 +5,7 @@ from api.helpers import endpoint_checks
 import json
 import logging
 
-logger = logging.getLogger('api')
+logger = logging.getLogger(__name__)
 
 questionApplication = QuestionApplication()
 

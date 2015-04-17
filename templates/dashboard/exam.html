@@ -25,6 +25,8 @@
 	<br>
 
 	<form class="ui form">
+        <input type="hidden" name="exam_id" value="{{ exam.id }}" />
+
 		<div class="two fields">
 			<div class="field">
 				<label>Exam Name</label>
@@ -68,7 +70,7 @@
 							</div>
 							<div class="two wide column center aligned">
 								<div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
-								<div class="ui mini red icon button" data-role="delete" data-action="{% url 'dashboard.views.question' question.id %}" data-content="Delete">
+								<div class="ui mini red icon button" data-role="delete" data-action="{{ question.id }}" data-content="Delete">
 									{% csrf_token %}
 									<i class="delete icon"></i>
 								</div>
@@ -89,6 +91,7 @@
 </div>
 
 <div class="ui form raised secondary segment" id="newquestionform" style="display:none">
+    {% csrf_token %}
 	<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
 	<h3 class="ui left floated header">New Question</h3>
 

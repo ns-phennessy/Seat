@@ -12,14 +12,20 @@ class QuestionApplication(object):
             category = question['type']
             if category == "multichoice":
                 return self.create_multiple_choice_question(exam_id, question)
+            elif category == "truefalse":
+                return self.create_true_false_question(exam_id, question)
+            elif category == "shortanswer":
+                return self.create_short_answer_question(exam_id, question)
+            elif category == "essay":
+                return self.create_essay_question(exam_id, question)
             else:
                 raise Exception("UNSUPPORTED-TYPE, only supports multiple right now.")
         except Exception, error:
             logger.warn("failed to create question in EditExamApplication!: "+str(question))
             raise(error)
 
-    def create_choice(self, choice):
-        new_choice = Choice.objects.create(text=choice)
+    def create_choice(self, text):
+        new_choice = Choice.objects.create(text=text)
         new_choice.save()
         return new_choice
 
@@ -40,6 +46,54 @@ class QuestionApplication(object):
             return new_question
         except Exception, error:
             logger.warn("failed to create question in QuestionApplication!: "+str(question))
+            raise(error)
+
+    def create_short_answer_question(self, exam_id, question):
+        try:
+            text = question['prompt']
+            new_question = Question.objects.create(
+                text = text,
+                category = 'shortanswer',
+                exam = Exam.objects.get(id=exam_id))
+
+            new_question.save()
+            return new_question
+        except Exception as error:
+            logger.debug(str(error))
+            raise(error)
+
+    def create_essay_question(self, exam_id, question):
+        try:
+            text = question['prompt']
+            new_question = Question.objects.create(
+                text = text,
+                category = 'essay',
+                exam = Exam.objects.get(id=exam_id))
+            
+            new_question.save()
+            return new_question
+        except Exception as error:
+            logger.debug(str(error))
+            raise(error)
+
+    def create_true_false_question(self, exam_id, question):
+        try:
+            answer = self.create_choice(text=question['options']['answer'])
+            text = question['prompt']
+            new_question = Question.objects.create(
+                text = text,
+                answer = answer,
+                category = 'truefalse',
+                exam = Exam.objects.get(id=exam_id)
+                )
+            true_choice = self.create_choice(text="true")
+            false_choice = self.create_choice(text="false")
+            new_question.choices.add(true_choice)
+            new_question.choices.add(false_choice)
+            new_question.save()
+            return new_question
+        except Exception as error:
+            logger.debug(str(error))
             raise(error)
 
     def delete_question(self, question_id):

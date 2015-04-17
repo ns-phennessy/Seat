@@ -268,7 +268,7 @@ var questionDataTemplate = {
 			}
 		});
 
-		form.find(settings.saveButton).on('click', function(){
+		form.find(settings.saveButton).on('click', function () {
 			form.setLoading();
 			var questionSummary = this.closest('.item');
 
@@ -325,38 +325,51 @@ var questionDataTemplate = {
 					break;	
 			}
 
-			dataHolder.val(JSON.stringify(questionData));
-			$('#newquestionform .dimmer').dimmer('show');
-
-			setTimeout(function(){
-				form.close();
-				$(questionSummary).show();
-			}, 250);
-
-			//Update event listeners?
-			form.init();
-
-			return;
-
-			//TODO Perform AJAX call
-			var ajaxData;
-			var token = form.find('input[name=csrfmiddlewaretoken]').val();
+			const token = form.find('input[name=csrfmiddlewaretoken]').val();
+			const exam_id = $('input[name=exam_id]').val();
 
 			$.ajax({
 				url: '/api/question',
 				type: 'POST',
-				data: ajaxData,
+				data: {
+				  'question': JSON.stringify({
+				    'type': questionData.type,
+				    'prompt': questionData.prompt,
+				    'choices': questionData.choices | [],
+            'options' : questionData.options
+				  }),
+          'exam_id' : exam_id
+				},
 				beforeSend: function(xhr) {
 					xhr.setRequestHeader('X-CSRFToken', token);
 				},
-				success: function() {
+				success: function (success, data) {
+
+				  if (success !== true) {
+            /* TODO: UI display failure */
+				  }
+
+				  if (data.success !== true) {
+            /* TODO: UI display failure */
+				  }
+
 					$('#newquestionform .dimmer').dimmer('show');
 					form.close();
 					$(questionSummary).show();
+
+				  // update id
+          questionData.question_id = data.id
+
+          // save state
+					dataHolder.val(JSON.stringify(questionData));
+				},
+				fail: function () {
+          /* TODO: UI display failure */
 				}
 			});
 
-
+		  //Update event listeners?
+			form.init();
 		});
 
 		$('.ui.button[data-role="add-multichoice-choice"]').on('click', function(){
