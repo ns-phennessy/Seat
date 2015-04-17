@@ -41,13 +41,16 @@ def dashboard_index(request):
         return redirect( teacherApplication.landing_page_url(teacher) )
     except Exception, error:
         logger.error("unhandled error in dashboard_index:"+str(error))
-        return routingApplication.error(request, error)
+        return routingApplication.error(request, str(error))
 
 def courses(request, course_id):
     try:
         if request.method != 'GET':
             logger.info("courses::non-get request received at courses endpoint"+str(request))
             return routingApplication.invalid_request(request)
+
+        if 'user_id' not in request.session:
+            return routingApplication.logout(request)
 
         teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
         if not teacher:
@@ -77,9 +80,9 @@ def courses(request, course_id):
                 models.get_nocourse_url(),
                 models.get_nocourse_context(teacher))
 
-    except Exception, error:
+    except Exception as error:
         logger.error("courses::unhandled error:"+str(error))
-        return routingApplication.error(request, error)
+        return routingApplication.error(request, str(error))
 
 
 # GET
