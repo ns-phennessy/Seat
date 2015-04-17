@@ -5,112 +5,119 @@
 {% include "dashboard/courses-list.html" with course=exam.course %}
 
 <div class="twelve wide column" id="main">
-
-    <div class="ui active tab">
-        <h1 class="ui dividing header">
-            <div class="content">
-                Create Exam
-            </div>
-        </h1>
-
-        <div class="row">
-            <div class="ui small buttons">
-                <div class="ui button"><i class="privacy icon"></i> Generate Token</div>
-                <div class="ui button"><i class="share icon"></i> Export</div>
-                <div class="ui button"><i class="print icon"></i> Print</div>
-            </div>
-            <div class="column right floated">
-                <div class="ui small buttons">
-                    <div class="ui red button"><i class="delete icon"></i> Delete Exam</div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <form class="ui form">
-            <div class="two fields">
-                <div class="field">
-                    <label>Exam Name</label>
-                    <input disabled value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
-                </div>
-                <div class="field">
-                    <label>Course</label>
-                    <input disabled value="{{ exam.course.name }}" type="text">
-                </div>
-
-            </div>
-        </form>
-
-        <div class="ui hidden divider"></div>
-        <div class="ui top attached fluid two item tabular menu">
-            <a class="active item" data-tab="first">Edit</a>
-            <a class="item" data-tab="second">Preview</a>
-        </div>
-        <div class="ui bottom attached active tab segment" data-tab="first">
-
-            <div class="ui divided items">
-
-                {% for question in exam.question_set.all %}
-                <div class="item" data-role="question">
-                    <div class="content">
-                        <div class="header">Question {{ forloop.counter }}</div>
-                        <div class="meta">
-
-                            <div class="ui padded stackable grid">
-                                <div class="three wide column">
-                                    {{ question.category }}
-                                </div>
-                                <div class="ten wide column">
-                                    {{ question.text }}
-                                </div>
-                                <div class="two wide column center aligned">
-                                    <div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
-                                    <div class="ui mini red icon button" data-role="delete" data-id="{{ question.id }}" data-content="Delete">
-                                        {% csrf_token %}
-                                        <i class="delete icon"></i>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-
-            </div>
-
-            <div class="ui hidden divider"></div>
-            <div class="ui fluid huge button" id="addquestion">
-                <i class="plus icon"></i>
-                Add Question
-            </div>
-
-
-		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
-			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
-			<h3 class="ui left floated header">New Question</h3>
-            {% csrf_token %}
-
-			<div class="field">
-				<label for="prompt">Prompt:</label>
-				<input type="text" name="prompt" placeholder="What is the..."> 
+	<h1 class="ui dividing header">
+		<div class="content">
+			Edit Exam
+		</div>
+	</h1>
+	<div class="row">
+		<div class="ui small buttons">
+			<div class="ui button"><i class="privacy icon"></i> Generate Token</div>
+			<div class="ui button"><i class="share icon"></i> Export</div>
+			<div class="ui button"><i class="print icon"></i> Print</div>
+		</div>
+		<div class="column right floated">
+			<div class="ui small buttons">
+				<div class="ui red button"><i class="delete icon"></i> Delete Exam</div>
 			</div>
+		</div>
+	</div>
+	<br>
 
-			<div class="ui tiny header">Question Type:</div>
-			<select class="ui dropdown" name="type">
-				<option value="multichoice">Multiple Choice</option>
-				<option value="truefalse">True / False</option>
-				<option value="shortanswer">Short Answer</option>
-				<option value="essay">Essay</option>
-			</select>
-			<div class="ui segment">
+	<form class="ui form">
+		<div class="two fields">
+			<div class="field">
+				<label>Exam Name</label>
+				<input value="{{ exam.name }}" type="text" name="first-name" placeholder="Exam Name">
+			</div>
+			<div class="field">
+				<label>Course</label>
+				<select class="ui dropdown">
+					{% for course in teacher.courses.all %}
+					<option value="{{ course.id }}">{{ course.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+	</form>
 
-				<!-- Multiple Choice -->
-				<form class="ui form" name="multichoice">
-					<div class="class five wide field">
-						<label>Options:</label>
+	<div class="ui hidden divider"></div>
+	<div class="ui top attached fluid two item tabular menu">
+		<a class="active item" data-tab="tab_edit">Edit</a>
+		<a class="item" data-tab="tab_preview">Preview</a>
+	</div>
+
+	<div class="ui bottom attached active tab segment" data-tab="tab_edit">
+		<div class="ui divided items" data-role="questionContainer">
+
+			{% for question in exam.question_set.all %}
+			<div class="item" data-role="question">
+				<input type="hidden" value="">
+				<div class="content">
+					<div class="header">Question {{ forloop.counter }}</div>
+					<div class="meta">
+
+						<div class="ui padded stackable grid">
+							<div class="three wide column">
+								<span class="type">{{ question.category }}</span>
+								<br>
+								<span class="options"></span>
+							</div>
+							<div class="ten wide column">
+								<span class="prompt">{{ question.text }}</span>
+							</div>
+							<div class="two wide column center aligned">
+								<div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini red icon button" data-role="delete" data-action="{% url 'dashboard.views.question' question.id %}" data-content="Delete">
+									{% csrf_token %}
+									<i class="delete icon"></i>
+								</div>
+							</div>
+						</div>
 					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
 
-					<div class="two fields">
+		<div class="ui hidden divider"></div>
+		<div class="ui fluid huge button" data-role="newQuestion"><i class="plus icon"></i> Add Question</div>
+	</div>
+	<div class="ui bottom attached tab segment" data-tab="tab_preview">
+
+	</div>
+</div>
+
+<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
+	<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
+	<h3 class="ui left floated header">New Question</h3>
+
+	<div class="field">
+		<label for="prompt">Prompt:</label>
+		<input type="text" name="prompt" placeholder="What is the..."> 
+	</div>
+
+	<div class="ui tiny header">Question Type:</div>
+	<div class="field">
+		<select class="ui dropdown" name="type" data-role="questionType">
+			<option value="">Select a question type!</option>
+			<option value="multichoice">Multiple Choice</option>
+			<option value="truefalse">True / False</option>
+			<option value="shortanswer">Short Answer</option>
+			<option value="essay">Essay</option>
+		</select>
+	</div>
+
+	<div class="ui segment">
+		<div class="field">
+			<label>Options:</label>
+		</div>
+
+		<div class="field">
+			<!-- Multiple Choice -->
+			<div class="ui hidden multichoice options">
+				<form class="ui form" name="multichoice">
+					<div class="three fields">
 						<div class="one wide field" style="line-height: 3rem">
 							<div class="ui radio checkbox">
 								<input type="radio" name="option" checked="checked">
@@ -118,15 +125,13 @@
 							</div>
 						</div>
 						<div class="six wide field">
-							<label></label>
 							<div class="ui icon input">
 								<input type="text" name="choice" placeholder="New Option...">
-								<i class="delete icon"></i>
 							</div>
 						</div>
 					</div>
 
-					<div class="two fields">
+					<div class="three fields">
 						<div class="one wide field" style="line-height: 3rem">
 							<div class="ui radio checkbox">
 								<input type="radio" name="option">
@@ -134,48 +139,99 @@
 							</div>
 						</div>
 						<div class="six wide field">
-							<label></label>
 							<div class="ui input">
 								<input type="text" name="choice" placeholder="New Option...">
 							</div>
 						</div>
 					</div>
+					<div class="ui blue icon button" data-role="add-multichoice-choice" data-content="New option"><i class="plus icon"></i></div>
 				</form>
 			</div>
 
 			<!-- True / False-->
-			<form class="ui hidden form" name="truefalse">
+			<div class="ui hidden truefalse options">
 				<div class="field">
-					<label>Answer:</label>
-					<span>False</span>
+					<span data-role="setFalse" style="cursor:pointer">False</span>
 					<div class="ui toggle fitted checkbox" style="margin:0 1em">
 						<input type="checkbox" name="public">
 					</div>
-					<span>True</span>
+					<span data-role="setTrue" style="cursor:pointer">True</span>
 				</div>
-			</form>
-
-			<div class="ui divider"></div>
-			<div class="two fields">
-				<div class="ui right floated button" data-role="close">Cancel</div>
-				<div class="ui blue button" data-role="save">Save Question</div>
 			</div>
 
-			<div class="ui inverted dimmer">
-				<h2 class="ui icon header">
-					<i class="green checkmark icon"></i>
-					Question Saved!
-				</h2>
+			<!-- Short Answer -->
+			<div class="ui hidden shortanswer options">
+				<div class="field">
+					<h2 class="ui faded centered text header">No options available</h2>						
+				</div>
+				<br>
+			</div>
+
+			<!-- Essay -->
+			<div class="ui hidden essay options">
+				<div class="field">
+					<h2 class="ui faded centered text header">No options available</h2>						
+				</div>
+				<br>
 			</div>
 		</div>
 
-        <div class="ui bottom attached tab segment" data-tab="second">
-           {% include 'dashboard/questions.html' %}
-        </div>
+	</div>
+	<br>
+	<div class="two fields">                                
+		<div class="ui right floated button" data-role="close">Cancel</div>
+		<div class="ui blue button" data-role="save">Save Question</div>
+	</div>
 
-    </div>
-
+	<div class="ui inverted dimmer">
+		<h2 class="ui icon header" style="position:absolute; top:25%; left:0; right:0">
+			<i class="green checkmark icon"></i>
+			Question Saved!
+		</h2>
+	</div>
 </div>
+
+
+<div class="three fields multichoiceTemplate" style="display:none">
+	<div class="one wide field" style="line-height: 3rem">
+		<div class="ui radio checkbox">
+			<input type="radio" name="option">
+			<label for="option"></label>
+		</div>
+	</div>
+	<div class="six wide field">
+		<div class="ui input">
+			<input type="text" name="choice" placeholder="New Option...">
+		</div>
+	</div>
+	<div class="one wide field">
+		<div class="ui small red icon button" data-role="deleteOption"><i class="delete icon"></i></div>
+	</div>
+</div>
+
+<div class="item questionSummary" style="display:none">
+	<input type="hidden">
+	<div class="content">
+		<div class="header">Question</div>
+		<div class="meta">
+			<div class="ui padded stackable grid">
+				<div class="three wide column">
+					<span class="type"></span>
+					<br>
+					<span class="options"></span>
+				</div>
+				<div class="ten wide column">
+					<span class="prompt"></span>
+				</div>
+				<div class="two wide column center aligned">
+					<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+					<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}
 
 {% block javascript %}
@@ -185,159 +241,4 @@
 <script src="{% static 'js/add-course.js' %}"></script>
 <script src="{% static 'js/new-exam.js' %}"></script>
 <script src="{% static 'js/exam.js' %}"></script>
-
-<script>
-    (function ($) {
-        $.fn.questionForm = function(options){
-
-            var form = this;
-            var items = $('[data-tab="tab_edit"]').find('.items');
-
-            var settings = $.extend({
-                newQuestionButton: 		".ui.button[data-role='newQuestion']",
-                editButton: 			".ui.button[data-role='edit']",
-                deleteQuestionButton: 	".ui.button[data-role='delete']",
-                saveButton:				".ui.button[data-role='save']",
-                closeButton:			"[data-role='close']",
-            }, options );
-
-            form.clear = function(){
-                form.removeClass('loading');
-                form.find('.dimmer').dimmer('hide');
-            };
-
-            form.setValue = function(item, value){
-                switch(item){
-                    case 'header':
-                        form.find('h3.header').text(value);
-                        break;
-
-                    case 'prompt':
-                        form.find('input[name="prompt"]').val(value);
-                        break;
-
-                    case 'questionType':
-                        form.find('div.ui.dropdown.selection').dropdown('set selected', value);
-                        break;
-                }
-            };
-
-            form.setLoading = function(){
-                form.addClass('loading');
-            };
-
-            //Moves the form to different locations
-            form.move = function(location){
-                form.close();
-                form.appendTo(location);
-                form.show();
-            };
-
-            form.close = function(){
-                form.hide();
-                $(settings.newQuestionButton).show();
-                items.find('.item .content').show();
-            };
-
-            //Listener for new question at bottom of page
-            $(settings.newQuestionButton).on('click', function(){
-                form.setValue('header', 'New Question');
-                form.setValue('prompt', '');
-                form.move( $('.ui.segment[data-tab="tab_edit"]') );
-                $(this).hide();
-            });
-
-            form.find(settings.closeButton).on('click', function(){
-                form.close();
-            });
-
-            $(settings.editButton).on('click', function(){
-                var parent = this.closest('.item');
-
-                var qid = $(parent).attr('data-qid');
-                var question;
-
-                $.each(examData.questions, function(i, v) {
-                    if (v.qid == qid) {
-                        question = v;
-                    }
-                });
-
-                switch(question.type){
-                    case "multichoice":
-                        form.setValue('questionType', 'Multiple Choice');
-                        break;
-
-                    case "truefalse":
-                        form.setValue('questionType', 'True / False');
-                        break;
-                }
-
-                form.setValue('prompt', question.prompt);
-
-                form.move(parent);
-                $(parent).children('.content').hide();
-
-            });
-
-            form.multiChoiceData = function() {
-                question = form.form('get values');
-                question.options = {}
-
-                var multiform = form.find('form[name=multichoice]');
-                var choices = multiform.find('input[name=choice]');
-                choices = choices.map(function() {
-                    return $(this).val();
-                }).get();
-
-                var selectedRadio = multiform.find('input:radio[checked=checked]');
-                var selectedInput = selectedRadio.closest('.fields').find('input:text');
-                var answer = selectedInput.val();
-
-                var answerIndex = choices.indexOf(answer);
-                choices.splice(answerIndex, 1);
-
-                question.options.choices = choices;
-                question.options.answer = answer;
-
-                return question;
-            };
-
-            form.find(settings.saveButton).on('click', function(){
-                form.setLoading();
-
-                var type = form.find('select[name=type]').val();
-                var question;
-                if (type === 'multichoice') {
-                    question = form.multiChoiceData();
-                }
-
-                data = {
-                    exam_id: {{ exam.id }},
-                    question: JSON.stringify(question)
-                }
-
-                var token = form.find('input[name=csrfmiddlewaretoken]').val();
-
-                $.ajax({
-                    url: '/api/question',
-                    type: 'POST',
-                    data: data,
-                    beforeSend: function(xhr) {
-                        xhr.setRequestHeader('X-CSRFToken', token);
-                    },
-                    success: function() {
-                        $('#newquestionform .dimmer').dimmer('show');
-                        location.reload();
-                    }
-                });
-            });
-
-            return this;
-        };
-    }(jQuery));
-
-    $('#newquestionform').questionForm();
-</script>
-
 {% endblock %}

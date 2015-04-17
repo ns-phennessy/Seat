@@ -101,16 +101,21 @@
 					<a class="item" data-tab="tab_preview">Preview</a>
 				</div>
 				<div class="ui bottom attached active tab segment" data-tab="tab_edit">
-					<div class="ui divided items">
+					<div class="ui divided items" data-role="questionContainer">
 
-						<div class="item" data-qid="0">
+						<div class="item">
+							<input type="hidden" value='{"prompt":"What?","type":"multichoice","options":{}}'>
 							<div class="content">
 								<div class="header">Question 1</div>
 								<div class="meta">
 									<div class="ui padded stackable grid">
-										<div class="three wide column">Multiple Choice<br>5 Options</div>
+										<div class="three wide column">
+											<span class="type">Multiple Choice</span>
+											<br>
+											<span class="options">5 Options</span>
+										</div>
 										<div class="ten wide column">
-											If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?
+											<span class="prompt">What?</span>
 										</div>
 										<div class="two wide column center aligned">
 											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
@@ -121,24 +126,7 @@
 							</div>
 						</div>
 
-						<div class="item" data-qid="1">
-							<div class="content">
-								<div class="header">Question 2</div>
-								<div class="meta">
-									<div class="ui padded stackable grid">
-										<div class="three wide column">Multiple Choice<br>5 Options
-										</div>
-										<div class="ten wide column">
-											Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?
-										</div>
-										<div class="two wide column center aligned">
-											<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
-											<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+
 					</div>
 
 					<div class="ui hidden divider"></div>
@@ -152,7 +140,7 @@
 
 
 		<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
-			<a style="float:right" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
+			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
 			<h3 class="ui left floated header">New Question</h3>
 
 			<div class="field">
@@ -161,77 +149,107 @@
 			</div>
 
 			<div class="ui tiny header">Question Type:</div>
-			<select class="ui dropdown">
-				<option value="multichoice">Multiple Choice</option>
-				<option value="truefalse">True / False</option>
-				<option value="shortanswer">Short Answer</option>
-				<option value="essay">Essay</option>
-			</select>
-			<div class="ui segment">
-
-				<!-- Multiple Choice -->
-				<form class="ui form">
-					<div class="class five wide field">
-						<label>Options:</label>
-					</div>
-					
-					<div class="two fields">
-						<div class="one wide field" style="line-height: 3rem">
-							<div class="ui radio checkbox">
-								<input type="radio" name="option" checked="checked">
-								<label for="option"></label>
-							</div>
-						</div>
-						<div class="six wide field">
-							<label></label>
-							<div class="ui icon input">
-								<input type="text" placeholder="New Option...">
-								<i class="delete icon"></i>
-							</div>
-						</div>
-					</div>
-					
-					<div class="two fields">
-						<div class="one wide field" style="line-height: 3rem">
-							<div class="ui radio checkbox">
-								<input type="radio" name="option">
-								<label for="option"></label>
-							</div>
-						</div>
-						<div class="six wide field">
-							<label></label>
-							<div class="ui input">
-								<input type="text" placeholder="New Option...">
-							</div>
-						</div>
-					</div>
-					
-				</form>
+			<div class="field">
+				<select class="ui dropdown" name="type" data-role="questionType">
+					<option value="">Select a question type!</option>
+					<option value="multichoice">Multiple Choice</option>
+					<option value="truefalse">True / False</option>
+					<option value="shortanswer">Short Answer</option>
+					<option value="essay">Essay</option>
+				</select>
 			</div>
 
-			<!-- True / False-->
-			<form class="ui hidden form">
+			<div class="ui segment">
 				<div class="field">
-					<label>Answer:</label>
-					<span>False</span>
-					<div class="ui toggle fitted checkbox" style="margin:0 1em">
-						<input type="checkbox" name="public">
-					</div>
-					<span>True</span>
+					<label>Options:</label>
 				</div>
-			</form>
 
-			<div class="ui divider"></div>
+				<div class="field">
+					<!-- Multiple Choice -->
+					<div class="ui hidden multichoice options">
+						<div class="two fields">
+							<div class="one wide field" style="line-height: 3rem">
+								<div class="ui radio checkbox">
+									<input type="radio" name="option" checked="checked">
+									<label for="option"></label>
+								</div>
+							</div>
+							<div class="six wide field">
+								<label></label>
+								<div class="ui icon input">
+									<input type="text" placeholder="New Option..." name="option">
+									<i class="delete icon"></i>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- True / False-->
+					<div class="ui hidden truefalse options">
+						<div class="field">
+							<span data-role="setFalse" style="cursor:pointer">False</span>
+							<div class="ui toggle fitted checkbox" style="margin:0 1em">
+								<input type="checkbox" name="public">
+							</div>
+							<span data-role="setTrue" style="cursor:pointer">True</span>
+						</div>
+					</div>
+
+					<!-- Short Answer -->
+					<div class="ui hidden shortanswer options">
+						<div class="field">
+							<h2 class="ui faded centered text header">No options available</h2>						
+						</div>
+						<br>
+					</div>
+
+					<!-- Essay -->
+					<div class="ui hidden essay options">
+						<div class="field">
+							<h2 class="ui faded centered text header">No options available</h2>						
+						</div>
+						<br>
+					</div>
+				</div>
+
+
+
+			</div>
+			<br>
 			<div class="two fields">                                
 				<div class="ui right floated button" data-role="close">Cancel</div>
 				<div class="ui blue button" data-role="save">Save Question</div>
 			</div>
 
 			<div class="ui inverted dimmer">
-				<h2 class="ui icon header">
+				<h2 class="ui icon header" style="position:absolute; top:25%; left:0; right:0">
 					<i class="green checkmark icon"></i>
 					Question Saved!
 				</h2>
+			</div>
+		</div>
+
+		<div class="item questionSummary" style="display:none">
+			<input type="hidden">
+			<div class="content">
+				<div class="header">Question</div>
+				<div class="meta">
+					<div class="ui padded stackable grid">
+						<div class="three wide column">
+							<span class="type"></span>
+							<br>
+							<span class="options"></span>
+						</div>
+						<div class="ten wide column">
+							<span class="prompt"></span>
+						</div>
+						<div class="two wide column center aligned">
+							<div class="ui mini basic icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+							<div class="ui mini basic icon button" data-role="delete" data-content="Delete"><i class="delete icon"></i></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -240,70 +258,107 @@
 		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
 		<script src="http://cdn.patcave.info/js/semantic.min.js"></script>
 		<script>
-			$('[data-content]').popup({
-				position:'top center',
-				transition:'drop'
-			});
-
 			$('.ui.menu .item').tab();
-			$('.ui.dropdown').dropdown();
+			$('.ui.dropdown:not(select[data-role="questionType"])').dropdown();
 			$('.ui.checkbox').checkbox();
 
-			var examData = {
-				"name":'Example Exam',
-				"courseID":'1',
-
-				"questions":[
-					{
-						qid:0,
-						prompt:'If you need to sort a very large list of integers (billions), what efficient sorting algorithm would be your best bet?',
-						type:'multichoice',
-						options:{
-							answer:'Auckland',
-							choices:[
-								'New York',
-								'Gondor'
-							]
-						}
-					},
-					{
-						qid:1,
-						prompt:'Vint Cerf is regarded as the father of the Internet but who is the person that actually invented the World Wide Web?',
-						type:'truefalse',
-						options:{
-							answer:true
-						}
-					}
-				]
-			};
-
 			var questionDataTemplate = {
-				qid:0,
+				question_id:'',
 				prompt:'',
 				type:'',
 				options:{},
 				clone:function(){
-					return $.extend({}, this)
+					return $.extend(true, {}, this)
 				}
 			};
 
 			(function ($) {
 				$.fn.questionForm = function(options){
-
+					//Globals
 					var form = this;
 					var items = $('[data-tab="tab_edit"]').find('.items');
 
+					//Settings
 					var settings = $.extend({
 						newQuestionButton: 		".ui.button[data-role='newQuestion']",
-						editButton: 			".ui.button[data-role='edit']",
+						editQuestionButton: 	".ui.button[data-role='edit']",
 						deleteQuestionButton: 	".ui.button[data-role='delete']",
 						saveButton:				".ui.button[data-role='save']",
 						closeButton:			"[data-role='close']",
+						questionTypeSelector:	"select[data-role='questionType']"
 					}, options );
 
+					form.init = function(){
+						$('[data-content]').popup({
+							position:'top center',
+							transition:'drop'
+						});
+
+						$('#newquestionform .dimmer').dimmer({
+							duration:{
+								show:500, 
+								hide:0
+							}
+						});
+
+						$(settings.editQuestionButton).on('click', function(){
+							var questionSummary = this.closest('.item');
+							var dataHolder = $(questionSummary).find('input[type="hidden"]');
+
+							var questionData = JSON.parse(dataHolder.val());	
+
+							form.setValue('prompt', questionData.prompt);
+							form.setValue('questionType', questionData.type);
+
+							//Load question option data!
+							switch(questionData.type){
+								case 'multichoice':
+									break;
+								case 'truefalse':
+									if( questionData.options.answer == true)
+										$('.truefalse.options .ui.checkbox').checkbox('check');
+									else
+										$('.truefalse.options .ui.checkbox').checkbox('uncheck');
+									break;
+							}
+
+							form.move(questionSummary);
+							$(questionSummary).children('.content').hide();
+						});
+
+						$(settings.deleteQuestionButton).on('click', function(){
+							var questionSummary = this.closest('.item');
+							//TODO remove this when doing ajax
+							$(this).popup('hide');
+
+							$(questionSummary).remove();
+
+							var ajaxData;
+							var token;
+
+							//TODO Hookup to deletion endpoint
+							$.ajax({
+								url: '/api/question',
+								type: 'POST',
+								data: ajaxData,
+								beforeSend: function(xhr) {
+									xhr.setRequestHeader('X-CSRFToken', token);
+								},
+								success: function() {
+									$(questionSummary).remove();
+								}
+							});
+						});
+					};
+					form.init();
+
+
+					//Aux functions
 					form.clear = function(){
 						form.removeClass('loading');
 						form.find('.dimmer').dimmer('hide');
+
+						//TODO clear options form data
 					};
 
 					form.setValue = function(item, value){
@@ -326,9 +381,9 @@
 						form.addClass('loading');
 					};
 
-					//Moves the form to different locations
 					form.move = function(location){
-						form.close();				
+						form.close();
+						form.clear();
 						form.appendTo(location);
 						form.show();
 					};
@@ -339,7 +394,7 @@
 						items.find('.item .content').show();
 					};
 
-					//Listener for new question at bottom of page
+					//Event listeners
 					$(settings.newQuestionButton).on('click', function(){
 						form.setValue('header', 'New Question');
 						form.setValue('prompt', '');
@@ -347,51 +402,134 @@
 						$(this).hide();
 					});
 
+					$('.truefalse.options [data-role="setTrue"]').on('click', function(){
+						$('.truefalse.options .ui.checkbox').checkbox('check');
+					});
+
+					$('.truefalse.options [data-role="setFalse"]').on('click', function(){
+						$('.truefalse.options .ui.checkbox').checkbox('uncheck');
+					});
+
 					form.find(settings.closeButton).on('click', function(){
 						form.close();
 					});
 
-					$(settings.editButton).on('click', function(){
-						var parent = this.closest('.item');
+					$(settings.questionTypeSelector).dropdown({
+						onChange: function(value, text, $choice){							
+							form.find('.options').each(function(){
+								$(this).addClass('hidden')
+							});
 
-						var qid = $(parent).attr('data-qid');
-						var question;
-
-						$.each(examData.questions, function(i, v) {
-							if (v.qid == qid) {
-								question = v;
+							switch(value){
+								case 'multichoice':
+									form.find('.multichoice.options').removeClass('hidden');
+									break;	
+								case 'truefalse':
+									form.find('.truefalse.options').removeClass('hidden');
+									break;	
+								case 'shortanswer':
+									form.find('.shortanswer.options').removeClass('hidden');
+									break;	
+								case 'essay':
+									form.find('.essay.options').removeClass('hidden');
+									break;	 
 							}
-						});
-
-						switch(question.type){
-							case "multichoice":
-								form.setValue('questionType', 'Multiple Choice');
-								break;
-
-							case "truefalse":
-								form.setValue('questionType', 'True / False');
-								break;
 						}
-
-						form.setValue('prompt', question.prompt);
-
-						form.move(parent);
-						$(parent).children('.content').hide();
-
 					});
 
 					form.find(settings.saveButton).on('click', function(){
-						//TODO save stuff!!!
 						form.setLoading();
-						setTimeout(	function(){ 
-							$('#newquestionform .dimmer').dimmer('show'); 
+						var questionSummary = this.closest('.item');
 
-							setTimeout(	function(){ 
+						//Get form data
+						var questionData = questionDataTemplate.clone();
+						var formData = form.form('get values');
+
+						questionData.prompt = formData.prompt;
+						questionData.type = formData.type;
+
+						//Check if question is new or exists
+						if(questionSummary == null){
+							questionSummary = $(".item.questionSummary").clone();
+
+							questionSummary.removeClass('questionSummary');
+							questionSummary.appendTo(items);
+						}
+
+						//Get elements to load data into
+						var prompt = $(questionSummary).find('span.prompt');
+						var type = $(questionSummary).find('span.type');
+						var options = $(questionSummary).find('span.options');
+						var dataHolder = $(questionSummary).find('input[type="hidden"]');
+
+						//Set values
+						prompt.text(questionData.prompt);
+
+						switch(questionData.type){
+							case 'multichoice':
+								type.text("Multiple Choice");
+								options.text('5 Options');
+
+								//TODO load options
+								questionData.options = {
+
+								};
+
+								//Get total number of options we have
+								options.text(Object.keys(questionData.options).length + " Options");
+
+								break;	
+							case 'truefalse':
+								type.text("True / False");
+								options.text('True');
+
+								var answerOption = $('.truefalse.options .ui.checkbox').checkbox('is checked');
+
+								questionData.options = {
+									answer: answerOption
+								};
+
+								options.text(answerOption);
+
+								break;	
+							case 'shortanswer':
+								type.text('Short Answer');
+								break;	
+							case 'essay':
+								type.text('Essay');
+								break;	
+						}
+
+						dataHolder.val(JSON.stringify(questionData));
+						$('#newquestionform .dimmer').dimmer('show');
+
+						setTimeout(function(){
+							form.close();
+							$(questionSummary).show();
+						}, 250);
+
+						//Update event listeners?
+						form.init();
+
+						return;
+
+						//TODO Perform AJAX call
+						var ajaxData;
+						var token = form.find('input[name=csrfmiddlewaretoken]').val();
+
+						$.ajax({
+							url: '/api/question',
+							type: 'POST',
+							data: ajaxData,
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader('X-CSRFToken', token);
+							},
+							success: function() {
+								$('#newquestionform .dimmer').dimmer('show');
 								form.close();
-								form.clear();
-							}, 1000);
-
-						}, 5000);
+								$(questionSummary).show();
+							}
+						});
 
 
 					});
