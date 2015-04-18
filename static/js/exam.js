@@ -1,19 +1,19 @@
-$('div[data-role=question] div[data-role=delete]').on('click', function() {
-    data = { question_id: $(this).data('id') }
+//$('div[data-role=question] div[data-role=delete]').on('click', function() {
+//    data = { question_id: $(this).data('id') }
 
-    $.ajax({
-        type: 'POST',
-        url:  $(this).data('action'),
-        data: data,
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));
-          xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE');
-        },
-        success: function() {
-          location.reload();
-        }
-    });
-});
+//    $.ajax({
+//        type: 'POST',
+//        url:  $(this).data('action'),
+//        data: data,
+//        beforeSend: function(xhr) {
+//          xhr.setRequestHeader('X-CSRFToken', );
+//          xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE');
+//        },
+//        success: function() {
+//          location.reload();
+//        }
+//    });
+//});
 
 $('.ui.menu .item').tab();
 $('.ui.checkbox').checkbox();
@@ -62,8 +62,8 @@ var questionDataTemplate = {
 				var questionSummary = this.closest('.question');
 				var dataHolder = $(questionSummary).find('input.data-store');
 				var id = $(questionSummary).find('.question-id').val()
-				var questionData = JSON.parse(dataHolder.val());	
-
+				console.log('data', dataHolder.val())
+				var questionData = JSON.parse(dataHolder.val());
 				form.clear();
 
 				form.setValue('prompt', questionData.prompt);
@@ -118,22 +118,16 @@ var questionDataTemplate = {
 			});
 
 			$(settings.deleteQuestionButton).on('click', function(){
-				var questionSummary = this.closest('.item');
-				//TODO remove this when doing ajax
-				$(this).popup('hide');
+				var questionSummary = this.closest('.question');
+				console.log(questionSummary,$(questionSummary).find('.question-id').val())
 
-				$(questionSummary).remove();
-
-				var ajaxData;
-				var token;
-
-				//TODO Hookup to deletion endpoint
 				$.ajax({
 					url: '/api/question',
 					type: 'POST',
-					data: ajaxData,
+					data: data = { question_id: $(this).data('id') },
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader('X-CSRFToken', token);
+					  xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));
+            xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE')
 					},
 					success: function() {
 						$(questionSummary).remove();

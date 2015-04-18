@@ -53,8 +53,9 @@
 		<div class="ui divided items" data-role="questionContainer">
 
 			{% for question in exam.question_set.all %}
-			<div class="item" data-role="question">
-				<input type="hidden" value="">
+			<div class="item question" data-role="question">
+				<input class="data-store" type="hidden" value='"{}"'>
+                <input class="qusetion-id" type="hidden" value="{{ question.id }}" />
 				<div class="content">
 					<div class="header">Question {{ forloop.counter }}</div>
 					<div class="meta">
@@ -69,8 +70,8 @@
 								<span class="prompt">{{ question.text }}</span>
 							</div>
 							<div class="two wide column center aligned">
-								<div class="ui mini green icon button" data-content="Edit"><i class="pencil icon"></i></div>
-								<div class="ui mini red icon button" data-role="delete" data-action="{{ question.id }}" data-content="Delete">
+								<div class="ui mini green icon button" data-role="edit" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini red icon button" data-role="delete" data-id="{{ question.id }}" data-content="Delete">
 									{% csrf_token %}
 									<i class="delete icon"></i>
 								</div>
