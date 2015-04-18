@@ -29,7 +29,7 @@
 		<!-- data-x tags indicate lowest level storage of question data -->
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
-		<span data-x="prompt"></span>
+		<span data-x="prompt-substr"></span>
 		<span data-x="type"></span>
 		<span data-x="option-count"></span>
 	</div>
@@ -68,7 +68,7 @@
 		<div>Points:<span data-x="points"></span></div>
 
 		<span data-x="type"></span>
-		<span data-x="prompt"></span>
+		<span data-x="prompt-substr"></span>
 	</div>
 
 	<!-- edit -->
@@ -76,21 +76,74 @@
 
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
-		<span data-x="type"></span>
+
 		<label for="prompt"></label>
 		<input name="prompt" data-x="prompt">
+
+		<label for="option">True/False</label>
 		<input data-x="option" name="option" type="checkbox"/>
 	</div>
 
 	<!-- preview -->
-	<div class="preview question-section"></div>
+	<div class="preview question-section">
+		<!-- generated from the backend -->
+	</div>
 </div>
 
 <!-- essay -->
 <div class="essay template" hidden>
+	<!-- summary -->
+	<div class="summary question-section">
+
+		<div>#<span data-x="number"></span></div>
+		<div>Points:<span data-x="points"></span></div>
+
+		<span data-x="type"></span>
+		<span data-x="prompt-substr"></span>
+	</div>
+
+	<!-- edit -->
+	<div class="edit question-section">
+
+		<div>#<span data-x="number"></span></div>
+		<div>Points:<span data-x="points"></span></div>
+
+		<label for="prompt"></label>
+		<input name="prompt" data-x="prompt" type="text">
+	</div>
+
+	<!-- preview -->
+	<div class="preview question-section">
+		<!-- generated from the backend -->
+	</div>
 </div>
+
 <!-- shortanswer -->
 <div class="shortanswer template" hidden>
+	<!-- summary -->
+	<div class="summary question-section">
+
+		<div>#<span data-x="number"></span></div>
+		<div>Points:<span data-x="points"></span></div>
+
+		<span data-x="type"></span>
+		<span data-x="prompt-substr"></span>
+	</div>
+
+	<!-- edit -->
+	<div class="edit question-section">
+
+		<div>#<span data-x="number"></span></div>
+		<div>Points:<span data-x="points"></span></div>
+
+		<label for="prompt"></label>
+		<input name="prompt" data-x="prompt" type="text">
+	</div>
+
+	<!-- preview -->
+	<div class="preview question-section">
+		<!-- generated from the backend -->
+	</div>
 </div>
 
 <script type="text/javascript">
