@@ -1,39 +1,32 @@
-﻿<!DOCTYPE html>
-<html>
-    <head>
-        <!-- Meta data -->
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <title>Parkway Testing Application</title>
+{% extends "student/common/base.html" %}
 
-        {% load static %}
-       
-        <!-- CSS -->
-        <link rel="stylesheet" href="{% static 'css/semantic.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/semantic-typography.css' %}">
-    </head>
-    <body>
-        <div class="ui page grid relaxed middle aligned" style="padding-top: 50px;">
-        <div class="two fields">
-            <h1 class="ui bold header field">Exam: {{ exam.name }}</h1>
-        </div>
+{% block pagecontent %}
+	<div class="two fields">
+		<h1 class="ui bold header field">Exam: {{ exam.name }}</h1>
+	</div>
 
-        {% for question in questions %}
-             <div class="ui right segment item">
-                 {% if question.category == "shortanswer" %}
-                 {% include "dashboard/short-answer.html" %}
-                 <div class="ui horizontal divider"></div>
-                 {% endif %}
-            </div>
-        {% endfor %}
-        </div>
-        <!-- Javascript -->
-        <script src="http://cdn.patcave.info/js/jquery.min.js"></script>
-        <script src="http://cdn.patcave.info/js/semantic.min.js"></script>
-        <script src="{% static 'js/base.js' %}"></script>
-        <script src="{% static 'js/student-index.js' %}"></script>
-        {% block javascript %}
-        {% endblock %}
-    </body>
-</html>
+	{% for question in questions %}
+	<div class="ui right segment item">
+		{% if question.category == "shortanswer" %}
+		{% include "dashboard/short-answer.html" %}
+		<div class="ui horizontal divider"></div>
+		{% endif %}
+	</div>
+	{% endfor %}
+
+{% endblock %}
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'js/student-index.js' %}"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
