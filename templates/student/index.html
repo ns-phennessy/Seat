@@ -1,48 +1,31 @@
 {% extends "student/common/base.html" %}
 
 {% block pagecontent %}
-<div class="ui raised form">
-	<div id="token-segment" class="ui segment page">
-		<div class="two fields">
-			<h1 class="ui header bold field">
-				Enter token to begin exam:
-			</h1>
-			<div id="token-input" class="ui form field">
-				{% csrf_token %}
-				<input autocomplete="off" class="text" type="text" name="token" value="" placeholder="test token here" />
-				<div class="ui error message red"></div>
-				<div id="custom-errors" class="ui message red" hidden></div>
-			</div>
+
+<div class="sixteen wide center aligned column" style="padding-top:10em;">
+	<h1 class="ui massive header" style="font-size:4em">
+		Enter exam token:          
+	</h1>
+	<br>
+
+	<div class="ui fluid huge input">
+		<input type="text" style="width:100%">
+	</div>
+	<br>
+	
+	<div class="ui two column grid">
+		<div class="column">
+			<div class="ui big fluid blue button">Begin Exam</div>
+
+		</div>
+		<div class="column">
+			<div class="ui big fluid basic button">View grades</div>
+
 		</div>
 	</div>
 
-	<div id="past-test-listing" class="ui segment">
-		<div class="two fields">
-			<div class="ui header field">
-				<h1>Past Exams:</h1>
-				<div class="four fields">
-					<div class="field">TEST</div>
-					<div class="field">COURSE</div>
-					<div class="field">GRADE</div>
-				</div>
-				<div class="ui list">
-					{% for taken_exam in exams.all %}
-					<div class="four fields item">
-						<div class="field">{{ taken_exam.exam.name }}</div>
-						<div class="field">{{ taken_exam.exam.course.name }}</div>
-						<div class="field">{{ taken_exam.score }}%</div>
-						{% if taken_exam.token.released %}
-						<div class="field">
-							<a href="/review/{{taken_exam.exam.id}}" title="your instructor has opened this exam for you to review">view</a>
-						</div>
-						{% endif %}
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
+
 {% endblock %}
 
 
