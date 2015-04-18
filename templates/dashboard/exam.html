@@ -1,18 +1,20 @@
-<!-- {% extends "dashboard/common/base.html" %} -->
+{% extends "dashboard/common/base.html" %}
 
-<!-- {% block pagecontent %} -->
+{% block pagecontent %}
 
-<!-- {% include "dashboard/courses-list.html" with course=exam.course %} -->
+{% include "dashboard/courses-list.html" with course=exam.course %}
 
-<div id="main">
+<div id="main" class="ui page">
+	<input type="hidden" id="exam-id" value="{{ exam.id }}"/>
 	<h1>{{ exam.name }}</h1>
-	<div class="question-list">
-		
+	<div class="ui secondary segment question-list">
+		<h1>LIST</h1>
+		<h2 class="header">WHA</h2>
 	</div>
 </div>
 
 <!-- data storage -->
-<input id="backend-data-delivery" type="hidden" value="">
+<input id="backend-data-delivery" type="hidden" value="{{ question_set_json }}">
 
 <!-- multichoice is special so it needs further templates for choices -->
 <div class="multichoice-edit-option template" hidden>
@@ -148,9 +150,43 @@
 		<!-- generated from the backend -->
 	</div>
 </div>
-
+<style type="text/css">
+	div {
+		border: 1px solid black !important;
+	}
+</style>
 <script type="text/javascript">
-	$(document).ready(function() {
+	document.addEventListener("DOMContentLoaded", function() {
+		const questions_present_at_pageload = $('#backend-data-delivery').val();
+		const question_list_selector = '.question-list';
+		const max_prompt_length_without_ellipses = 35;
+		const use_ellipses_on_truncated_prompt = true;
+		const exam_id = $('#exam-id').val();
+		const api_endpoint_for_questions = '/api/question';
+		const static_properties_of_questions = {
+			"multichoice" : {
+				template_selector : '.multichoice.template',
+				display_name : "Multiple Choice",
+				summary_selector : '.edit.question-section',
+				prompt_selector : '[data-x="prompt"]',
+				points_selector : '[data-x="points"]'
+			},
+			"shortanswer" : {
+				template_selector : '.shortanswer.template',
+				display_name : "Short Answer",
+				summary_selector : '.edit.question-section',
+				prompt_selector : '[data-x="prompt"]',
+				points_selector : '[data-x="points"]',
+				number_selector : '[number-x]'
+			}
+		};
+
+		console.log('delivered', questions_present_at_pageload);
+
+
+
+		for (var i in questions_present_at_pageload)
+			$('.question-list').append()
 		/*
 		question interface:
 		{
@@ -165,17 +201,178 @@
 		*/
 		var templates = {}
 		
+		const MultiQuestion = function() {
+			const template_selector =
+				this.template_selector = '.multichoice.template';
 
-		const Question = function() {
-			
+			this.type = "multichoice";
+			this.manifestation = $(this.template_selector).clone();
 		}
-	})
+		const EssayQuestion = function() {
+			const template_selector =
+				this.template_selector = '.essay.template';
+			
+			const type = this.type = "essay"
+			this.manifestation = $(this.template_selector).clone();
+
+		}
+		const ShortAnswerQuestion = function() {
+			const shortanswer = this;
+			shortanswer.type = "shortanswer";
+			shortanswer.manifestation = copy_template_and_create(shortanswer.type);
+
+			var my_data = shortanswer._data = {
+				'question_id' : '',
+				'type' : '',
+				'prompt' : '',
+				'points' : '',
+				'number' : ''
+				}
+
+			/* prompt-substr is a projection, the others
+			are pure data, meaning they are bound more generically */
+			shortanswer.prompt_substr = function() {
+				if (arguments.length > 0) 
+					console.log('argument ignored in .prompt_substr, which is read-only');
+				
+				const truncated_prompt = shortanswer._data['prompt'].substr(0, max_prompt_length_without_ellipses);
+				
+				if (use_ellipses_on_truncated_prompt)
+					return truncated_prompt + '...';
+
+				return truncated_prompt;
+			}
+
+			/* this function exposes all of the data for shortanswer,
+			-> for example question_id as a getter/setter <-
+			setting it sets it internally and updates all of the places in the
+			markup that are annotated data-x="question_id":
+			some_shortanswer_question.question_id(123)
+			some_shortanswer_question.question_id() <- 123 */
+			var bind_property_to_shortanswer_as_getter_setter = function(property) {
+				shortanswer[property] = function(value) {
+					if (arguments.length > 0) {
+						/* set */
+						shortanswer._data[property] = value;
+						var children = shortanswer.manifestation.find('[data-x="'+property+'"]');
+
+						children.val(value);
+						children.text(value);
+						return shortanswer;
+					} else {
+						/* get */
+						return shortanswer._data[property]
+					}
+				}
+			}
+
+			/* expose all of the properties */
+			for (var property_to_be_available in my_data) 
+				bind_property_to_shortanswer_as_getter_setter(property_to_be_available);	
+			
+			shortanswer.populate = function(data) {
+				for (var property in shortanswer._data) {
+					if (is_type_of('', data[property])) {
+						/* this passes the data at data['question_id'] to shortanswer.question_id()
+						to use the setter we have previously created. read the notes above on how
+						the setter/getter works if this makes no sense */
+						shortanswer[property](data[property])
+					} else {
+						console.log('incorrect type encountered in population of shortanswer:',data[property]);
+					}
+				}
+			}
+
+			shortanswer.loading = function() {
+				/* TODO: pat, do your magic with spinners */
+			}
+
+			shortanswer.done_loading = function() {
+				/* TODO: pat, undo your magic with spinners */
+			}
+
+			shortanswer.submit = function() {
+				//submit_question_data(shortanswer._data, )
+			}
+
+			shortanswer.delete = function() {
+
+			}
+
+			/* last thing we do in construction is show ourselves */
+			shortanswer.manifestation.show();
+		}
+		const TFQuestion = function() {
+			this.type = "truefalse";
+			this.manifestation = copy_template_and_create(this.type)
+
+			this.state = 'none'
+		}
+
+		function is_type_of(example, thing_to_be_tested) {
+			return typeof(example) === typeof(thing_to_be_tested);
+		}
+
+		function copy_template_and_create(type) {
+			return $(static_properties_of_questions[type].template_selector)
+				.clone()
+				.removeClass('template')
+				.appendTo(question_list_selector);
+		}
+
+		function get_type_class(type) {
+			switch(type){
+				case "multichoice" : return MultiQuestion
+				case "shortanswer" : return ShortAnswerQuestion
+				case "essay" : return EssayQuestion
+				case "truefalse" : return TFQuestion
+				default : throw("Unsupported question type!!!")
+			}
+		}
+		function get_csrf_token() { return $.cookie('csrf-token'); }
+
+		function submit_question_data(data, complete_callback, failure_callback, always_callback) {
+			$.ajax({
+					type : "POST",
+					url : api_endpoint_for_questions,
+					data :	{
+						'question' : JSON.stringify(data),
+						'exam_id' : exam_id,
+						'csrfmiddlewaretoken' : get_csrf_token()
+					}
+				})
+			.done(complete_callback)
+			.fail(failure_callback)
+			.always(always_callback)
+		}
+
+		function delete_question(data, complete_callback, failure_callback, always_callback) {
+			$.ajax({
+					type : "POST",
+					url : api_endpoint_for_questions,
+					data :	{
+						'question' : JSON.stringify(data),
+						'csrfmiddlewaretoken' : get_csrf_token()
+					}, 
+					headers :{
+						'X-METHODOVERRIDE' : 'DELETE'
+					}
+				})
+			.done(complete_callback)
+			.fail(failure_callback)
+			.always(always_callback)	
+		}
+
+		var a = new ShortAnswerQuestion();
+		console.log(a, a.manifestation)
+	});
 </script>
 {% endblock %}
 
 {% block javascript %}
 
 {% load static %}
+<script src="{% static 'js/jquery.min.js'  %}"></script>
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/add-course.js' %}"></script>
 <script src="{% static 'js/new-exam.js' %}"></script>

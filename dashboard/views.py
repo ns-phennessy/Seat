@@ -14,6 +14,7 @@ import seat.applications.CourseApplication
 import dashboard.dashboard_view_models as models
 from seat.models.course import Course
 from django.http import JsonResponse
+import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -84,16 +85,22 @@ def courses(request, course_id):
         logger.error("courses::unhandled error:"+str(error))
         return routingApplication.error(request, str(error))
 
+def prep_question(question):
+    question = {}
+    q
 
 def serialize_questions(exam):
-    pass
+    questions = []
+    for question in exam.question_set.all():
+        questions.append(question.prep_for_serialization())
+    return questions;
 
 # GET
 def exam_edit(request, exam_num):
     #TODO: check user has permissions
     teacher = Teacher.objects.get(id=request.session['user_id'])
     exam = Exam.objects.get(id=exam_num)
-    context = { 'teacher': teacher, 'exam': exam }
+    context = { 'teacher': teacher, 'exam': exam , 'question_set_json' : json.dumps(serialize_questions(exam))}
     return render(request, 'dashboard/exam.html', context)
 
 question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
