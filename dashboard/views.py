@@ -85,6 +85,9 @@ def courses(request, course_id):
         return routingApplication.error(request, str(error))
 
 
+def serialize_questions(exam):
+    pass
+
 # GET
 def exam_edit(request, exam_num):
     #TODO: check user has permissions

@@ -12,6 +12,8 @@ class Choice(models.Model):
 class Question(models.Model):
     text = models.TextField()
     category = models.TextField()
+    number = models.PositiveIntegerField()
+    points = models.PositiveIntegerField()
     choices = models.ManyToManyField(Choice, related_name='question_choices')
     answer = models.ForeignKey(Choice, related_name='question_answer', null=True)
     exam = models.ForeignKey(Exam)
