@@ -42,11 +42,11 @@ def standard_student_endpoint(
     functor):
         try:
             if request.method != method:
-                logger.warn("non-"+method+" request landed in "+method+" logic at "+endpoint_name+" in the api:"+str(request))
+                logger.warn("non-"+method+" request landed in "+method+" logic at "+endpoint_name+" in the api")
                 return HttpResponseBadRequest("bummer. your non-"+method+" request landed in the "+method+" logic.")
             else:
                 if 'user_id' not in request.session:
-                    logger.debug("unauthenticated request to "+endpoint_name+":"+str(request))
+                    logger.debug("unauthenticated request to "+endpoint_name)
                     return HttpResponseForbidden('not authenticated')
 
                 student = studentApplication.get_student_by_id( request.session['user_id'] )
@@ -80,7 +80,7 @@ def standard_teacher_endpoint(
                 return HttpResponseBadRequest("bummer. your non-"+method+" request landed in the "+method+" logic.")
             else:
                 if 'user_id' not in request.session:
-                    logger.debug("unauthenticated request to "+endpoint_name+":"+str(request))
+                    logger.debug("unauthenticated request to "+endpoint_name)
                     return HttpResponseForbidden('not authenticated')
 
                 teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
@@ -90,7 +90,7 @@ def standard_teacher_endpoint(
                     return HttpResponseForbidden('not a teacher!')
 
                 if not all_required_values_present(required_values, request, method):
-                    logger.info("bad request made to "+endpoint_name+", not enough params "+str(request))
+                    logger.info("bad request made to "+endpoint_name+", not enough params ")
                     return HttpResponseBadRequest("expected more values, expected these:"+str(required_values))
                 else:
                     return functor(teacher, request)
