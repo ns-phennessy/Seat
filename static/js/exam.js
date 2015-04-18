@@ -51,7 +51,7 @@ var questionDataTemplate = {
 				transition:'drop'
 			});
 
-			$('#newquestionform .dimmer').dimmer({
+			$('.question-form .dimmer').dimmer({
 				duration:{
 					show:500, 
 					hide:0
@@ -59,9 +59,11 @@ var questionDataTemplate = {
 			});
 
 			$(settings.editQuestionButton).on('click', function(){
-				var questionSummary = this.closest('.item');
-				var dataHolder = $(questionSummary).find('input[type="hidden"]');
-
+				var questionSummary = this.closest('.question');
+				var dataHolder = $(questionSummary).find('input.data-store');
+				var id = $(questionSummary).find('.question-id').val()
+				console.log('id', id)
+        console.log(dataHolder.val())
 				var questionData = JSON.parse(dataHolder.val());	
 
 				form.clear();
@@ -270,7 +272,7 @@ var questionDataTemplate = {
 
 		form.find(settings.saveButton).on('click', function () {
 			form.setLoading();
-			var questionSummary = this.closest('.item');
+			var questionSummary = this.closest('.question');
 
 			//Get form data
 			var questionData = questionDataTemplate.clone();
@@ -280,19 +282,21 @@ var questionDataTemplate = {
 			questionData.type = formData.type;
 
 			//Check if question is new or exists
-			if(questionSummary == null){
+			if (questionSummary == null) {
+        console.log('new question summary')
 				questionSummary = $(".item.questionSummary").clone();
 
 				questionSummary.removeClass('questionSummary');
 				questionSummary.appendTo(items);
+			} else {
+       var id= $(questionSummary).find('.question-id').val()
 			}
 
 			//Get elements to load data into
 			var prompt = $(questionSummary).find('span.prompt');
 			var type = $(questionSummary).find('span.type');
 			var options = $(questionSummary).find('span.options');
-			var dataHolder = $(questionSummary).find('input[type="hidden"]');
-
+			var dataHolder = $(questionSummary).find('input.data-store');
 			//Set values
 			prompt.text(questionData.prompt);
 
@@ -328,22 +332,28 @@ var questionDataTemplate = {
 			const token = form.find('input[name=csrfmiddlewaretoken]').val();
 			const exam_id = $('input[name=exam_id]').val();
 
+			var question_data = {
+			  'type': questionData.type,
+			  'prompt': questionData.prompt,
+			  'choices': questionData.choices | [],
+			  'options': questionData.options
+			}
+
+			if (id) question_data['question_id'] = id;
+
+		  var post_data = {
+		    'question': JSON.stringify(question_data),
+         'exam_id' : exam_id
+		  }
+
 			$.ajax({
 				url: '/api/question',
 				type: 'POST',
-				data: {
-				  'question': JSON.stringify({
-				    'type': questionData.type,
-				    'prompt': questionData.prompt,
-				    'choices': questionData.choices | [],
-            'options' : questionData.options
-				  }),
-          'exam_id' : exam_id
-				},
+				data: post_data,
 				beforeSend: function(xhr) {
 					xhr.setRequestHeader('X-CSRFToken', token);
 				},
-				success: function (success, data) {
+				success: function (data, success) {
 
 				  if (success !== true) {
             /* TODO: UI display failure */
@@ -353,15 +363,17 @@ var questionDataTemplate = {
             /* TODO: UI display failure */
 				  }
 
-					$('#newquestionform .dimmer').dimmer('show');
+					$('.question-form .dimmer').dimmer('show');
 					form.close();
 					$(questionSummary).show();
 
 				  // update id
+					$(questionSummary).find('.question-id').val(data.id)
+					console.log('set', $(questionSummary), $(questionSummary).find('.question-id'), data.id)
           questionData.question_id = data.id
-
           // save state
-					dataHolder.val(JSON.stringify(questionData));
+          dataHolder.val(JSON.stringify(questionData));
+          console.log(dataHolder, data.id, dataHolder.val(), data, success)
 				},
 				fail: function () {
           /* TODO: UI display failure */
@@ -390,5 +402,5 @@ var questionDataTemplate = {
 	};
 }(jQuery));
 
-$('#newquestionform').questionForm();
+$('.question-form').questionForm();
 

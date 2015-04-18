@@ -90,11 +90,11 @@
 	</div>
 </div>
 
-<div class="ui form raised secondary segment" id="newquestionform" style="display:none">
+<div class="ui form raised secondary segment question-form" style="display:none">
     {% csrf_token %}
 	<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-role='close' data-content="Cancel"><i class="delete icon"></i></a>
 	<h3 class="ui left floated header">New Question</h3>
-
+    <input class="question-id" type="hidden" />
 	<div class="field">
 		<label for="prompt">Prompt:</label>
 		<input type="text" name="prompt" placeholder="What is the..."> 
@@ -212,8 +212,9 @@
 	</div>
 </div>
 
-<div class="item questionSummary" style="display:none">
-	<input type="hidden">
+<div class="item questionSummary question" style="display:none">
+	<input class="data-store" type="hidden">
+    <input class="question-id" type="hidden" />
 	<div class="content">
 		<div class="header">Question</div>
 		<div class="meta">
