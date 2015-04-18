@@ -316,8 +316,7 @@
 				console.log('ajax_complete', arguments);
 			}
 			var ajax_failure = function() {
-				/* not sure if this fires before or after always, but
-				obviously we need to tell the user this failed */
+				/* this fires before always */
 				console.log('ajax_failure', arguments);
 			}
 			var ajax_always = function() {
