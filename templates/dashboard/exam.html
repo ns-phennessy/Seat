@@ -12,49 +12,78 @@
 <input id="backend-data-delivery" type="hidden" value="">
 
 <!-- multichoice is special so it needs further templates for choices -->
-<div class="multichoice-option template" hidden>
-	<input name="option" x-data="option" type="text"></input>
-	<input name="answer" x-data="answer" type="radio"></input>
+<div class="multichoice-edit-option template" hidden>
+	<input name="option" data-x="option" type="text"></input>
+	<input name="answer" data-x="answer" type="radio"></input>
+</div>
+
+<div class="multichoice-view-option template" hidden>
+	<label name="option" data-x="option"></label>
+	<input name="option" type="radio">
 </div>
 
 <!-- multichoice -->
-<div class="ui multichoice template" hidden>
+<div class="multichoice template" hidden>
 	<!-- summary -->
 	<div class="summary question-section">
-		<!-- x-data tags indicate lowest level storage of question data -->
-		<div>#<span x-data="number"></span></div>
-		<div>Points:<span x-data="points"></span></div>
-		<span x-data="prompt"></span>
-		<span x-data="type"></span>
-		<span x-data="option-count"></span>
+		<!-- data-x tags indicate lowest level storage of question data -->
+		<div>#<span data-x="number"></span></div>
+		<div>Points:<span data-x="points"></span></div>
+		<span data-x="prompt"></span>
+		<span data-x="type"></span>
+		<span data-x="option-count"></span>
 	</div>
 
 	<!-- edit -->
 	<div class="edit question-section">
 		
-		<div>#<span x-data="number"></span></div>
+		<div>#<span data-x="number"></span></div>
 
-		<span x-data="type">Multiple Choice</span>
+		<span data-x="type">Multiple Choice</span>
 
 		<label for="points">Points</label>
-		<input name="points" x-data="points" type="text"/>	
+		<input name="points" data-x="points" type="text"/>	
 
 		<label for="prompt">Prompt</label>
-		<input name="prompt" x-data="prompt" type="text"></input>
+		<input name="prompt" data-x="prompt" type="text"></input>
 
 		<div class="options">
 		<!-- generated from template -->
 		</div>
+
 	</div>
 
 	<!-- preview -->
-	<div class="preview question-section">
-		<span class="question-number"></span>
+	<div class="preview question-section" data-x="preview">
+	<!--  pulls from the backend via ajax-->
 	</div>
 </div>
 
 <!-- truefalse -->
 <div class="truefalse template" hidden>
+	<!-- summary -->
+	<div class="summary question-section">
+
+		<div>#<span data-x="number"></span></div>
+		<div>Points:<span data-x="points"></span></div>
+
+		<span data-x="type"></span>
+		<span data-x="prompt"></span>
+	</div>
+
+	<!-- edit -->
+	<div class="edit question-section">
+
+		<div>#<span data-x="number"></span></div>
+		<div>Points:<span data-x="points"></span></div>
+		<span data-x="type"></span>
+		<label for="prompt"></label>
+		<input name="prompt" data-x="prompt">
+		<input data-x="option" name="option" type="checkbox"/>
+	</div>
+
+	<!-- preview -->
+	<div class="preview question-section"></div>
 </div>
 
 <!-- essay -->
