@@ -27,15 +27,13 @@ def exam(request):
 
 def question(request):
     if request.method == 'POST':
-        return question_methods.create_question(request)
-    elif request.method == 'PUT':
-        return question_methods.update_question(request)
+        return question_methods.upsert_question(request)
     elif request.method == 'DELETE':
         return question_methods.delete_question(request)
     elif request.method == 'GET':
         return question_methods.get_question(request)
     else:
-        return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
+        return HttpResponseNotAllowed(['GET', 'POST', 'DELETE'])
 
 def token(request):
     if request.method == 'POST':

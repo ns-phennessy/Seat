@@ -1,19 +1,19 @@
-$('div[data-role=question] div[data-role=delete]').on('click', function() {
-    data = { question_id: $(this).data('id') }
+//$('div[data-role=question] div[data-role=delete]').on('click', function() {
+//    data = { question_id: $(this).data('id') }
 
-    $.ajax({
-        type: 'POST',
-        url:  $(this).data('action'),
-        data: data,
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));
-          xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE');
-        },
-        success: function() {
-          location.reload();
-        }
-    });
-});
+//    $.ajax({
+//        type: 'POST',
+//        url:  $(this).data('action'),
+//        data: data,
+//        beforeSend: function(xhr) {
+//          xhr.setRequestHeader('X-CSRFToken', );
+//          xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE');
+//        },
+//        success: function() {
+//          location.reload();
+//        }
+//    });
+//});
 
 $('.ui.menu .item').tab();
 $('.ui.checkbox').checkbox();
@@ -51,7 +51,7 @@ var questionDataTemplate = {
 				transition:'drop'
 			});
 
-			$('#newquestionform .dimmer').dimmer({
+			$('.question-form .dimmer').dimmer({
 				duration:{
 					show:500, 
 					hide:0
@@ -59,11 +59,11 @@ var questionDataTemplate = {
 			});
 
 			$(settings.editQuestionButton).on('click', function(){
-				var questionSummary = this.closest('.item');
-				var dataHolder = $(questionSummary).find('input[type="hidden"]');
-
-				var questionData = JSON.parse(dataHolder.val());	
-
+				var questionSummary = this.closest('.question');
+				var dataHolder = $(questionSummary).find('input.data-store');
+				var id = $(questionSummary).find('.question-id').val()
+				console.log('data', dataHolder.val())
+				var questionData = JSON.parse(dataHolder.val());
 				form.clear();
 
 				form.setValue('prompt', questionData.prompt);
@@ -118,22 +118,16 @@ var questionDataTemplate = {
 			});
 
 			$(settings.deleteQuestionButton).on('click', function(){
-				var questionSummary = this.closest('.item');
-				//TODO remove this when doing ajax
-				$(this).popup('hide');
+				var questionSummary = this.closest('.question');
+				console.log(questionSummary,$(questionSummary).find('.question-id').val())
 
-				$(questionSummary).remove();
-
-				var ajaxData;
-				var token;
-
-				//TODO Hookup to deletion endpoint
 				$.ajax({
 					url: '/api/question',
 					type: 'POST',
-					data: ajaxData,
+					data: data = { question_id: $(this).data('id') },
 					beforeSend: function(xhr) {
-						xhr.setRequestHeader('X-CSRFToken', token);
+					  xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken'));
+            xhr.setRequestHeader('X-METHODOVERRIDE', 'DELETE')
 					},
 					success: function() {
 						$(questionSummary).remove();
@@ -268,9 +262,9 @@ var questionDataTemplate = {
 			}
 		});
 
-		form.find(settings.saveButton).on('click', function(){
+		form.find(settings.saveButton).on('click', function () {
 			form.setLoading();
-			var questionSummary = this.closest('.item');
+			var questionSummary = this.closest('.question');
 
 			//Get form data
 			var questionData = questionDataTemplate.clone();
@@ -280,19 +274,20 @@ var questionDataTemplate = {
 			questionData.type = formData.type;
 
 			//Check if question is new or exists
-			if(questionSummary == null){
+			if (questionSummary == null) {
 				questionSummary = $(".item.questionSummary").clone();
 
 				questionSummary.removeClass('questionSummary');
 				questionSummary.appendTo(items);
+			} else {
+       var id= $(questionSummary).find('.question-id').val()
 			}
 
 			//Get elements to load data into
 			var prompt = $(questionSummary).find('span.prompt');
 			var type = $(questionSummary).find('span.type');
 			var options = $(questionSummary).find('span.options');
-			var dataHolder = $(questionSummary).find('input[type="hidden"]');
-
+			var dataHolder = $(questionSummary).find('input.data-store');
 			//Set values
 			prompt.text(questionData.prompt);
 
@@ -325,38 +320,57 @@ var questionDataTemplate = {
 					break;	
 			}
 
-			dataHolder.val(JSON.stringify(questionData));
-			$('#newquestionform .dimmer').dimmer('show');
+			const token = form.find('input[name=csrfmiddlewaretoken]').val();
+			const exam_id = $('input[name=exam_id]').val();
 
-			setTimeout(function(){
-				form.close();
-				$(questionSummary).show();
-			}, 250);
+			var question_data = {
+			  'type': questionData.type,
+			  'prompt': questionData.prompt,
+			  'choices': questionData.choices | [],
+			  'options': questionData.options
+			}
 
-			//Update event listeners?
-			form.init();
+			if (id) question_data['question_id'] = id;
 
-			return;
-
-			//TODO Perform AJAX call
-			var ajaxData;
-			var token = form.find('input[name=csrfmiddlewaretoken]').val();
+		  var post_data = {
+		    'question': JSON.stringify(question_data),
+         'exam_id' : exam_id
+		  }
 
 			$.ajax({
 				url: '/api/question',
 				type: 'POST',
-				data: ajaxData,
+				data: post_data,
 				beforeSend: function(xhr) {
 					xhr.setRequestHeader('X-CSRFToken', token);
 				},
-				success: function() {
-					$('#newquestionform .dimmer').dimmer('show');
+				success: function (data, success) {
+
+				  if (success !== true) {
+            /* TODO: UI display failure */
+				  }
+
+				  if (data.success !== true) {
+            /* TODO: UI display failure */
+				  }
+
+					$('.question-form .dimmer').dimmer('show');
 					form.close();
 					$(questionSummary).show();
+
+				  // update id
+					$(questionSummary).find('.question-id').val(data.id)
+          questionData.question_id = data.id
+          // save state
+          dataHolder.val(JSON.stringify(questionData));
+				},
+				fail: function () {
+          /* TODO: UI display failure */
 				}
 			});
 
-
+		  //Update event listeners?
+			form.init();
 		});
 
 		$('.ui.button[data-role="add-multichoice-choice"]').on('click', function(){
@@ -377,5 +391,5 @@ var questionDataTemplate = {
 	};
 }(jQuery));
 
-$('#newquestionform').questionForm();
+$('.question-form').questionForm();
 
