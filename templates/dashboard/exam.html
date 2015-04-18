@@ -222,7 +222,7 @@
 
 			var my_data = shortanswer._data = {
 				'question_id' : '',
-				'type' : '',
+				'type' : 'shortanswer',
 				'prompt' : '',
 				'points' : '',
 				'number' : ''
@@ -343,16 +343,19 @@
 			}
 
 			shortanswer.preview = function() {
+				/* SUGGESTION: put transition ui code here */
 				shortanswer.manifestation.find('.question-section').hide();
 				shortanswer.manifestation.find('.preview.question-section').show();
 			}
 
 			shortanswer.edit = function() {
+				/* SUGGESTION: put transition ui code here */
 				shortanswer.manifestation.find('.question-section').hide();
 				shortanswer.manifestation.find('.edit.question-section').show();
 			}
 
 			shortanswer.summary = function() {
+				/* SUGGESTION: put transition ui code here */
 				shortanswer.manifestation.find('.question-section').hide();
 				shortanswer.manifestation.find('.summary.question-section').show();
 			}
