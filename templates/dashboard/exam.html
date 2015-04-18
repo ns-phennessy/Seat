@@ -127,17 +127,17 @@
 <div class="shortanswer template" hidden>
 	<!-- summary -->
 	<div class="summary question-section">
-
+		<h1>summary</h1>
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
 
 		<span data-x="type"></span>
-		<span data-x="prompt-substr"></span>
+		<h1 data-x="prompt-substr"></h1>
 	</div>
 
 	<!-- edit -->
 	<div class="edit question-section">
-
+		<h1>edit</h1>
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
 
@@ -147,6 +147,7 @@
 
 	<!-- preview -->
 	<div class="preview question-section">
+		<h1>preview</h1>
 		<!-- generated from the backend -->
 	</div>
 </div>
@@ -167,14 +168,12 @@
 			"multichoice" : {
 				template_selector : '.multichoice.template',
 				display_name : "Multiple Choice",
-				summary_selector : '.edit.question-section',
 				prompt_selector : '[data-x="prompt"]',
 				points_selector : '[data-x="points"]'
 			},
 			"shortanswer" : {
 				template_selector : '.shortanswer.template',
 				display_name : "Short Answer",
-				summary_selector : '.edit.question-section',
 				prompt_selector : '[data-x="prompt"]',
 				points_selector : '[data-x="points"]',
 				number_selector : '[number-x]'
@@ -229,6 +228,9 @@
 				'number' : ''
 				}
 
+			const my_derived_sections = {
+				'prompt' : ['prompt-substr']
+			};
 			/* prompt-substr is a projection, the others
 			are pure data, meaning they are bound more generically */
 			shortanswer.prompt_substr = function() {
@@ -237,8 +239,11 @@
 				
 				const truncated_prompt = shortanswer._data['prompt'].substr(0, max_prompt_length_without_ellipses);
 				
-				if (use_ellipses_on_truncated_prompt)
+				if (use_ellipses_on_truncated_prompt 
+					&& truncated_prompt.length == max_prompt_length_without_ellipses) {
+
 					return truncated_prompt + '...';
+				}
 
 				return truncated_prompt;
 			}
@@ -254,8 +259,22 @@
 					if (arguments.length > 0) {
 						/* set */
 						shortanswer._data[property] = value;
-						var children = shortanswer.manifestation.find('[data-x="'+property+'"]');
 
+						/* this block of code handles setting things like prompt-substr */
+						if (my_derived_sections[property]) {
+							for (var i in my_derived_sections[property]) {
+								/* data-x attributes often have -'s in them, switch to _,
+								  for example this lets us grab data-x="prompt-substr",
+								  and populate it using our own getter, prompt_substr */
+								var derived_property = my_derived_sections[property][i].replace(/-/gm, '_');
+								shortanswer.manifestation.find(
+									'[data-x="'+my_derived_sections[property][i]+'"]'
+									)
+									.val(shortanswer[derived_property]())
+									.text(shortanswer[derived_property]());
+							}
+						}
+						var children = shortanswer.manifestation.find('[data-x="'+property+'"]');
 						children.val(value);
 						children.text(value);
 						return shortanswer;
@@ -284,23 +303,64 @@
 			}
 
 			shortanswer.loading = function() {
+				console.log('loading');
 				/* TODO: pat, do your magic with spinners */
 			}
 
 			shortanswer.done_loading = function() {
+				console.log('done loading')
 				/* TODO: pat, undo your magic with spinners */
 			}
 
+			var ajax_complete = function() {
+				console.log('ajax_complete', arguments);
+			}
+			var ajax_failure = function() {
+				/* not sure if this fires before or after always, but
+				obviously we need to tell the user this failed */
+				console.log('ajax_failure', arguments);
+			}
+			var ajax_always = function() {
+				console.log('ajax_always', arguments);
+				shortanswer.done_loading()
+			}
+
 			shortanswer.submit = function() {
-				//submit_question_data(shortanswer._data, )
+				shortanswer.loading();
+				submit_question_data(shortanswer._data, ajax_complete, ajax_failure, ajax_always);
+				shortanswer.summary();
 			}
 
 			shortanswer.delete = function() {
+				shortanswer.loading();
 
+				delete_question(shortanswer._data, function() {
+					ajax_complete();
+					shortanswer.manifestation.remove();
+				},
+				ajax_failure,
+				ajax_always);
+			}
+
+			shortanswer.preview = function() {
+				shortanswer.manifestation.find('.question-section').hide();
+				shortanswer.manifestation.find('.preview.question-section').show();
+			}
+
+			shortanswer.edit = function() {
+				shortanswer.manifestation.find('.question-section').hide();
+				shortanswer.manifestation.find('.edit.question-section').show();
+			}
+
+			shortanswer.summary = function() {
+				shortanswer.manifestation.find('.question-section').hide();
+				shortanswer.manifestation.find('.summary.question-section').show();
 			}
 
 			/* last thing we do in construction is show ourselves */
 			shortanswer.manifestation.show();
+			/* default mode is edit */
+			shortanswer.edit();
 		}
 		const TFQuestion = function() {
 			this.type = "truefalse";
@@ -346,6 +406,10 @@
 			.always(always_callback)
 		}
 
+		function fetch_preview_for(data, complete_callback, failure_callback, always_callback) {
+			console.log("PREVIEW UNSUPPORTED R.N.")
+		}
+
 		function delete_question(data, complete_callback, failure_callback, always_callback) {
 			$.ajax({
 					type : "POST",
@@ -364,6 +428,7 @@
 		}
 
 		var a = new ShortAnswerQuestion();
+		window.a = a;
 		console.log(a, a.manifestation)
 	});
 </script>
