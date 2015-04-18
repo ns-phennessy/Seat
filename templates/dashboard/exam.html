@@ -310,48 +310,77 @@
 			shortanswer.done_loading = function() {
 				console.log('done loading')
 				/* TODO: pat, undo your magic with spinners */
-			}
+			};
 
-			var ajax_complete = function() {
-				console.log('ajax_complete', arguments);
-			}
-			var ajax_failure = function() {
+			var ajax_submit_complete = function(data, success, jqxhr) {
 				/* this fires before always */
-				console.log('ajax_failure', arguments);
-			}
-			var ajax_always = function() {
-				console.log('ajax_always', arguments);
-				shortanswer.done_loading()
-			}
+				if (success === "success" && data.success === true) {
+					console.log('successfully saved question')
+					shortanswer.done_loading();
+				} else {
+					console.log('server did not save the question!!!', data.message)
+				}
+			};
+			var ajax_submit_failure = function() {
+				/* this fires before always */
+				console.log('failure to save question!')
+			};
+			var ajax_submit_always = function(data, success, jqxhr) {
+				/* but this always fires =() */
+				console.log('handler to be called no matter what when we submit <- just got called');
+			};
 
-			shortanswer.submit = function() {
-				shortanswer.loading();
-				submit_question_data(shortanswer._data, ajax_complete, ajax_failure, ajax_always);
-				shortanswer.summary();
-			}
-
-			shortanswer.delete = function() {
-				shortanswer.loading();
-
-				delete_question(shortanswer._data, function() {
-					ajax_complete();
+			var ajax_delete_complete = function(data, success, jqxhr) {
+				/* this fires before always */
+				if (success === "success" && data.success === true) {
+					console.log('successfully deleted!');
+					shortanswer.done_loading();
 					shortanswer.manifestation.remove();
-				},
-				ajax_failure,
-				ajax_always);
-			}
+				} else {
+					console.log('the server did not delete our question!', data.message);
+				}
+			};
+			var ajax_delete_failure = function() {
+				/* this fires before always */
+				console.log('failure to delete a question!', arguments);
+			};
+			var ajax_delete_always = function(data, success, jqxhr) {
+				/* but this always fires =() */
+				console.log('handler to be called no matter what when we delete <- just got called');
+			};
+
+			shortanswer.submit = function(submit_custom_cb) {
+				shortanswer.loading();
+				submit_question_data(shortanswer._data, submit_custom_cb,
+					 ajax_submit_complete,
+					 ajax_submit_failure,
+					 ajax_submit_always);
+			};
+
+			shortanswer.delete = function(delete_custom_cb) {
+				shortanswer.loading();
+				if (shortanswer._data['question_id']) {
+					delete_question(shortanswer._data, delete_custom_cb,
+						ajax_delete_complete,
+						ajax_delete_failure,
+						ajax_delete_always);
+				} else {
+					/* mock ajax success for the handler */
+					ajax_delete_complete({success: true}, "success"); 
+				}
+			};
 
 			shortanswer.preview = function() {
 				/* SUGGESTION: put transition ui code here */
 				shortanswer.manifestation.find('.question-section').hide();
 				shortanswer.manifestation.find('.preview.question-section').show();
-			}
+			};
 
 			shortanswer.edit = function() {
 				/* SUGGESTION: put transition ui code here */
 				shortanswer.manifestation.find('.question-section').hide();
 				shortanswer.manifestation.find('.edit.question-section').show();
-			}
+			};
 
 			shortanswer.summary = function() {
 				/* SUGGESTION: put transition ui code here */
@@ -391,28 +420,32 @@
 				default : throw("Unsupported question type!!!")
 			}
 		}
-		function get_csrf_token() { return $.cookie('csrf-token'); }
+		function get_csrf_token() { return $.cookie('csrftoken'); }
 
-		function submit_question_data(data, complete_callback, failure_callback, always_callback) {
+		function submit_question_data(data, custom_completed, complete_callback, failure_callback, always_callback) {
 			$.ajax({
 					type : "POST",
 					url : api_endpoint_for_questions,
 					data :	{
 						'question' : JSON.stringify(data),
-						'exam_id' : exam_id,
-						'csrfmiddlewaretoken' : get_csrf_token()
+						'exam_id' : exam_id
+					},
+					headers: {
+						'X-CSRFToken' : get_csrf_token()
 					}
 				})
-			.done(complete_callback)
+			.done(function(a, b, c, d) {
+				complete_callback(a,b,c,d);
+				!custom_completed || custom_completed(a,b,c,d); })
 			.fail(failure_callback)
 			.always(always_callback)
 		}
 
-		function fetch_preview_for(data, complete_callback, failure_callback, always_callback) {
+		function fetch_preview_for(data, custom_completed, complete_callback, failure_callback, always_callback) {
 			console.log("PREVIEW UNSUPPORTED R.N.")
 		}
 
-		function delete_question(data, complete_callback, failure_callback, always_callback) {
+		function delete_question(data, custom_completed, complete_callback, failure_callback, always_callback) {
 			$.ajax({
 					type : "POST",
 					url : api_endpoint_for_questions,
@@ -424,7 +457,9 @@
 						'X-METHODOVERRIDE' : 'DELETE'
 					}
 				})
-			.done(complete_callback)
+			.done(function(a,b,c,d) {
+				complete_callback(a,b,c,d);
+				!custom_completed || custom_completed(a,b,c,d); })
 			.fail(failure_callback)
 			.always(always_callback)	
 		}

@@ -79,7 +79,7 @@ class QuestionApplication(object):
     def upsert_essay_question(self, exam_id, question):
         try:
             if 'question_id' in question_json:
-                question = Questions.objects.get(id=question_json['question_id'])
+                question = Question.objects.get(id=question_json['question_id'])
                 question.text = question_json['prompt']
             else:
                 text = question_json['prompt']
