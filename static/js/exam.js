@@ -62,8 +62,6 @@ var questionDataTemplate = {
 				var questionSummary = this.closest('.question');
 				var dataHolder = $(questionSummary).find('input.data-store');
 				var id = $(questionSummary).find('.question-id').val()
-				console.log('id', id)
-        console.log(dataHolder.val())
 				var questionData = JSON.parse(dataHolder.val());	
 
 				form.clear();
@@ -283,7 +281,6 @@ var questionDataTemplate = {
 
 			//Check if question is new or exists
 			if (questionSummary == null) {
-        console.log('new question summary')
 				questionSummary = $(".item.questionSummary").clone();
 
 				questionSummary.removeClass('questionSummary');
@@ -369,11 +366,9 @@ var questionDataTemplate = {
 
 				  // update id
 					$(questionSummary).find('.question-id').val(data.id)
-					console.log('set', $(questionSummary), $(questionSummary).find('.question-id'), data.id)
           questionData.question_id = data.id
           // save state
           dataHolder.val(JSON.stringify(questionData));
-          console.log(dataHolder, data.id, dataHolder.val(), data, success)
 				},
 				fail: function () {
           /* TODO: UI display failure */
