@@ -44,7 +44,7 @@ class DashboardUnitTests(TestCase):
         request = HttpRequest
         request.method = 'POST'
         answer = dashboard_index(request)
-        self.assertEquals('/invalidrequest/', routingApplication.invalid_request_url(request))
+        self.assertEquals('/invalidrequest/', answer.status_code)
 
     def test_index_enforces_teachers_only(self):
         request = self.client.get('/')
