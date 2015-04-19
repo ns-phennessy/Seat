@@ -20,6 +20,7 @@ class Question(models.Model):
     
     def prep_for_serialization(self):
         me = {}
+        me['question_id'] = self.id
         me['prompt'] = self.text
         me['type'] = self.category
         me['number'] = self.number

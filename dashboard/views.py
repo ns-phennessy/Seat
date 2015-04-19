@@ -85,10 +85,6 @@ def courses(request, course_id):
         logger.error("courses::unhandled error:"+str(error))
         return routingApplication.error(request, str(error))
 
-def prep_question(question):
-    question = {}
-    q
-
 def serialize_questions(exam):
     questions = []
     for question in exam.question_set.all():

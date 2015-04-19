@@ -99,7 +99,7 @@
 <div class="essay template" hidden>
 	<!-- summary -->
 	<div class="summary question-section">
-
+	<h1>summary</h1>
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
 
@@ -109,7 +109,7 @@
 
 	<!-- edit -->
 	<div class="edit question-section">
-
+		<h1>summary</h1>
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
 
@@ -119,6 +119,7 @@
 
 	<!-- preview -->
 	<div class="preview question-section">
+	<h1>preview</h1>
 		<!-- generated from the backend -->
 	</div>
 </div>
@@ -166,28 +167,15 @@
 		const api_endpoint_for_questions = '/api/question';
 		const static_properties_of_questions = {
 			"multichoice" : {
-				template_selector : '.multichoice.template',
-				display_name : "Multiple Choice",
-				prompt_selector : '[data-x="prompt"]',
-				points_selector : '[data-x="points"]'
+				template_selector : '.multichoice.template'
 			},
 			"shortanswer" : {
-				template_selector : '.shortanswer.template',
-				display_name : "Short Answer",
-				prompt_selector : '[data-x="prompt"]',
-				points_selector : '[data-x="points"]',
-				number_selector : '[number-x]'
+				template_selector : '.shortanswer.template'
+			},
+			"essay" : {
+				template_selector : '.essay.template'
 			}
 		};
-
-		console.log('delivered', questions_present_at_pageload);
-
-
-		// var questions = []
-		// for (var i in questions_present_at_pageload)
-		// 	if (questions_present_at_pageload[i].type == 'shortanswer')
-		// 		var new_question = new ShortAnswerQuestion()
-		// 		new_question.populate(questions_present_at_pageload)
 		/*
 		question interface:
 		{
@@ -209,14 +197,191 @@
 			this.type = "multichoice";
 			this.manifestation = $(this.template_selector).clone();
 		}
-		const EssayQuestion = function() {
-			const template_selector =
-				this.template_selector = '.essay.template';
-			
-			const type = this.type = "essay"
-			this.manifestation = $(this.template_selector).clone();
 
+		/* ------------ begin essay ------------- */
+		const EssayQuestion = function() {
+			const essay = this;
+			essay.type = "essay";
+			essay.manifestation = copy_template_and_create(essay.type);
+
+			var my_data = essay._data = {
+				'question_id' : '',
+				'type' : 'essay',
+				'prompt' : '',
+				'points' : '',
+				'number' : ''
+				}
+
+			const my_derived_sections = {
+				'prompt' : ['prompt-substr']
+			};
+			/* prompt-substr is a projection, the others
+			are pure data, meaning they are bound more generically */
+			essay.prompt_substr = function() {
+				if (arguments.length > 0) 
+					console.log('argument ignored in .prompt_substr, which is read-only');
+				
+				const truncated_prompt = essay._data['prompt'].substr(0, max_prompt_length_without_ellipses);
+				
+				if (use_ellipses_on_truncated_prompt 
+					&& truncated_prompt.length == max_prompt_length_without_ellipses) {
+
+					return truncated_prompt + '...';
+				}
+
+				return truncated_prompt;
+			}
+
+			/* this function exposes all of the data for essay,
+			-> for example question_id as a getter/setter <-
+			setting it sets it internally and updates all of the places in the
+			markup that are annotated data-x="question_id":
+			some_essay_question.question_id(123)
+			some_essay_question.question_id() <- 123 */
+			var bind_property_to_essay_as_getter_setter = function(property) {
+				essay[property] = function(value) {
+					if (arguments.length > 0) {
+						/* set */
+						essay._data[property] = value;
+
+						/* this block of code handles setting things like prompt-substr */
+						if (my_derived_sections[property]) {
+							for (var i in my_derived_sections[property]) {
+								/* data-x attributes often have -'s in them, switch to _,
+								  for example this lets us grab data-x="prompt-substr",
+								  and populate it using our own getter, prompt_substr */
+								var derived_property = my_derived_sections[property][i].replace(/-/gm, '_');
+								essay.manifestation.find(
+									'[data-x="'+my_derived_sections[property][i]+'"]'
+									)
+									.val(essay[derived_property]())
+									.text(essay[derived_property]());
+							}
+						}
+						var children = essay.manifestation.find('[data-x="'+property+'"]');
+						children.val(value);
+						children.text(value);
+						return essay;
+					} else {
+						/* get */
+						return essay._data[property]
+					}
+				}
+			}
+
+			/* expose all of the properties */
+			for (var property_to_be_available in my_data) 
+				bind_property_to_essay_as_getter_setter(property_to_be_available);	
+			
+			essay.populate = function(data) {
+				for (var property in essay._data) {
+					if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
+						/* this passes the data at data['question_id'] to essay.question_id()
+						to use the setter we have previously created. read the notes above on how
+						the setter/getter works if this makes no sense */
+						essay[property](data[property])
+					} else {
+						console.log('incorrect value type encountered in population of essay:',property,data[property]);
+					}
+				}
+			}
+
+			essay.loading = function() {
+				console.log('loading');
+				/* TODO: pat, do your magic with spinners */
+			}
+
+			essay.done_loading = function() {
+				console.log('done loading')
+				/* TODO: pat, undo your magic with spinners */
+			};
+
+			var ajax_submit_complete = function(data, success, jqxhr) {
+				/* this fires before always */
+				if (success === "success" && data.success === true) {
+					console.log('successfully saved question')
+					essay.question_id(data.id);
+					essay.done_loading();
+				} else {
+					console.log('server did not save the question!!!', data.message)
+				}
+			};
+			var ajax_submit_failure = function() {
+				/* this fires before always */
+				console.log('failure to save question!')
+			};
+			var ajax_submit_always = function(data, success, jqxhr) {
+				/* but this always fires =() */
+				console.log('handler to be called no matter what when we submit <- just got called');
+			};
+
+			var ajax_delete_complete = function(data, success, jqxhr) {
+				/* this fires before always */
+				if (success === "success" && data.success === true) {
+					console.log('successfully deleted!');
+					essay.done_loading();
+					essay.manifestation.remove();
+				} else {
+					console.log('the server did not delete our question!', data.message);
+				}
+			};
+			var ajax_delete_failure = function() {
+				/* this fires before always */
+				console.log('failure to delete a question!', arguments);
+			};
+			var ajax_delete_always = function(data, success, jqxhr) {
+				/* but this always fires =() */
+				console.log('handler to be called no matter what when we delete <- just got called');
+			};
+
+			essay.submit = function(submit_custom_cb) {
+				essay.loading();
+				submit_question_data(essay._data, submit_custom_cb,
+					 ajax_submit_complete,
+					 ajax_submit_failure,
+					 ajax_submit_always);
+			};
+
+			essay.delete = function(delete_custom_cb) {
+				essay.loading();
+				if (essay._data['question_id']) {
+					delete_question(essay.question_id(), delete_custom_cb,
+						ajax_delete_complete,
+						ajax_delete_failure,
+						ajax_delete_always);
+				} else {
+					/* mock ajax success for the handler */
+					ajax_delete_complete({success: true}, "success"); 
+				}
+			};
+
+			essay.preview = function() {
+				/* SUGGESTION: put transition ui code here */
+				essay.manifestation.find('.question-section').hide();
+				essay.manifestation.find('.preview.question-section').show();
+			};
+
+			essay.edit = function() {
+				/* SUGGESTION: put transition ui code here */
+				essay.manifestation.find('.question-section').hide();
+				essay.manifestation.find('.edit.question-section').show();
+			};
+
+			essay.summary = function() {
+				/* SUGGESTION: put transition ui code here */
+				essay.manifestation.find('.question-section').hide();
+				essay.manifestation.find('.summary.question-section').show();
+			}
+
+			/* last thing we do in construction is show ourselves */
+			essay.manifestation.show();
+			/* default mode is edit */
+			essay.edit();
 		}
+		/*---------------- end essay -------------*/
+
+
+		/* ------------ begin short answer ------------- */
 		const ShortAnswerQuestion = function() {
 			const shortanswer = this;
 			shortanswer.type = "shortanswer";
@@ -293,13 +458,13 @@
 			
 			shortanswer.populate = function(data) {
 				for (var property in shortanswer._data) {
-					if (is_type_of('', data[property])) {
+					if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
 						/* this passes the data at data['question_id'] to shortanswer.question_id()
 						to use the setter we have previously created. read the notes above on how
 						the setter/getter works if this makes no sense */
 						shortanswer[property](data[property])
 					} else {
-						console.log('incorrect type encountered in population of shortanswer:',data[property]);
+						console.log('incorrect type encountered in population of shortanswer:',property,data[property]);
 					}
 				}
 			}
@@ -396,6 +561,7 @@
 			/* default mode is edit */
 			shortanswer.edit();
 		}
+		/*---------------- end short answer -------------*/ 
 		const TFQuestion = function() {
 			this.type = "truefalse";
 			this.manifestation = copy_template_and_create(this.type)
@@ -480,7 +646,7 @@
 			}
 		}
 
-		var a = new ShortAnswerQuestion();
+		var a = new EssayQuestion();
 		window.a = a;
 		console.log(a, a.manifestation)
 	});
