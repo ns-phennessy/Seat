@@ -18,25 +18,22 @@
 
 <!-- multichoice is special so it needs further templates for choices -->
 <div class="multichoice-edit-option template" hidden>
-	<input name="option" data-x="option" type="text"></input>
-	<input name="answer" data-x="answer" type="radio"></input>
-</div>
-
-<div class="multichoice-view-option template" hidden>
-	<label name="option" data-x="option"></label>
-	<input name="option" type="radio">
+	<div class="option-container">
+		<input name="option" data-x="option" type="text"></input>
+		<input name="answer" data-x="answer" type="radio"></input>
+	</div>
 </div>
 
 <!-- multichoice -->
 <div class="multichoice template" hidden>
 	<!-- summary -->
 	<div class="summary question-section">
+		<h1 data-x="option-count"></h1>
 		<!-- data-x tags indicate lowest level storage of question data -->
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
 		<span data-x="prompt-substr"></span>
 		<span data-x="type"></span>
-		<span data-x="option-count"></span>
 	</div>
 
 	<!-- edit -->
@@ -109,7 +106,7 @@
 
 	<!-- edit -->
 	<div class="edit question-section">
-		<h1>summary</h1>
+		<h1>edit</h1>
 		<div>#<span data-x="number"></span></div>
 		<div>Points:<span data-x="points"></span></div>
 
@@ -190,13 +187,317 @@
 		*/
 		var templates = {}
 		
+		/* ------------ begin multichoice ------------- */
 		const MultiQuestion = function() {
-			const template_selector =
-				this.template_selector = '.multichoice.template';
+			const multichoice = this;
+			multichoice.type = "multichoice";
+			multichoice.manifestation = copy_template_and_create(multichoice.type);
 
-			this.type = "multichoice";
-			this.manifestation = $(this.template_selector).clone();
+			var my_data = multichoice._data = {
+				'question_id' : '',
+				'type' : 'multichoice',
+				'prompt' : '',
+				'points' : '',
+				'number' : '',
+				'options' : [],
+				'answers' : []
+				}
+
+			/* selector : action so we can later do multichoice[action]() */
+			const action_map = {
+				'.submit' : 'submit',
+				'.delete' : 'delete',
+				'.add-choice' : 'add_choice',
+
+			}
+
+			const my_derived_sections = {
+				'prompt' : ['prompt-substr']
+			};
+
+			/* prompt-substr is a projection, (read only) the others
+			are pure data, meaning they are bound more generically */
+			multichoice.prompt_substr = function() {
+				if (arguments.length > 0) 
+					console.log('argument ignored in .prompt_substr, which is read-only');
+				
+				const truncated_prompt = multichoice._data['prompt'].substr(0, max_prompt_length_without_ellipses);
+				
+				if (use_ellipses_on_truncated_prompt 
+					&& truncated_prompt.length == max_prompt_length_without_ellipses) {
+
+					return truncated_prompt + '...';
+				}
+
+				return truncated_prompt;
+			}
+
+			/* this function exposes all of the data for multichoice,
+			-> for example question_id as a getter/setter <-
+			setting it sets it internally and updates all of the places in the
+			markup that are annotated data-x="question_id":
+			some_multichoice_question.question_id(123)
+			some_multichoice_question.question_id() <- 123 */
+			var bind_property_to_multichoice_as_getter_setter = function(property) {
+				multichoice[property] = function(value) {
+					if (arguments.length > 0) {
+						/* set */
+						multichoice._data[property] = value;
+
+						/* this block of code handles setting things like prompt-substr */
+						if (my_derived_sections[property]) {
+							for (var i in my_derived_sections[property]) {
+								/* data-x attributes often have -'s in them, switch to _,
+								  for example this lets us grab data-x="prompt-substr",
+								  and populate it using our own getter, prompt_substr */
+								var derived_property = my_derived_sections[property][i].replace(/-/gm, '_');
+								multichoice.manifestation.find(
+									'[data-x="'+my_derived_sections[property][i]+'"]'
+									)
+									.val(multichoice[derived_property]())
+									.text(multichoice[derived_property]());
+							}
+						}
+						var children = multichoice.manifestation.find('[data-x="'+property+'"]');
+						children.val(value);
+						children.text(value);
+						return multichoice;
+					} else {
+						/* get */
+						return multichoice._data[property]
+					}
+				}
+			}
+
+			/* expose all of the properties */
+			for (var property_to_be_available in my_data) {
+				if (is_type_of([], my_data[property_to_be_available])) continue;
+
+				bind_property_to_multichoice_as_getter_setter(property_to_be_available);
+			}
+
+			multichoice.options = function() {
+				return multichoice._data['options'];
+			}
+
+			multichoice.answers = function() {
+				return multichoice._data['answers'];
+			}
+
+			const get_multichoice_option_index_in_options = function(multichoice_option) {
+				var index = -1;
+				multichoice.manifestation.find('.options .multichoice-edit-option').each(function(i,v){
+					if ($(v).attr('data-member') === multichoice_option.attr('data-member')) {
+						index = i;
+					}
+				})
+				return index;
+			}
+
+			multichoice.option_count = function() {
+				return multichoice._data['options'].length;	
+			}
+
+			var identifier_counter = 0;
+			multichoice.add_choice = function(text, is_answer) {
+				
+				identifier_counter++;
+				multichoice._data['options'].push(text);
+				
+				/*  update count */
+				console.log('option count updated')
+				multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count())
+				multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count())
+
+				new_edit_option = $('.multichoice-edit-option .template')
+					.clone()
+					.removeClass('.template')
+					.show()
+					.attr('data-member', identifier_counter);
+
+				/* set text */
+				new_edit_option.find('[data-x="option"]').val(text)
+				
+				if (is_answer && is_answer === true) {
+					multichoice._data['answers'].push(text);
+					new_edit_option.find('[data-x="answer"').prop('checked', true)
+				} else {
+					new_edit_option.find('[data-x="answer"').prop('checked', false)
+				}
+
+				/* add to dom */
+				new_edit_option.appendTo(multichoice.manifestation.find('.options'));
+
+				/* wirup delete for this guy */
+				new_edit_option.find('.delete-option').on('click', function() {
+					var index = get_multichoice_option_index_in_data(new_edit_option);
+					multichoice._data['options'].splice(index);
+					var answer_element = new_edit_option.find('[data-x="answer"]');
+					if (answer_element.is(':checked')) {
+						var answer_index = multichoice._data['answers'].indexOf(answer_element.val().trim());
+						if (answer_index >= 0 && answer_index !== false) {
+							multichoice._data['answers'].splice(answer_index);
+						}
+					}
+					console.log(multichoice._data, 'removed one');
+
+					new_edit_option.remove();
+
+					/* update count */
+					multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count());
+					multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count());
+				})
+
+				/* onchange */
+				new_edit_option.find('[data-x="answer"]').on('change', function() {
+					multichoice._data['answers'] = [];
+					multichoice.manifestation.find('[data-x="answer"]').each(function(i,v) {
+						if ($(v).is(':checked')) 
+							multichoice._data['answers'].push(
+								$(v).closest('.option-container').find('[data-x="option"]').val().trim())
+					});
+				});
+
+				/* only for teachers in the edit page really, normal dom elements don't change much */
+				new_edit_option.find('[data-x="option"]').on('change', function() {
+					multichoice._data['options'] = [];
+					multichoice.manifestation.find('[data-x="option"]').each(function(i,v) {
+						multichoice._data['options'].push($(v).val().trim());
+					})
+				});
+
+				new_edit_option.find('.option');
+			}
+
+			multichoice.populate = function(data) {
+				for (var property in multichoice._data) {
+					if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
+						/* this passes the data at data['question_id'] to multichoice.question_id()
+						to use the setter we have previously created. read the notes above on how
+						the setter/getter works if this makes no sense */
+						multichoice[property](data[property])
+					}
+				}
+				console.log(data,"MULTICHOICE")
+				/* the for loop only handles scalars, here we do the specifics */
+				if (data['options']) {
+					var has_answers = false;
+					if (data['answers']) {
+						var has_answers = true;
+					}
+					for (var i in data['options']) {
+						var is_answer = false;
+						if (has_answers) {
+							var index = data['answers'].indexOf(data['options'][i].trim());
+							if (index >= 0 && index !== false) {
+								is_answer = true;
+								/* don't add twice */
+								data['answers'].splice(index);
+							}
+						}
+						multichoice.add_choice(data['options'][i], is_answer);
+					}
+				}
+			}
+
+			multichoice.loading = function() {
+				console.log('loading');
+				/* TODO: pat, do your magic with spinners */
+			}
+
+			multichoice.done_loading = function() {
+				console.log('done loading')
+				/* TODO: pat, undo your magic with spinners */
+			};
+
+			var ajax_submit_complete = function(data, success, jqxhr) {
+				/* this fires before always */
+				if (success === "success" && data.success === true) {
+					console.log('successfully saved question')
+					multichoice.question_id(data.id);
+					multichoice.done_loading();
+				} else {
+					console.log('server did not save the question!!!', data.message)
+				}
+			};
+			var ajax_submit_failure = function() {
+				/* this fires before always */
+				console.log('failure to save question!')
+			};
+			var ajax_submit_always = function(data, success, jqxhr) {
+				/* but this always fires =() */
+				console.log('handler to be called no matter what when we submit <- just got called');
+			};
+
+			var ajax_delete_complete = function(data, success, jqxhr) {
+				/* this fires before always */
+				if (success === "success" && data.success === true) {
+					console.log('successfully deleted!');
+					multichoice.done_loading();
+					multichoice.manifestation.remove();
+				} else {
+					console.log('the server did not delete our question!', data.message);
+				}
+			};
+			var ajax_delete_failure = function() {
+				/* this fires before always */
+				console.log('failure to delete a question!', arguments);
+			};
+			var ajax_delete_always = function(data, success, jqxhr) {
+				/* but this always fires =() */
+				console.log('handler to be called no matter what when we delete <- just got called');
+			};
+
+			multichoice.submit = function(submit_custom_cb) {
+				multichoice.loading();
+				submit_question_data(multichoice._data, submit_custom_cb,
+					 ajax_submit_complete,
+					 ajax_submit_failure,
+					 ajax_submit_always);
+			};
+
+			multichoice.delete = function(delete_custom_cb) {
+				multichoice.loading();
+				if (multichoice._data['question_id']) {
+					delete_question(multichoice.question_id(), delete_custom_cb,
+						ajax_delete_complete,
+						ajax_delete_failure,
+						ajax_delete_always);
+				} else {
+					/* mock ajax success for the handler */
+					ajax_delete_complete({success: true}, "success"); 
+				}
+			};
+
+			multichoice.preview = function() {
+				/* SUGGESTION: put transition ui code here */
+				multichoice.manifestation.find('.question-section').hide();
+				multichoice.manifestation.find('.preview.question-section').show();
+			};
+
+			multichoice.edit = function() {
+				/* SUGGESTION: put transition ui code here */
+				multichoice.manifestation.find('.question-section').hide();
+				multichoice.manifestation.find('.edit.question-section').show();
+			};
+
+			multichoice.summary = function() {
+				/* SUGGESTION: put transition ui code here */
+				multichoice.manifestation.find('.question-section').hide();
+				multichoice.manifestation.find('.summary.question-section').show();
+			}
+
+			/* just for us */
+			multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count()).val(multichoice.option_count());
+			console.log('NEW MULTI', multichoice.option_count())
+
+			/* last thing we do in construction is show ourselves */
+			multichoice.manifestation.find('.question-section').hide()
+			multichoice.manifestation.show();
+			/* default mode is edit */
+			multichoice.edit();
 		}
+		/* ------------ end multichoice ------------- */
 
 		/* ------------ begin essay ------------- */
 		const EssayQuestion = function() {
@@ -636,19 +937,30 @@
 			.fail(failure_callback)
 			.always(always_callback)	
 		}
+
+		window.questions = [];
 		for (var i in questions_present_at_pageload) {
-			var question = questions_present_at_pageload[i];
-			if (question.type == "shortanswer") {
-				question_object = new ShortAnswerQuestion()
-				question_object.populate(question)
-				question_object.summary()
-				console.log(question_object)
+			var question_data = questions_present_at_pageload[i];
+			var question = null;
+			switch(question_data.type){
+				case "multichoice" :
+					 question = new MultiQuestion();
+					 break;
+				case "shortanswer" :
+				     question = new ShortAnswerQuestion();
+				     break;
+				case "essay" : 
+					question = new EssayQuestion();
+					break;
 			}
+			if (question === null) continue;
+			question.populate(question_data);
+			question.summary();
+			questions.push(question)
 		}
 
-		var a = new EssayQuestion();
+		var a = new MultiQuestion();
 		window.a = a;
-		console.log(a, a.manifestation)
 	});
 </script>
 {% endblock %}

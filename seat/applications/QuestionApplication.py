@@ -15,15 +15,15 @@ class QuestionApplication(object):
     def create_answer(self, text):
         return self.create_choice(text)
 
-    def delete_question(self, teacher, exam_id, question_id):
-        questions = Question.objects.filter(id=question_id, exam__id=exam_id, exam__course__teacher=teacher)
+    def delete_question(self, teacher, question_id):
+        questions = Question.objects.filter(id=question_id, exam__course__teacher=teacher)
         if not questions.exists():
             return [False, "question did not exist!"]
         else:
             questions.delete()
             return [True, "success"]
 
-    def upsert_question(self, exam_id, question_json):
+    def upsert_question(self, teacher, exam_id, question_json):
         question = {} # init question variable
 
         #optionals
@@ -69,10 +69,10 @@ class QuestionApplication(object):
         question.answers.all().delete()
         
         if 'options' in question_json:
-            map(lambda choice_text: create_cohice(choice_text), question_json['options'])
+            map(lambda choice_text: self.create_choice(choice_text), question_json['options'])
         
         if 'answers' in question_json:
-            map(lambda answer_text: create_answer(answer_text), question_json['answers'])
+            map(lambda answer_text: self.create_answer(answer_text), question_json['answers'])
 
         question.save()
 

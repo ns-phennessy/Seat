@@ -91,11 +91,14 @@ def serialize_questions(exam):
 
 # GET
 def exam_edit(request, exam_num):
-    #TODO: check user has permissions
-    teacher = Teacher.objects.get(id=request.session['user_id'])
-    exam = Exam.objects.get(id=exam_num)
-    context = { 'teacher': teacher, 'exam': exam , 'question_set_json' : json.dumps(serialize_questions(exam))}
-    return render(request, 'dashboard/exam.html', context)
+    teacher = Teacher.objects.filter(id=request.session['user_id'])
+    exam = Exam.objects.filter(id=exam_num, course__teacher= teacher)
+    if teacher.exists() and  exam.exists():
+        courses = Course.objects.filter(teacher = teacher).all()
+        context = { 'teacher': teacher, 'exam': exam, 'courses' : courses , 'question_set_json' : json.dumps(serialize_questions(exam.all()[0]))}
+        return render(request, 'dashboard/exam.html', context)
+    else:
+        return routingApplication.invalid_permissions(request)
 
 question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
                 , 'True/False': 'dashboard/true-false.html'

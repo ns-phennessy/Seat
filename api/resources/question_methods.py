@@ -64,7 +64,7 @@ def delete_question_logic(teacher, request):
     try:
         #TODO: test that teacher owns resource
         question_id = request.DELETE['question_id']
-        success, message = questionApplication.delete_question(teacher, exam_id, question_id)
+        success, message = questionApplication.delete_question(teacher, question_id)
         if not success:
             return delete_question_failure_json_model(message)
         return delete_question_success_json_model()
@@ -75,7 +75,7 @@ def delete_question_logic(teacher, request):
 def delete_question(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_question",
-        ['question_id', 'exam_id'],
+        ['question_id'],
         'DELETE',
         request,
         delete_question_logic

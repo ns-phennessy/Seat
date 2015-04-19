@@ -25,6 +25,6 @@ class Question(models.Model):
         me['type'] = self.category
         me['number'] = self.number
         me['points'] = self.points
-        me['choices'] = map(lambda c: c.text, self.choices.all())
+        me['options'] = map(lambda c: c.text, self.choices.all())
         me['answers'] = map(lambda a: a.text, self.answers.all())
         return me
