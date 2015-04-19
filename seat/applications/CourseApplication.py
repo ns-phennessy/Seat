@@ -17,11 +17,13 @@ class CourseApplication(object):
             raise error
             return None
 
-    def create_exam(self, course, name):
+    def create_exam(self, teacher, course_id, name):
         try:
-            new_exam = Exam.objects.create(name=name, course=course)
-            new_exam.save()
-            return new_exam
+            course = Course.objects.filter(id=course_id, teacher=teacher)
+            if course.exists():
+                new_exam = Exam.objects.create(name=name, course=course)
+                new_exam.save()
+                return new_exam
         except Exception, error:
             logger.info("create_exam error:"+str(error))
             raise error

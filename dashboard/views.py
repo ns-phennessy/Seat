@@ -26,9 +26,13 @@ routingApplication = RoutingApplication()
 teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
 teacherApplication = TeacherApplication()
+ID_MAX = 214748364
+
+def id_is_valid(id):
+    return (id is not None and str(id).strip() != '' and int(id) < ID_MAX)
 
 def user_is_teacher(user_id):
-    if user_id is None or user_id == '':
+    if id_is_valid(user_id):
         return [False, None]
     teacher = Teacher.objects.filter(id=user_id)
     if teacher.exists():
@@ -63,7 +67,7 @@ def courses(request, course_id):
         courses = Course.objects.filter(teacher=teacher)
 
         if courses.exists():
-            if course_id:
+            if course_id and course_id.strip() != '' and int(course_id):
                 course = courses.filter(id=course_id)
                 if course.exists():
                     course_to_display = course.all()[0]
@@ -93,24 +97,19 @@ def serialize_questions(exam):
 
 # GET
 def exam_edit(request, exam_num):
-    teacher = Teacher.objects.filter(id=request.session['user_id'])
-    if teacher.exists():
-        exam = Exam.objects.filter(id=exam_num, course__teacher = teacher)
-        if exam.exists():
-            courses = Course.objects.filter(teacher = teacher).all()
-            context = { 'teacher': teacher, 'exam': exam.all()[0], 'courses' : courses , 'question_set_json' : json.dumps(serialize_questions(exam.all()[0]))}
-            return render(request, 'dashboard/exam.html', context)
-        raise Http404("exam not found!")
-    else:
-        return routingApplication.invalid_permissions(request)
+    if request.method != 'GET':
+        return routingApplication.invalid_request(request)
 
-question_urls = { 'Multiple Choice': 'dashboard/multiple-choice.html'
-                , 'True/False': 'dashboard/true-false.html'
-                , 'Short Answer': 'dashboard/short-answer.html'
-                , 'Essay': ''
-                }
-def questions_index(request, exam_id):
-    if request.method == 'GET':
-        exam = Exam.objects.get(id=exam_id)
-        context = { 'exam': exam }
-        return render(request, 'dashboard/questions.html', context)
+    is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
+    if not is_teacher:
+        return routingApplication.invalid_permissions(request, "not logged in!")
+    
+    if not id_is_valid(exam_num):
+        return routingApplication.invalid_request(request, "invalid id")
+
+    exam = Exam.objects.filter(id=exam_num, course__teacher = teacher)
+    if exam.exists():
+        courses = Course.objects.filter(teacher = teacher).all()
+        context = { 'teacher': teacher, 'exam': exam.all()[0], 'courses' : courses , 'question_set_json' : json.dumps(serialize_questions(exam.all()[0]))}
+        return render(request, 'dashboard/exam.html', context)
+    raise Http404("exam not found!")

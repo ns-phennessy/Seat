@@ -203,9 +203,9 @@
 
 			/* selector : action so we can later do multichoice[action]() */
 			const action_map = {
-				'.submit' : 'submit',
-				'.delete' : 'delete',
-				'.add-choice' : 'add_choice',
+				'.q-submit' : 'submit',
+				'.q-delete' : 'delete',
+				'.q-add-choice' : 'add_choice',
 			}
 
 			for (var selector in action_map) {
@@ -332,7 +332,7 @@
 				new_edit_option.appendTo(multichoice.manifestation.find('.options'));
 
 				/* wirup delete for this guy */
-				new_edit_option.find('.delete-option').on('click', function() {
+				new_edit_option.find('.q-delete-option').on('click', function() {
 					var index = get_multichoice_option_index_in_data(new_edit_option);
 					multichoice._data['options'].splice(index);
 					var answer_element = new_edit_option.find('[data-x="answer"]');
@@ -495,7 +495,6 @@
 			console.log('NEW MULTI', multichoice.option_count())
 
 			/* last thing we do in construction is show ourselves */
-			multichoice.manifestation.find('.question-section').hide()
 			multichoice.manifestation.show();
 			/* default mode is edit */
 			multichoice.edit();
@@ -517,8 +516,8 @@
 				}
 
 			const action_map = {
-				'.submit' : 'submit',
-				'.delete' : 'delete'
+				'.q-submit' : 'submit',
+				'.q-delete' : 'delete'
 			}
 
 			for (var selector in action_map) {
@@ -715,8 +714,8 @@
 			};
 
 			const action_map = {
-				'.submit' : 'submit',
-				'.delete' : 'delete'
+				'.q-submit' : 'submit',
+				'.q-delete' : 'delete'
 			}
 
 			for (var selector in action_map) {
@@ -910,8 +909,8 @@
 			};
 
 			const action_map = {
-				'.submit' : 'submit',
-				'.delete' : 'delete'
+				'.q-submit' : 'submit',
+				'.q-delete' : 'delete'
 			}
 
 			for (var selector in action_map) {
