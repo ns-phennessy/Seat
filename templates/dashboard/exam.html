@@ -32,7 +32,7 @@
 			<div class="field">
 				<label>Course</label>
 				<select class="ui dropdown">
-					{% for course in teacher.courses.all %}
+					{% for course in courses.all %}
 					<option value="{{ course.id }}">{{ course.name }}</option>
 					{% endfor %}
 				</select>
