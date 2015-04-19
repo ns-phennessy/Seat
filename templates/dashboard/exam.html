@@ -158,7 +158,7 @@
 </style>
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function() {
-		const questions_present_at_pageload = $('#backend-data-delivery').val();
+		const questions_present_at_pageload = JSON.parse($('#backend-data-delivery').val());
 		const question_list_selector = '.question-list';
 		const max_prompt_length_without_ellipses = 35;
 		const use_ellipses_on_truncated_prompt = true;
@@ -183,9 +183,11 @@
 		console.log('delivered', questions_present_at_pageload);
 
 
-
-		for (var i in questions_present_at_pageload)
-			$('.question-list').append()
+		// var questions = []
+		// for (var i in questions_present_at_pageload)
+		// 	if (questions_present_at_pageload[i].type == 'shortanswer')
+		// 		var new_question = new ShortAnswerQuestion()
+		// 		new_question.populate(questions_present_at_pageload)
 		/*
 		question interface:
 		{
@@ -467,6 +469,15 @@
 				!custom_completed || custom_completed(a,b,c,d); })
 			.fail(failure_callback)
 			.always(always_callback)	
+		}
+		for (var i in questions_present_at_pageload) {
+			var question = questions_present_at_pageload[i];
+			if (question.type == "shortanswer") {
+				question_object = new ShortAnswerQuestion()
+				question_object.populate(question)
+				question_object.summary()
+				console.log(question_object)
+			}
 		}
 
 		var a = new ShortAnswerQuestion();
