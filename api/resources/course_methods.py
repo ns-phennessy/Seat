@@ -1,6 +1,6 @@
 from seat.applications.AuthenticationApplication import AuthenticationApplication
 from seat.applications.TeacherApplication import TeacherApplication
-from seat.applications.CourseApplication import CourseApplication
+from seat.models.course import Course
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
 import logging
@@ -8,7 +8,6 @@ import logging
 logger = logging.getLogger('api')
 
 teacherApplication = TeacherApplication()
-courseApplication = CourseApplication()
 authenticationApplication = AuthenticationApplication()
 
 def all_required_values_present(values, dictionary):
@@ -33,7 +32,9 @@ def create_course_failure_json_model(message):
 
 def create_course_logic(teacher, request):
     try:
-        new_course = teacherApplication.create_course(teacher, request.POST['name'])
+        new_course, msg = teacherApplication.create_course(teacher, request.POST['name'])
+        if not new_course:
+            return create_course_failure_json_model(msg)
         return create_course_success_json_model(new_course.id)
     except Exception, error:
         logger.warn("problem creating course! :"+str(error))
@@ -62,7 +63,9 @@ def delete_course_failure_json_model(message):
     })
 def delete_course_logic(teacher, request):
     try:
-        teacherApplication.delete_course(teacher, request.DELETE['course_id'])
+        success, msg = teacherApplication.delete_course(teacher, request.DELETE['course_id'])
+        if not success:
+            return delete_course_failure_json_model(msg)
         return delete_course_success_json_model()
     except Exception, error:
         logger.warn("problem deleting course! :"+str(error))
@@ -93,7 +96,9 @@ def update_course_failure_json_model(message):
 def update_course_logic(teacher, request):
     try:
         # presently only the name can be updated
-        teacherApplication.update_course(teacher, request.PUT['course_id'], request.PUT['name'])
+        success, msg = teacherApplication.update_course(teacher, request.PUT['course_id'], request.PUT['name'])
+        if not success:
+            return update_course_failure_json_model(msg)
         return update_course_success_json_model()
     except Exception, error:
         logger.warn("problem updating course! :"+str(error))
@@ -127,8 +132,10 @@ def get_course_failure_json_model(message):
 
 def get_course_logic(teacher, request):
     try:
-        course = courseApplication.get_course_by_id(request.GET['course_id'])
-        return get_course_success_json_model(course)
+        course = Course.objects.filter(course=request.GET.get('course_id'), teacher=teacher)
+        if not course.exists():
+            return get_course_failure_model("course did not exist")
+        return get_course_success_json_model(course.all()[0])
     except Exception, error:
         logger.warn("problem getting course! :"+str(error))
         return get_course_failure_json_model('failed to get the course, sorry. This is probably a db error.') 

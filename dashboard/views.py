@@ -13,7 +13,8 @@ from seat.applications.TeacherApplication import TeacherApplication
 import seat.applications.CourseApplication
 import dashboard.dashboard_view_models as models
 from seat.models.course import Course
-from django.http import JsonResponse
+from seat.models.teacher import Teacher
+from django.http import JsonResponse, Http404
 import json
 import logging
 
@@ -26,20 +27,24 @@ teacherApplication = TeacherApplication()
 courseApplication = CourseApplication()
 teacherApplication = TeacherApplication()
 
+def user_is_teacher(user_id):
+    if user_id is None or user_id == '':
+        return [False, None]
+    teacher = Teacher.objects.filter(id=user_id)
+    if teacher.exists():
+        return [True, teacher.all()[0]]
+    return [False, None]
+
 def dashboard_index(request):
     try:
         if request.method != 'GET':
-            logger.info("non-get request received at dashboard_index endpoint"+str(request))
             return routingApplication.invalid_request(request)
 
-        teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
-        if not teacher:
-            logger.info("user who was not teacher hit dashboard_index:"+str(request))
-            sessionApplication.logout(request)
-            return routingApplication.invalid_permissions(request)
+        is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
+        if not is_teacher:
+            return routingApplication.invalid_permissions(request,"you are not a teacher")
 
-        # send teacher to go see their courses
-        return redirect( teacherApplication.landing_page_url(teacher) )
+        return redirect(teacherApplication.landing_page_url(teacher))
     except Exception, error:
         logger.error("unhandled error in dashboard_index:"+str(error))
         return routingApplication.error(request, str(error))
@@ -47,34 +52,27 @@ def dashboard_index(request):
 def courses(request, course_id):
     try:
         if request.method != 'GET':
-            logger.info("courses::non-get request received at courses endpoint"+str(request))
             return routingApplication.invalid_request(request)
 
-        if 'user_id' not in request.session:
-            return routingApplication.logout(request)
+        is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
+        if not is_teacher:
+            return routingApplication.invalid_permissions(request, "you are not a teacher")
 
-        teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
-        if not teacher:
-            logger.info("courses::user who was not teacher hit courses endpoint"+str(request))
-            sessionApplication.logout(request)
-            return routingApplication.invalid_permissions(request)
+        course_to_display = None
+        courses = Course.objects.filter(teacher=teacher)
 
-        course_to_display = None # defining here just to be clear
-
-        if course_id:
-            try:
-                course_to_display = courseApplication.get_course_by_id(course_id)
-            except Exception, error:
-                logger.info("courses::courses not found with id "+str(course_id)+" error:"+str(error))
-                return redirect( '/dashboard/courses/' )
-        else:
-            course_to_display = teacherApplication.get_first_course(teacher)
+        if course_id and courses.exists():
+            course = courses.filter(id=course_id)
+            if course.exists():
+                course_to_display = course.all()[0]
+        elif courses.exists():
+            course_to_display = courses.all()[0]
 
         if course_to_display is not None:
             return render(
                 request,
                 models.get_course_url(),
-                models.get_course_context(teacher, course_id, course_to_display))
+                models.get_course_context(teacher, course_id, course_to_display, courses.all()))
         else:
             return render(
                 request,

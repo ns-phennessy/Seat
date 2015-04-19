@@ -3,7 +3,7 @@ from seat.applications.StudentApplication import StudentApplication
 from seat.applications.CourseApplication import CourseApplication
 from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseServerError
 import logging
-
+from seat.models.teacher import Teacher
 logger = logging.getLogger('api')
 
 teacherApplication = TeacherApplication()
@@ -83,9 +83,8 @@ def standard_teacher_endpoint(
                     logger.debug("unauthenticated request to "+endpoint_name)
                     return HttpResponseForbidden('not authenticated')
 
-                teacher = teacherApplication.get_teacher_by_id( request.session['user_id'] )
-
-                if not teacher:
+                teacher = Teacher.objects.filter(id=request.session.get('user_id'))
+                if not teacher.exists():
                     logger.info("user who was not a teacher made a request to "+endpoint_name+", id of user:"+str(request.session['user_id']))
                     return HttpResponseForbidden('not a teacher!')
 
@@ -93,7 +92,7 @@ def standard_teacher_endpoint(
                     logger.info("bad request made to "+endpoint_name+", not enough params ")
                     return HttpResponseBadRequest("expected more values, expected these:"+str(required_values))
                 else:
-                    return functor(teacher, request)
+                    return functor(teacher.all()[0], request)
         except Exception, error:
             logger.info("error in api endpoint "+endpoint_name+":"+str(error))
             return HttpResponseServerError("unhandled error?!")

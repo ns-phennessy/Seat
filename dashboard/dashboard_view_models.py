@@ -1,11 +1,12 @@
 
 def get_course_url():
 	return 'dashboard/course.html'
-def get_course_context(teacher, course_num, course):
+def get_course_context(teacher, course_num, course, courses):
 	return {
 		'teacher' : teacher,
 		'course_num' : course_num,
-		'course' : course
+		'course' : course,
+        'courses' : courses
 	}
 
 def get_nocourse_url():

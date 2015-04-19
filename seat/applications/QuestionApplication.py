@@ -15,6 +15,14 @@ class QuestionApplication(object):
     def create_answer(self, text):
         return self.create_choice(text)
 
+    def delete_question(self, teacher, exam_id, question_id):
+        questions = Question.objects.filter(id=question_id, exam__id=exam_id, exam__course__teacher=teacher)
+        if not questions.exists():
+            return [False, "question did not exist!"]
+        else:
+            questions.delete()
+            return [True, "success"]
+
     def upsert_question(self, exam_id, question_json):
         question = {} # init question variable
 
@@ -38,12 +46,15 @@ class QuestionApplication(object):
         #update
         if id and id.strip() != '':
             #update
-            questions = Question.objects.filter(id=question_json['question_id'], exam__id = exam_id)
+            questions = Question.objects.filter(id=question_json['question_id'], exam__id = exam_id, exam__course__teacher=teacher)
             if not questions.exists():
                 return [False, "question does not exist"]
             question = questions.all()[0]
         #create
         else:
+            if not Exam.objects.filter(id=exam_id, course__teacher=teacher).exists():
+                return [False, "you do not have permission"]
+
             question = Question.objects.create(
                 points = points,
                 number = number,

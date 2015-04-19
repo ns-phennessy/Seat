@@ -29,7 +29,7 @@ def upsert_question_logic(teacher, request):
         #TODO test that teacher owns logic
         question = json.loads(request.POST.get('question'))
         exam_id = request.POST['exam_id']
-        modified_question, message = questionApplication.upsert_question(exam_id, question)
+        modified_question, message = questionApplication.upsert_question(teacher, exam_id, question)
         if modified_question == False:
             return upsert_question_failure_json_model(message)
         return upsert_question_success_json_model(modified_question.id)
@@ -64,7 +64,7 @@ def delete_question_logic(teacher, request):
     try:
         #TODO: test that teacher owns resource
         question_id = request.DELETE['question_id']
-        success, message = questionApplication.delete_question(question_id)
+        success, message = questionApplication.delete_question(teacher, exam_id, question_id)
         if not success:
             return delete_question_failure_json_model(message)
         return delete_question_success_json_model()
@@ -75,7 +75,7 @@ def delete_question_logic(teacher, request):
 def delete_question(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_question",
-        ['question_id'],
+        ['question_id', 'exam_id'],
         'DELETE',
         request,
         delete_question_logic
