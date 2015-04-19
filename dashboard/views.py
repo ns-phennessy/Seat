@@ -32,7 +32,7 @@ def id_is_valid(id):
     return (id is not None and str(id).strip() != '' and int(id) < ID_MAX)
 
 def user_is_teacher(user_id):
-    if id_is_valid(user_id):
+    if not id_is_valid(user_id):
         return [False, None]
     teacher = Teacher.objects.filter(id=user_id)
     if teacher.exists():
@@ -56,11 +56,14 @@ def dashboard_index(request):
 def courses(request, course_id):
     try:
         if request.method != 'GET':
-            return routingApplication.invalid_request(request)
+            return routingApplication.invalid_request(request, "invalid method")
 
         is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
         if not is_teacher:
             return routingApplication.invalid_permissions(request, "you are not a teacher")
+
+        if not id_is_valid(course_id):
+            course_id = None
 
         course_to_display = None
         
