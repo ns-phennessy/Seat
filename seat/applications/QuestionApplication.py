@@ -72,10 +72,10 @@ class QuestionApplication(object):
         question.answers.all().delete()
         
         if 'options' in question_json:
-            map(lambda choice_text: self.create_choice(choice_text), question_json['options'])
+            map(lambda choice_text: question.choices.add(self.create_choice(choice_text)), question_json['options'])
         
         if 'answers' in question_json:
-            map(lambda answer_text: self.create_answer(answer_text), question_json['answers'])
+            map(lambda answer_text: question.answers.add(self.create_answer(answer_text)), question_json['answers'])
 
         question.save()
 

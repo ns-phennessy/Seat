@@ -522,8 +522,8 @@
 			}
 
 			for (var selector in action_map) {
-				multichoice.manifestation.find(selector).on('click', function() {
-					multichoice[action_map[selector]]();
+				essay.manifestation.find(selector).on('click', function() {
+					essay[action_map[selector]]();
 				})
 			}
 
@@ -720,8 +720,8 @@
 			}
 
 			for (var selector in action_map) {
-				multichoice.manifestation.find(selector).on('click', function() {
-					multichoice[action_map[selector]]();
+				shortanswer.manifestation.find(selector).on('click', function() {
+					shortanswer[action_map[selector]]();
 				})
 			}
 			
@@ -900,7 +900,9 @@
 				'type' : 'truefalse',
 				'prompt' : '',
 				'points' : '',
-				'number' : ''
+				'number' : '',
+				'options' : ['true', 'false'],
+				'answers' : ['false']
 				}
 
 			const my_derived_sections = {
@@ -913,8 +915,8 @@
 			}
 
 			for (var selector in action_map) {
-				multichoice.manifestation.find(selector).on('click', function() {
-					multichoice[action_map[selector]]();
+				truefalse.manifestation.find(selector).on('click', function() {
+					truefalse[action_map[selector]]();
 				})
 			}
 			
@@ -973,9 +975,10 @@
 			}
 
 			/* expose all of the properties */
-			for (var property_to_be_available in my_data) 
+			for (var property_to_be_available in my_data) {
+				if (is_type_of([], my_data[property_to_be_available])) continue;
 				bind_property_to_truefalse_as_getter_setter(property_to_be_available);	
-			
+			}
 			truefalse.populate = function(data) {
 				for (var property in truefalse._data) {
 					if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -984,13 +987,14 @@
 						the setter/getter works if this makes no sense */
 						truefalse[property](data[property])
 					} else {
-						console.log('incorrect type encountered in population of truefalse:',property,data[property]);
+						// console.log('incorrect type encountered in population of truefalse:',property,data[property]);
 					}
 				}
+				console.log("TRUEFALSE", data)
+				if (data['answers'].length > 0)
 				var answer_is_true = (data['answers'][0].trim().toLowerCase() == 'true')
 				truefalse.manifestation.find('[data-x="answer"]').prop('checked', answer_is_true);
 				truefalse._data['answers'] = [ ''+answer_is_true ];
-				truefalse._data['options'] = ['true', 'false'];
 			};
 
 			truefalse.manifestation.find('[data-x="answer"]').on('change', function() {
