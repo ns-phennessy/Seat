@@ -59,14 +59,15 @@ def courses(request, course_id):
             return routingApplication.invalid_permissions(request, "you are not a teacher")
 
         course_to_display = None
+        
         courses = Course.objects.filter(teacher=teacher)
 
         if course_id and courses.exists():
             course = courses.filter(id=course_id)
             if course.exists():
                 course_to_display = course.all()[0]
-        elif courses.exists():
-            course_to_display = courses.all()[0]
+            elif courses.exists():
+                course_to_display = courses.all()[0]
 
         if course_to_display is not None:
             return render(
