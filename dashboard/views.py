@@ -62,11 +62,12 @@ def courses(request, course_id):
         
         courses = Course.objects.filter(teacher=teacher)
 
-        if course_id and courses.exists():
-            course = courses.filter(id=course_id)
-            if course.exists():
-                course_to_display = course.all()[0]
-            elif courses.exists():
+        if courses.exists():
+            if course_id:
+                course = courses.filter(id=course_id)
+                if course.exists():
+                    course_to_display = course.all()[0]
+            if course_to_display is None:
                 course_to_display = courses.all()[0]
 
         if course_to_display is not None:
@@ -99,6 +100,7 @@ def exam_edit(request, exam_num):
             courses = Course.objects.filter(teacher = teacher).all()
             context = { 'teacher': teacher, 'exam': exam.all()[0], 'courses' : courses , 'question_set_json' : json.dumps(serialize_questions(exam.all()[0]))}
             return render(request, 'dashboard/exam.html', context)
+        raise Http404("exam not found!")
     else:
         return routingApplication.invalid_permissions(request)
 
