@@ -50,7 +50,6 @@ INSTALLED_APPS = (
 
 # Middleware
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'seat.middleware.methods.HttpPostTunnelingMiddleware',
@@ -58,6 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'seat.middleware.methods.HttpPostTunnelingMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
 	#'seat.middleware.exceptions.ExceptionMiddleware'
 )
 
