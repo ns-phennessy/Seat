@@ -77,8 +77,30 @@ class DashboardUnitTests(TestCase):
         assert(True)
 
 class CoursesUnitTests(TestCase):
+    def setUp(self):
+   #     self.client = Client()
+        Teacher.objects.create(name="fred", email="fred@fred.com")
+     #   s = self.client.session
+     #   s['user_id'] = 1
+     #   s.save()
+        # Every test needs access to the request factory.
+        self.factory = RequestFactory()
+        settings.SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+        engine = import_module(settings.SESSION_ENGINE)
+        store = engine.SessionStore()
+        store.save()
+        self.session = store
+        self.client.cookies[settings.SESSION_COOKIE_NAME] = store.session_key
+
     def test_index_rejects_anything_but_get_requests(self):
         request = HttpRequest
         request.method = 'POST'
         answer = courses(request, 10)
-        self.assertEquals('/invalidrequest/', routingApplication.invalid_request_url(request))
+        self.assertEquals('/invalidrequest/', answer.status_code)
+
+    def test_courses_displays_first_course_if_no_id(self):
+        request = self.client.get('/courses/')
+        response = courses(request, 0)
+
+        self.assertContains(response, 'stuff')
+
