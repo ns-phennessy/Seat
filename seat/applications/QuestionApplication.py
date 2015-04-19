@@ -12,6 +12,9 @@ class QuestionApplication(object):
         new_choice.save()
         return new_choice
 
+    def create_answer(self, text):
+        return self.create_choice(text)
+
     def upsert_question(self, exam_id, question_json):
         question = {} # init question variable
 
@@ -55,10 +58,10 @@ class QuestionApplication(object):
         question.answers.all().delete()
         
         if 'options' in question_json:
-            map(lambda choice_text: question.choices.add(Choice.create(choice_text)), question_json['options'])
+            map(lambda choice_text: create_cohice(choice_text), question_json['options'])
         
         if 'answers' in question_json:
-            map(lambda answer_text: question.answers.add(Choice.create(choice_text)), question_json['answers'])
+            map(lambda answer_text: create_answer(answer_text), question_json['answers'])
 
         question.save()
 
