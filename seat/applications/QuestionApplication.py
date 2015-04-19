@@ -28,16 +28,19 @@ class QuestionApplication(object):
 
         #optionals
         points = question_json.get('points')
-        points = points if points and points != '' else 1
+        points = int(points) if points and points != '' else 1
 
         number = question_json.get('number') 
-        number = number if number and number != '' else 0 # TODO: handle ordering properly
+        number = int(number) if number and number != '' else 0 # TODO: handle ordering properly
         
         text = question_json.get('prompt') or ''
         
         #required
         if 'type' not in question_json:
             return [False, "no type given"]
+        
+        if exam_id.strip() == '':
+            return [False, "no exam id given"]
 
         type = question_json['type']
 

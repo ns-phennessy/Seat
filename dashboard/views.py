@@ -92,11 +92,12 @@ def serialize_questions(exam):
 # GET
 def exam_edit(request, exam_num):
     teacher = Teacher.objects.filter(id=request.session['user_id'])
-    exam = Exam.objects.filter(id=exam_num, course__teacher= teacher)
-    if teacher.exists() and  exam.exists():
-        courses = Course.objects.filter(teacher = teacher).all()
-        context = { 'teacher': teacher, 'exam': exam, 'courses' : courses , 'question_set_json' : json.dumps(serialize_questions(exam.all()[0]))}
-        return render(request, 'dashboard/exam.html', context)
+    if teacher.exists():
+        exam = Exam.objects.filter(id=exam_num, course__teacher = teacher)
+        if exam.exists():
+            courses = Course.objects.filter(teacher = teacher).all()
+            context = { 'teacher': teacher, 'exam': exam.all()[0], 'courses' : courses , 'question_set_json' : json.dumps(serialize_questions(exam.all()[0]))}
+            return render(request, 'dashboard/exam.html', context)
     else:
         return routingApplication.invalid_permissions(request)
 
