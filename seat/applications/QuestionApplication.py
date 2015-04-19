@@ -1,7 +1,7 @@
 import logging
 from seat.models.exam import Choice, Question, Exam
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("applications")
 
 class QuestionApplication(object):
 
@@ -60,20 +60,27 @@ class QuestionApplication(object):
 
     def upsert_short_answer_question(self, exam_id, question_json):
         try:
-            if 'question_id' in question_json:
-                question = Question.objects.get(id=question_json['question_id'])
+            if 'question_id' in question_json and question_json['question_id'].strip() != '':
+                questions = Question.objects.filter(id=question_json['question_id'])
+                if not questions.exists():
+                    return [False, "question does not exist"]
+                question = questions.all()[0]
                 question.text = question_json['prompt']
+                question.points = int(question_json['points'] if question_json['points'].strip() != '' else 0)
+                question.number = int(question_json['number'] if question_json['number'].strip() != '' else 0)
             else:
                 text = question_json['prompt']
                 question = Question.objects.create(
+                    number = int(question_json['number'] if question_json['number'].strip() != '' else 0),
+                    points = int(question_json['points'] if question_json['points'].strip() != '' else 0),
                     text = text,
                     category = 'shortanswer',
                     exam = Exam.objects.get(id=exam_id))
 
             question.save()
-            return question
+            return [question, 'success']
         except Exception as error:
-            logger.debug(str(error))
+            logger.warn(str(error))
             raise(error)
 
     def upsert_essay_question(self, exam_id, question):
@@ -120,7 +127,12 @@ class QuestionApplication(object):
 
     def delete_question(self, question_id):
         try:
-            Question.objects.get(id=question_id).delete()
+            questions = Question.objects.filter(id=question_id)
+            if questions.exists():
+                questions.delete()
+                return [True, "success"]
+            else:
+                return [False, "Question did not exist"]
         except Exception, error:
             logger.warn("failed to delete question!:"+str(error))
             raise(error)

@@ -115,6 +115,10 @@ LOGGING = {
             'handlers': ['console', 'logfile'],
             'level': 'INFO',
         },
+        'applications': {
+            'handlers': ['console', 'logfile'],
+            'level': 'INFO',
+        },
         'login': {
             'handlers': ['console', 'logfile'],
             'level': 'INFO',

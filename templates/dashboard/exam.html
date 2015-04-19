@@ -316,6 +316,7 @@
 				/* this fires before always */
 				if (success === "success" && data.success === true) {
 					console.log('successfully saved question')
+					shortanswer.question_id(data.id);
 					shortanswer.done_loading();
 				} else {
 					console.log('server did not save the question!!!', data.message)
@@ -360,7 +361,7 @@
 			shortanswer.delete = function(delete_custom_cb) {
 				shortanswer.loading();
 				if (shortanswer._data['question_id']) {
-					delete_question(shortanswer._data, delete_custom_cb,
+					delete_question(shortanswer.question_id(), delete_custom_cb,
 						ajax_delete_complete,
 						ajax_delete_failure,
 						ajax_delete_always);
@@ -445,16 +446,20 @@
 			console.log("PREVIEW UNSUPPORTED R.N.")
 		}
 
-		function delete_question(data, custom_completed, complete_callback, failure_callback, always_callback) {
+		function delete_question(question_id, custom_completed, complete_callback, failure_callback, always_callback) {
+			if (!(is_type_of('',question_id) || is_type_of(0, question_id))){
+				console.log('INVALID USAGE OF DELETE QUESTION: PASS AN ID, NOT AN OBJECT')
+				return false;
+			}
 			$.ajax({
 					type : "POST",
 					url : api_endpoint_for_questions,
 					data :	{
-						'question' : JSON.stringify(data),
-						'csrfmiddlewaretoken' : get_csrf_token()
+						'question_id' : question_id
 					}, 
 					headers :{
-						'X-METHODOVERRIDE' : 'DELETE'
+						'X-METHODOVERRIDE' : 'DELETE',
+						'X-CSRFToken' : get_csrf_token()
 					}
 				})
 			.done(function(a,b,c,d) {
