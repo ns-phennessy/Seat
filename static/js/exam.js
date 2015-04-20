@@ -19,18 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
             template_selector : '.essay.template'
         }
     };
-    /*
-    question interface:
-    {
-    'question_id' : ''
-    'type' : ''
-    'prompt' : ''
-    'points' : ''
-    'number' : ''
-    'answers' : []
-    'options' : []
-    }
-    */
+	
     var templates = {}
 
     /* ------------ begin multichoice ------------- */
@@ -40,25 +29,32 @@ document.addEventListener("DOMContentLoaded", function() {
         multichoice.manifestation = copy_template_and_create(multichoice.type);
 
         var my_data = multichoice._data = {
-            'question_id' : '',
-            'type' : 'multichoice',
-            'prompt' : '',
-            'points' : '',
-            'number' : '',
-            'options' : [],
-            'answers' : []
+            'question_id' 	: '',
+            'type' 			: 'multichoice',
+            'prompt' 		: '',
+            'points' 		: '',
+            'number' 		: '',
+            'options' 		: [],
+            'answers' 		: []
         }
 
         /* selector : action so we can later do multichoice[action]() */
         const action_map = {
-            '.submit' : 'submit',
-            '.delete' : 'delete',
-            '.add-choice' : 'add_choice',
+            '.questionSubmit' 		: 	'submit',
+            '.questionDelete' 		: 	'delete',
+            '.questionAddChoice'	: 	'add_choice',
+            '.questionDeleteChoice'	: 	'',
+			'.questionEdit' 		: 	'edit',
+			'.questionSummary'		:	'summary',
         }
 
         for (var selector in action_map) {
+			console.log( multichoice.manifestation.find(selector) );
+			
             multichoice.manifestation.find(selector).on('click', function() {
                 multichoice[action_map[selector]]();
+				
+				console.log(selector);
             })
         }
 
@@ -253,14 +249,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
         multichoice.loading = function() {
             console.log('loading');
-            /* TODO: pat, do your magic with spinners */
+             multichoice.manifestation.find('.edit.question-section .form').addClass('loading');
         }
 
         multichoice.done_loading = function() {
             console.log('done loading')
-            /* TODO: pat, undo your magic with spinners */
+            multichoice.manifestation.find('.edit.question-section .form').removeClass('loading');
         };
 
+		multichoice.validate = function() {
+			
+			multichoice.manifestation.find('.ui.form').form({
+				inline:true,
+				prompt:{
+					identifier:'prompt',
+					rules:[
+						{type:'empty', prompt:'Please enter a question.'}
+					]
+				},
+				points:{
+					identifier:'points',
+					rules:[
+						{type:'empty', prompt:'Please enter a point value.'}
+					]
+				}				
+			},
+			{
+				inline:true, 
+				on:'blur'
+			});
+			
+			multichoice.manifestation.find('.ui.form').form('validate form');
+		
+		};
+		
         var ajax_submit_complete = function(data, success, jqxhr) {
             /* this fires before always */
             if (success === "success" && data.success === true) {

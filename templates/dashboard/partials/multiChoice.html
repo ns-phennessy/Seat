@@ -24,22 +24,22 @@
 		<div class="ui items">
 			<div class="item">
 				<div class="content">
-					<div class="header">Question <span data-x="number">1</span></div>
+					<div class="header">Question <span data-x="number"></span></div>
 					<div class="meta">
 						<div class="ui padded stackable grid">
 							<div class="three wide column">
-								<span data-x="type">Mutliple Choice</span>
+								<span data-x="type"></span>
 								<br>
-								<span data-x="option-count">5 Options</span>
+								<span data-x="option-count"></span>Options
 								<br>
-								<span data-x="points">10 Points</span>
+								<span data-x="points"></span>Points
 							</div>
 							<div class="ten wide column">
-								<span data-x="prompt-substr">This is the prompt for a multi choice question</span>
+								<span data-x="prompt-substr"></span>
 							</div>
 							<div class="two wide column center aligned">
-								<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
-								<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+								<div class="ui mini basic icon button questionEdit" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini basic icon button questionDelete" data-content="Delete"><i class="delete icon"></i></div>
 							</div>
 						</div>
 					</div>
@@ -53,8 +53,8 @@
 	<div class="edit question-section">
 
 		<div class="ui form secondary segment">
-			<h3 class="ui left floated header">Question <span data-x="number">1</span></h3>
-			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
+			<h3 class="ui left floated header">Question <span data-x="number"></span></h3>
+			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" class="questionSummary" data-content="Cancel"><i class="delete icon"></i></a>
 
 
 			<div class="two fields">
@@ -64,7 +64,7 @@
 				</div>
 				<div class="thirteen wide field">
 					<label for="prompt">Prompt:</label>
-					<input type="text" name="prompt" data-x="prompt" placeholder="What is the..."> 
+					<input type="text" name="prompt" data-x="prompt" placeholder="Enter a question here..."> 
 				</div>
 			</div>
 
@@ -72,12 +72,12 @@
 			<div class="ui segment options">
 
 
-				<div class="ui blue icon button"><i class="plus icon"></i></div>
+				<div class="ui blue icon button questionAddChoice"><i class="plus icon"></i></div>
 			</div>
 
 			<div class="ui divider"></div>
-			<div class="ui blue button">Save Question</div>
-			<div class="ui right floated button">Cancel</div>
+			<div class="ui blue button submit questionSubmit">Save Question</div>
+			<div class="ui right floated button questionSummary">Cancel</div>
 		</div>
 
 
