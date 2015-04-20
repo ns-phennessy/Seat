@@ -142,6 +142,55 @@
 		</div>
 
 
+        <!-- truefalse -->
+        <div class="truefalse template">
+            <!-- summary -->
+            <div class="summary question-section">
+
+                <div class="ui items">
+                    <div class="item">
+                        <div class="content">
+                            <div class="header">Question <span data-x="number">2</span></div>
+                            <div class="meta">
+                                <div class="ui padded stackable grid">
+                                    <div class="three wide column">
+                                        <span data-x="type">True / False</span>
+                                        <br>
+                                        <span data-x="points">10 Points</span>
+                                    </div>
+                                    <div class="ten wide column">
+                                        <span data-x="prompt-substr">This is the prompt for a multi choice question</span>
+                                    </div>
+                                    <div class="two wide column center aligned">
+                                        <div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
+                                        <div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- edit -->
+            <div class="edit question-section">
+
+                <div>#<span data-x="number"></span></div>
+                <div>Points:<span data-x="points"></span></div>
+
+                <label for="prompt"></label>
+                <input name="prompt" data-x="prompt">
+
+                <label for="option">True/False</label>
+                <input data-x="option" name="option" type="checkbox"/>
+            </div>
+
+            <!-- preview -->
+            <div class="preview question-section">
+                <!-- generated from the backend -->
+            </div>
+        </div>
+
+
 	</div>
 </div>
 
@@ -157,37 +206,6 @@
 	</div>
 </div>
 
-
-<!-- truefalse -->
-<div class="truefalse template" hidden>
-	<!-- summary -->
-	<div class="summary question-section">
-
-		<div>#<span data-x="number"></span></div>
-		<div>Points:<span data-x="points"></span></div>
-
-		<span data-x="type"></span>
-		<span data-x="prompt-substr"></span>
-	</div>
-
-	<!-- edit -->
-	<div class="edit question-section">
-
-		<div>#<span data-x="number"></span></div>
-		<div>Points:<span data-x="points"></span></div>
-
-		<label for="prompt"></label>
-		<input name="prompt" data-x="prompt">
-
-		<label for="option">True/False</label>
-		<input data-x="option" name="option" type="checkbox"/>
-	</div>
-
-	<!-- preview -->
-	<div class="preview question-section">
-		<!-- generated from the backend -->
-	</div>
-</div>
 
 <!-- essay -->
 <div class="essay template" hidden>
