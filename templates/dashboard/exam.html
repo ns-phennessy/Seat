@@ -173,15 +173,38 @@
 
             <!-- edit -->
             <div class="edit question-section">
+                
+				<div class="ui form secondary segment">
+					<h3 class="ui left floated header">Question <span data-x="number">1</span></h3>
+						<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
 
-                <div>#<span data-x="number"></span></div>
-                <div>Points:<span data-x="points"></span></div>
+				
+					<div class="two fields">
+						<div class="three wide field">
+							<label for="points">Point Value:</label>
+							<input name="points" data-x="points" type="text"/>	
+						</div>
+						<div class="thirteen wide field">
+							<label for="prompt">Prompt:</label>
+							<input type="text" name="prompt" placeholder="What is the..."> 
+						</div>
+					</div>
 
-                <label for="prompt"></label>
-                <input name="prompt" data-x="prompt">
+					<div class="ui bold text">Options:</div>
+					<div class="ui segment options">
+                        <span style="margin-right:1em">False</span>
+                        <div class="ui toggle checkbox">
+                            <input data-x="option" type="checkbox" name="option">
+                        </div>
+                        <span>True</span>
+					</div>
 
-                <label for="option">True/False</label>
-                <input data-x="option" name="option" type="checkbox"/>
+					<div class="ui divider"></div>
+					<div class="ui blue button">Save Question</div>
+					<div class="ui right floated button">Cancel</div>
+				</div>
+
+
             </div>
 
             <!-- preview -->
