@@ -4,6 +4,12 @@
 
 {% include "dashboard/courses-list.html" with course=exam.course %}
 
+<style>
+    .ui.segment.options{
+         padding:2em !important   
+    }
+</style>
+
 <div class="twelve wide column" id="main">
 	<h1 class="ui dividing header">
 		<div class="content">
@@ -141,7 +147,6 @@
 			</div>
 		</div>
 
-
         <!-- truefalse -->
         <div class="truefalse template">
             <!-- summary -->
@@ -159,7 +164,7 @@
                                         <span data-x="points">10 Points</span>
                                     </div>
                                     <div class="ten wide column">
-                                        <span data-x="prompt-substr">This is the prompt for a multi choice question</span>
+                                        <span data-x="prompt-substr">This is the prompt for a true / false question</span>
                                     </div>
                                     <div class="two wide column center aligned">
                                         <div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
@@ -170,12 +175,14 @@
                         </div>
                     </div>
                 </div>
+                
+            </div>
 
             <!-- edit -->
             <div class="edit question-section">
                 
 				<div class="ui form secondary segment">
-					<h3 class="ui left floated header">Question <span data-x="number">1</span></h3>
+					<h3 class="ui left floated header">Question <span data-x="number">2</span></h3>
 						<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
 
 				
@@ -213,8 +220,77 @@
             </div>
         </div>
 
+         <!-- shortanswer -->
+        <div class="shortanswer template">
+            <!-- summary -->
+            <div class="summary question-section">
+                
+                <div class="ui items">
+					<div class="item">
+						<div class="content">
+							<div class="header">Question <span data-x="number">3</span></div>
+							<div class="meta">
+								<div class="ui padded stackable grid">
+									<div class="three wide column">
+										<span data-x="type">Short Answer</span>
+										<br>
+										<span data-x="points">10 Points</span>
+									</div>
+									<div class="ten wide column">
+										<span data-x="prompt-substr">This is the prompt for a short answer question</span>
+									</div>
+									<div class="two wide column center aligned">
+										<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
+										<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            
+            </div>
+
+            <!-- edit -->
+            <div class="edit question-section">
+                <div class="ui form secondary segment">
+					<h3 class="ui left floated header">Question <span data-x="number">2</span></h3>
+						<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
+
+				
+					<div class="two fields">
+						<div class="three wide field">
+							<label for="points">Point Value:</label>
+							<input name="points" data-x="points" type="text"/>	
+						</div>
+						<div class="thirteen wide field">
+							<label for="prompt">Prompt:</label>
+							<input type="text" name="prompt" placeholder="What is the..."> 
+						</div>
+					</div>
+
+					<div class="ui bold text">Options:</div>
+					<div class="ui segment options">
+                    	<h2 class="ui faded centered text header">No options available</h2>						
+					</div>
+
+					<div class="ui divider"></div>
+					<div class="ui blue button">Save Question</div>
+					<div class="ui right floated button">Cancel</div>
+				</div>
+                
+                
+            </div>
+
+            <!-- preview -->
+            <div class="preview question-section">
+            </div>
+        </div>
 
 	</div>
+	
+       
+
 </div>
 
 
@@ -240,35 +316,6 @@
 
 		<span data-x="type"></span>
 		<span data-x="prompt-substr"></span>
-	</div>
-
-	<!-- edit -->
-	<div class="edit question-section">
-		<h1>edit</h1>
-		<div>#<span data-x="number"></span></div>
-		<div>Points:<span data-x="points"></span></div>
-
-		<label for="prompt"></label>
-		<input name="prompt" data-x="prompt" type="text">
-	</div>
-
-	<!-- preview -->
-	<div class="preview question-section">
-		<h1>preview</h1>
-		<!-- generated from the backend -->
-	</div>
-</div>
-
-<!-- shortanswer -->
-<div class="shortanswer template" hidden>
-	<!-- summary -->
-	<div class="summary question-section">
-		<h1>summary</h1>
-		<div>#<span data-x="number"></span></div>
-		<div>Points:<span data-x="points"></span></div>
-
-		<span data-x="type"></span>
-		<h1 data-x="prompt-substr"></h1>
 	</div>
 
 	<!-- edit -->
