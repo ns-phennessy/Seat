@@ -48,14 +48,15 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionSummary'		:	'summary',
         }
 
-        for (var selector in action_map) {
-			console.log( multichoice.manifestation.find(selector) );
-			
-            multichoice.manifestation.find(selector).on('click', function() {
+        function wire_for_selector(selector) {
+            return function(e) {
                 multichoice[action_map[selector]]();
-				
-				console.log(selector);
-            })
+                console.log(selector);
+            }
+        }
+
+        for (var selector in action_map) {
+            multichoice.manifestation.find(selector).on('click', wire_for_selector(selector));
         }
 
         const my_derived_sections = {
@@ -121,6 +122,15 @@ document.addEventListener("DOMContentLoaded", function() {
             if (is_type_of([], my_data[property_to_be_available])) continue;
 
             bind_property_to_multichoice_as_getter_setter(property_to_be_available);
+            bind_property_to_on_change(property_to_be_available)
+        }
+
+        function bind_property_to_on_change(property) {
+            var children = multichoice.manifestation.find('[data-x="'+property+'"]');
+            children.on('change', function(e) {
+                const val = $(this).val();
+                multichoice[property](val);
+            });
         }
 
         multichoice.options = function() {
@@ -391,10 +401,15 @@ document.addEventListener("DOMContentLoaded", function() {
             '.delete' : 'delete'
         }
 
-        for (var selector in action_map) {
-            multichoice.manifestation.find(selector).on('click', function() {
+        function wire_for_selector(selector) {
+            return function(e) {
                 multichoice[action_map[selector]]();
-            })
+                console.log(selector);
+            }
+        }
+
+        for (var selector in action_map) {
+            essay.manifestation.find(selector).on('click', wire_for_selector(selector));
         }
 
         const my_derived_sections = {
@@ -589,10 +604,15 @@ document.addEventListener("DOMContentLoaded", function() {
             '.delete' : 'delete'
         }
 
-        for (var selector in action_map) {
-            multichoice.manifestation.find(selector).on('click', function() {
+        function wire_for_selector(selector) {
+            return function(e) {
                 multichoice[action_map[selector]]();
-            })
+                console.log(selector);
+            }
+        }
+
+        for (var selector in action_map) {
+            shortanswer.manifestation.find(selector).on('click', wire_for_selector(selector));
         }
 
         /* prompt-substr is a projection, the others

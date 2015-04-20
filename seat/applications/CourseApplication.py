@@ -26,3 +26,4 @@ class CourseApplication(object):
             logger.info("create_exam error:"+str(error))
             raise error
             return None
+        
