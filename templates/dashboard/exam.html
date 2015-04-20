@@ -110,25 +110,7 @@
 					<div class="ui bold text">Options:</div>
 					<div class="ui segment options">
 
-						<div class="multichoice-edit-option template eight wide field">
-							<div class="option-container">
-
-								<div class="ui labeled action input">
-									<div class="ui basic label">
-										<div class="ui radio checkbox">
-											<label></label>
-											<input name="answer" data-x="answer" type="radio">
-										</div>
-									</div>
-									<input name="option" data-x="option" type="text">
-									<div class="ui icon red button"><i class="delete icon"></i></div>
-								</div>
-
-
-
-
-							</div>
-						</div>
+						
 						<div class="ui blue icon button"><i class="plus icon"></i></div>
 					</div>
 
@@ -366,11 +348,21 @@
 <input id="backend-data-delivery" type="hidden" value="{{ question_set_json }}">
 
 <!-- multichoice is special so it needs further templates for choices -->
-<div class="multichoice-edit-option template" hidden>
-	<div class="option-container">
-		<input name="option" data-x="option" type="text">
-		<input name="answer" data-x="answer" type="radio">
-	</div>
+<div class="multichoice-edit-option template eight wide field">
+    <div class="option-container">
+
+        <div class="ui labeled action input">
+            <div class="ui basic label">
+                <div class="ui radio checkbox">
+                    <label></label>
+                    <input name="answer" data-x="answer" type="radio">
+                </div>
+            </div>
+            <input name="option" data-x="option" type="text">
+            <div class="ui icon red button"><i class="delete icon"></i></div>
+        </div>
+
+    </div>
 </div>
 
 
