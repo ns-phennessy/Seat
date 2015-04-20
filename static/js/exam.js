@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", function() {
         multichoice.add_choice = function(text, is_answer) {
 
             identifier_counter++;
+            if (!text) text = '';
             multichoice._data['options'].push(text);
 
             /*  update count */
@@ -166,20 +167,20 @@ document.addEventListener("DOMContentLoaded", function() {
             multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count())
             multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count())
 
-            new_edit_option = $('.multichoice-edit-option .template')
+            new_edit_option = $('.multichoice-edit-option.template')
             .clone()
             .removeClass('.template')
             .show()
             .attr('data-member', identifier_counter);
-
+            console.log(new_edit_option)
             /* set text */
             new_edit_option.find('[data-x="option"]').val(text)
 
             if (is_answer && is_answer === true) {
                 multichoice._data['answers'].push(text);
-                new_edit_option.find('[data-x="answer"').prop('checked', true)
+                new_edit_option.find('[data-x="answer"]').prop('checked', true)
             } else {
-                new_edit_option.find('[data-x="answer"').prop('checked', false)
+                new_edit_option.find('[data-x="answer"]').prop('checked', false)
             }
 
             /* add to dom */
@@ -223,7 +224,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
             });
 
-            new_edit_option.find('.option');
         }
 
         multichoice.populate = function(data) {
