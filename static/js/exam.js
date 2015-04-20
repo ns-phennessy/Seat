@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             new_edit_option = $('.multichoice-edit-option.template')
             .clone()
-            .removeClass('.template')
+            .removeClass('template')
             .show()
             .attr('data-member', identifier_counter);
             console.log(new_edit_option)
