@@ -1,0 +1,91 @@
+<!-- multichoice options -->
+<div class="multichoice-edit-option template eight wide field" hidden>
+	<div class="option-container">
+
+		<div class="ui labeled action input">
+			<div class="ui basic label">
+				<div class="ui radio checkbox">
+					<label></label>
+					<input name="answer" data-x="answer" type="radio">
+				</div>
+			</div>
+			<input name="option" data-x="option" type="text">
+			<div class="ui icon red button delete-option"><i class="delete icon"></i></div>
+		</div>
+
+	</div>
+</div>
+
+<!-- multichoice -->
+<div class="multichoice template" hidden>
+	<!-- summary -->
+	<div class="summary question-section">
+
+		<div class="ui items">
+			<div class="item">
+				<div class="content">
+					<div class="header">Question <span data-x="number"></span></div>
+					<div class="meta">
+						<div class="ui padded stackable grid">
+							<div class="three wide column">
+								<span data-x="type"></span>
+								<br>
+								<span data-x="option-count"></span>Options
+								<br>
+								<span data-x="points"></span>Points
+							</div>
+							<div class="ten wide column">
+								<span data-x="prompt-substr"></span>
+							</div>
+							<div class="two wide column center aligned">
+								<div class="ui mini basic icon button questionEdit" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini basic icon button questionDelete" data-content="Delete"><i class="delete icon"></i></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- edit -->
+	<div class="edit question-section">
+
+		<div class="ui form secondary segment">
+			<h3 class="ui left floated header">Question <span data-x="number"></span></h3>
+			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" class="questionSummary" data-content="Cancel"><i class="delete icon"></i></a>
+
+
+			<div class="two fields">
+				<div class="three wide field">
+					<label for="points">Point Value:</label>
+					<input name="points" data-x="points" type="text"/>	
+				</div>
+				<div class="thirteen wide field">
+					<label for="prompt">Prompt:</label>
+					<input type="text" name="prompt" data-x="prompt" placeholder="Enter a question here..."> 
+				</div>
+			</div>
+
+			<div class="ui bold text">Options:</div>
+			<div class="ui segment options">
+
+
+				<div class="ui blue icon button questionAddChoice"><i class="plus icon"></i></div>
+			</div>
+
+			<div class="ui divider"></div>
+			<div class="ui blue button submit questionSubmit">Save Question</div>
+			<div class="ui right floated button questionSummary">Cancel</div>
+		</div>
+
+
+
+	</div>
+
+	<!-- preview -->
+	<div class="preview question-section" data-x="preview" hidden>
+		<!--  pulls from the backend via ajax-->
+	</div>
+</div>

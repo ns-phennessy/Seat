@@ -1,0 +1,72 @@
+<!-- truefalse -->
+<div class="truefalse template" hidden>
+	<!-- summary -->
+	<div class="summary question-section">
+
+		<div class="ui items">
+			<div class="item">
+				<div class="content">
+					<div class="header">Question <span data-x="number">2</span></div>
+					<div class="meta">
+						<div class="ui padded stackable grid">
+							<div class="three wide column">
+								<span data-x="type">True / False</span>
+								<br>
+								<span data-x="points">10 Points</span>
+							</div>
+							<div class="ten wide column">
+								<span data-x="prompt-substr">This is the prompt for a true / false question</span>
+							</div>
+							<div class="two wide column center aligned">
+								<div class="ui mini basic icon button questionEdit" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini basic icon button questionDelete" data-content="Delete"><i class="delete icon"></i></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- edit -->
+	<div class="edit question-section">
+
+		<div class="ui form secondary segment">
+			<h3 class="ui left floated header">Question <span data-x="number"></span></h3>
+			<a class="questionSummary" style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
+
+
+			<div class="two fields">
+				<div class="three wide field">
+					<label for="points">Point Value:</label>
+					<input name="points" data-x="points" type="text"/>	
+				</div>
+				<div class="thirteen wide field">
+					<label for="prompt">Prompt:</label>
+					<input type="text" data-x="prompt" name="prompt" placeholder="What is the..."> 
+				</div>
+			</div>
+
+			<div class="ui bold text">Options:</div>
+			<div class="ui segment options">
+				<span style="margin-right:1em">False</span>
+				<div class="ui toggle checkbox">
+					<input data-x="option" type="checkbox" name="option">
+				</div>
+				<span>True</span>
+			</div>
+
+			<div class="ui divider"></div>
+			<div class="ui blue button questionSubmit">Save Question</div>
+			<div class="ui right floated button questionSummary">Cancel</div>
+		</div>
+
+
+	</div>
+
+	<!-- preview -->
+	<div class="preview question-section">
+		<!-- generated from the backend -->
+	</div>
+</div>

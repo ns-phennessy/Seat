@@ -39,7 +39,7 @@ class QuestionApplication(object):
         if 'type' not in question_json:
             return [False, "no type given"]
         
-        if exam_id.strip() == '':
+        if exam_id is not None and str(exam_id).strip() == '':
             return [False, "no exam id given"]
 
         type = question_json['type']
@@ -47,7 +47,7 @@ class QuestionApplication(object):
         id = question_json.get('question_id')
 
         #update
-        if id and id.strip() != '':
+        if id is not None and str(id).strip() != '':
             #update
             questions = Question.objects.filter(id=question_json['question_id'], exam__id = exam_id, exam__course__teacher=teacher)
             if not questions.exists():
@@ -72,10 +72,10 @@ class QuestionApplication(object):
         question.answers.all().delete()
         
         if 'options' in question_json:
-            map(lambda choice_text: question.choices.add(self.create_choice(choice_text)), question_json['options'])
+            map(lambda choice_text: question.choices.add(self.create_choice(choice_text or '')), question_json['options'])
         
         if 'answers' in question_json:
-            map(lambda answer_text: question.answers.add(self.create_answer(answer_text)), question_json['answers'])
+            map(lambda answer_text: question.choices.add(self.create_answer(answer_text or '')), question_json['answers'])
 
         question.save()
 
