@@ -143,12 +143,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const get_multichoice_option_index_in_options = function(multichoice_option) {
             var index = -1;
-            multichoice.manifestation.find('.options .multichoice-edit-option').each(function(i,v){
+            multichoice.manifestation.find('.multichoice-edit-option').each(function(i,v){
+                console.log($(v).attr('data-member'), multichoice_option.attr('data-member'))
                 if ($(v).attr('data-member') === multichoice_option.attr('data-member')) {
                     index = i;
+                    console.log(index)
                 }
             })
             return index;
+        }
+
+        const wireup_delete_for_option = function(multichoice_option) {
+            /* wirup delete for this guy */
+            multichoice_option.find('.delete-option').on('click', function() {
+                var index = get_multichoice_option_index_in_options(multichoice_option);
+                 multichoice._data['options'].splice(index,1);
+                console.log('index', 'array post slice', index, multichoice._data['options'])
+                var answer_element = multichoice_option.find('[data-x="answer"]');
+                if (answer_element.is(':checked')) {
+                    var answer_index = multichoice._data['answers'].indexOf(answer_element.val().trim());
+                    if (answer_index >= 0 && answer_index !== false) {
+                        multichoice._data['answers'].splice(answer_index,1);
+                    }
+                }
+                console.log(multichoice._data, 'removed one');
+
+                multichoice_option.remove();
+
+                /* update count */
+                multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count());
+                multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count());
+            })
         }
 
         multichoice.option_count = function() {
@@ -186,25 +211,8 @@ document.addEventListener("DOMContentLoaded", function() {
             /* add to dom */
             new_edit_option.appendTo(multichoice.manifestation.find('.options'));
 
-            /* wirup delete for this guy */
-            new_edit_option.find('.delete-option').on('click', function() {
-                var index = get_multichoice_option_index_in_options(new_edit_option);
-                multichoice._data['options'].splice(index);
-                var answer_element = new_edit_option.find('[data-x="answer"]');
-                if (answer_element.is(':checked')) {
-                    var answer_index = multichoice._data['answers'].indexOf(answer_element.val().trim());
-                    if (answer_index >= 0 && answer_index !== false) {
-                        multichoice._data['answers'].splice(answer_index);
-                    }
-                }
-                console.log(multichoice._data, 'removed one');
-
-                new_edit_option.remove();
-
-                /* update count */
-                multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count());
-                multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count());
-            })
+            /* wirup delete */
+            wireup_delete_for_option(new_edit_option);
 
             /* onchange */
             new_edit_option.find('[data-x="answer"]').on('change', function() {
@@ -249,10 +257,12 @@ document.addEventListener("DOMContentLoaded", function() {
                         if (index >= 0 && index !== false) {
                             is_answer = true;
                             /* don't add twice */
-                            data['answers'].splice(index);
+                            data['answers'].splice(index,1);
                         }
                     }
+                    console.log('add choice', data['options'][i], is_answer)
                     multichoice.add_choice(data['options'][i], is_answer);
+                    console.log(multichoice._data['options'])
                 }
             }
         }
