@@ -3,7 +3,7 @@
 	<div class="option-container">
 		<div class="two fields">
 			<div class="one wide field" style="padding-top:0.5em">
-				<div class="ui checkbox">
+				<div class="ui checkbox" data-content="Mark as answer">
 					<label></label>
 					<input name="answer" data-x="answer" type="checkbox">
 				</div>
@@ -33,9 +33,9 @@
 							<div class="three wide column">
 								<span data-x="type"></span>
 								<br>
-								<span data-x="option-count"></span>Options
+								<span data-x="option-count"></span> Options
 								<br>
-								<span data-x="points"></span>Points
+								<span data-x="points"></span> Points
 							</div>
 							<div class="ten wide column">
 								<span data-x="prompt-substr"></span>
@@ -75,12 +75,19 @@
 			<div class="ui segment">
 				<div class="options"></div>
 				<br>
-				<div class="ui blue icon button questionAddChoice"><i class="plus icon"></i></div>
+				<div class="ui blue icon button questionAddChoice" data-content="New choice" data-position="right center"><i class="plus icon"></i></div>
 			</div>
 
 			<div class="ui divider"></div>
 			<div class="ui blue button submit questionSubmit">Save Question</div>
-			<div class="ui right floated button questionSummary">Cancel</div>
+			<div class="ui right floated button questionSummary">Close</div>
+
+			<div class="ui inverted dimmer">
+				<h2 class="ui icon header" style="position:absolute; top:25%; left:0; right:0">
+					<i class="green checkmark icon"></i>
+					Question Saved!
+				</h2>
+			</div>
 		</div>
 
 

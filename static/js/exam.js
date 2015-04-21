@@ -230,8 +230,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					multichoice._data['options'].push($(v).val().trim());
 				})
 			});
-			
-			multichoice.manifestation.find('.ui.checkbox').checkbox();
+
+			multichoice.init();
 
 		}
 
@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		multichoice.done_loading = function() {
 			console.log('done loading')
 			multichoice.manifestation.find('.edit.question-section .form').removeClass('loading');
+			multichoice.manifestation.find('.edit.question-section .form').dimmer('hide');
 		};
 
 		multichoice.validate = function() {
@@ -285,9 +286,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		multichoice.init = function(){
 			multichoice.manifestation.find('.ui.checkbox').checkbox();
 			multichoice.manifestation.find('.ui.radio').checkbox();
+			
 			multichoice.manifestation.find('[data-content]').popup({
 				position:'top center',
-				transition:'drop'
+				variation:'inverted',
+				transition:'drop',
+				delay:{
+					show:500
+				}
 			});
 
 			multichoice.manifestation.find('.ui.form').form({
@@ -303,10 +309,17 @@ document.addEventListener("DOMContentLoaded", function() {
 						{type:'empty', prompt:'Please enter a value.'},
 						{type:'integer', prompt:'Please enter number.'}
 					]
+				},
+				options:{
+					identifier:'option',
+					rules:[
+						{type:'empty', prompt:'Please enter an option.'},
+					]	
 				}
 			},{
 				inline:true, 
-				on:'blur'
+				on:'blur',
+				keyboardShortcuts: true
 			});
 
 		}
@@ -317,7 +330,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (success === "success" && data.success === true) {
 				console.log('successfully saved question')
 				multichoice.question_id(data.id);
-				multichoice.done_loading();
+
+				multichoice.manifestation.find('.edit.question-section .form').dimmer('show');
+
+				setTimeout(function(){
+					multichoice.done_loading();
+					multichoice.summary();
+				}, 1500);
 			} else {
 				console.log('server did not save the question!!!', data.message)
 			}
