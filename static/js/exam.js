@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         "essay" : {
             template_selector : '.essay.template'
+        },
+        "truefalse" : {
+            template_selector : '.truefalse.template'
         }
     };
 	
@@ -790,10 +793,211 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     /*---------------- end short answer -------------*/ 
     const TFQuestion = function() {
-        this.type = "truefalse";
-        this.manifestation = copy_template_and_create(this.type)
+        const truefalse = this;
+        truefalse.type = "truefalse";
+        truefalse.manifestation = copy_template_and_create(truefalse.type);
 
-        this.state = 'none'
+        var my_data = truefalse._data = {
+            'question_id' : '',
+            'type' : 'truefalse',
+            'prompt' : '',
+            'points' : '',
+            'number' : '',
+            'options' : ['true', 'false'],
+            'answers' : ['false']
+            }
+
+        const my_derived_sections = {
+            'prompt' : ['prompt-substr']
+        };
+
+        const action_map = {
+            '.q-submit' : 'submit',
+            '.q-delete' : 'delete'
+        }
+
+        for (var selector in action_map) {
+            truefalse.manifestation.find(selector).on('click', function() {
+                truefalse[action_map[selector]]();
+            })
+        }
+        
+        /* prompt-substr is a projection, the others
+        are pure data, meaning they are bound more generically */
+        truefalse.prompt_substr = function() {
+            if (arguments.length > 0) 
+                console.log('argument ignored in .prompt_substr, which is read-only');
+            
+            const truncated_prompt = truefalse._data['prompt'].substr(0, max_prompt_length_without_ellipses);
+            
+            if (use_ellipses_on_truncated_prompt 
+                && truncated_prompt.length == max_prompt_length_without_ellipses) {
+
+                return truncated_prompt + '...';
+            }
+
+            return truncated_prompt;
+        }
+
+        /* this function exposes all of the data for truefalse,
+        -> for example question_id as a getter/setter <-
+        setting it sets it internally and updates all of the places in the
+        markup that are annotated data-x="question_id":
+        some_truefalse_question.question_id(123)
+        some_truefalse_question.question_id() <- 123 */
+        var bind_property_to_truefalse_as_getter_setter = function(property) {
+            truefalse[property] = function(value) {
+                if (arguments.length > 0) {
+                    /* set */
+                    truefalse._data[property] = value;
+
+                    /* this block of code handles setting things like prompt-substr */
+                    if (my_derived_sections[property]) {
+                        for (var i in my_derived_sections[property]) {
+                            /* data-x attributes often have -'s in them, switch to _,
+                              for example this lets us grab data-x="prompt-substr",
+                              and populate it using our own getter, prompt_substr */
+                            var derived_property = my_derived_sections[property][i].replace(/-/gm, '_');
+                            truefalse.manifestation.find(
+                                '[data-x="'+my_derived_sections[property][i]+'"]'
+                                )
+                                .val(truefalse[derived_property]())
+                                .text(truefalse[derived_property]());
+                        }
+                    }
+                    var children = truefalse.manifestation.find('[data-x="'+property+'"]');
+                    children.val(value);
+                    children.text(value);
+                    return truefalse;
+                } else {
+                    /* get */
+                    return truefalse._data[property]
+                }
+            }
+        }
+
+        /* expose all of the properties */
+        for (var property_to_be_available in my_data) {
+            if (is_type_of([], my_data[property_to_be_available])) continue;
+            bind_property_to_truefalse_as_getter_setter(property_to_be_available);  
+        }
+        truefalse.populate = function(data) {
+            for (var property in truefalse._data) {
+                if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
+                    /* this passes the data at data['question_id'] to truefalse.question_id()
+                    to use the setter we have previously created. read the notes above on how
+                    the setter/getter works if this makes no sense */
+                    truefalse[property](data[property])
+                } else {
+                    // console.log('incorrect type encountered in population of truefalse:',property,data[property]);
+                }
+            }
+            console.log("TRUEFALSE", data)
+            if (data['answers'].length > 0)
+            var answer_is_true = (data['answers'][0].trim().toLowerCase() == 'true')
+            truefalse.manifestation.find('[data-x="answer"]').prop('checked', answer_is_true);
+            truefalse._data['answers'] = [ ''+answer_is_true ];
+        };
+
+        truefalse.manifestation.find('[data-x="answer"]').on('change', function() {
+            if (truefalse.manifestation.find('[data-x="answer"]').is(':checked')) {
+                truefalse._data['answers'] = ['true'];
+            } else {
+                truefalse._data['answers'] = ['false'];
+            }
+        });
+
+        truefalse.loading = function() {
+            console.log('loading');
+            /* TODO: pat, do your magic with spinners */
+        };
+
+        truefalse.done_loading = function() {
+            console.log('done loading')
+            /* TODO: pat, undo your magic with spinners */
+        };
+
+        var ajax_submit_complete = function(data, success, jqxhr) {
+            /* this fires before always */
+            if (success === "success" && data.success === true) {
+                console.log('successfully saved question')
+                truefalse.question_id(data.id);
+                truefalse.done_loading();
+            } else {
+                console.log('server did not save the question!!!', data.message)
+            }
+        };
+        var ajax_submit_failure = function() {
+            /* this fires before always */
+            console.log('failure to save question!')
+        };
+        var ajax_submit_always = function(data, success, jqxhr) {
+            /* but this always fires =() */
+            console.log('handler to be called no matter what when we submit <- just got called');
+        };
+
+        var ajax_delete_complete = function(data, success, jqxhr) {
+            /* this fires before always */
+            if (success === "success" && data.success === true) {
+                console.log('successfully deleted!');
+                truefalse.done_loading();
+                truefalse.manifestation.remove();
+            } else {
+                console.log('the server did not delete our question!', data.message);
+            }
+        };
+        var ajax_delete_failure = function() {
+            /* this fires before always */
+            console.log('failure to delete a question!', arguments);
+        };
+        var ajax_delete_always = function(data, success, jqxhr) {
+            /* but this always fires =() */
+            console.log('handler to be called no matter what when we delete <- just got called');
+        };
+
+        truefalse.submit = function(submit_custom_cb) {
+            truefalse.loading();
+            submit_question_data(truefalse._data, submit_custom_cb,
+                 ajax_submit_complete,
+                 ajax_submit_failure,
+                 ajax_submit_always);
+        };
+
+        truefalse.delete = function(delete_custom_cb) {
+            truefalse.loading();
+            if (truefalse._data['question_id']) {
+                delete_question(truefalse.question_id(), delete_custom_cb,
+                    ajax_delete_complete,
+                    ajax_delete_failure,
+                    ajax_delete_always);
+            } else {
+                /* mock ajax success for the handler */
+                ajax_delete_complete({success: true}, "success"); 
+            }
+        };
+
+        truefalse.preview = function() {
+            /* SUGGESTION: put transition ui code here */
+            truefalse.manifestation.find('.question-section').hide();
+            truefalse.manifestation.find('.preview.question-section').show();
+        };
+
+        truefalse.edit = function() {
+            /* SUGGESTION: put transition ui code here */
+            truefalse.manifestation.find('.question-section').hide();
+            truefalse.manifestation.find('.edit.question-section').show();
+        };
+
+        truefalse.summary = function() {
+            /* SUGGESTION: put transition ui code here */
+            truefalse.manifestation.find('.question-section').hide();
+            truefalse.manifestation.find('.summary.question-section').show();
+        }
+
+        /* last thing we do in construction is show ourselves */
+        truefalse.manifestation.show();
+        /* default mode is edit */
+        truefalse.edit();
     }
 
     function is_type_of(example, thing_to_be_tested) {
@@ -802,9 +1006,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function copy_template_and_create(type) {
         return $(static_properties_of_questions[type].template_selector)
-        .clone()
-        .removeClass('template')
-        .appendTo(question_list_selector);
+            .clone()
+            .removeClass('template')
+            .appendTo(question_list_selector);
     }
 
     function get_type_class(type) {
@@ -820,16 +1024,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function submit_question_data(data, custom_completed, complete_callback, failure_callback, always_callback) {
         $.ajax({
-            type : "POST",
-            url : api_endpoint_for_questions,
-            data :	{
-                'question' : JSON.stringify(data),
-                'exam_id' : exam_id
-            },
-            headers: {
-                'X-CSRFToken' : get_csrf_token()
-            }
-        })
+                type : "POST",
+                url : api_endpoint_for_questions,
+                data :  {
+                    'question' : JSON.stringify(data),
+                    'exam_id' : exam_id
+                },
+                headers: {
+                    'X-CSRFToken' : get_csrf_token()
+                }
+            })
         .done(function(a, b, c, d) {
             complete_callback(a,b,c,d);
             !custom_completed || custom_completed(a,b,c,d); })
@@ -847,21 +1051,21 @@ document.addEventListener("DOMContentLoaded", function() {
             return false;
         }
         $.ajax({
-            type : "POST",
-            url : api_endpoint_for_questions,
-            data :	{
-                'question_id' : question_id
-            }, 
-            headers :{
-                'X-METHODOVERRIDE' : 'DELETE',
-                'X-CSRFToken' : get_csrf_token()
-            }
-        })
+                type : "POST",
+                url : api_endpoint_for_questions,
+                data :  {
+                    'question_id' : question_id
+                }, 
+                headers :{
+                    'X-METHODOVERRIDE' : 'DELETE',
+                    'X-CSRFToken' : get_csrf_token()
+                }
+            })
         .done(function(a,b,c,d) {
             complete_callback(a,b,c,d);
             !custom_completed || custom_completed(a,b,c,d); })
         .fail(failure_callback)
-        .always(always_callback)	
+        .always(always_callback)    
     }
 
     window.questions = [];
@@ -869,14 +1073,17 @@ document.addEventListener("DOMContentLoaded", function() {
         var question_data = questions_present_at_pageload[i];
         var question = null;
         switch(question_data.type){
-            case "multichoice" :
-                question = new MultiQuestion();
-                break;
-            case "shortanswer" :
-                question = new ShortAnswerQuestion();
-                break;
-            case "essay" : 
+            case "multichoice":
+                 question = new MultiQuestion();
+                 break;
+            case "shortanswer":
+                 question = new ShortAnswerQuestion();
+                 break;
+            case "essay": 
                 question = new EssayQuestion();
+                break;
+            case "truefalse":
+                question = new TFQuestion();
                 break;
         }
         if (question === null) continue;
@@ -885,6 +1092,6 @@ document.addEventListener("DOMContentLoaded", function() {
         questions.push(question)
     }
 
-    var a = new MultiQuestion();
+    var a = new TFQuestion();
     window.a = a;
 });
