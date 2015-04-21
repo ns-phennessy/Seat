@@ -1111,6 +1111,26 @@ document.addEventListener("DOMContentLoaded", function() {
         .always(always_callback)    
     }
 
+    /* TODO: PAT WIRE TO ADD_QUESTION BUTTON */
+    function add_question(type) {
+        var question = null;
+        switch(type){
+            case "multichoice":
+                question = new MultiQuestion();
+                break;
+            case "shortanswer":
+                question = new ShortAnswerQuestion();
+                break;
+            case "essay": 
+                question = new EssayQuestion();
+                break;
+            case "truefalse":
+                question = new TFQuestion();
+                break;
+        }
+        return question;
+    }
+
     window.questions = [];
     for (var i in questions_present_at_pageload) {
         var question_data = questions_present_at_pageload[i];
