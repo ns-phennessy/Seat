@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		multichoice.init = function(){
 			multichoice.manifestation.find('.ui.checkbox').checkbox();
 			multichoice.manifestation.find('.ui.radio').checkbox();
-			
+
 			multichoice.manifestation.find('[data-content]').popup({
 				position:'top center',
 				variation:'inverted',
@@ -1138,6 +1138,26 @@ document.addEventListener("DOMContentLoaded", function() {
 			!custom_completed || custom_completed(a,b,c,d); })
 		.fail(failure_callback)
 		.always(always_callback)    
+	}
+
+	/* TODO: PAT WIRE TO ADD_QUESTION BUTTON */
+	function add_question(type) {
+		var question = null;
+		switch(type){
+			case "multichoice":
+				question = new MultiQuestion();
+				break;
+			case "shortanswer":
+				question = new ShortAnswerQuestion();
+				break;
+			case "essay": 
+				question = new EssayQuestion();
+				break;
+			case "truefalse":
+				question = new TFQuestion();
+				break;
+		}
+		return question;
 	}
 
 	window.questions = [];
