@@ -18,8 +18,8 @@
 								<span data-x="prompt-substr">This is the prompt for a true / false question</span>
 							</div>
 							<div class="two wide column center aligned">
-								<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
-								<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+								<div class="ui mini basic icon button questionEdit" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini basic icon button questionDelete" data-content="Delete"><i class="delete icon"></i></div>
 							</div>
 						</div>
 					</div>
@@ -33,8 +33,8 @@
 	<div class="edit question-section">
 
 		<div class="ui form secondary segment">
-			<h3 class="ui left floated header">Question <span data-x="number">2</span></h3>
-			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
+			<h3 class="ui left floated header">Question <span data-x="number"></span></h3>
+			<a class="questionSummary" style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
 
 
 			<div class="two fields">
@@ -58,8 +58,8 @@
 			</div>
 
 			<div class="ui divider"></div>
-			<div class="ui blue button">Save Question</div>
-			<div class="ui right floated button">Cancel</div>
+			<div class="ui blue button questionSubmit">Save Question</div>
+			<div class="ui right floated button questionSummary">Cancel</div>
 		</div>
 
 

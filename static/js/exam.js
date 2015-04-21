@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function() {
             '.questionSubmit' 		: 	'submit',
             '.questionDelete' 		: 	'delete',
             '.questionAddChoice'	: 	'add_choice',
-            '.questionDeleteChoice'	: 	'',
 			'.questionEdit' 		: 	'edit',
 			'.questionSummary'		:	'summary',
         }
@@ -410,13 +409,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         const action_map = {
-            '.submit' : 'submit',
-            '.delete' : 'delete'
+            '.questionSubmit'       :   'submit',
+            '.questionDelete'       :   'delete',
+            '.questionEdit'         :   'edit',
+            '.questionSummary'      :   'summary',
         }
 
         function wire_for_selector(selector) {
             return function(e) {
-                multichoice[action_map[selector]]();
+                essay[action_map[selector]]();
                 console.log(selector);
             }
         }
@@ -483,8 +484,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         /* expose all of the properties */
-        for (var property_to_be_available in my_data) 
+        for (var property_to_be_available in my_data) {
             bind_property_to_essay_as_getter_setter(property_to_be_available);	
+            bind_property_to_on_change(property_to_be_available)
+        }
+
+        function bind_property_to_on_change(property) {
+            var children = essay.manifestation.find('[data-x="'+property+'"]');
+            children.on('change', function(e) {
+                const val = $(this).val();
+                multichoice[property](val);
+            });
+        }
 
         essay.populate = function(data) {
             for (var property in essay._data) {
@@ -613,13 +624,15 @@ document.addEventListener("DOMContentLoaded", function() {
         };
 
         const action_map = {
-            '.submit' : 'submit',
-            '.delete' : 'delete'
+            '.questionSubmit'       :   'submit',
+            '.questionDelete'       :   'delete',
+            '.questionEdit'         :   'edit',
+            '.questionSummary'      :   'summary',
         }
 
         function wire_for_selector(selector) {
             return function(e) {
-                multichoice[action_map[selector]]();
+                shortanswer[action_map[selector]]();
                 console.log(selector);
             }
         }
@@ -683,9 +696,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         /* expose all of the properties */
-        for (var property_to_be_available in my_data) 
+        for (var property_to_be_available in my_data)  {
             bind_property_to_shortanswer_as_getter_setter(property_to_be_available);	
+            bind_property_to_on_change(property_to_be_available)
+        }
 
+        function bind_property_to_on_change(property) {
+            var children = shortanswer.manifestation.find('[data-x="'+property+'"]');
+            children.on('change', function(e) {
+                const val = $(this).val();
+                multichoice[property](val);
+            });
+        }
         shortanswer.populate = function(data) {
             for (var property in shortanswer._data) {
                 if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -812,14 +834,21 @@ document.addEventListener("DOMContentLoaded", function() {
         };
 
         const action_map = {
-            '.q-submit' : 'submit',
-            '.q-delete' : 'delete'
+            '.questionSubmit'       :   'submit',
+            '.questionDelete'       :   'delete',
+            '.questionEdit'         :   'edit',
+            '.questionSummary'      :   'summary',
+        }
+
+        function wire_for_selector(selector) {
+            return function(e) {
+                truefalse[action_map[selector]]();
+                console.log(selector);
+            }
         }
 
         for (var selector in action_map) {
-            truefalse.manifestation.find(selector).on('click', function() {
-                truefalse[action_map[selector]]();
-            })
+            truefalse.manifestation.find(selector).on('click', wire_for_selector(selector));
         }
         
         /* prompt-substr is a projection, the others
@@ -880,7 +909,18 @@ document.addEventListener("DOMContentLoaded", function() {
         for (var property_to_be_available in my_data) {
             if (is_type_of([], my_data[property_to_be_available])) continue;
             bind_property_to_truefalse_as_getter_setter(property_to_be_available);  
+            bind_property_to_on_change(property_to_be_available)
         }
+
+        function bind_property_to_on_change(property) {
+            var children = truefalse.manifestation.find('[data-x="'+property+'"]');
+            children.on('change', function(e) {
+                const val = $(this).val();
+                console.log('changed to', val)
+                truefalse[property](val);
+            });
+        }
+
         truefalse.populate = function(data) {
             for (var property in truefalse._data) {
                 if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -893,8 +933,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
             console.log("TRUEFALSE", data)
-            if (data['answers'].length > 0)
-            var answer_is_true = (data['answers'][0].trim().toLowerCase() == 'true')
+            if (data['answers'].length > 0) {
+                var answer_is_true = (data['answers'][0].trim().toLowerCase() == 'true')
+            } else {
+                answer_is_true = false;
+            }
             truefalse.manifestation.find('[data-x="answer"]').prop('checked', answer_is_true);
             truefalse._data['answers'] = [ ''+answer_is_true ];
         };
