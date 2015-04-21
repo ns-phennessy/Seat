@@ -1159,6 +1159,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		return question;
 	}
+	
+	$('.ui.button#addNewQuestion').on('click', function(){
+		
+		add_question('multichoice');
+		
+	});
+	
 
 	window.questions = [];
 	for (var i in questions_present_at_pageload) {

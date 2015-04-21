@@ -5,3 +5,8 @@
 input[type="text"]{
 	background-color: #FFF !important;	
 }
+
+.question-list > div{
+	margin-top:1em !important;	
+	margin-bottom:1em;	
+}
