@@ -230,6 +230,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					multichoice._data['options'].push($(v).val().trim());
 				})
 			});
+			
+			multichoice.manifestation.find('.ui.checkbox').checkbox();
 
 		}
 
@@ -282,13 +284,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		multichoice.init = function(){
 			multichoice.manifestation.find('.ui.checkbox').checkbox();
+			multichoice.manifestation.find('.ui.radio').checkbox();
 			multichoice.manifestation.find('[data-content]').popup({
 				position:'top center',
 				transition:'drop'
 			});
 
 			multichoice.manifestation.find('.ui.form').form({
-				inline:true,
 				prompt:{
 					identifier:'prompt',
 					rules:[
@@ -298,10 +300,10 @@ document.addEventListener("DOMContentLoaded", function() {
 				points:{
 					identifier:'points',
 					rules:[
-						{type:'empty', prompt:'Please enter a point value.'},
+						{type:'empty', prompt:'Please enter a value.'},
 						{type:'integer', prompt:'Please enter number.'}
 					]
-				}				
+				}
 			},{
 				inline:true, 
 				on:'blur'
@@ -351,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		multichoice.submit = function(submit_custom_cb) {
 			if(!multichoice.validate())
 				return false;
-			
+
 			multichoice.loading();
 			submit_question_data(multichoice._data, submit_custom_cb,
 								 ajax_submit_complete,
@@ -392,8 +394,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		/* just for us */
 		multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count()).val(multichoice.option_count());
-		console.log('NEW MULTI', multichoice.option_count())
-
 		multichoice.init();
 
 		/* last thing we do in construction is show ourselves */
@@ -1145,6 +1145,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		questions.push(question)
 	}
 
-	var a = new TFQuestion();
+	var a = new MultiQuestion();
 	window.a = a;
 });

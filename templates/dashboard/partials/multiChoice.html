@@ -1,18 +1,21 @@
 <!-- multichoice options -->
-<div class="multichoice-edit-option template eight wide field" hidden>
+<div class="multichoice-edit-option template" hidden>
 	<div class="option-container">
-
-		<div class="ui labeled action input">
-			<div class="ui basic label">
-				<div class="ui radio checkbox">
+		<div class="two fields">
+			<div class="one wide field" style="padding-top:0.5em">
+				<div class="ui checkbox">
 					<label></label>
-					<input name="answer" data-x="answer" type="radio">
+					<input name="answer" data-x="answer" type="checkbox">
 				</div>
 			</div>
-			<input name="option" data-x="option" type="text">
-			<div class="ui icon red button delete-option"><i class="delete icon"></i></div>
+			<div class="seven wide field">
+				<div class="ui action input">
+					<input name="option" data-x="option" type="text">
+					<div class="ui icon red button delete-option"><i class="delete icon"></i></div>
+				</div>
+			</div>
 		</div>
-
+		<br>
 	</div>
 </div>
 
@@ -69,9 +72,9 @@
 			</div>
 
 			<div class="ui bold text">Options:</div>
-			<div class="ui segment options">
-
-
+			<div class="ui segment">
+				<div class="options"></div>
+				<br>
 				<div class="ui blue icon button questionAddChoice"><i class="plus icon"></i></div>
 			</div>
 
