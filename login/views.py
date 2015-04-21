@@ -8,6 +8,13 @@ routingApplication = RoutingApplication()
 logger = logging.getLogger('login')
 
 def login(request):
+    
+    if 'user_id' in request.session:
+        print "Logging out user with id at login page:", request.session['user_id'] 
+    for key in request.session.keys():
+        del request.session[key]
+    request.session.flush()
+
     if (request.method == 'GET'):
         return render(request, 'login/login.html')
     elif (request.method == 'POST'):

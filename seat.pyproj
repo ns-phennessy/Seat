@@ -154,17 +154,18 @@
     <Content Include="static\js\add-course.js" />
     <Content Include="static\js\base.js" />
     <Content Include="static\js\course.js" />
+    <Content Include="static\js\dataBinder.js" />
     <Content Include="static\js\delete-course.js" />
     <Content Include="static\js\exam.js" />
     <Content Include="static\js\jquery.cookie.js" />
     <Content Include="static\js\jquery.min.js" />
+    <Content Include="static\js\new-exam.js" />
     <Content Include="static\js\rename-course.js" />
     <Content Include="static\js\semantic.min.js" />
     <Content Include="static\js\student-index.js" />
     <Content Include="templates\dashboard\common\base.html" />
     <Content Include="templates\dashboard\course.html" />
     <Content Include="templates\dashboard\courses-list.html" />
-    <Content Include="templates\dashboard\editexam-mockup.html" />
     <Content Include="templates\dashboard\error.html" />
     <Content Include="templates\dashboard\exam.html" />
     <Content Include="templates\dashboard\modals\addCourse.html" />
@@ -172,7 +173,6 @@
     <Content Include="templates\dashboard\modals\renameCourse.html" />
     <Content Include="templates\dashboard\multiple-choice.html" />
     <Content Include="templates\dashboard\nocourse.html" />
-    <Content Include="templates\dashboard\questions.html" />
     <Content Include="templates\dashboard\short-answer.html" />
     <Content Include="templates\dashboard\true-false.html" />
     <Content Include="templates\login\login.html" />

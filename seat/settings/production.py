@@ -11,6 +11,7 @@ TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 # Database
+CONN_MAX_AGE = 60*5
 DATABASES = {
     'default':{
         'NAME'      : 'seat',

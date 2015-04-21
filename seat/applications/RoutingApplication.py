@@ -5,13 +5,13 @@ class RoutingApplication(object):
     """object for abstracting out all those hardcoded urls"""
 
     def error(self, request, error):
-        return render('error.html',{ 'code':500, 'error' : error })
+        return render(request, 'dashboard/error.html',{ 'code':500, 'error' : error })
 
     def invalid_permissions(self, request, msg="proper authentication required"):
-        return render('error.html',{ 'code':401, 'error' : msg })
+        return render(request, 'dashboard/error.html',{ 'code':401, 'error' : msg })
 
-    def invalid_request(self, request):
-        return render('error.html',{ 'code':406, 'error' : "not acceptable" })
+    def invalid_request(self, request, msg="invalid request"):
+        return render(request,'dashboard/error.html',{ 'code':406, 'error' : msg })
     
     def teacher_index(self, request=None):
         """ indicates the default landing page for a teacher upon login """

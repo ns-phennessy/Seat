@@ -8,22 +8,14 @@ class CourseApplication(object):
 
     """interactions with courses"""
 
-    def get_course_by_id(self, course_id):
+    def create_exam(self, teacher, course_id, name):
         try:
-            course = Course.objects.get(id=course_id)
-            return course
-        except Exception, error:
-            logger.info("get_course_by_id error:"+str(error))
-            raise error
-            return None
-
-    def create_exam(self, course, name):
-        try:
-            new_exam = Exam.objects.create(name=name, course=course)
-            new_exam.save()
-            return new_exam
+            course = Course.objects.filter(id=course_id, teacher=teacher)
+            if course.exists():
+                new_exam = Exam.objects.create(name=name, course=course.all()[0])
+                new_exam.save()
+                return [new_exam, "success"]
+            return [None, "course did not exist"]
         except Exception, error:
             logger.info("create_exam error:"+str(error))
             raise error
-            return None
-        

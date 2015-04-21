@@ -32,8 +32,7 @@ def create_exam_failure_json_model(message):
 def create_exam_logic(teacher, request):
     try:
         course_id = request.POST['course_id']
-        course = courseApplication.get_course_by_id(course_id)
-        new_exam = courseApplication.create_exam(course, request.POST['name'])
+        [new_exam, msg] = courseApplication.create_exam(teacher, course_id, request.POST['name'])
         return create_exam_success_json_model(new_exam.id)
     except Exception, error:
         logger.warn("problem creating exam! :"+str(error))
