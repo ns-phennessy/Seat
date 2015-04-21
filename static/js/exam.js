@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             /* wirup delete for this guy */
             new_edit_option.find('.delete-option').on('click', function() {
-                var index = get_multichoice_option_index_in_data(new_edit_option);
+                var index = get_multichoice_option_index_in_options(new_edit_option);
                 multichoice._data['options'].splice(index);
                 var answer_element = new_edit_option.find('[data-x="answer"]');
                 if (answer_element.is(':checked')) {
