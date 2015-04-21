@@ -68,4 +68,7 @@
 {% load static %}
 {{ block.super }}
 <script src="{% static 'js/exam.js' %}"></script>
+<script>
+	$('.ui.checkbox').checkbox();
+</script>
 {% endblock %}
