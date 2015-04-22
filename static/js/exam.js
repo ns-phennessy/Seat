@@ -588,7 +588,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
-				console.log('successfully saved question')
 
 				essay.question_id(data.id);
 				essay.manifestation.find('.edit.question-section .form').dimmer('show');
@@ -847,7 +846,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					shortanswer.summary();
 				}, 1500);
 
-			
+
 			} else {
 				console.log('server did not save the question!!!', data.message)
 			}
@@ -950,6 +949,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionDelete'       :   'delete',
 			'.questionEdit'         :   'edit',
 			'.questionSummary'      :   'summary',
+			'.questionSetTrue'      :   'check',
+			'.questionSetFalse'     :   'uncheck',
 		}
 
 		function wire_for_selector(selector) {
@@ -1063,21 +1064,72 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 
 		truefalse.loading = function() {
-			console.log('loading');
-			/* TODO: pat, do your magic with spinners */
-		};
+			truefalse.manifestation.find('.edit.question-section .form').addClass('loading');
+		}
 
 		truefalse.done_loading = function() {
-			console.log('done loading')
-			/* TODO: pat, undo your magic with spinners */
+			truefalse.manifestation.find('.edit.question-section .form').removeClass('loading');
+			truefalse.manifestation.find('.edit.question-section .form').dimmer('hide');
+		};
+
+		truefalse.validate = function() {
+			return truefalse.manifestation.find('.ui.form').form('validate form');
+		};
+
+		truefalse.init = function(){
+			truefalse.manifestation.find('[data-content]').popup({
+				position:'top center',
+				variation:'inverted',
+				transition:'drop',
+				exclusive:'true',
+				closeable:'true',
+				delay:{
+					show:500
+				}
+			});
+
+			truefalse.manifestation.find('.ui.form').form({
+				prompt:{
+					identifier:'prompt',
+					rules:[
+						{type:'empty', prompt:'Please enter a question.'}
+					]
+				},
+				points:{
+					identifier:'points',
+					rules:[
+						{type:'empty', prompt:'Please enter a value.'},
+						{type:'integer', prompt:'Please enter number.'}
+					]
+				}
+			},{
+				inline:true, 
+				on:'blur',
+				keyboardShortcuts: true
+			});
+		};
+
+		truefalse.check = function(){
+			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('check');
+		};
+
+		truefalse.uncheck = function(){
+			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('uncheck');
 		};
 
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
-				console.log('successfully saved question')
+
 				truefalse.question_id(data.id);
-				truefalse.done_loading();
+				truefalse.manifestation.find('.edit.question-section .form').dimmer('show');
+
+				setTimeout(function(){
+					truefalse.done_loading();
+					truefalse.summary();
+				}, 1500);
+
+
 			} else {
 				console.log('server did not save the question!!!', data.message)
 			}
@@ -1111,6 +1163,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		truefalse.submit = function(submit_custom_cb) {
+			if(!truefalse.validate())
+				return false;
+
 			truefalse.loading();
 			submit_question_data(truefalse._data, submit_custom_cb,
 								 ajax_submit_complete,
@@ -1149,9 +1204,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			truefalse.manifestation.find('.summary.question-section').show();
 		}
 
-		/* last thing we do in construction is show ourselves */
+		truefalse.init();
 		truefalse.manifestation.show();
-		/* default mode is edit */
 		truefalse.edit();
 	}
 

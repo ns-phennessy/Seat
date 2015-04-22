@@ -54,16 +54,24 @@
 
 			<div class="ui bold text">Options:</div>
 			<div class="ui segment options">
-				<span style="margin-right:1em">False</span>
+				<span style="margin-right:1em; cursor:pointer" class="questionSetFalse">False</span>
 				<div class="ui toggle checkbox">
 					<input data-x="option" type="checkbox" name="option">
 				</div>
-				<span>True</span>
+				<span class="questionSetTrue" style="cursor:pointer">True</span>
 			</div>
 
 			<div class="ui divider"></div>
 			<div class="ui blue button questionSubmit">Save Question</div>
-			<div class="ui right floated button questionSummary">Cancel</div>
+			<div class="ui right floated button questionCancel">Cancel</div>
+
+			<div class="ui inverted dimmer">
+				<h2 class="ui icon header" style="position:absolute; top:25%; left:0; right:0">
+					<i class="green checkmark icon"></i>
+					Question Saved!
+				</h2>
+			</div>
+
 		</div>
 
 
