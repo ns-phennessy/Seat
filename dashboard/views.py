@@ -44,7 +44,7 @@ def dashboard_index(request):
 
         is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
         if not is_teacher:
-            return routingApplication.invalid_permissions(request,"not authorized")
+            return routingApplication.pass_to_login(request)
 
         return redirect(teacherApplication.landing_page_url(teacher))
     except Exception, error:
@@ -58,7 +58,7 @@ def courses(request, course_id):
 
         is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
         if not is_teacher:
-            return routingApplication.invalid_permissions(request, "not authorized")
+           return routingApplication.pass_to_login(request)
 
         if not id_is_valid(course_id):
             course_id = None
@@ -103,7 +103,7 @@ def exam_edit(request, exam_num):
 
     is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
     if not is_teacher:
-        return routingApplication.invalid_permissions(request, "not authorized")
+        return routingApplication.pass_to_login(request)
     
     if not id_is_valid(exam_num):
         return routingApplication.invalid_request(request, "invalid id")

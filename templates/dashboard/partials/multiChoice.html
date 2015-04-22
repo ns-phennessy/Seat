@@ -1,18 +1,21 @@
 <!-- multichoice options -->
-<div class="multichoice-edit-option template eight wide field" hidden>
+<div class="multichoice-edit-option template" hidden>
 	<div class="option-container">
-
-		<div class="ui labeled action input">
-			<div class="ui basic label">
-				<div class="ui radio checkbox">
+		<div class="two fields">
+			<div class="one wide field" style="padding-top:0.5em">
+				<div class="ui checkbox" data-content="Mark choice as answer">
 					<label></label>
-					<input name="answer" data-x="answer" type="radio">
+					<input name="answer" data-validate="optionAnswer" data-x="answer" type="checkbox">
 				</div>
 			</div>
-			<input name="option" data-x="option" type="text">
-			<div class="ui icon red button delete-option"><i class="delete icon"></i></div>
+			<div class="nine wide field">
+				<div class="ui action input">
+					<input name="option" data-x="option" type="text">
+					<div class="ui icon red button delete-option"><i class="delete icon"></i></div>
+				</div>
+			</div>
 		</div>
-
+		<br>
 	</div>
 </div>
 
@@ -34,10 +37,10 @@
 								<br>
 								<span data-x="points"></span>Points
 							</div>
-							<div class="ten wide column">
+							<div class="nine wide column">
 								<span data-x="prompt-substr"></span>
 							</div>
-							<div class="two wide column center aligned">
+							<div class="three wide column right aligned">
 								<div class="ui mini basic icon button questionEdit" data-content="Edit"><i class="pencil icon"></i></div>
 								<div class="ui mini basic icon button questionDelete" data-content="Delete"><i class="delete icon"></i></div>
 							</div>
@@ -53,10 +56,12 @@
 	<div class="edit question-section">
 
 		<div class="ui form secondary segment">
-			<h3 class="ui left floated header">Question <span data-x="number"></span></h3>
-			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" class="questionSummary" data-content="Cancel"><i class="delete icon"></i></a>
-
-
+			<h3 class="ui left floated header">
+				Question <span data-x="number"></span>
+				<div class="sub header" data-x="type">Multiple Choice</div>	
+			</h3>
+			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" class="questionReset questionSummary" data-content="Cancel"><i class="delete icon"></i></a>
+			
 			<div class="two fields">
 				<div class="three wide field">
 					<label for="points">Point Value:</label>
@@ -69,15 +74,23 @@
 			</div>
 
 			<div class="ui bold text">Options:</div>
-			<div class="ui segment options">
-
-
-				<div class="ui blue icon button questionAddChoice"><i class="plus icon"></i></div>
+			<div class="ui segment">
+				<div class="options"></div>
+				<br>
+				<div class="ui blue icon button questionAddChoice" data-content="New choice" data-position="right center"><i class="plus icon"></i></div>
 			</div>
 
 			<div class="ui divider"></div>
 			<div class="ui blue button submit questionSubmit">Save Question</div>
-			<div class="ui right floated button questionSummary">Cancel</div>
+			<div class="ui right floated button questionReset questionSummary">Cancel</div>
+
+			<div class="ui inverted dimmer">
+				<h2 class="ui icon header" style="position:absolute; top:25%; left:0; right:0">
+					<i class="green checkmark icon"></i>
+					Question Saved!
+				</h2>
+			</div>
+
 		</div>
 
 
