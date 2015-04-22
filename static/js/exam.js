@@ -395,6 +395,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		multichoice.delete = function(delete_custom_cb) {
 			multichoice.loading();
+			multichoice.manifestation.find('[data-content]').popup('hide all');
+
+
 			if (multichoice._data['question_id']) {
 				delete_question(multichoice.question_id(), delete_custom_cb,
 								ajax_delete_complete,
@@ -660,6 +663,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		essay.delete = function(delete_custom_cb) {
 			essay.loading();
+			essay.manifestation.find('[data-content]').popup('hide all');
+
 			if (essay._data['question_id']) {
 				delete_question(essay.question_id(), delete_custom_cb,
 								ajax_delete_complete,
@@ -925,6 +930,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		shortanswer.delete = function(delete_custom_cb) {
 			shortanswer.loading();
+			shortanswer.manifestation.find('[data-content]').popup('hide all');
+
 			if (shortanswer._data['question_id']) {
 				delete_question(shortanswer.question_id(), delete_custom_cb,
 								ajax_delete_complete,
@@ -1220,6 +1227,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		truefalse.delete = function(delete_custom_cb) {
 			truefalse.loading();
+			truefalse.manifestation.find('[data-content]').popup('hide all');
+
 			if (truefalse._data['question_id']) {
 				delete_question(truefalse.question_id(), delete_custom_cb,
 								ajax_delete_complete,
