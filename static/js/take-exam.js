@@ -16,7 +16,7 @@ $(document).ready(function() {
 		var interval = setInterval(function() {
 			while (questionsToBeSubmitted.length != 0)
 				questionsToBeSubmitted.shift().submit()
-		})
+		}, configuration['QUEUE_RETRY_PERIOD_IN_MS'])
 		this.add = function(question) {
 			questionsToBeSubmitted.push(question);
 		}
