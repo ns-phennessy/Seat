@@ -11,3 +11,4 @@ class Token(models.Model):
     exam = models.ForeignKey(Exam)
     open = models.BooleanField(default=False)
     released = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
