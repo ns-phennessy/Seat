@@ -1164,8 +1164,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	$('.ui.button#addNewQuestion').on('click', function(){
 
-		add_question('multichoice');
-
+		var type = $('.ui.button#addNewQuestionType').dropdown('get value');		
+		add_question(type);
 	});
 
 
