@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionAddChoice'	: 	'add_choice',
 			'.questionEdit' 		: 	'edit',
 			'.questionSummary'		:	'summary',
+			'.questionReset'		:	'reset',
 		}
 
 		this._old_data = JSON.parse(JSON.stringify(my_data));// hacky, but hey!
@@ -454,6 +455,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionDelete' 		: 	'delete',
 			'.questionEdit' 		: 	'edit',
 			'.questionSummary'		:	'summary',
+			'.questionReset'		:	'reset',
 		}
 
 		this._old_data = JSON.parse(JSON.stringify(my_data));
@@ -717,6 +719,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionDelete' 		: 	'delete',
 			'.questionEdit' 		: 	'edit',
 			'.questionSummary'		:	'summary',
+			'.questionReset'		:	'reset',
 		}
 
 		shortanswer._old_data = JSON.parse(JSON.stringify(shortanswer._data));
@@ -982,6 +985,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionSummary'      :   'summary',
 			'.questionSetTrue'      :   'check',
 			'.questionSetFalse'     :   'uncheck',
+			'.questionReset'		:	'reset',
 		}
 
 		truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
@@ -1115,6 +1119,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		truefalse.init = function(){
+			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox();
+
 			truefalse.manifestation.find('[data-content]').popup({
 				position:'top center',
 				variation:'inverted',
