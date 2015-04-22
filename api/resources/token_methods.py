@@ -1,8 +1,6 @@
-from seat.applications.TeacherApplication import TeacherApplication
 from seat.applications.QuestionApplication import QuestionApplication
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
-import json
 import logging
 
 logger = logging.getLogger('api')

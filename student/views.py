@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
-from django.shortcuts import render_to_response
 import student.student_view_models as models
 from seat.models.exam import Question
 from seat.applications.RoutingApplication import RoutingApplication
