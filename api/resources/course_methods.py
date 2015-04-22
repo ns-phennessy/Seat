@@ -35,7 +35,7 @@ def create_course_logic(teacher_query, request):
 
         # create course for this teacher
         # type: [ Course, str ]
-        new_course, msg = teacherApplication.create_course(teacher_query, request.POST['name'])
+        new_course, msg = teacherApplication.create_course(teacher_query.all()[0], request.POST['name'])
 
         # check that the course was created
         if new_course is None:
