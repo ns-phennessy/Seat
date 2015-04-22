@@ -269,12 +269,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		multichoice.loading = function() {
-			console.log('loading');
 			multichoice.manifestation.find('.edit.question-section .form').addClass('loading');
 		}
 
 		multichoice.done_loading = function() {
-			console.log('done loading')
 			multichoice.manifestation.find('.edit.question-section .form').removeClass('loading');
 			multichoice.manifestation.find('.edit.question-section .form').dimmer('hide');
 		};
@@ -330,7 +328,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
-				console.log('successfully saved question')
 				multichoice.question_id(data.id);
 
 				multichoice.manifestation.find('.edit.question-section .form').dimmer('show');
@@ -542,13 +539,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		essay.loading = function() {
-			console.log('loading');
-			/* TODO: pat, do your magic with spinners */
+			essay.manifestation.find('.edit.question-section .form').addClass('loading');
 		}
 
 		essay.done_loading = function() {
-			console.log('done loading')
-			/* TODO: pat, undo your magic with spinners */
+			essay.manifestation.find('.edit.question-section .form').removeClass('loading');
+			essay.manifestation.find('.edit.question-section .form').dimmer('hide');
 		};
 
 		essay.validate = function() {
@@ -556,9 +552,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		essay.init = function(){
-			essay.manifestation.find('.ui.checkbox').checkbox();
-			essay.manifestation.find('.ui.radio').checkbox();
-
 			essay.manifestation.find('[data-content]').popup({
 				position:'top center',
 				variation:'inverted',
@@ -596,8 +589,16 @@ document.addEventListener("DOMContentLoaded", function() {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
 				console.log('successfully saved question')
+				
 				essay.question_id(data.id);
-				essay.done_loading();
+				essay.manifestation.find('.edit.question-section .form').dimmer('show');
+
+				setTimeout(function(){
+					essay.done_loading();
+					essay.summary();
+				}, 1500);
+				
+				
 			} else {
 				console.log('server did not save the question!!!', data.message)
 			}
@@ -606,15 +607,11 @@ document.addEventListener("DOMContentLoaded", function() {
 			/* this fires before always */
 			console.log('failure to save question!')
 		};
-		var ajax_submit_always = function(data, success, jqxhr) {
-			/* but this always fires =() */
-			console.log('handler to be called no matter what when we submit <- just got called');
-		};
+		var ajax_submit_always = function(data, success, jqxhr) {};
 
 		var ajax_delete_complete = function(data, success, jqxhr) {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
-				console.log('successfully deleted!');
 				essay.done_loading();
 				essay.manifestation.remove();
 			} else {
@@ -625,12 +622,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			/* this fires before always */
 			console.log('failure to delete a question!', arguments);
 		};
-		var ajax_delete_always = function(data, success, jqxhr) {
-			/* but this always fires =() */
-			console.log('handler to be called no matter what when we delete <- just got called');
-		};
+		var ajax_delete_always = function(data, success, jqxhr) {};
 
 		essay.submit = function(submit_custom_cb) {
+			if(!essay.validate())
+				return false;
+
 			essay.loading();
 			submit_question_data(essay._data, submit_custom_cb,
 								 ajax_submit_complete,
@@ -670,9 +667,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		essay.init();
-		/* last thing we do in construction is show ourselves */
 		essay.manifestation.show();
-		/* default mode is edit */
 		essay.edit();
 	}
 	/*---------------- end essay -------------*/
@@ -1184,7 +1179,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		.always(always_callback)    
 	}
 
-	/* TODO: PAT WIRE TO ADD_QUESTION BUTTON */
 	function add_question(type) {
 		var question = null;
 		switch(type){
@@ -1210,7 +1204,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 	$('.ui.button#addNewQuestionType').dropdown('set selected', 'multichoice');
-	
+
 	window.questions = [];
 	for (var i in questions_present_at_pageload) {
 		var question_data = questions_present_at_pageload[i];
