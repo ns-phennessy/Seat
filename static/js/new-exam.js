@@ -9,29 +9,20 @@ function submitNewExam() {
     data: data,
     success: newExamSuccess,
     error: function(res) {
-      newExamFailure({
-        message: 'An error occurred while creating the new exam. Please try again.'
-      });
+      $('#newExamModal.ui.modal').modal('hide');
+      showErrorMessage('An error occurred while creating the new exam. Please try again.');
     }
   });
 }
 
 function newExamSuccess(res) {
+  $('#newExamModal.ui.modal').modal('hide');
+
   if (res.success) {
     location = res.edit_url
   } else {
-    newExamFailure(res);
+    showErrorMessage(res.message);
   }
-}
-
-function newExamFailure(res) {
-  $('#newExamModal.ui.modal').modal('hide');
-
-  noty({
-    text: res.message,
-    type: 'error',
-    theme: 'relax'
-  });
 }
 
 $('#newExamModal .ui.save.button').click(function(e) {
