@@ -1,5 +1,4 @@
 import logging
-from seat.models.teacher import Teacher
 from seat.models.course import Course
 
 logger = logging.getLogger(__name__)

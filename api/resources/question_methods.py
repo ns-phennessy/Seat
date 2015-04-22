@@ -1,4 +1,3 @@
-from seat.applications.TeacherApplication import TeacherApplication
 from seat.applications.QuestionApplication import QuestionApplication
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
@@ -26,7 +25,6 @@ def upsert_question_failure_json_model(message):
 
 def upsert_question_logic(teacher, request):
     try:
-        #TODO test that teacher owns logic
         question = json.loads(request.POST.get('question'))
         exam_id = request.POST['exam_id']
         modified_question, message = questionApplication.upsert_question(teacher, exam_id, question)
@@ -62,7 +60,6 @@ def delete_question_failure_json_model(message):
 
 def delete_question_logic(teacher, request):
     try:
-        #TODO: test that teacher owns resource
         question_id = request.DELETE['question_id']
         success, message = questionApplication.delete_question(teacher, question_id)
         if not success:
@@ -82,10 +79,11 @@ def delete_question(request):
         )
 
 # GET
-def get_question_success_json_model():
+def get_question_success_json_model(question):
     return JsonResponse({
         'success': True,
-        'error': False
+        'error': False,
+        'question' : json.dumps(question.prep_for_serialization())
     })
 
 def get_question_failure_json_model(message):

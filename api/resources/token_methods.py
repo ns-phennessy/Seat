@@ -1,8 +1,8 @@
-from seat.applications.TeacherApplication import TeacherApplication
 from seat.applications.QuestionApplication import QuestionApplication
+from seat.applications.TeacherApplication import TeacherApplication
 from django.http import JsonResponse
+from seat.models.token import Token
 from api.helpers import endpoint_checks
-import json
 import logging
 
 logger = logging.getLogger('api')
@@ -14,7 +14,7 @@ def create_token_success_json_model(token_id):
     return JsonResponse({
         'success': True,
         'error': False,
-        'id': str(token_id)#TODO: serialized token
+        'id': str(token_id)
     })
 
 def create_token_failure_json_model(message):
@@ -24,13 +24,24 @@ def create_token_failure_json_model(message):
         'message' : str(message)
     })
 
-def create_token_logic(teacher, request):
+def create_token_logic(teacher_query, request):
     try:
-        #TODO test that teacher owns logic
-        raise Exception("UNSUPPORTED!!")
+        # check that teacher has rights to this exam
+        if not endpoint_checks.id_is_valid(request.get('exam_id')):
+            return create_token_failure_json_model("invalid id")
+
+        exam_query = Exam.objects.filter(teacher=teacher_query, id=request.get('exam_id'))
+        
+        # create token
+        if exam_query.exists():
+            token = Token.objects.create(exam=exam_query.all()[0])
+            return create_token_success_json_model(token.id)
+        
+        # or fail
+        return create_token_failure_json_model("exam does not exist")
     except Exception, error:
         logger.warn("problem creating token! :"+str(error))
-        return create_token_failure_json_model('failed to create the token, sorry. This is probably a db error.')
+        return create_token_failure_json_model('failed to create the token')
 
 def create_token(request):
     return endpoint_checks.standard_teacher_endpoint(
@@ -55,18 +66,55 @@ def update_token_failure_json_model(message):
         'message' : str(message)
     })
 
-def update_token_logic(teacher, request):
+def update_token_logic(teacher_query, request):
     try:
-        #TODO: test that teacher owns resource
-        raise Exception("UNSUPPORTED")
+        # validate the actual request
+        token_json = json.dumps(request.get('token'))
+
+        if 'open' not in token_json:
+            return update_token_failure_json_model('need an open status')
+
+        if 'released' not in token_json:
+            return update_token_failure_json_model('need a released status')
+
+        token_is_open = token_json.get('open')
+        token_is_released = token_json.get('released')
+        token_id = token_json.get('token_id')
+
+        if not endpoint_checks.id_is_valid(token_id):
+            return update_token_failure_json_model('token is not valid')
+
+        if token_is_open is not True or False:
+            return update_token_failure_json_model('open status must be true or false')
+
+        if token_is_released is not True or False:
+            return update_token_failure_json_model('released status must be true or false')
+
+
+
+        # is the teacher authorized? get the token if so
+        token_query = Token.objects.filter(exam__course__teacher=teacher_query, id=request.session.get('token_id'))
+        
+        # has it been found?
+        if not token_query.exists():
+            return update_token_failure_json_model('token not found')
+
+        token = token_query.all()[0]
+
+        token.open = token_is_open
+        token.released = token_is_released
+
+        token.save()
+        return update_token_success_json_model()
+            
     except Exception, error:
         logger.warn("problem updating token! :"+str(error))
-        return update_token_failure_json_model('failed to update the token, sorry. This is probably a db error.')
+        return update_token_failure_json_model('failed to update the token')
 
 def update_token(request):
     return endpoint_checks.standard_teacher_endpoint(
         "update_token",
-        ['token_id'],
+        ['token'],
         'POST',
         request,
         update_token_logic
@@ -86,13 +134,24 @@ def delete_token_failure_json_model(message):
         'message' : str(message)
     })
 
-def delete_token_logic(teacher, request):
+def delete_token_logic(teacher_query, request):
     try:
-        #TODO: test that teacher owns resource
-        raise Exception("UNSUPPORTED")
-    except Exception, error:
+        token_id = request.session('token_id')
+        if endpoint_checks.id_is_valid(token_id):
+            return delete_token_failure_json_model('invalid id')
+
+        token_query = Token.objects.filter(exam__course__teacher=teacher_query, id=token_id)
+        
+        if not token_query.exists():
+            return delete_token_failure_json_model('token does not exist')
+
+        token_query.update(deleted=True)
+    
+        return delete_token_success_json_model()
+
+    except Exception as error:
         logger.warn("problem deleting token! :"+str(error))
-        return delete_token_failure_json_model('failed to delete the token, sorry. This is probably a db error.')
+        return delete_token_failure_json_model('failed to delete the token')
 
 def delete_token(request):
     return endpoint_checks.standard_teacher_endpoint(
@@ -124,7 +183,7 @@ def get_token_logic(teacher, request):
         raise Exception("UNSUPPORTED")
     except Exception, error:
         logger.warn("problem getting token! :"+str(error))
-        return get_token_failure_json_model('failed to get the token, sorry. This is probably a db error.')
+        return get_token_failure_json_model('failed to get the token')
 
 def get_token(request):
     return endpoint_checks.standard_teacher_endpoint(

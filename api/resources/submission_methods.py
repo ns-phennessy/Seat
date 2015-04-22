@@ -1,4 +1,3 @@
-from seat.applications.TeacherApplication import TeacherApplication
 from seat.applications.QuestionApplication import QuestionApplication
 from seat.applications.TokenApplication import TokenApplication
 from seat.models.taken_exam import TakenExam, Submission
@@ -27,9 +26,9 @@ def submission_logic(student, request):
         if not token:
             return HttpResponseNotAllowed("invalid token")
 
-        #TODO: refactor, profile
         submission_json = json.loads(request.POST['submission'])
-        #it is important that all of these properties are satisfied
+
+        # it is important that all of these properties are satisfied
         taken_exam,new_taken = TakenExam.objects.get_or_create(exam=token.exam, student=student, completed=False, token=token, score=0)
         
         if new_taken:

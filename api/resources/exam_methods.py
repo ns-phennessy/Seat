@@ -1,7 +1,6 @@
 from seat.applications.TeacherApplication import TeacherApplication
 from seat.applications.CourseApplication import CourseApplication
 from seat.applications.ExamApplication import ExamApplication
-from seat.models.course import Course
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
 from django.core.urlresolvers import reverse
@@ -29,10 +28,10 @@ def create_exam_failure_json_model(message):
         'message' : str(message)
     })
 
-def create_exam_logic(teacher, request):
+def create_exam_logic(teacher_query, request):
     try:
         course_id = request.POST['course_id']
-        [new_exam, msg] = courseApplication.create_exam(teacher, course_id, request.POST['name'])
+        [new_exam, msg] = courseApplication.create_exam(teacher_query, course_id, request.POST['name'])
         return create_exam_success_json_model(new_exam.id)
     except Exception, error:
         logger.warn("problem creating exam! :"+str(error))
