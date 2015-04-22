@@ -440,10 +440,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		const action_map = {
-			'.questionSubmit'       :   'submit',
-			'.questionDelete'       :   'delete',
-			'.questionEdit'         :   'edit',
-			'.questionSummary'      :   'summary',
+			'.questionSubmit' 		: 	'submit',
+			'.questionDelete' 		: 	'delete',
+			'.questionEdit' 		: 	'edit',
+			'.questionSummary'		:	'summary',
 		}
 
 		function wire_for_selector(selector) {
@@ -524,7 +524,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			var children = essay.manifestation.find('[data-x="'+property+'"]');
 			children.on('change', function(e) {
 				const val = $(this).val();
-				multichoice[property](val);
+				essay[property](val);
 			});
 		}
 
@@ -550,6 +550,47 @@ document.addEventListener("DOMContentLoaded", function() {
 			console.log('done loading')
 			/* TODO: pat, undo your magic with spinners */
 		};
+
+		essay.validate = function() {
+			return essay.manifestation.find('.ui.form').form('validate form');
+		};
+
+		essay.init = function(){
+			essay.manifestation.find('.ui.checkbox').checkbox();
+			essay.manifestation.find('.ui.radio').checkbox();
+
+			essay.manifestation.find('[data-content]').popup({
+				position:'top center',
+				variation:'inverted',
+				transition:'drop',
+				exclusive:'true',
+				closeable:'true',
+				delay:{
+					show:500
+				}
+			});
+
+			essay.manifestation.find('.ui.form').form({
+				prompt:{
+					identifier:'prompt',
+					rules:[
+						{type:'empty', prompt:'Please enter a question.'}
+					]
+				},
+				points:{
+					identifier:'points',
+					rules:[
+						{type:'empty', prompt:'Please enter a value.'},
+						{type:'integer', prompt:'Please enter number.'}
+					]
+				}
+			},{
+				inline:true, 
+				on:'blur',
+				keyboardShortcuts: true
+			});
+
+		}
 
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
@@ -628,6 +669,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			essay.manifestation.find('.summary.question-section').show();
 		}
 
+		essay.init();
 		/* last thing we do in construction is show ourselves */
 		essay.manifestation.show();
 		/* default mode is edit */
@@ -1193,6 +1235,4 @@ document.addEventListener("DOMContentLoaded", function() {
 		questions.push(question)
 	}
 
-	var a = new MultiQuestion();
-	window.a = a;
 });
