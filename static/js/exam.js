@@ -41,6 +41,8 @@ document.addEventListener("DOMContentLoaded", function() {
             'answers' 		: []
         }
 
+        this._old_data = JSON.parse(JSON.stringify(my_data));// hacky, but hey!
+
         /* selector : action so we can later do multichoice[action]() */
         const action_map = {
             '.questionSubmit' 		: 	'submit',
@@ -155,26 +157,30 @@ document.addEventListener("DOMContentLoaded", function() {
             return index;
         }
 
+        const delete_option = function(multichoice_option) {
+            var index = get_multichoice_option_index_in_options(multichoice_option);
+            multichoice._data['options'].splice(index,1);
+            console.log('index', 'array post slice', index, multichoice._data['options'])
+            var answer_element = multichoice_option.find('[data-x="answer"]');
+            if (answer_element.is(':checked')) {
+                var answer_index = multichoice._data['answers'].indexOf(answer_element.val().trim());
+                if (answer_index >= 0 && answer_index !== false) {
+                    multichoice._data['answers'].splice(answer_index,1);
+                }
+            }
+            console.log(multichoice._data, 'removed one');
+
+            multichoice_option.remove();
+
+            /* update count */
+            multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count());
+            multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count());
+        }
+
         const wireup_delete_for_option = function(multichoice_option) {
             /* wirup delete for this guy */
             multichoice_option.find('.delete-option').on('click', function() {
-                var index = get_multichoice_option_index_in_options(multichoice_option);
-                 multichoice._data['options'].splice(index,1);
-                console.log('index', 'array post slice', index, multichoice._data['options'])
-                var answer_element = multichoice_option.find('[data-x="answer"]');
-                if (answer_element.is(':checked')) {
-                    var answer_index = multichoice._data['answers'].indexOf(answer_element.val().trim());
-                    if (answer_index >= 0 && answer_index !== false) {
-                        multichoice._data['answers'].splice(answer_index,1);
-                    }
-                }
-                console.log(multichoice._data, 'removed one');
-
-                multichoice_option.remove();
-
-                /* update count */
-                multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count());
-                multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count());
+                delete_option(multichoice_option);
             })
         }
 
@@ -236,6 +242,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         }
 
+        multichoice.reset = function(data) {
+            multichoice.populate(this._old_data);
+        }
+
         multichoice.populate = function(data) {
             for (var property in multichoice._data) {
                 if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -245,7 +255,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     multichoice[property](data[property])
                 }
             }
-            console.log(data,"MULTICHOICE")
+            multichoice.manifestation.find('.multichoice-edit-option').each(function(i,v) {
+                delete_option($(v));
+            })
             /* the for loop only handles scalars, here we do the specifics */
             if (data['options']) {
                 var has_answers = false;
@@ -267,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log(multichoice._data['options'])
                 }
             }
+            this._old_data = JSON.parse(JSON.stringify(my_data));
         }
 
         multichoice.loading = function() {
@@ -311,6 +324,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log('successfully saved question')
                 multichoice.question_id(data.id);
                 multichoice.done_loading();
+                multichoice._old_data = JSON.parse(JSON.stringify(my_data));
             } else {
                 console.log('server did not save the question!!!', data.message)
             }
@@ -408,6 +422,8 @@ document.addEventListener("DOMContentLoaded", function() {
             'number' : ''
         }
 
+        essay._old_data = JSON.parse(JSON.stringify(essay._data));
+
         const action_map = {
             '.questionSubmit'       :   'submit',
             '.questionDelete'       :   'delete',
@@ -496,7 +512,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 multichoice[property](val);
             });
         }
-
+        essay.reset = function() {
+            essay.populate(essay._old_data);
+        }
         essay.populate = function(data) {
             for (var property in essay._data) {
                 if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -508,6 +526,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log('incorrect value type encountered in population of essay:',property,data[property]);
                 }
             }
+            essay._old_data = JSON.parse(JSON.stringify(essay._data));
         }
 
         essay.loading = function() {
@@ -526,6 +545,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log('successfully saved question')
                 essay.question_id(data.id);
                 essay.done_loading();
+                essay._old_data = JSON.parse(JSON.stringify(essay._data));
             } else {
                 console.log('server did not save the question!!!', data.message)
             }
@@ -618,6 +638,7 @@ document.addEventListener("DOMContentLoaded", function() {
             'points' : '',
             'number' : ''
         }
+        shortanswer._old_data = JSON.parse(JSON.stringify(shortanswer._data));
 
         const my_derived_sections = {
             'prompt' : ['prompt-substr']
@@ -708,6 +729,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 multichoice[property](val);
             });
         }
+        shortanswer.reset = function() {
+            shortanswer.populate(shortanswer._old_data);
+        }
         shortanswer.populate = function(data) {
             for (var property in shortanswer._data) {
                 if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -719,6 +743,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log('incorrect type encountered in population of shortanswer:',property,data[property]);
                 }
             }
+            shortanswer._old_data = JSON.parse(JSON.stringify(shortanswer._data));
         }
 
         shortanswer.loading = function() {
@@ -737,6 +762,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log('successfully saved question')
                 shortanswer.question_id(data.id);
                 shortanswer.done_loading();
+                shortanswer._old_data = JSON.parse(JSON.stringify(shortanswer._data));
             } else {
                 console.log('server did not save the question!!!', data.message)
             }
@@ -828,6 +854,7 @@ document.addEventListener("DOMContentLoaded", function() {
             'options' : ['true', 'false'],
             'answers' : ['false']
             }
+        truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
 
         const my_derived_sections = {
             'prompt' : ['prompt-substr']
@@ -920,7 +947,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 truefalse[property](val);
             });
         }
-
+        truefalse.reset = function() {
+            truefalse.populate(truefalse._old_data)
+        }
         truefalse.populate = function(data) {
             for (var property in truefalse._data) {
                 if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -940,6 +969,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             truefalse.manifestation.find('[data-x="answer"]').prop('checked', answer_is_true);
             truefalse._data['answers'] = [ ''+answer_is_true ];
+            truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
         };
 
         truefalse.manifestation.find('[data-x="answer"]').on('change', function() {
@@ -966,6 +996,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log('successfully saved question')
                 truefalse.question_id(data.id);
                 truefalse.done_loading();
+                truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
             } else {
                 console.log('server did not save the question!!!', data.message)
             }
