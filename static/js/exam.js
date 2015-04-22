@@ -1205,12 +1205,12 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	$('.ui.button#addNewQuestion').on('click', function(){
-
 		var type = $('.ui.button#addNewQuestionType').dropdown('get value');		
 		add_question(type);
 	});
 
-
+	$('.ui.button#addNewQuestionType').dropdown('set selected', 'multichoice');
+	
 	window.questions = [];
 	for (var i in questions_present_at_pageload) {
 		var question_data = questions_present_at_pageload[i];
