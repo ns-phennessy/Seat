@@ -10,6 +10,7 @@ casper.test.begin("Teacher can login", 3, function suite(test) {
   	this.click('button')
   })
   casper.then(function() {
+  	console.log('current location:',this.getCurrentUrl())
 	test.assert(this.getCurrentUrl() === 'http://test.patcave.com/dashboard/courses/')
 	console.log('on dashboard')
   })
