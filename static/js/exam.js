@@ -47,6 +47,9 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionSummary'		:	'summary',
 		}
 
+		this._old_data = JSON.parse(JSON.stringify(my_data));// hacky, but hey!
+
+
 		function wire_for_selector(selector) {
 			return function(e) {
 				multichoice[action_map[selector]]();
@@ -152,26 +155,27 @@ document.addEventListener("DOMContentLoaded", function() {
 			return index;
 		}
 
+		const delete_option = function(multichoice_option) {
+			var index = get_multichoice_option_index_in_options(multichoice_option);
+			multichoice._data['options'].splice(index,1);
+			console.log('index', 'array post slice', index, multichoice._data['options'])
+			var answer_element = multichoice_option.find('[data-x="answer"]');
+			if (answer_element.is(':checked')) {
+				var answer_index = multichoice._data['answers'].indexOf(answer_element.val().trim());
+				if (answer_index >= 0 && answer_index !== false) {
+					multichoice._data['answers'].splice(answer_index,1);
+				}
+			}
+
+			multichoice_option.remove();
+			multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count());
+			multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count());
+		}
+
 		const wireup_delete_for_option = function(multichoice_option) {
 			/* wirup delete for this guy */
 			multichoice_option.find('.delete-option').on('click', function() {
-				var index = get_multichoice_option_index_in_options(multichoice_option);
-				multichoice._data['options'].splice(index,1);
-				console.log('index', 'array post slice', index, multichoice._data['options'])
-				var answer_element = multichoice_option.find('[data-x="answer"]');
-				if (answer_element.is(':checked')) {
-					var answer_index = multichoice._data['answers'].indexOf(answer_element.val().trim());
-					if (answer_index >= 0 && answer_index !== false) {
-						multichoice._data['answers'].splice(answer_index,1);
-					}
-				}
-				console.log(multichoice._data, 'removed one');
-
-				multichoice_option.remove();
-
-				/* update count */
-				multichoice.manifestation.find('[data-x="option-count"]').text(multichoice.option_count());
-				multichoice.manifestation.find('[data-x="option-count"]').val(multichoice.option_count());
+				delete_option(multichoice_option);
 			})
 		}
 
@@ -235,6 +239,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		}
 
+		multichoice.reset = function(data) {
+			multichoice.populate(this._old_data);
+		}
+
 		multichoice.populate = function(data) {
 			for (var property in multichoice._data) {
 				if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -244,7 +252,11 @@ document.addEventListener("DOMContentLoaded", function() {
 					multichoice[property](data[property])
 				}
 			}
-			console.log(data,"MULTICHOICE")
+
+			multichoice.manifestation.find('.multichoice-edit-option').each(function(i,v) {
+				delete_option($(v));
+			})
+
 			/* the for loop only handles scalars, here we do the specifics */
 			if (data['options']) {
 				var has_answers = false;
@@ -266,6 +278,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					console.log(multichoice._data['options'])
 				}
 			}
+			this._old_data = JSON.parse(JSON.stringify(my_data));
 		}
 
 		multichoice.loading = function() {
@@ -324,11 +337,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		}
 
-
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
 				multichoice.question_id(data.id);
+				multichoice._old_data = JSON.parse(JSON.stringify(my_data));
 
 				multichoice.manifestation.find('.edit.question-section .form').dimmer('show');
 
@@ -443,6 +456,9 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionSummary'		:	'summary',
 		}
 
+		this._old_data = JSON.parse(JSON.stringify(my_data));
+
+
 		function wire_for_selector(selector) {
 			return function(e) {
 				essay[action_map[selector]]();
@@ -525,6 +541,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 		}
 
+		essay.reset = function() {
+			essay.populate(essay._old_data);
+		}
+
 		essay.populate = function(data) {
 			for (var property in essay._data) {
 				if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -536,6 +556,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					console.log('incorrect value type encountered in population of essay:',property,data[property]);
 				}
 			}
+			essay._old_data = JSON.parse(JSON.stringify(essay._data));
 		}
 
 		essay.loading = function() {
@@ -590,6 +611,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (success === "success" && data.success === true) {
 
 				essay.question_id(data.id);
+				essay._old_data = JSON.parse(JSON.stringify(essay._data));
 				essay.manifestation.find('.edit.question-section .form').dimmer('show');
 
 				setTimeout(function(){
@@ -697,6 +719,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionSummary'		:	'summary',
 		}
 
+		shortanswer._old_data = JSON.parse(JSON.stringify(shortanswer._data));
+
 		function wire_for_selector(selector) {
 			return function(e) {
 				shortanswer[action_map[selector]]();
@@ -775,6 +799,11 @@ document.addEventListener("DOMContentLoaded", function() {
 				shortanswer[property](val);
 			});
 		}
+
+		shortanswer.reset = function() {
+			shortanswer.populate(shortanswer._old_data);
+		}
+
 		shortanswer.populate = function(data) {
 			for (var property in shortanswer._data) {
 				if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -786,6 +815,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					console.log('incorrect type encountered in population of shortanswer:',property,data[property]);
 				}
 			}
+			shortanswer._old_data = JSON.parse(JSON.stringify(shortanswer._data));
 		}
 
 		shortanswer.loading = function() {
@@ -839,6 +869,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {				
 				shortanswer.question_id(data.id);
+				shortanswer._old_data = JSON.parse(JSON.stringify(shortanswer._data));
 				shortanswer.manifestation.find('.edit.question-section .form').dimmer('show');
 
 				setTimeout(function(){
@@ -953,6 +984,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			'.questionSetFalse'     :   'uncheck',
 		}
 
+		truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
+
 		function wire_for_selector(selector) {
 			return function(e) {
 				truefalse[action_map[selector]]();
@@ -1034,6 +1067,10 @@ document.addEventListener("DOMContentLoaded", function() {
 			});
 		}
 
+		truefalse.reset = function() {
+			truefalse.populate(truefalse._old_data)
+		}
+
 		truefalse.populate = function(data) {
 			for (var property in truefalse._data) {
 				if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
@@ -1053,6 +1090,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				}
 			truefalse.manifestation.find('[data-x="answer"]').prop('checked', answer_is_true);
 			truefalse._data['answers'] = [ ''+answer_is_true ];
+			truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
 		};
 
 		truefalse.manifestation.find('[data-x="answer"]').on('change', function() {
@@ -1122,6 +1160,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (success === "success" && data.success === true) {
 
 				truefalse.question_id(data.id);
+				truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
 				truefalse.manifestation.find('.edit.question-section .form').dimmer('show');
 
 				setTimeout(function(){
