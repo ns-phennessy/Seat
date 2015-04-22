@@ -13,7 +13,7 @@ function submitRenameCourse() {
       xhr.setRequestHeader('X-METHODOVERRIDE', 'PUT');
     },
     success: renameCourseSuccess,
-    error: function(res) {
+    error: function() {
       $('#renameCourseModal.ui.modal').modal('hide');
       showErrorMessage('An error occurred while renaming the course. Please try again.');
     }
