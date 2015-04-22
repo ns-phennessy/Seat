@@ -291,6 +291,8 @@ document.addEventListener("DOMContentLoaded", function() {
 				position:'top center',
 				variation:'inverted',
 				transition:'drop',
+				exclusive:'true',
+				closeable:'true',
 				delay:{
 					show:500
 				}
@@ -1159,13 +1161,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		return question;
 	}
-	
+
 	$('.ui.button#addNewQuestion').on('click', function(){
-		
+
 		add_question('multichoice');
-		
+
 	});
-	
+
 
 	window.questions = [];
 	for (var i in questions_present_at_pageload) {
