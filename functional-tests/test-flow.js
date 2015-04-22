@@ -1,5 +1,5 @@
 casper.test.begin("Teacher can login", 3, function suite(test) {
-  casper.start('http://127.0.0.1:8000/',function() {
+  casper.start('http://127.0.0.1:80/',function() {
   	test.assertExists('.ui', 'login page loaded');
   	this.fill('form',{
   		'username' : 'cseat',
@@ -10,7 +10,7 @@ casper.test.begin("Teacher can login", 3, function suite(test) {
   	this.click('button')
   })
   casper.then(function() {
-	test.assert(this.getCurrentUrl() === 'http://127.0.0.1:8000/dashboard/courses/')
+	test.assert(this.getCurrentUrl() === 'http://127.0.0.1:80/dashboard/courses/')
 	console.log('on dashboard')
   })
   casper.then(function() {
