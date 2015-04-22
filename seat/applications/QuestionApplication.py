@@ -16,12 +16,14 @@ class QuestionApplication(object):
         return self.create_choice(text)
 
     def delete_question(self, teacher, question_id):
+       
         questions = Question.objects.filter(id=question_id, exam__course__teacher=teacher)
+       
         if not questions.exists():
             return [False, "question did not exist!"]
-        else:
-            questions.delete()
-            return [True, "success"]
+        
+        questions.delete()
+        return [True, "success"]
 
     def upsert_question(self, teacher, exam_id, question_json):
         question = {} # init question variable
