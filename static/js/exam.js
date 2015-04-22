@@ -589,7 +589,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
 				console.log('successfully saved question')
-				
+
 				essay.question_id(data.id);
 				essay.manifestation.find('.edit.question-section .form').dimmer('show');
 
@@ -597,8 +597,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					essay.done_loading();
 					essay.summary();
 				}, 1500);
-				
-				
+
+
 			} else {
 				console.log('server did not save the question!!!', data.message)
 			}
@@ -692,10 +692,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		const action_map = {
-			'.questionSubmit'       :   'submit',
-			'.questionDelete'       :   'delete',
-			'.questionEdit'         :   'edit',
-			'.questionSummary'      :   'summary',
+			'.questionSubmit' 		: 	'submit',
+			'.questionDelete' 		: 	'delete',
+			'.questionEdit' 		: 	'edit',
+			'.questionSummary'		:	'summary',
 		}
 
 		function wire_for_selector(selector) {
@@ -773,7 +773,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			var children = shortanswer.manifestation.find('[data-x="'+property+'"]');
 			children.on('change', function(e) {
 				const val = $(this).val();
-				multichoice[property](val);
+				shortanswer[property](val);
 			});
 		}
 		shortanswer.populate = function(data) {
@@ -790,21 +790,64 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		shortanswer.loading = function() {
-			console.log('loading');
-			/* TODO: pat, do your magic with spinners */
+			shortanswer.manifestation.find('.edit.question-section .form').addClass('loading');
 		}
 
 		shortanswer.done_loading = function() {
-			console.log('done loading')
-			/* TODO: pat, undo your magic with spinners */
+			shortanswer.manifestation.find('.edit.question-section .form').removeClass('loading');
+			shortanswer.manifestation.find('.edit.question-section .form').dimmer('hide');
 		};
+
+		shortanswer.validate = function() {
+			return shortanswer.manifestation.find('.ui.form').form('validate form');
+		};
+
+		shortanswer.init = function(){
+			shortanswer.manifestation.find('[data-content]').popup({
+				position:'top center',
+				variation:'inverted',
+				transition:'drop',
+				exclusive:'true',
+				closeable:'true',
+				delay:{
+					show:500
+				}
+			});
+
+			shortanswer.manifestation.find('.ui.form').form({
+				prompt:{
+					identifier:'prompt',
+					rules:[
+						{type:'empty', prompt:'Please enter a question.'}
+					]
+				},
+				points:{
+					identifier:'points',
+					rules:[
+						{type:'empty', prompt:'Please enter a value.'},
+						{type:'integer', prompt:'Please enter number.'}
+					]
+				}
+			},{
+				inline:true, 
+				on:'blur',
+				keyboardShortcuts: true
+			});
+
+		}
 
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
-			if (success === "success" && data.success === true) {
-				console.log('successfully saved question')
+			if (success === "success" && data.success === true) {				
 				shortanswer.question_id(data.id);
-				shortanswer.done_loading();
+				shortanswer.manifestation.find('.edit.question-section .form').dimmer('show');
+
+				setTimeout(function(){
+					shortanswer.done_loading();
+					shortanswer.summary();
+				}, 1500);
+
+			
 			} else {
 				console.log('server did not save the question!!!', data.message)
 			}
@@ -821,7 +864,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		var ajax_delete_complete = function(data, success, jqxhr) {
 			/* this fires before always */
 			if (success === "success" && data.success === true) {
-				console.log('successfully deleted!');
 				shortanswer.done_loading();
 				shortanswer.manifestation.remove();
 			} else {
@@ -838,6 +880,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		shortanswer.submit = function(submit_custom_cb) {
+			if(!shortanswer.validate())
+				return false;
+
 			shortanswer.loading();
 			submit_question_data(shortanswer._data, submit_custom_cb,
 								 ajax_submit_complete,
@@ -876,9 +921,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			shortanswer.manifestation.find('.summary.question-section').show();
 		}
 
-		/* last thing we do in construction is show ourselves */
+		shortanswer.init();
 		shortanswer.manifestation.show();
-		/* default mode is edit */
 		shortanswer.edit();
 	}
 	/*---------------- end short answer -------------*/ 
