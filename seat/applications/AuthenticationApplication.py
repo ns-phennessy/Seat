@@ -75,7 +75,7 @@ class AuthenticationApplication(object):
             if distinguishedName:
                 is_student = True
             else:
-                raise AuthenticationError("User not found")
+                raise Exception("User not found")
 
         try:
             result = self.verify_user_credentials_or_throw(distinguishedName, password, conn)
