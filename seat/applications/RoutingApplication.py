@@ -1,4 +1,11 @@
 from django.shortcuts import render, redirect
+import datetime
+from django.conf import settings
+
+def set_cookie(response, key, value):
+        max_age = 60*10 # seconds
+        expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+        response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE or None)
 
 class RoutingApplication(object):
     """object for abstracting out all those hardcoded urls"""
@@ -6,8 +13,14 @@ class RoutingApplication(object):
     def error(self, request, error):
         return render(request, 'dashboard/error.html',{ 'code':500, 'error' : error })
 
-    def invalid_permissions(self, request, msg="proper authentication required"):
+    def invalid_permissions(self, request, msg="Proper authentication required"):
         return render(request, 'dashboard/error.html',{ 'code':401, 'error' : msg })
+
+    def pass_to_login(self, request, msg="Please login first!"):
+        request.session['msg'] = msg
+        response = redirect('/login/')
+        set_cookie(response, 'pass_through', request.build_absolute_uri())
+        return response
 
     def invalid_request(self, request, msg="invalid request"):
         return render(request,'dashboard/error.html',{ 'code':406, 'error' : msg })
