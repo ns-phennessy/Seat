@@ -34,7 +34,7 @@ class AuthenticationApplication(object):
                 ldapfilter, # something like cn=username
                 attributes) # what we want to get back
         except ldap.NO_SUCH_OBJECT as e:
-            logger.debug("search root invalid, this is a configuration problem:"+group)
+            logger.debug("search root invalid, this is a configuration problem:"+group, e)
             raise AssertionError("search root invalid, this is a configuration problem")
         else: 
             if not result_user_list:
@@ -78,9 +78,10 @@ class AuthenticationApplication(object):
                 raise Exception("User not found")
 
         try:
-            result = self.verify_user_credentials_or_throw(distinguishedName, password, conn)
+            self.verify_user_credentials_or_throw(distinguishedName, password, conn)
             logger.debug("user attributes:"+str(user_attrs))
         except Exception as error:
+            logger.debug(error)
             raise AssertionError("Authentication has failed")  
          
         if not is_student:

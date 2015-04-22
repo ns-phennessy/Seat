@@ -1,7 +1,4 @@
 import logging
-from seat.models.teacher import Teacher
-from seat.models.course import Course
-from seat.models.exam import Exam
 from seat.models.token import Token
 logger = logging.getLogger(__name__)
 

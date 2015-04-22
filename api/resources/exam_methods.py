@@ -1,7 +1,6 @@
 from seat.applications.TeacherApplication import TeacherApplication
 from seat.applications.CourseApplication import CourseApplication
 from seat.applications.ExamApplication import ExamApplication
-from seat.models.course import Course
 from django.http import JsonResponse
 from api.helpers import endpoint_checks
 from django.core.urlresolvers import reverse

@@ -8,13 +8,11 @@ from seat.applications.SessionApplication import SessionApplication
 from seat.applications.RoutingApplication import RoutingApplication
 from seat.applications.CourseApplication import CourseApplication
 from seat.applications.AuthenticationApplication import AuthenticationApplication
-from seat.applications.ExamApplication import ExamApplication
 from seat.applications.TeacherApplication import TeacherApplication
-import seat.applications.CourseApplication
 import dashboard.dashboard_view_models as models
 from seat.models.course import Course
 from seat.models.teacher import Teacher
-from django.http import JsonResponse, Http404
+from django.http import Http404
 import json
 import logging
 

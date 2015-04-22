@@ -1,4 +1,3 @@
-from seat.applications.TeacherApplication import TeacherApplication
 from seat.applications.QuestionApplication import QuestionApplication
 from seat.applications.TokenApplication import TokenApplication
 from seat.models.taken_exam import TakenExam, Submission
