@@ -42,7 +42,6 @@ $(document).ready(function () {
     const basic_data_selectors = {
         /* common to all questions */
         'question_id': 'question_id',
-        'submission_id': 'submission_id',
         'answer_text': 'answer_text'
     }
     /* classes that represent data */
@@ -86,17 +85,15 @@ $(document).ready(function () {
         var question = this;
         question.manifestation = manifestation;
         var bookmarked = false;
-        const id = manifestation.find('[data-x="question_id"]').val();
-        console.log(id)
+        const id = manifestation.find('.question-id').val();
+        console.log('question id',id)
         question.data = {
             'question_id': id,
-            'submission_id': '',
             'choices': []
         }; /* updated data */
 
         question.storage = {
             'question_id': id,
-            'submission_id': '',
             'choices': []
         }; /* last saved data */
 
@@ -104,7 +101,6 @@ $(document).ready(function () {
         function ajax_submit_success() {
             question.manifestation.find('.questionSaved').show()
             console.log('submit success', arguments);
-            // TODO: set submission id question.data['submission_id']
             question.storage = JSON.parse(JSON.stringify(question.data));
         }
         function ajax_submit_failure() {
@@ -129,10 +125,10 @@ $(document).ready(function () {
         question.bookmark = function () {
             if (!bookmarked) {
                 question.manifestation.find('.left.corner').addClass('blue');
-                //question.link.addClass('blue');
+                $('#question-link-'+id).addClass('blue').addClass('bookmarked');
             } else {
                 question.manifestation.find('.left.corner').removeClass('blue');
-                //question.link.removeClass('blue');
+                $('#question-link-' + id).removeClass('blue').removeClass('bookmarked');
             }
             bookmarked = !bookmarked;
         }

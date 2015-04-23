@@ -51,8 +51,9 @@
 					<br>
 					<div class="ui small labels" data-content="Jump to a question!" data-variation="basic small inverted" data-position="top center">
 						<div class="ui five column grid">
-                        
-
+                        {% for question in questions %}
+                            <div class="column"> <a id="question-link-{{question.id}}" href="#question-{{question.id}}" class="ui label">{{forloop.counter}}</a> </div>
+                        {% endfor %}
 				        </div>
                     </div>
 			    </div>
