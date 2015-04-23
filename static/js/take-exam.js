@@ -39,6 +39,7 @@ $(document).ready(function() {
 	const basic_data_selectors = {
 		/* common to all questions */
 		'question_id' : 'question_id',
+		'submission_id' : 'submission_id',
 		'answer_text' : 'answer_text'
 	}
 	/* classes that represent data */
@@ -72,17 +73,21 @@ $(document).ready(function() {
 		var bookmarked = false;
 		question.data = {
 			'question_id' : '',
+			'submission_id' : '',
 			'choices' : []
 		}; /* updated data */
 
 		question.storage = {
 			'question_id' : '',
+			'submission_id' : '',
 			'choices' : []
 		}; /* last saved data */
 		
 
 		function ajax_submit_success() {
 			console.log('submit success', arguments);
+			// TODO: set submission id question.data['submission_id']
+			question.storage = JSON.parse(JSON.stringify(question.data));
 		}
 		function ajax_submit_failure() {
 			console.log('submit failure', arguments);
@@ -92,6 +97,7 @@ $(document).ready(function() {
 		}
 
 		question.submit = function() {
+			ajax_submit(question.data, ajax_submit_success, ajax_submit_failure, ajax_always)
 		}
 
 		/* TODO: pat we may change this,
@@ -116,7 +122,14 @@ $(document).ready(function() {
 				console.log('no storage available for clear!!!!')
 				return;
 			}
-			
+			var text_answer = basic_data_select(question.manifestation, 'answer_text');
+			if (text_answer.length != 0) text_answer.val('');
+			else {
+				var checkables = dynamic_data_select(question.manifestation, 'checkable');
+				checkables.each(function(i,v) {
+					$(v).prop('checked', false);
+				})
+			}
 		}
 
 		/* wireup */
