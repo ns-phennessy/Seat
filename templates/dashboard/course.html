@@ -6,63 +6,57 @@
 {% include "dashboard/modals/renameCourse.html" %}
 
 <div class="twelve wide column" id="main">
-	<h1 class="ui dividing header">
-		<div class="content">
-			{{ course.name }}
-		</div>
-	</h1>
-	<div class="ui tiny button" data-role="renameCourse">Rename</div>
-	<input type="hidden" value="{{course.id}}" id="course-id">
-	<div class="ui tiny right floated red button" id="delete-course">Delete Course</div>
-	<br>
-	<br>
-	<div class="ui doubling two column grid">
-		<div class="column">
-			<div class="ui fluid card">
-				<div class="content">
-					<i class="right floated delete icon" data-content="Delete Exam"></i>
-					<h2 class="ui header">Exam 1</h2>
-					<div class="meta">
-						<span class="date" data-content="Last Modified"><i class="clock icon"></i> April 23, 2015</span>
-					</div>
-					<br>
-					<div class="ui grid">
-						<div class="four wide column">
-							<div class="ui left floated tiny blue statistic">
-								<div class="value">20</div>
-								<div class="label">Questions</div>
-							</div>
 
-						</div>
-						<div class="twelve wide column">
-							<span class="ui bold text">Tokens</span>
-							<table class="ui very compact table" style="border:none; margin-top:0">
-								<tr>
-									<td>b5Xd77</td>
-									<td>View</td>
-									<td><div class="ui mini green label">Open</div></td>
-								</tr>
-								<tr>
-									<td>rD0f69</td>
-									<td>View</td>
-									<td><div class="ui mini green label">Open</div></td>
-								</tr>
-							</table>
+	<div class="ui two cards">
+
+		{% for exam in course.exam_set.all %}	
+
+
+
+
+		<div class="card">
+			<div class="content">
+				<i class="right floated delete icon" data-content="Delete Exam"></i>
+				<h2 class="ui header">{{ exam.name }}</h2>
+				<div class="meta">
+					<span class="date" data-content="Last Modified"><i class="clock icon"></i> {{ exam.updated_at|date:"DATE_FORMAT" }}</span>
+				</div>
+				<br>
+				<div class="ui grid">
+					<div class="four wide column">
+						<div class="ui left floated tiny blue statistic">
+							<div class="value">{{ exam.question_set.all|length }}</div>
+							<div class="label">Questions</div>
 						</div>
 
 					</div>
-
+					<div class="twelve wide column">
+						<span class="ui bold text">Tokens</span>
+						<table class="ui very compact table" style="border:none; margin-top:0">
+							<tr>
+								<td>b5Xd77</td>
+								<td>View</td>
+								<td><div class="ui mini green label">Open</div></td>
+							</tr>
+							<tr>
+								<td>rD0f69</td>
+								<td>View</td>
+								<td><div class="ui mini green label">Open</div></td>
+							</tr>
+						</table>
+					</div>
 
 				</div>
-				<div class="ui bottom attached two buttons">
-					<div class="ui button"><i class="pencil icon"></i> Edit Exam</div>
-					<div class="ui button"><i class="plus icon"></i> New Token</div>
-				</div>
+
+
 			</div>
-
-
+			<div class="ui bottom attached two buttons">
+				<a class="ui basic button" href="{% url 'dashboard.views.exam_edit' exam.id %}"><i class="pencil icon"></i> Edit Exam</a>
+				<div class="ui basic button" data-role="delete" data-id="{{ exam.id }}"><i class="plus icon"></i> New Token</div>
+			</div>
 		</div>
-		<div class="column"></div>
+		{% endfor %}
+
 	</div>
 
 </div>

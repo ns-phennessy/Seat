@@ -29,12 +29,26 @@
 					<a href="/logout/" class="item">Logout</a>
 				</div>
 			</div>
-			<div class="row" style="padding-bottom:1px">
-				<div class="ui bold secondary inverted blue pointing menu" style="background:#1b1c1d;">
-					<a class="active item">Manage Courses</a>
-					<a class="item">Gradebook</a>
-					<a class="item">Open Exams</a>
-				</div>
+		</div>
+
+		<div class="ui very relaxed page two column grid padded segment" style="background-color:#f0f0f0 !important">
+			<div class="row">
+				<h1 class="ui header" style="padding:0.5em">
+					{{ course.name }}
+					<div style="float:right">
+						<div class="ui tiny blue button" data-role="renameCourse">Rename Course</div>
+						<div class="ui tiny red button" id="delete-course">Delete Course</div>
+
+					</div>
+					<div class="ui indented text sub header">
+						<div class="ui mini blue horizontal statistic">
+							<div class="value">2</div>
+							<div class="label">Exams</div>
+						</div>
+					</div>
+				</h1>
+
+
 			</div>
 		</div>
 
@@ -52,7 +66,7 @@
 		<script src="{% static 'js/add-course.js' %}"></script>
 		<script src="{% static 'js/new-exam.js' %}"></script>
 
-		
+
 		{% block javascript %}
 		{% endblock %}
 	</body>
