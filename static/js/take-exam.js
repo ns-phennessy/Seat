@@ -74,7 +74,7 @@ $(document).ready(function () {
                 'submission': JSON.stringify(data)
             },
             headers: {
-                'X-CSRFToken': $.cookie('csrftoken')
+                'X-CSRFToken': $('#csrfmiddlewaretoken').val()
             }
         })
 		.done(success_cb)
