@@ -165,7 +165,7 @@ $(document).ready(function () {
         question.data['question_id'] = question.manifestation.find('[data-x="question_id"]').val();
 
         /* text types of questions */
-        var text_answer = basic_data_select(question.manifestation, 'answer_text');
+        var text_answer = question.manifestation.find('.answer-text');
         /* wire up if exists */
         if (text_answer.length != 0) {
             text_answer.on('change', function () {

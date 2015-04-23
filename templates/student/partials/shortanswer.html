@@ -1,12 +1,15 @@
-<div class="shortanswer question">
+<div class="shortanswer question" id="question-{{question.id}}">
 	<h2 class="ui top attached header">
 		<div class="content">
-			Question 4
-			<div class="right floated">
+			Question {{forloop.counter}}
+        	<div class="right floated questionSaved" hidden>
+				<div class="ui green label"><i class="check icon"></i>Saved</div>
+			</div>
+			<div class="right floated questionNotSaved" hidden>
 				<div class="ui label"><i class="warning icon"></i>Not Saved</div>
 			</div>
 			<div class="sub header">
-				100 Points
+				{{question.points}} Points
 			</div>
 		</div>
 		<a class="ui left corner label" style="margin:0;">
@@ -15,13 +18,14 @@
 	</h2>
 
 	<div class="ui raised bottom attached segment">
-		<div class="ui dividing header">What is love?</div>
+        <input class="question-id" type="hidden" name="question_id" data-x="question_id" value="{{ question.id }}" />
+		<div class="ui dividing header">{{ question.text }}</div>
 		<form class="ui form">
 			<div class="grouped fields">
 				<label>Answer:</label>
 				<div class="field">
 					<div class="ui input">
-						<input type="text">										
+						<input class="answer-text" type="text">										
 					</div>
 				</div>
 			</div>
