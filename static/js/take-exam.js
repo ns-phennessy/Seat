@@ -74,7 +74,7 @@ $(document).ready(function () {
                 'submission': JSON.stringify(data)
             },
             headers: {
-                'X-CSRFToken': $('#csrfmiddlewaretoken').val()
+                'X-CSRFToken': $.cookie('csrftoken')
             }
         })
 		.done(success_cb)
@@ -86,14 +86,16 @@ $(document).ready(function () {
         var question = this;
         question.manifestation = manifestation;
         var bookmarked = false;
+        const id = manifestation.find('[data-x="question_id"]').val();
+        console.log(id)
         question.data = {
-            'question_id': '',
+            'question_id': id,
             'submission_id': '',
             'choices': []
         }; /* updated data */
 
         question.storage = {
-            'question_id': '',
+            'question_id': id,
             'submission_id': '',
             'choices': []
         }; /* last saved data */
@@ -162,7 +164,7 @@ $(document).ready(function () {
         }
 
         /* dynamic data */
-        question.data['question_id'] = basic_data_select(question.manifestation, 'question_id').val();
+        question.data['question_id'] = question.manifestation.find('[data-x="question_id"]').val();
 
         /* text types of questions */
         var text_answer = basic_data_select(question.manifestation, 'answer_text');

@@ -2,7 +2,7 @@ from seat.applications.QuestionApplication import QuestionApplication
 from seat.applications.TokenApplication import TokenApplication
 from seat.models.taken_exam import TakenExam, Submission
 from seat.models.exam import Question, Choice
-from django.http import JsonResponse, HttpResponseServerError, HttpResponseNotAllowed, HttpResponseForbidden
+from django.http import JsonResponse, HttpResponseServerError, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseBadRequest
 from api.helpers import endpoint_checks
 import json
 import logging
@@ -28,6 +28,15 @@ def submission_logic(student_query, request):
             return HttpResponseNotAllowed("invalid token")
 
         submission_json = json.loads(request.POST['submission'])
+
+        if 'choices' not in submission_json:
+            return HttpResponseBadRequest("no choices");
+
+        if 'question_id' not in submission_json:
+            return HttpResponseBadRequest("no question id!")
+
+        if not endpoint_checks.id_is_valid(submission_json.get('question_id')):
+            return HttpResponseBadRequest("bad question_id")
 
         # it is important that all of these properties are satisfied
         taken_exam,new_taken = TakenExam.objects.get_or_create(exam=token.exam, student=student_query.all()[0], completed=False, token=token, score=0)
