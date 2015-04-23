@@ -69,7 +69,7 @@ functor):
         user_id = request.session.get('user_id')
 
         # verify the user id is regular
-        if id_is_valid(user_id):
+        if not id_is_valid(user_id):
             logger.debug("invalid id in request to"+endpoint_name)
             return HttpResponseBadRequest("Invalid ID")
             

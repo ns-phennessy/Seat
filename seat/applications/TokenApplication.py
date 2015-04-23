@@ -16,7 +16,7 @@ class TokenApplication(object):
     def is_valid(self, token):
         try:
             token_set = Token.objects.filter(token=token, open=True)
-            if token_set.exists():
+            if not token_set.exists():
                 return False
             else:
                 return token_set.all()[0]

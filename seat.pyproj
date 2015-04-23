@@ -135,8 +135,11 @@
     <Folder Include="templates\dashboard\" />
     <Folder Include="templates\dashboard\common\" />
     <Folder Include="templates\dashboard\modals\" />
+    <Folder Include="templates\dashboard\partials\" />
     <Folder Include="templates\login\" />
     <Folder Include="templates\student\" />
+    <Folder Include="templates\student\common\" />
+    <Folder Include="templates\student\partials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
@@ -165,6 +168,7 @@
     <Content Include="static\js\rename-course.js" />
     <Content Include="static\js\semantic.min.js" />
     <Content Include="static\js\student-index.js" />
+    <Content Include="static\js\take-exam.js" />
     <Content Include="templates\dashboard\common\base.html" />
     <Content Include="templates\dashboard\course.html" />
     <Content Include="templates\dashboard\courses-list.html" />
@@ -175,10 +179,21 @@
     <Content Include="templates\dashboard\modals\renameCourse.html" />
     <Content Include="templates\dashboard\multiple-choice.html" />
     <Content Include="templates\dashboard\nocourse.html" />
+    <Content Include="templates\dashboard\partials\essay.html" />
+    <Content Include="templates\dashboard\partials\multiChoice.html" />
+    <Content Include="templates\dashboard\partials\shortAnswer.html" />
+    <Content Include="templates\dashboard\partials\trueFalse.html" />
     <Content Include="templates\dashboard\short-answer.html" />
     <Content Include="templates\dashboard\true-false.html" />
     <Content Include="templates\login\login.html" />
+    <Content Include="templates\student\common\base.html" />
+    <Content Include="templates\student\exam.html" />
     <Content Include="templates\student\index.html" />
+    <Content Include="templates\student\partials\essay.html" />
+    <Content Include="templates\student\partials\multichoice.html" />
+    <Content Include="templates\student\partials\multiselect.html" />
+    <Content Include="templates\student\partials\shortanswer.html" />
+    <Content Include="templates\student\partials\truefalse.html" />
     <Content Include="templates\student\take-exam.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
