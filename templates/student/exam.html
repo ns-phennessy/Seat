@@ -32,11 +32,33 @@
 			#helper:hover{
 				opacity:1;	
 			}
+			#helper .grid{
+				max-height:200px;
+				overflow-y:auto;
+			}
+
 			.ui.indented.text{
 				text-indent:0.5em;	
 			}
 			.flag-question{
 				cursor:pointer;	
+			}
+
+			.question .ui.top.attached.header{
+				background-color:#fafafa !important;
+				position:relative;
+				overflow: 
+			}
+			.question .ui.top.attached.header>.content{
+				text-indent:1em !important;
+				width:100%;
+				margin-left:0;
+			}
+
+			.question .ui.top.attached.header>.content>.right.floated{
+				float:right;
+				font-size:1rem;
+				text-indent: initial;
 			}
 		</style>
 	</head>
@@ -56,7 +78,7 @@
 			</div>
 		</div>
 
-		<div class="ui very relaxed page two column grid blue inverted padded segment" style="background-color:#ddd !important">
+		<div class="ui very relaxed page two column grid padded segment" style="background-color:#f0f0f0 !important">
 			<div class="row">
 				<h1 class="ui header" style="padding:0.5em">
 					Midterm Exam 1
@@ -73,7 +95,7 @@
 				<h2 class="ui dividing header">Overview</h2>
 				<div class="ui labels">
 					<div class="ui five column grid">
-						<div class="column"> <a href="#" class="ui label" style="width:100%; text-align:center">1</a> </div>
+						<div class="column"> <a href="#" class="ui label">1</a> </div>
 						<div class="column"> <a href="#" class="ui label">2</a> </div>
 						<div class="column"> <a href="#" class="ui label">3</a> </div>
 						<div class="column"> <a href="#" class="ui label">4</a> </div>
@@ -92,6 +114,7 @@
 						<div class="column"> <a href="#" class="ui label">17</a> </div>
 						<div class="column"> <a href="#" class="ui label">18</a> </div>
 						<div class="column"> <a href="#" class="ui label">19</a> </div>
+						<div class="column"> <a href="#" class="ui label">20</a> </div>
 					</div>
 				</div>
 				<div class="ui divider"></div>
@@ -107,14 +130,22 @@
 			<div class="twelve wide column">
 
 				<div class="multichoice question">
-					<h2 class="ui header">
-						Question 1
-						<div class="sub header">
-							<span class="flag-question" data-content="Mark for later"><i class="flag icon"></i></span>
-							5 Points
+					<h2 class="ui top attached header">
+						<div class="content">
+							Question 1
+							<div class="right floated">
+								<div class="ui green label"><i class="check icon"></i>Saved</div>
+							</div>
+							<div class="sub header">
+								5 Points
+							</div>
 						</div>
+						<a class="ui left corner label" style="margin:0;">
+							<i class="flag icon"></i>
+						</a>
 					</h2>
-					<div class="content">
+
+					<div class="ui raised bottom attached segment">
 						<div class="ui dividing header">Who invented the HTTP protocol?</div>
 						<form class="ui form">
 							<div class="grouped fields">
@@ -158,7 +189,7 @@
 		<script>
 			$('.ui.radio.checkbox').checkbox();
 			$('.ui.progress').progress();
-			
+
 			$('[data-content]').popup({
 				variation:'small inverted',
 				position:'left center',
