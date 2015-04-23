@@ -2,6 +2,8 @@ $(document).ready(function() {
 	const configuration = {
 		'QUEUE_RETRY_PERIOD_IN_MS': 500
 	};
+	const api_endpoint_for_submissions = "/api/submissions";
+	const exam_id = $('#exam_id').val();
 	/* classes that indicate actions */
 	const master_action_map = {
 		'.questionClear' : 'clear', /* question local       |  restores question to blank               */
@@ -65,7 +67,20 @@ $(document).ready(function() {
 	function basic_data_select(where, what) { return select(basic_data_selectors, where, "[data='"+what+"']")}
 
 	function ajax_submit(data, success_cb, failure_cb, always_cb) {
-
+		$.ajax({
+			type : "POST",
+			url : api_endpoint_for_submissions,
+			data :  {
+				'submission' : JSON.stringify(data),
+				'exam_id' : exam_id
+			},
+			headers: {
+				'X-CSRFToken' : $.cookie('csrftoken')
+			}
+		})
+		.done(success_cb)
+		.fail(failure_cb)
+		.always(always_cb)
 	}
 
 	const Question = function(manifestation) {
