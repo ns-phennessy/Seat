@@ -26,15 +26,15 @@
 			}
 
 			#helper{
-				opacity:0.45;
+				opacity:0.75;
 				transition: opacity 250ms;
 			}
 			#helper:hover{
 				opacity:1;	
 			}
 			#helper .grid{
-				max-height:200px;
-				overflow-y:auto;
+				//max-height:200px;
+				//overflow-y:auto;
 			}
 
 			.ui.indented.text{
@@ -68,6 +68,27 @@
 			.question .ui.top.attached.header .corner.label{
 				margin:0;	
 			}
+
+			.spinner.icon{
+				-webkit-animation: spin 500ms infinite linear;
+				-moz-animation: spin 500ms infinite linear;
+				animation: spin 500ms infinite linear;
+			}	
+
+			@-webkit-keyframes spin
+			{
+				from{-webkit-transform:rotate(0deg);}
+				to{-webkit-transform:rotate(360deg);}
+			}
+
+			@keyframes spin
+			{
+				from{transform:rotate(0deg);}
+				to{transform:rotate(360deg);}
+			}
+
+
+
 		</style>
 	</head>
 	<body>
@@ -100,44 +121,243 @@
 		<!-- Content -->
 		<div class="ui relaxed page grid">
 			<div class="four wide column">
-				<div id="helper">
-					<h2 class="ui dividing header">Overview</h2>
-					<div class="ui small labels">
+
+				<div class="ui sticky" id="helper">
+					<h2 class="ui header">Contents</h2>
+					<div class="ui top attached indicating inverted progress" data-percent="36">
+						<div class="bar"></div>
+					</div>
+					<br>
+					<div class="ui small labels" data-content="Jump to a question!" data-variation="basic small inverted" data-position="top center">
 						<div class="ui five column grid">
-							<div class="column"> <a href="#" class="ui label">1</a> </div>
+                        {% for question in questions %}
+
+                            {% if question.category == "multichoice"  %}
+                                {% include "student/partials/multichoice.html" %}
+                            {% endif %}
+                
+                            {% if question.category == "shortanswer" %}
+                                 {% include "student/partials/shortanswer.html" %}
+                            {% endif %}
+
+                            {% if question.category == "essay" %}
+                                {% include "student/partials/essay.html" %}
+                            {% endif %}
+                
+                            {% if question.category == "truefalse" %}
+                                {% include "student/partials/truefalse.html" %}
+                            {% endif %}
+
+                        {% endfor %}
 						</div>
 					</div>
+					<br>
 					<div class="ui divider"></div>
-					<div class="ui tiny indicating fluid progress" data-percent="72">
-						<div class="bar">
-							<div class="progress"></div>
-						</div>
-						<div class="label" style="color:rgba(0,0,0,0.5)">Completion Status</div>
-					</div>
+					<div class="ui fluid blue button">Save All</div>
+
 				</div>
+
 			</div>			
 
 
 			<div class="twelve wide column" id="questions">
-                {% for question in questions %}
+				<div class="multichoice question" id="1">
+					<h2 class="ui top attached header">
+						<div class="content">
+							Question 1
+							<div class="right floated">
+								<div class="ui green label"><i class="check icon"></i>Saved</div>
+							</div>
+							<div class="sub header">
+								5 Points
+							</div>
+						</div>
+						<a class="ui left corner label" style="margin:0;">
+							<i class="flag icon"></i>
+						</a>
+					</h2>
 
-                    {% if question.category == "multichoice"  %}
-                        {% include "student/partials/multichoice.html" %}
-                    {% endif %}
-                
-                    {% if question.category == "shortanswer" %}
-                         {% include "student/partials/shortanswer.html" %}
-                    {% endif %}
+					<div class="ui raised bottom attached segment">
+						<div class="ui dividing header">Who invented the HTTP protocol?</div>
+						<form class="ui form">
+							<div class="grouped fields">
+								<label>Answer:</label>
+								<div class="field">
+									<div class="ui radio checkbox checked">
+										<input type="radio" name="choice">
+										<label>Richard Stallman</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui radio checkbox checked">
+										<input type="radio" name="choice">
+										<label>Linus Torvolds</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui radio checkbox checked">
+										<input type="radio" name="choice">
+										<label>Ben Sammons</label>
+									</div>
+								</div>
 
-                    {% if question.category == "essay" %}
-                        {% include "student/partials/essay.html" %}
-                    {% endif %}
-                
-                    {% if question.category == "truefalse" %}
-                        {% include "student/partials/truefalse.html" %}
-                    {% endif %}
+							</div>
+						</form>
+					</div>
+				</div>
 
-                {% endfor %}
+
+				<div class="multiselect question" id="2">
+					<h2 class="ui top attached header">
+						<div class="content">
+							Question 2
+							<div class="right floated">
+								<div class="ui label"><i class="spinner icon"></i>Not Saved</div>
+							</div>
+							<div class="sub header">
+								5 Points
+							</div>
+						</div>
+						<a class="ui left corner label" style="margin:0;">
+							<i class="flag icon"></i>
+						</a>
+					</h2>
+
+					<div class="ui raised bottom attached segment">
+						<div class="ui dividing header">Name the least efficient sorting algorithm.</div>
+						<form class="ui form">
+							<div class="grouped fields">
+								<label>Answer: <span class="ui faded text">(Select all that apply)</span></label>
+								<div class="field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="choice">
+										<label>Merge Sort</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="choice">
+										<label>Bubble Sort</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="choice">
+										<label>Cocktail Sort</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="choice">
+										<label>Bogobogo Sort</label>
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="truefalse question" id="3">
+					<h2 class="ui top attached header">
+						<div class="content">
+							Question 3
+							<div class="right floated">
+								<div class="ui label"><i class="warning icon"></i>Not Saved</div>
+							</div>
+							<div class="sub header">
+								2 Points
+							</div>
+						</div>
+						<a class="ui left corner blue label" style="margin:0;">
+							<i class="flag icon"></i>
+						</a>
+					</h2>
+
+					<div class="ui raised bottom attached segment">
+						<div class="ui dividing header">True or False: San Francisco is a city.</div>
+						<form class="ui form">
+							<div class="grouped fields">
+								<label>Answer:</label>
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input type="radio" name="choice">
+										<label>True</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui radio checkbox">
+										<input type="radio" name="choice">
+										<label>False</label>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="shortanswer question" id="4">
+					<h2 class="ui top attached header">
+						<div class="content">
+							Question 4
+							<div class="right floated">
+								<div class="ui label"><i class="warning icon"></i>Not Saved</div>
+							</div>
+							<div class="sub header">
+								100 Points
+							</div>
+						</div>
+						<a class="ui left corner label" style="margin:0;">
+							<i class="flag icon"></i>
+						</a>
+					</h2>
+
+					<div class="ui raised bottom attached segment">
+						<div class="ui dividing header">What is love?</div>
+						<form class="ui form">
+							<div class="grouped fields">
+								<label>Answer:</label>
+								<div class="field">
+									<div class="ui input">
+										<input type="text">										
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="essay question" id="5">
+					<h2 class="ui top attached header">
+						<div class="content">
+							Question 5
+							<div class="right floated">
+								<div class="ui label"><i class="warning icon"></i>Not Saved</div>
+							</div>
+							<div class="sub header">
+								1000 Points
+							</div>
+						</div>
+						<a class="ui left corner label" style="margin:0;">
+							<i class="flag icon"></i>
+						</a>
+					</h2>
+
+					<div class="ui raised bottom attached segment">
+						<div class="ui dividing header">Write me a love song.</div>
+						<form class="ui form">
+							<div class="grouped fields">
+								<label>Answer:</label>
+								<div class="field">
+									<textarea></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+
+>>>>>>> a2dd130c935340b88c9c2d2d00fbf5c3cd8422cd
 			</div>
 		</div>
 
@@ -154,12 +374,13 @@
 				position:'left center',
 				transition:'drop',
 				delay: {
-					show:'500'
+					show:'750'
 				}
 			});
 
 			$('#helper').sticky({ 
-				context: '#questions'
+				context: '#questions',
+				offset:10
 			});
 
 		</script>
