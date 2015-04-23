@@ -7,16 +7,13 @@
 
 <div class="twelve wide column" id="main">
 
-	<div class="ui two cards">
+	{% if course.exam_set.all %}
 
+	<div class="ui doubling two cards">
 		{% for exam in course.exam_set.all %}	
-
-
-
-
 		<div class="card">
 			<div class="content">
-				<i class="right floated delete icon" data-content="Delete Exam"></i>
+				<span class="ui faded text" data-role="delete" data-id="{{ exam.id }}"><i class="right floated delete icon" data-content="Delete Exam"></i></span>
 				<h2 class="ui header">{{ exam.name }}</h2>
 				<div class="meta">
 					<span class="date" data-content="Last Modified"><i class="clock icon"></i> {{ exam.updated_at|date:"DATE_FORMAT" }}</span>
@@ -47,17 +44,23 @@
 					</div>
 
 				</div>
-
-
 			</div>
 			<div class="ui bottom attached two buttons">
-				<a class="ui basic button" href="{% url 'dashboard.views.exam_edit' exam.id %}"><i class="pencil icon"></i> Edit Exam</a>
-				<div class="ui basic button" data-role="delete" data-id="{{ exam.id }}"><i class="plus icon"></i> New Token</div>
+				<a class="ui basic button" href="{% url 'dashboard.views.exam_edit' exam.id %}">Edit Exam</a>
+				<div class="ui basic button">New Token</div>
 			</div>
 		</div>
 		{% endfor %}
 
 	</div>
+	{% else %}
+	<div class="center aligned column" style="padding:3em">
+		<h1 class="ui faded text huge header">
+			No exams exist for this course!
+		</h1>
+		<a class="ui basic blue button new-exam-btn"><i class="plus icon"></i>Create a new exam</a>
+	</div>
+	{% endif %}
 
 </div>
 {% endblock %}
