@@ -26,13 +26,12 @@ $(document).ready(function() {
 	const basic_dom_selectors = {
 		/* any questions */
 		'question' : '.seatQuestion',
-		/* types of questions */
-		'multichoice' : '.multi',
-		'truefalse' : '.truefalse',
-		'essay' : '.essay',
-		'shortanswer' : '.shortanswer',
-		/* table of contents and outside elements */
-		'toc' : '.seatToC'
+		/* other things */
+		'toc' : '.seatToC',
+		/* question that has been bookmarked */
+		'bookmark' : '.bookmarked',
+		/* toc link that correlates to a question with a bookmark */
+		'bookmark-link' : '.bookmark-link'
 	}
 
 	/* things with data-x="" style annotations
@@ -42,9 +41,10 @@ $(document).ready(function() {
 		'question_id' : 'question_id',
 		'answer_text' : 'answer_text'
 	}
-	/* pseudoclasses that represent data */
+	/* classes that represent data */
 	const dynamic_data_selectors = {
-		'selected_choices' : ':checked'
+		'selected_choices' : ':checked',
+		'choices' : '.checkable'
 	}
 
 	function select(from, where, what) {
@@ -62,23 +62,61 @@ $(document).ready(function() {
 	/* basic selects things like -> data-x="" */
 	function basic_data_select(where, what) { return select(basic_data_selectors, where, "[data='"+what+"']")}
 
+	function ajax_submit(data, success_cb, failure_cb, always_cb) {
+
+	}
 
 	const Question = function(manifestation) {
 		var question = this;
 		question.manifestation = manifestation;
-		question.data = {}; /* updated data */
-		question.storage = {}; /* last saved data */
-		
-		question.submit = function() {
+		var bookmarked = false;
+		question.data = {
+			'question_id' : '',
+			'choices' : []
+		}; /* updated data */
 
+		question.storage = {
+			'question_id' : '',
+			'choices' : []
+		}; /* last saved data */
+		
+
+		function ajax_submit_success() {
+			console.log('submit success', arguments);
+		}
+		function ajax_submit_failure() {
+			console.log('submit failure', arguments);
+		}
+		function ajax_always() {
+			console.log('ajax always', arguments)
 		}
 
-		question.bookmark = function() {
+		question.submit = function() {
+		}
 
+		/* TODO: pat we may change this,
+		the point is that here you do whatever needs
+		to be done to the list of bookmarks for 
+		this particular question. the links
+		in the ToC should be labeled with the
+		question ID */
+		question.bookmark = function() {
+			if (!bookmarked) {
+				question.manifestation.addClass('bookmarked');
+				$('#question-link-'+question.data['question_id']).addClass('bookmark-link');
+			} else {
+				question.manifestation.removeClass('bookmarked');
+				$('#question-link-'+question.data['question_id']).removeClass('bookmark-link');
+			}
+			bookmarked = !bookmarked;
 		}
 
 		question.clear = function() {
-
+			if (question.storage['question_id'] == '') {
+				console.log('no storage available for clear!!!!')
+				return;
+			}
+			
 		}
 
 		/* wireup */
@@ -87,10 +125,36 @@ $(document).ready(function() {
 				question[what]();
 			});
 		}
+
+		/* actions */
 		for (var selector in master_action_map) {
-			question.manifestation.find(selector).on('click', function() { question[selector] })
+			question.manifestation.find(selector).on('click', function() { question[selector] });
 		}
 
+		/* dynamic data */
+		question.data['question_id'] = basic_data_select(question.manifestation, 'question_id');
+
+		/* text types of questions */
+		var text_answer = basic_data_select(question.manifestation, 'answer_text');
+		/* wire up if exists */
+		if (text_answer.length != 0) {
+			text_answer.on('change', function() {
+				question.data['answers'] = [ text_answer.val() ];
+			})
+		} else {
+			/* checkables, tf, multi */
+			var checkables = dynamic_data_select(question.manifestation, 'checkable');
+			checkables.on('change', function() {
+				var choices = dynamic_data_select(question.manifestation, 'selected_choices');
+				var new_choices = [];
+				choices.each(function(i,v) {
+					new_choices.push($(v).val());
+				})
+				question.data['choices'] = new_choices;
+			})
+		}
+
+		question.storage = JSON.parse(JSON.stringify(question.data));
 	}
 
 	const MultiQuestion = function() {
