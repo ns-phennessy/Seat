@@ -10,86 +10,7 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
 		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic-typography.css">
-		<style>
-			.question .content{
-				margin-left:2em;	
-			}
-			.ui.labels .column:not(.grid){
-				padding:0.5em
-			}
-
-			.ui.labels .column:not(.grid) .label{
-				width:100%;
-				height:100%;
-				margin:0;
-				text-align: center;
-			}
-
-			#helper{
-				opacity:0.75;
-				transition: opacity 250ms;
-			}
-			#helper:hover{
-				opacity:1;	
-			}
-			#helper .grid{
-				//max-height:200px;
-				//overflow-y:auto;
-			}
-
-			.ui.indented.text{
-				text-indent:0.5em;	
-			}
-			.flag-question{
-				cursor:pointer;	
-			}
-
-
-			.question{
-				margin-bottom:3em;	
-			}
-			.question .ui.top.attached.header{
-				background-color:#fafafa !important;
-				position:relative;
-				overflow: 
-			}
-			.question .ui.top.attached.header>.content{
-				text-indent:1em !important;
-				width:100%;
-				margin-left:0;
-			}
-
-			.question .ui.top.attached.header>.content>.right.floated{
-				float:right;
-				font-size:1rem;
-				text-indent: initial;
-			}
-
-			.question .ui.top.attached.header .corner.label{
-				margin:0;	
-			}
-
-			.spinner.icon{
-				-webkit-animation: spin 500ms infinite linear;
-				-moz-animation: spin 500ms infinite linear;
-				animation: spin 500ms infinite linear;
-			}	
-
-			@-webkit-keyframes spin
-			{
-				from{-webkit-transform:rotate(0deg);}
-				to{-webkit-transform:rotate(360deg);}
-			}
-
-			@keyframes spin
-			{
-				from{transform:rotate(0deg);}
-				to{transform:rotate(360deg);}
-			}
-
-
-
-		</style>
+		<link rel="stylesheet" href="../../static/css/student/exam.css">
 	</head>
 	<body>
 		<div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
@@ -119,8 +40,8 @@
 		</div>
 
 		<!-- Content -->
-		<div class="ui relaxed page grid">
-			<div class="four wide column">
+		<div class="ui relaxed page stackable grid">
+			<div class="four wide column computer tablet only">
 
 				<div class="ui sticky" id="helper">
 					<h2 class="ui header">Contents</h2>
@@ -133,7 +54,7 @@
 							<div class="column"> <a href="#1" class="ui green label">1</a> </div>
 							<div class="column"> <a href="#2" class="ui green label">2</a> </div>
 							<div class="column"> <a href="#3" class="ui blue label">3</a> </div>
-							<div class="column"> <a href="#4" class="ui label">4</a> </div>
+							<div class="column"> <a href="#4" class="ui bookmarksaved label">4</a> </div>
 							<div class="column"> <a href="#5" class="ui label">5</a> </div>
 							<div class="column"> <a href="#6" class="ui label">6</a> </div>
 							<div class="column"> <a href="#7" class="ui label">7</a> </div>
@@ -265,7 +186,7 @@
 					</h2>
 
 					<div class="ui raised bottom attached segment">
-						<div class="ui dividing header">True or False: San Francisco is a city.</div>
+						<div class="ui dividing header"><span class="ui faded text">True or False:</span> San Francisco is a city.</div>
 						<form class="ui form">
 							<div class="grouped fields">
 								<label>Answer:</label>
