@@ -99,43 +99,30 @@
 
 		<!-- Content -->
 		<div class="ui relaxed page grid">
-			<div class="four wide column" id="helper">			
-				<h2 class="ui dividing header">Overview</h2>
-				<div class="ui small labels">
-					<div class="ui five column grid">
-						<div class="column"> <a href="#" class="ui small label">1</a> </div>
-						<div class="column"> <a href="#" class="ui label">2</a> </div>
-						<div class="column"> <a href="#" class="ui label">3</a> </div>
-						<div class="column"> <a href="#" class="ui label">4</a> </div>
-						<div class="column"> <a href="#" class="ui label">5</a> </div>
-						<div class="column"> <a href="#" class="ui label">6</a> </div>
-						<div class="column"> <a href="#" class="ui label">7</a> </div>
-						<div class="column"> <a href="#" class="ui label">8</a> </div>
-						<div class="column"> <a href="#" class="ui label">9</a> </div>
-						<div class="column"> <a href="#" class="ui label">10</a> </div>
-						<div class="column"> <a href="#" class="ui label">11</a> </div>
-						<div class="column"> <a href="#" class="ui label">12</a> </div>
-						<div class="column"> <a href="#" class="ui label">13</a> </div>
-						<div class="column"> <a href="#" class="ui label">14</a> </div>
-						<div class="column"> <a href="#" class="ui label">15</a> </div>
-						<div class="column"> <a href="#" class="ui label">16</a> </div>
-						<div class="column"> <a href="#" class="ui label">17</a> </div>
-						<div class="column"> <a href="#" class="ui label">18</a> </div>
-						<div class="column"> <a href="#" class="ui label">19</a> </div>
-						<div class="column"> <a href="#" class="ui label">20</a> </div>
+			<div class="four wide column">
+				<div id="helper">
+					<h2 class="ui dividing header">Overview</h2>
+					<div class="ui small labels">
+						<div class="ui five column grid">
+							<div class="column"> <a href="#" class="ui label">1</a> </div>
+							<div class="column"> <a href="#" class="ui label">2</a> </div>
+							<div class="column"> <a href="#" class="ui label">3</a> </div>
+							<div class="column"> <a href="#" class="ui label">4</a> </div>
+							<div class="column"> <a href="#" class="ui label">5</a> </div>
+						</div>
+					</div>
+					<div class="ui divider"></div>
+					<div class="ui tiny indicating fluid progress" data-percent="72">
+						<div class="bar">
+							<div class="progress"></div>
+						</div>
+						<div class="label" style="color:rgba(0,0,0,0.5)">Completion Status</div>
 					</div>
 				</div>
-				<div class="ui divider"></div>
-				<div class="ui tiny indicating fluid progress" data-percent="72">
-					<div class="bar">
-						<div class="progress"></div>
-					</div>
-					<div class="label" style="color:rgba(0,0,0,0.5)">Completion Status</div>
-				</div>
-			</div>
+			</div>			
 
 
-			<div class="twelve wide column">
+			<div class="twelve wide column" id="questions">
 
 				<div class="multichoice question">
 					<h2 class="ui top attached header">
@@ -349,6 +336,10 @@
 				delay: {
 					show:'500'
 				}
+			});
+
+			$('#helper').sticky({ 
+				context: '#questions'
 			});
 
 		</script>
