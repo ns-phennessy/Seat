@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Meta data -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>Parkway Testing Application</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
+		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic-typography.css">
+		<style>
+			.question .content{
+				margin-left:2em;	
+			}
+			.ui.labels .column:not(.grid){
+				padding:0.5em
+			}
+
+			.ui.labels .column:not(.grid) .label{
+				width:100%;
+				height:100%;
+				margin:0;
+				text-align: center;
+			}
+
+			#helper{
+				//opacity:0.7;
+				transition: opacity 500ms;
+			}
+			#helper:hover{
+				opacity:1;	
+			}
+			.ui.indented.text{
+				text-indent:0.5em;	
+			}
+			.flag-question{
+				cursor:pointer;	
+			}
+		</style>
+	</head>
+	<body>
+		<div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
+			<div class="column row">
+				<a href="#" style="float:left">
+					<h1 class="ui inverted header">Student Dashboard</h1>
+				</a>
+				<div class="ui right floated text inverted menu">
+					<div class="no hover item">
+						<span class="ui bold text">Harvey Dent</span>
+					</div>
+					<a href="#" class="item">Help</a>
+					<a href="/logout/" class="item">Logout</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui very relaxed page two column grid blue inverted padded segment" style="background-color:#ddd !important">
+			<div class="row">
+				<h1 class="ui header" style="padding:0.5em">
+					Midterm Exam 1
+					<div class="ui indented text sub header">
+						CS2050 - Advanced Algorithm Design II
+					</div>
+				</h1>
+			</div>
+		</div>
+
+		<!-- Content -->
+		<div class="ui very relaxed page grid">
+			<div class="four wide column" id="helper">			
+				<h2 class="ui dividing header">Overview</h2>
+				<div class="ui labels">
+					<div class="ui five column grid">
+						<div class="column"> <a href="#" class="ui label" style="width:100%; text-align:center">1</a> </div>
+						<div class="column"> <a href="#" class="ui label">2</a> </div>
+						<div class="column"> <a href="#" class="ui label">3</a> </div>
+						<div class="column"> <a href="#" class="ui label">4</a> </div>
+						<div class="column"> <a href="#" class="ui label">5</a> </div>
+						<div class="column"> <a href="#" class="ui label">6</a> </div>
+						<div class="column"> <a href="#" class="ui label">7</a> </div>
+						<div class="column"> <a href="#" class="ui label">8</a> </div>
+						<div class="column"> <a href="#" class="ui label">9</a> </div>
+						<div class="column"> <a href="#" class="ui label">10</a> </div>
+						<div class="column"> <a href="#" class="ui label">11</a> </div>
+						<div class="column"> <a href="#" class="ui label">12</a> </div>
+						<div class="column"> <a href="#" class="ui label">13</a> </div>
+						<div class="column"> <a href="#" class="ui label">14</a> </div>
+						<div class="column"> <a href="#" class="ui label">15</a> </div>
+						<div class="column"> <a href="#" class="ui label">16</a> </div>
+						<div class="column"> <a href="#" class="ui label">17</a> </div>
+						<div class="column"> <a href="#" class="ui label">18</a> </div>
+						<div class="column"> <a href="#" class="ui label">19</a> </div>
+					</div>
+				</div>
+				<div class="ui divider"></div>
+				<div class="ui tiny indicating fluid progress" data-percent="72">
+					<div class="bar">
+						<div class="progress"></div>
+					</div>
+					<div class="label" style="color:rgba(0,0,0,0.5)">Completion Status</div>
+				</div>
+			</div>
+
+
+			<div class="twelve wide column">
+
+				<div class="multichoice question">
+					<h2 class="ui header">
+						Question 1
+						<div class="sub header">
+							<span class="flag-question" data-content="Mark for later"><i class="flag icon"></i></span>
+							5 Points
+						</div>
+					</h2>
+					<div class="content">
+						<div class="ui dividing header">Who invented the HTTP protocol?</div>
+						<form class="ui form">
+							<div class="grouped fields">
+								<label>Answer:</label>
+
+								<div class="field">
+									<div class="ui radio checkbox checked">
+										<input type="radio" name="choice">
+										<label>Richard Stallman</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui radio checkbox checked">
+										<input type="radio" name="choice">
+										<label>Linus Torvolds</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui radio checkbox checked">
+										<input type="radio" name="choice">
+										<label>Ben Sammons</label>
+									</div>
+								</div>
+
+							</div>
+						</form>
+
+					</div>
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+
+		<!-- Javascript -->
+		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
+		<script src="http://cdn.patcave.info/js/semantic.min.js"></script>
+		<script>
+			$('.ui.radio.checkbox').checkbox();
+			$('.ui.progress').progress();
+			
+			$('[data-content]').popup({
+				variation:'small inverted',
+				position:'left center',
+				transition:'drop',
+				delay: {
+					show:'500'
+				}
+			});
+
+		</script>
+	</body>
+</html>
