@@ -71,8 +71,7 @@ $(document).ready(function() {
 			type : "POST",
 			url : api_endpoint_for_submissions,
 			data :  {
-				'submission' : JSON.stringify(data),
-				'exam_id' : exam_id
+				'submission' : JSON.stringify(data)
 			},
 			headers: {
 				'X-CSRFToken' : $.cookie('csrftoken')
