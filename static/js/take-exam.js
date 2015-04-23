@@ -8,7 +8,7 @@ $(document).ready(function () {
     const master_action_map = {
         '.questionClear': 'clear', /* question local       |  restores question to blank               */
         '.questionSubmit': 'submit', /* question local     |  submits question, adds to queue if fails */
-        '.questionBookmark': 'bookmark', /* question local |  marks question as bookmarked             */
+        '.left.corner': 'bookmark', /* question local |  marks question as bookmarked             */
         '.questionSubmitAll': 'submitAll' /* global        |  */
     };
 
@@ -109,6 +109,7 @@ $(document).ready(function () {
         }
         function ajax_submit_failure() {
             console.log('submit failure', arguments);
+            queue.add(question)
         }
         function ajax_always() {
             console.log('ajax always', arguments)
@@ -127,11 +128,11 @@ $(document).ready(function () {
 		question ID */
         question.bookmark = function () {
             if (!bookmarked) {
-                question.manifestation.addClass('blue');
-                question.link.addClass('blue');
+                question.manifestation.find('.left.corner').addClass('blue');
+                //question.link.addClass('blue');
             } else {
-                question.manifestation.removeClass('blue');
-                question.link.removeClass('blue');
+                question.manifestation.find('.left.corner').removeClass('blue');
+                //question.link.removeClass('blue');
             }
             bookmarked = !bookmarked;
         }
@@ -154,13 +155,13 @@ $(document).ready(function () {
         /* wireup */
         function wire_on_click(what) {
             question.manifestation.find(what).on('click', function (event) {
-                question[what]();
+                question[master_action_map[what]]();
             });
         }
 
         /* actions */
         for (var selector in master_action_map) {
-            question.manifestation.find(selector).on('click', function () { question[selector] });
+            wire_on_click(selector)
         }
 
         /* dynamic data */
