@@ -26,15 +26,15 @@
 			}
 
 			#helper{
-				opacity:0.45;
+				opacity:0.75;
 				transition: opacity 250ms;
 			}
 			#helper:hover{
 				opacity:1;	
 			}
 			#helper .grid{
-				max-height:200px;
-				overflow-y:auto;
+				//max-height:200px;
+				//overflow-y:auto;
 			}
 
 			.ui.indented.text{
@@ -68,6 +68,27 @@
 			.question .ui.top.attached.header .corner.label{
 				margin:0;	
 			}
+
+			.spinner.icon{
+				-webkit-animation: spin 500ms infinite linear;
+				-moz-animation: spin 500ms infinite linear;
+				animation: spin 500ms infinite linear;
+			}	
+
+			@-webkit-keyframes spin
+			{
+				from{-webkit-transform:rotate(0deg);}
+				to{-webkit-transform:rotate(360deg);}
+			}
+
+			@keyframes spin
+			{
+				from{transform:rotate(0deg);}
+				to{transform:rotate(360deg);}
+			}
+
+
+
 		</style>
 	</head>
 	<body>
@@ -100,31 +121,37 @@
 		<!-- Content -->
 		<div class="ui relaxed page grid">
 			<div class="four wide column">
-				<div id="helper">
-					<h2 class="ui dividing header">Overview</h2>
-					<div class="ui small labels">
+
+				<div class="ui sticky" id="helper">
+					<h2 class="ui header">Contents</h2>
+					<div class="ui top attached indicating inverted progress" data-percent="36">
+						<div class="bar"></div>
+					</div>
+					<br>
+					<div class="ui small labels" data-content="Jump to a question!" data-variation="basic small inverted" data-position="top center">
 						<div class="ui five column grid">
-							<div class="column"> <a href="#" class="ui label">1</a> </div>
-							<div class="column"> <a href="#" class="ui label">2</a> </div>
-							<div class="column"> <a href="#" class="ui label">3</a> </div>
-							<div class="column"> <a href="#" class="ui label">4</a> </div>
-							<div class="column"> <a href="#" class="ui label">5</a> </div>
+							<div class="column"> <a href="#1" class="ui green label">1</a> </div>
+							<div class="column"> <a href="#2" class="ui green label">2</a> </div>
+							<div class="column"> <a href="#3" class="ui blue label">3</a> </div>
+							<div class="column"> <a href="#4" class="ui label">4</a> </div>
+							<div class="column"> <a href="#5" class="ui label">5</a> </div>
+							<div class="column"> <a href="#6" class="ui label">6</a> </div>
+							<div class="column"> <a href="#7" class="ui label">7</a> </div>
+							<div class="column"> <a href="#8" class="ui label">8</a> </div>
 						</div>
 					</div>
+					<br>
 					<div class="ui divider"></div>
-					<div class="ui tiny indicating fluid progress" data-percent="72">
-						<div class="bar">
-							<div class="progress"></div>
-						</div>
-						<div class="label" style="color:rgba(0,0,0,0.5)">Completion Status</div>
-					</div>
+					<div class="ui fluid blue button">Save All</div>
+
 				</div>
+
 			</div>			
 
 
 			<div class="twelve wide column" id="questions">
 
-				<div class="multichoice question">
+				<div class="multichoice question" id="1">
 					<h2 class="ui top attached header">
 						<div class="content">
 							Question 1
@@ -169,12 +196,13 @@
 					</div>
 				</div>
 
-				<div class="multiselect question">
+
+				<div class="multiselect question" id="2">
 					<h2 class="ui top attached header">
 						<div class="content">
 							Question 2
 							<div class="right floated">
-								<div class="ui label"><i class="warning icon"></i>Not Saved</div>
+								<div class="ui label"><i class="spinner icon"></i>Not Saved</div>
 							</div>
 							<div class="sub header">
 								5 Points
@@ -220,7 +248,7 @@
 					</div>
 				</div>
 
-				<div class="truefalse question">
+				<div class="truefalse question" id="3">
 					<h2 class="ui top attached header">
 						<div class="content">
 							Question 3
@@ -258,7 +286,7 @@
 					</div>
 				</div>
 
-				<div class="shortanswer question">
+				<div class="shortanswer question" id="4">
 					<h2 class="ui top attached header">
 						<div class="content">
 							Question 4
@@ -289,7 +317,7 @@
 					</div>
 				</div>
 
-				<div class="essay question">
+				<div class="essay question" id="5">
 					<h2 class="ui top attached header">
 						<div class="content">
 							Question 5
@@ -334,12 +362,13 @@
 				position:'left center',
 				transition:'drop',
 				delay: {
-					show:'500'
+					show:'750'
 				}
 			});
 
 			$('#helper').sticky({ 
-				context: '#questions'
+				context: '#questions',
+				offset:10
 			});
 
 		</script>
