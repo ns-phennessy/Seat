@@ -28,6 +28,7 @@ $(document).ready(function() {
 		'question' : '.seatQuestion',
 		/* other things */
 		'toc' : '.seatToC',
+		'question-list' : '.question-list',
 		/* question that has been bookmarked */
 		'bookmark' : '.bookmarked',
 		/* toc link that correlates to a question with a bookmark */
@@ -170,21 +171,6 @@ $(document).ready(function() {
 		question.storage = JSON.parse(JSON.stringify(question.data));
 	}
 
-	const MultiQuestion = function() {
-		var question = this;
-		this.type = 'multichoice';
-		this._data = {}
-	}
-	const ShortAnswer = function() {
-		var question = this;
-		this.type = 'shortanswer';
-	}
-	const Essay = function() {
-		var question = this;
-		this.type = 'essay';
-	}
-	const TrueFalse = function() {
-		var question = this;
-		this.type = 'truefalse';
-	}
+	/* populate page */
+
 })
