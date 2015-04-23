@@ -187,5 +187,15 @@ $(document).ready(function() {
 	}
 
 	/* populate page */
-
+	var question_array = [];
+	var questions = dom_select($('body'), 'question');
+	var toc = dom_select($('body'), 'toc')
+	for (var i = 0; i < questions.length; ++i) {
+		/* wireup is internalized */
+		var new_question = new Question( $(questions[i]) );
+		var question_id = new_question.data['question_id'];
+		question_array.push(new_question);
+		/* add to ToC */
+		toc.append('<a href="#question-'+question_id+'">link ta thar quistion</a>');
+	}
 })
