@@ -101,6 +101,7 @@ $(document).ready(function () {
         function ajax_submit_success() {
             question.manifestation.find('.questionSaved').show()
             console.log('submit success', arguments);
+            $('#question-link-' + id).removeClass('blue').addClass('green');
             question.storage = JSON.parse(JSON.stringify(question.data));
         }
         function ajax_submit_failure() {

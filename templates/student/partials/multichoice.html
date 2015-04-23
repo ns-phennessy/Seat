@@ -1,9 +1,12 @@
-<div class="multichoice question">
+<div class="multichoice question" id="question-{{question.id}}">
 	<h2 class="ui top attached header">
 		<div class="content">
 			Question {{forloop.counter}}
-			<div class="right floated questionSaved">
+			<div class="right floated questionSaved" hidden>
 				<div class="ui green label"><i class="check icon"></i>Saved</div>
+			</div>
+            <div class="right floated questionNotSaved" hidden>
+				<div class="ui label"><i class="warning icon"></i>Not Saved</div>
 			</div>
 			<div class="sub header">
 				{{question.points}} Points
@@ -16,8 +19,7 @@
 
 	<div class="ui raised bottom attached segment">
         <input class="question-id" type="hidden" name="question_id" data-x="question_id" value="{{ question.id }}" />
-        <input type="hidden" name="submission_id" data-x="submission_id" value="" />
-		<div class="ui dividing header">{{ question.text }}</div>
+ 		<div class="ui dividing header">{{ question.text }}</div>
 		<form class="ui form">
 			<div class="grouped fields">
 				<label>Answer:</label>
