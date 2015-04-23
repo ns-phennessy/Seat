@@ -92,6 +92,7 @@
 		</style>
 	</head>
 	<body>
+        {% csrf_token %}
 		<div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
 			<div class="column row">
 				<a href="#" style="float:left">
@@ -121,7 +122,6 @@
 		<!-- Content -->
 		<div class="ui relaxed page grid">
 			<div class="four wide column">
-
 				<div class="ui sticky" id="helper">
 					<h2 class="ui header">Contents</h2>
 					<div class="ui top attached indicating inverted progress" data-percent="36">

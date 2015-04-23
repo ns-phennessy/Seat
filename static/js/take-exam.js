@@ -48,7 +48,7 @@ $(document).ready(function () {
     /* classes that represent data */
     const dynamic_data_selectors = {
         'selected_choices': ':checked',
-        'choices': '.checkable'
+        'checkable': '.checkable'
     }
 
     function select(from, where, what) {
@@ -100,6 +100,7 @@ $(document).ready(function () {
 
 
         function ajax_submit_success() {
+            question.manifestation.find('.questionSaved').show()
             console.log('submit success', arguments);
             // TODO: set submission id question.data['submission_id']
             question.storage = JSON.parse(JSON.stringify(question.data));
@@ -112,6 +113,7 @@ $(document).ready(function () {
         }
 
         question.submit = function () {
+            question.manifestation.find('.questionSaved').hide()
             ajax_submit(question.data, ajax_submit_success, ajax_submit_failure, ajax_always)
         }
 
@@ -168,6 +170,7 @@ $(document).ready(function () {
         if (text_answer.length != 0) {
             text_answer.on('change', function () {
                 question.data['answers'] = [text_answer.val()];
+                question.submit()
             })
         } else {
             /* checkables, tf, multi */
@@ -179,6 +182,7 @@ $(document).ready(function () {
                     new_choices.push($(v).val());
                 })
                 question.data['choices'] = new_choices;
+                question.submit()
             })
         }
 
@@ -193,10 +197,8 @@ $(document).ready(function () {
         /* wireup is internalized */
         var new_question = new Question($(questions[i]));
         var question_id = new_question.data['question_id'];
-        question.link = $('<div class="column"> <a href="#question-' + question_id + '" class="ui label">' + (i + 1) + '</a> </div>')
         question_array.push(new_question);
         console.log('adding one')
         /* add to ToC */
-        toc.append(question.link);
     }
 })
