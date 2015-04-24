@@ -77,7 +77,7 @@ class QuestionApplication(object):
             map(lambda choice_text: question.choices.add(self.create_choice(choice_text or '')), question_json['options'])
         
         if 'answers' in question_json:
-            map(lambda answer_text: question.choices.add(self.create_answer(answer_text or '')), question_json['answers'])
+            map(lambda answer_text: question.answers.add(self.create_answer(answer_text or '')), question_json['answers'])
 
         question.save()
 
