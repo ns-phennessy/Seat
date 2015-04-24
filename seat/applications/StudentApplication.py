@@ -9,7 +9,7 @@ class StudentApplication(object):
 
     def get_released_past_exams(self, student):
         try:
-            return TakenExam.objects.filter(student=student, completed=True, token__released=True)
+            return TakenExam.objects.filter(student=student, token__released=True)
         except Exception as error:
             logger.info(str(error))
             raise Exception(error)

@@ -6,4 +6,5 @@ urlpatterns = patterns('',
     url(r'^courses/(\d+)?/?$', views.courses),
     url(r'^exams/(\d+)/edit/?$', views.exam_edit),
     url(r'^rendered-exam/(\d+)/?$', views.render_exam),
+    url(r'^grades/(\d+)/?', views.render_grades),
 )

@@ -12,6 +12,7 @@ from seat.applications.TeacherApplication import TeacherApplication
 import dashboard.dashboard_view_models as models
 from seat.models.course import Course
 from seat.models.teacher import Teacher
+from seat.models.taken_exam import TakenExam
 from django.http import Http404, HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponseNotFound
 import json
 import logging
@@ -133,3 +134,17 @@ def render_exam(request, exam_id):
         return HttpResponseNotFound("exam not found")
 
     return render(request, 'dashboard/partials/preview-exam.html', { 'exam' : exam.all()[0] })
+
+def render_grades(request, token_id):
+    if request.method != 'GET':
+        return routingApplication.invalid_permissions(request)
+
+    is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
+    if not is_teacher:
+        return HttpResponseNotAllowed("unauthorized")
+
+    if not id_is_valid(token_id):
+        return HttpResponseBadRequest("token id is invalid")
+
+    taken_exams = TakenExam.objects.filter(exam__course__teacher=teacher, token__id=token_id)
+    return render(request, 'dashboard/grades.html', {})
