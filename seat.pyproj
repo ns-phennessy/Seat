@@ -130,6 +130,8 @@
     <Folder Include="seat\settings\" />
     <Folder Include="static\" />
     <Folder Include="static\css\" />
+    <Folder Include="static\css\dashboard\" />
+    <Folder Include="static\css\student\" />
     <Folder Include="static\font\" />
     <Folder Include="static\img\" />
     <Folder Include="static\js\" />
@@ -150,8 +152,12 @@
     <Content Include="db.sqlite3" />
     <Content Include="seat\models\__init__.pyc" />
     <Content Include="seat\settings\secret.key" />
+    <Content Include="static\css\base.css" />
+    <Content Include="static\css\dashboard\preview-exam.css" />
+    <Content Include="static\css\semantic-new.min.css" />
     <Content Include="static\css\semantic-typography.css" />
     <Content Include="static\css\semantic.min.css" />
+    <Content Include="static\css\student\exam.css" />
     <Content Include="static\font\icons.eot" />
     <Content Include="static\font\icons.otf" />
     <Content Include="static\font\icons.svg" />
