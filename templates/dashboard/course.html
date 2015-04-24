@@ -45,9 +45,9 @@
 								<div class="menu">
 									<div class="item">View Grading</div>
 									<div class="ui divider"></div>
-									<div class="item" data-content="Exam can be taken by students with this token.">Open</div>
-									<div class="item" data-content="Prevents use to token to take an exam.">Close</div>
-									<div class="item" data-content="Closes exam and allows students to view grades.">Release</div>
+									<div class="item" data-content="Exam can be taken by students with this token." data-value="openToken">Open</div>
+									<div class="item" data-content="Prevents use to token to take an exam." data-value="closeToken">Close</div>
+									<div class="item" data-content="Closes exam and allows students to view grades." data-value="releaseToken">Release</div>
 
 								</div>
 							</div>
@@ -86,14 +86,4 @@
 <script src="{% static 'js/delete-course.js' %}"></script>
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/course.js' %}"></script>
-<script>
-	$('[data-content]').popup({
-		variation:'inverted',
-		delay:{
-			show:500	
-		},
-		position:'left center'	
-	});
-</script>
-
 {% endblock %}

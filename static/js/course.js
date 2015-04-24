@@ -18,24 +18,31 @@ $('tr[data-role=exam] div[data-role=delete]').on('click', function(e) {
 });
 
 // Token stuff
+var token = new function(){
 
-// Delete
-var token = function(){
-
-	this.create = function(){
+	this.create = function(exam_id){
 		$.ajax({
 			method: "POST",
 			url: '/api/token/',
 			data: {
-				'exam_id' : 2
+				'exam_id' : exam_id
 			},
 			headers: {
 				'X-CSRFToken' : $.cookie('csrftoken')
 			}
-		}).success(function(data, succcess) {console.log(data.token) })
+		}).success(function(data, succcess) {
+			
+			$('#newTokenModal').modal({
+				onHide: function(){
+					location.reload();
+				}
+			});
+			
+			$('#newTokenModal').modal('show');
+		})
 		.fail(function() {console.log(arguments) })
 		.always(function() {console.log(arguments) })
-		
+
 	};
 
 	this.delete = function(){
@@ -74,7 +81,23 @@ var token = function(){
 		})
 	};
 
-
 }
 
 
+$('[data-role="new-token"]').on('click', function(){
+	var exam_id = $(this).attr('data-id');	
+	token.create(exam_id);
+});
+
+
+$('[data-content]').popup({
+	variation:'inverted',
+	delay:{
+		show:500	
+	},
+	position:'left center'	
+});
+
+$('.tokens .ui.dropdown').dropdown({
+
+});
