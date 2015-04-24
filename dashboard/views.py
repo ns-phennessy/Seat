@@ -12,7 +12,7 @@ from seat.applications.TeacherApplication import TeacherApplication
 import dashboard.dashboard_view_models as models
 from seat.models.course import Course
 from seat.models.teacher import Teacher
-from django.http import Http404
+from django.http import Http404, HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponseNotFound
 import json
 import logging
 
@@ -114,3 +114,22 @@ def exam_edit(request, exam_num):
         context = { 'teacher': teacher, 'exam': exam.all()[0], 'courses' : courses , 'question_set_json' : json.dumps(serialize_questions(exam.all()[0]))}
         return render(request, 'dashboard/exam.html', context)
     raise Http404("exam not found!")
+
+
+def render_exam(request, exam_id):
+    if request.method != 'GET':
+        return routingApplication.invalid_request(request)
+
+    is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
+    if not is_teacher:
+        return HttpResponseNotAllowed("unauthorized")
+
+    if not id_is_valid(exam_id):
+        return HttpResponseBadRequest("exam id invalid")
+
+    exam = Exam.objects.filter(id=exam_id, course__teacher=teacher)
+
+    if not exam.exists():
+        return HttpResponseNotFound("exam not found")
+
+    return render(request, 'dashboard/partials/preview-exam.html', { 'exam' : exam.all()[0] })

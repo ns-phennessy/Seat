@@ -1,0 +1,20 @@
+﻿{% for question in exam.question_set.all %}
+
+            
+            {% if question.category == "multichoice"  %}
+                {% include "student/partials/multichoice.html" %}
+            {% endif %}
+                
+            {% if question.category == "shortanswer" %}
+                    {% include "student/partials/shortanswer.html" %}
+            {% endif %}
+
+            {% if question.category == "essay" %}
+                {% include "student/partials/essay.html" %}
+            {% endif %}
+                
+            {% if question.category == "truefalse" %}
+                {% include "student/partials/truefalse.html" %}
+            {% endif %}
+
+{% endfor %}

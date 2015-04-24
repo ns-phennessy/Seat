@@ -184,6 +184,7 @@
     <Content Include="templates\dashboard\nocourse.html" />
     <Content Include="templates\dashboard\partials\essay.html" />
     <Content Include="templates\dashboard\partials\multiChoice.html" />
+    <Content Include="templates\dashboard\partials\preview-exam.html" />
     <Content Include="templates\dashboard\partials\shortAnswer.html" />
     <Content Include="templates\dashboard\partials\trueFalse.html" />
     <Content Include="templates\dashboard\short-answer.html" />

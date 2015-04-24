@@ -1339,7 +1339,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	$('.ui.button#addNewQuestionType').dropdown('set selected', 'multichoice');
 
-	window.questions = [];
 	for (var i in questions_present_at_pageload) {
 		var question_data = questions_present_at_pageload[i];
 		var question = null;
@@ -1360,7 +1359,21 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (question === null) continue;
 		question.populate(question_data);
 		question.summary();
-		questions.push(question)
 	}
+
+	$('.previewQuestions').on('click', function () {
+	    console.log('preview')
+	    $('.question-list, .adder').children().hide();
+        $('.preview-list').show().load('/dashboard/rendered-exam/' + exam_id);
+	    $('.editQuestions').removeClass('active');
+	    $('.previewQuestions').addClass('active');
+	})
+	$('.editQuestions').on('click', function () {
+	    console.log('edit')
+	    $('.preview-list').hide();
+	    $('.question-list, .adder').children().show();
+	    $('.previewQuestions').removeClass('active');
+	    $('.editQuestions').addClass('active');
+	})
 
 });
