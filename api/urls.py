@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'validate_token/?$', views.validate_token),
     url(r'token/?$', views.token),
     url(r'submissions/?$',views.submission),
+    url(r'grade/?$',views.grade),
 )

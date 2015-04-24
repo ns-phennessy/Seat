@@ -1,4 +1,4 @@
-from api.resources import course_methods, question_methods, exam_methods, token_methods, token_validation, submission_methods
+from api.resources import course_methods, question_methods, exam_methods, token_methods, token_validation, submission_methods, grade_methods
 from django.http import HttpResponseNotAllowed
 
 def course(request, course_id = None):
@@ -53,3 +53,6 @@ def validate_token(request):
 
 def submission(request):
     return submission_methods.submit(request)
+
+def grade(request):
+    return grade_methods.grade(request)
