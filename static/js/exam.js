@@ -413,12 +413,6 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		};
 
-		multichoice.preview = function() {
-			/* SUGGESTION: put transition ui code here */
-			multichoice.manifestation.find('.question-section').hide();
-			multichoice.manifestation.find('.preview.question-section').show();
-		};
-
 		multichoice.edit = function() {
 			/* SUGGESTION: put transition ui code here */
 			multichoice.manifestation.find('.question-section').hide();
@@ -684,20 +678,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		};
 
-		essay.preview = function() {
-			/* SUGGESTION: put transition ui code here */
-			essay.manifestation.find('.question-section').hide();
-			essay.manifestation.find('.preview.question-section').show();
-		};
-
 		essay.edit = function() {
-			/* SUGGESTION: put transition ui code here */
 			essay.manifestation.find('.question-section').hide();
 			essay.manifestation.find('.edit.question-section').show();
 		};
 
 		essay.summary = function() {
-			/* SUGGESTION: put transition ui code here */
 			essay.manifestation.find('.question-section').hide();
 			essay.manifestation.find('.summary.question-section').show();
 		}
@@ -955,20 +941,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		};
 
-		shortanswer.preview = function() {
-			/* SUGGESTION: put transition ui code here */
-			shortanswer.manifestation.find('.question-section').hide();
-			shortanswer.manifestation.find('.preview.question-section').show();
-		};
-
 		shortanswer.edit = function() {
-			/* SUGGESTION: put transition ui code here */
 			shortanswer.manifestation.find('.question-section').hide();
 			shortanswer.manifestation.find('.edit.question-section').show();
 		};
 
 		shortanswer.summary = function() {
-			/* SUGGESTION: put transition ui code here */
 			shortanswer.manifestation.find('.question-section').hide();
 			shortanswer.manifestation.find('.summary.question-section').show();
 		}
@@ -1256,20 +1234,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		};
 
-		truefalse.preview = function() {
-			/* SUGGESTION: put transition ui code here */
-			truefalse.manifestation.find('.question-section').hide();
-			truefalse.manifestation.find('.preview.question-section').show();
-		};
-
 		truefalse.edit = function() {
-			/* SUGGESTION: put transition ui code here */
 			truefalse.manifestation.find('.question-section').hide();
 			truefalse.manifestation.find('.edit.question-section').show();
 		};
 
 		truefalse.summary = function() {
-			/* SUGGESTION: put transition ui code here */
 			truefalse.manifestation.find('.question-section').hide();
 			truefalse.manifestation.find('.summary.question-section').show();
 		}
@@ -1318,10 +1288,6 @@ document.addEventListener("DOMContentLoaded", function() {
 			!custom_completed || custom_completed(a,b,c,d); })
 		.fail(failure_callback)
 		.always(always_callback)
-	}
-
-	function fetch_preview_for(data, custom_completed, complete_callback, failure_callback, always_callback) {
-		console.log("PREVIEW UNSUPPORTED R.N.")
 	}
 
 	function delete_question(question_id, custom_completed, complete_callback, failure_callback, always_callback) {
