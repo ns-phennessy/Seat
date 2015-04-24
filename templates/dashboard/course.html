@@ -2,7 +2,7 @@
 
 {% block pagecontent %}
 
-{% include "dashboard/courses-list.html" %}
+{% include "dashboard/courses-list.html" with current_course=course %}
 {% include "dashboard/modals/renameCourse.html" %}
 {% include "dashboard/modals/newToken.html" %}
 
@@ -84,6 +84,5 @@
 {% load static %}
 <script src="{% static 'js/rename-course.js' %}"></script>
 <script src="{% static 'js/delete-course.js' %}"></script>
-<script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/course.js' %}"></script>
 {% endblock %}

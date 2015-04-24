@@ -9,6 +9,6 @@ class Token(models.Model):
     """key to taking an exam"""
     token = models.CharField(default=random_token, unique=True, max_length=7)
     exam = models.ForeignKey(Exam)
-    open = models.BooleanField(default=False)
+    open = models.BooleanField(default=True)
     released = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)

@@ -15,3 +15,12 @@ $(document).ready(function(e) {
     refresh.val('yes');
   }
 });
+
+function showErrorMessage(message) {
+  noty({
+    text:  message,
+    type:  'error',
+    theme: 'relax',
+    killer: true
+  });
+}

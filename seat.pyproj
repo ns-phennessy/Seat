@@ -41,6 +41,9 @@
     <Compile Include="api\resources\exam_completion_methods.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="api\resources\grade_methods.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="api\resources\submission_methods.py">
       <SubType>Code</SubType>
     </Compile>

@@ -5,7 +5,7 @@ from seat.models.token import Token
 from seat.models.exam import Exam
 from api.helpers import endpoint_checks
 import logging
-
+import json
 logger = logging.getLogger('api')
 
 tokenApplication = QuestionApplication()
@@ -71,7 +71,7 @@ def update_token_failure_json_model(message):
 def update_token_logic(teacher_query, request):
     try:
         # validate the actual request
-        token_json = json.dumps(request.get('token'))
+        token_json = json.loads(request.PUT.get('token'))
 
         if 'open' not in token_json:
             return update_token_failure_json_model('need an open status')
@@ -86,16 +86,14 @@ def update_token_logic(teacher_query, request):
         if not endpoint_checks.id_is_valid(token_id):
             return update_token_failure_json_model('token is not valid')
 
-        if token_is_open is not True or False:
+        if token_is_open is not True and token_is_open is not False:
             return update_token_failure_json_model('open status must be true or false')
 
-        if token_is_released is not True or False:
+        if token_is_released is not True and token_is_released is not False:
             return update_token_failure_json_model('released status must be true or false')
 
-
-
         # is the teacher authorized? get the token if so
-        token_query = Token.objects.filter(exam__course__teacher=teacher_query, id=request.session.get('token_id'))
+        token_query = Token.objects.filter(exam__course__teacher=teacher_query, id=token_id)
         
         # has it been found?
         if not token_query.exists():
@@ -117,7 +115,7 @@ def update_token(request):
     return endpoint_checks.standard_teacher_endpoint(
         "update_token",
         ['token'],
-        'POST',
+        'PUT',
         request,
         update_token_logic
         )
@@ -159,7 +157,7 @@ def delete_token(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_token",
         ['token_id'],
-        'POST',
+        'DELETE',
         request,
         delete_token_logic
         )

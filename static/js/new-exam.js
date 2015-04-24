@@ -7,14 +7,22 @@ function submitNewExam() {
     type: 'POST',
     url:  '/api/exam',
     data: data,
-    success: function(res) {
-      if (res.success) {
-        location = res.edit_url
-      } else {
-        location.reload()
-      }
+    success: newExamSuccess,
+    error: function(res) {
+      $('#newExamModal.ui.modal').modal('hide');
+      showErrorMessage('An error occurred while creating the new exam. Please try again.');
     }
   });
+}
+
+function newExamSuccess(res) {
+  $('#newExamModal.ui.modal').modal('hide');
+
+  if (res.success) {
+    location = res.edit_url
+  } else {
+    showErrorMessage(res.message);
+  }
 }
 
 $('#newExamModal .ui.save.button').click(function(e) {
