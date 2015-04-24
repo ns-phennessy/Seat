@@ -36,11 +36,19 @@
 					<div class="column">
 						<div class="ui bold text">Tokens</div>
 
+						{% for token in exam.token_set.all %}
 						<div class="token">
 							&nbsp;&nbsp;
-							<div class="ui dropdown" data-tokenid="7">
-								<div class="ui red empty circular label"></div>
-								b5Xd77
+							<div class="ui dropdown" data-tokenid="{{ token.id }}">
+								{% if token.released %}
+								<div class="ui purple empty circular label" data-content="Released" data-variation="small inverted"></div>
+								{% elif token.open %}
+								<div class="ui green empty circular label" data-content="Open" data-variation="small inverted"></div>
+								{% else %}
+								<div class="ui red empty circular label" data-content="Closed" data-variation="small inverted"></div>
+								{% endif %} 
+
+								<span style="font-family: monospace">{{ token.token }}</span>
 								<i class="dropdown icon"></i>
 								<div class="menu">
 									<div class="item">View Grading</div>
@@ -50,9 +58,8 @@
 									<div class="item" data-content="Closes exam and allows students to view grades." data-value="releaseToken">Release</div>
 								</div>
 							</div>
-
 						</div>
-
+						{% endfor %}
 
 
 					</div>
