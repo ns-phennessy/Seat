@@ -17,3 +17,4 @@ class Submission(models.Model):
     question = models.OneToOneField(Question)
     taken_exam = models.ForeignKey(TakenExam, related_name='submission_taken_exam')
     choices = models.ManyToManyField(Choice)
+    correct = models.BooleanField(default=False)
