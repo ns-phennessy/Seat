@@ -31,13 +31,13 @@ var token = new function(){
 				'X-CSRFToken' : $.cookie('csrftoken')
 			}
 		}).success(function(data, succcess) {
-			
+
 			$('#newTokenModal').modal({
 				onHide: function(){
 					location.reload();
 				}
 			});
-			
+
 			$('#newTokenModal').modal('show');
 		})
 		.fail(function() {console.log(arguments) })
@@ -61,15 +61,15 @@ var token = new function(){
 		.always(function() {console.log(arguments) })
 	};
 
-	this.update = function(){
+	this.update = function(id, open, released){
 		$.ajax({
 			method: "POST",
 			url: '/api/token/',
 			data: {
 				'token' : JSON.stringify({
-					'token_id' : 1,
-					'open' : true,
-					'released' : false
+					'token_id' : id,
+					'open' : open,
+					'released' : released
 				})
 			},
 			headers: {
@@ -98,6 +98,21 @@ $('[data-content]').popup({
 	position:'left center'	
 });
 
-$('.tokens .ui.dropdown').dropdown({
-
+$('.token .ui.dropdown').dropdown({
+	onChange: function(value, text, $choice){
+		switch(value){
+			case 'openToken':
+				var token_id = $(this).attr('data-tokenid');
+				token.update(token_id, true, false);
+				break;
+			case 'closeToken':
+				var token_id = $(this).attr('data-tokenid');
+				token.update(token_id, false, false);
+				break;
+			case 'releaseToken':
+				var token_id = $(this).attr('data-tokenid');
+				token.update(token_id, false, true);
+				break;
+		}
+	}
 });
