@@ -1,19 +1,32 @@
 function submitAddCourse() {
-    var courseName = $('#addCourseModal .ui.form input[name="course_name"]').val();
-    var middlewareToken = $('#addCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
+  var courseName = $('#addCourseModal .ui.form input[name="course_name"]').val();
+  var middlewareToken = $('#addCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
 
-    $('#addCourseModal .ui.form').addClass('loading');
+  $('#addCourseModal .ui.form').addClass('loading');
 
-    $.post('/api/course', {
-      name : courseName,
-      csrfmiddlewaretoken : middlewareToken
-    }, function() {
+  $.ajax({
+    type: 'POST',
+    url:  '/api/course',
+    data: {
+      name: courseName,
+      csrfmiddlewaretoken: middlewareToken
+    },
+    success: newCourseSuccess,
+    error: function(res) {
       $('#addCourseModal.ui.modal').modal('hide');
-        location.reload();
+      showErrorMessage('An error occurred while creating the new course. Please try again.');
+    }
+  })
+}
 
-    }).fail(function() {
-      console.log(arguments);
-    })
+function newCourseSuccess(res) {
+  $('#addCourseModal.ui.modal').modal('hide');
+
+  if (res.success) {
+    location.reload();
+  } else {
+    showErrorMessage(res.message);
+  }
 }
 
 $('#addCourseModal .ui.save.button').click(function(e) {

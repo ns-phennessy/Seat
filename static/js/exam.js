@@ -352,11 +352,13 @@ document.addEventListener("DOMContentLoaded", function() {
 				}, 1500);
 			} else {
 				console.log('server did not save the question!!!', data.message)
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_submit_failure = function() {
 			/* this fires before always */
 			console.log('failure to save question!')
+			showErrorMessage('An error occurred while creating the question. Please try again.');
 		};
 		var ajax_submit_always = function(data, success, jqxhr) {
 			/* but this always fires =() */
@@ -371,11 +373,13 @@ document.addEventListener("DOMContentLoaded", function() {
 				multichoice.manifestation.remove();
 			} else {
 				console.log('the server did not delete our question!', data.message);
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_delete_failure = function() {
 			/* this fires before always */
 			console.log('failure to delete a question!', arguments);
+			showErrorMessage('An error occurred while deleting the question. Please try again.');
 		};
 		var ajax_delete_always = function(data, success, jqxhr) {
 			/* but this always fires =() */
@@ -627,11 +631,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			} else {
 				console.log('server did not save the question!!!', data.message)
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_submit_failure = function() {
 			/* this fires before always */
 			console.log('failure to save question!')
+			showErrorMessage('An error occurred while creating the question. Please try again.');
 		};
 		var ajax_submit_always = function(data, success, jqxhr) {};
 
@@ -642,11 +648,13 @@ document.addEventListener("DOMContentLoaded", function() {
 				essay.manifestation.remove();
 			} else {
 				console.log('the server did not delete our question!', data.message);
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_delete_failure = function() {
 			/* this fires before always */
 			console.log('failure to delete a question!', arguments);
+			showErrorMessage('An error occurred while deleting the question. Please try again.');
 		};
 		var ajax_delete_always = function(data, success, jqxhr) {};
 
@@ -888,11 +896,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			} else {
 				console.log('server did not save the question!!!', data.message)
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_submit_failure = function() {
 			/* this fires before always */
 			console.log('failure to save question!')
+			showErrorMessage('An error occurred while creating the question. Please try again.');
 		};
 		var ajax_submit_always = function(data, success, jqxhr) {
 			/* but this always fires =() */
@@ -906,11 +916,13 @@ document.addEventListener("DOMContentLoaded", function() {
 				shortanswer.manifestation.remove();
 			} else {
 				console.log('the server did not delete our question!', data.message);
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_delete_failure = function() {
 			/* this fires before always */
 			console.log('failure to delete a question!', arguments);
+			showErrorMessage('An error occurred while deleting the question. Please try again.');
 		};
 		var ajax_delete_always = function(data, success, jqxhr) {
 			/* but this always fires =() */
@@ -1184,11 +1196,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			} else {
 				console.log('server did not save the question!!!', data.message)
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_submit_failure = function() {
 			/* this fires before always */
 			console.log('failure to save question!')
+			showErrorMessage('An error occurred while creating the question. Please try again.');
 		};
 		var ajax_submit_always = function(data, success, jqxhr) {
 			/* but this always fires =() */
@@ -1203,11 +1217,13 @@ document.addEventListener("DOMContentLoaded", function() {
 				truefalse.manifestation.remove();
 			} else {
 				console.log('the server did not delete our question!', data.message);
+				showErrorMessage(data.message);
 			}
 		};
 		var ajax_delete_failure = function() {
 			/* this fires before always */
 			console.log('failure to delete a question!', arguments);
+			showErrorMessage('An error occurred while deleting the question. Please try again.');
 		};
 		var ajax_delete_always = function(data, success, jqxhr) {
 			/* but this always fires =() */
