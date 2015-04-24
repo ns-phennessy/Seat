@@ -2,6 +2,7 @@ from seat.applications.QuestionApplication import QuestionApplication
 from seat.applications.TeacherApplication import TeacherApplication
 from django.http import JsonResponse
 from seat.models.token import Token
+from seat.models.exam import Exam
 from api.helpers import endpoint_checks
 import logging
 
@@ -10,11 +11,12 @@ logger = logging.getLogger('api')
 tokenApplication = QuestionApplication()
 
 # POST
-def create_token_success_json_model(token_id):
+def create_token_success_json_model(token):
     return JsonResponse({
         'success': True,
         'error': False,
-        'id': str(token_id)
+        'id': str(token.id),
+        'token' : token.token
     })
 
 def create_token_failure_json_model(message):
@@ -27,15 +29,15 @@ def create_token_failure_json_model(message):
 def create_token_logic(teacher_query, request):
     try:
         # check that teacher has rights to this exam
-        if not endpoint_checks.id_is_valid(request.get('exam_id')):
+        if not endpoint_checks.id_is_valid(request.POST.get('exam_id')):
             return create_token_failure_json_model("invalid id")
 
-        exam_query = Exam.objects.filter(teacher=teacher_query, id=request.get('exam_id'))
+        exam_query = Exam.objects.filter(course__teacher=teacher_query, id=request.POST.get('exam_id'))
         
         # create token
         if exam_query.exists():
             token = Token.objects.create(exam=exam_query.all()[0])
-            return create_token_success_json_model(token.id)
+            return create_token_success_json_model(token)
         
         # or fail
         return create_token_failure_json_model("exam does not exist")
