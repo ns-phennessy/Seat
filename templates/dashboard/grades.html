@@ -4,8 +4,10 @@
 
 <div class="twelve wide column" id="main">
 
-
-
+    <a href="#">content</a>
+    {% for taken_exam in taken_exams %}
+        <h1>{{taken_exam.student.name }}; {{taken_exam.score}}%; <a href="/dashboard/grade-exam/{{taken_exam.student.id}}/{{taken_exam.token.id}}">view</a> </h1>
+    {% endfor %}
 </div>
 {% endblock %}
 
