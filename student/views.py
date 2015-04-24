@@ -6,6 +6,7 @@ from seat.applications.AuthenticationApplication import AuthenticationApplicatio
 from seat.applications.StudentApplication import StudentApplication
 from seat.applications.ExamApplication import ExamApplication
 from seat.applications.TokenApplication import TokenApplication
+from seat.models.student import Student
 
 routingApplication = RoutingApplication()
 authenticationApplication = AuthenticationApplication()
@@ -17,11 +18,12 @@ def index(request):
     if 'user_id' not in request.session:
         # user not allowed here, kick em out
         return routingApplication.logout(request)
-
-    student = studentApplication.get_student_by_id(request.session['user_id'])
-    if not student:
+    student_query = Student.objects.filter(id=request.session.get('user_id'))
+    if not student_query.exists():
         # user is not allowed here, kick em out
         return routingApplication.logout(request)
+
+    student = student_query.all()[0]
 
     released_taken_exams = studentApplication.get_released_past_exams(student)
     # to be sure the model can iterate over it
@@ -39,7 +41,11 @@ def take_exam(request):
     if 'token' not in request.session: # set when the token was validated
         return routingApplication.logout(request)
     
-    student = studentApplication.get_student_by_id(request.session['user_id'])
+    student_query = Student.objects.filter(id=request.session.get('user_id'))
+    if not student_query.exists():
+        # user is not allowed here, kick em out
+        return routingApplication.logout(request)
+    
     token = tokenApplication.is_valid(request.session['token'])
 
     if not token:
