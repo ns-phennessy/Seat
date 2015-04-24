@@ -25,7 +25,8 @@
 
 .ui.text.secondary,
 .ui.text.faded{
-    opacity: 0.6 
+    opacity: 0.6;
+	color: rgba(0,0,0,0.85);
 }
 
 .ui.text.indented{
