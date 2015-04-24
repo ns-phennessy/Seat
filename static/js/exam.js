@@ -1340,6 +1340,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	$('.ui.button#addNewQuestionType').dropdown('set selected', 'multichoice');
 
 	window.questions = [];
+    console.log(questions_present_at_pageload)
 	for (var i in questions_present_at_pageload) {
 		var question_data = questions_present_at_pageload[i];
 		var question = null;
