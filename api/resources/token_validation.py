@@ -23,15 +23,15 @@ def validate_token_logic(student, request):
     try:
         token_set = Token.objects.filter(token=request.POST['token']).all()
         if not token_set:
-            return validate_token_failure_json_model("invalid token")
+            return validate_token_failure_json_model("Invalid token")
         token = token_set[0]
         if not token.open:
-            return validate_token_failure_json_model("token not open anymore")
+            return validate_token_failure_json_model("Token not open anymore")
         else:
             request.session['token'] = request.POST['token']
             return validate_token_success_json_model(token.exam.id)
     except Exception as error:
-        return HttpResponseServerError("server error")
+        return HttpResponseServerError("Server error")
 
 def validate_token(request):
     return endpoint_checks.standard_student_endpoint(

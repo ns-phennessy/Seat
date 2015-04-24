@@ -188,7 +188,10 @@ $(document).ready(function () {
 
         question.storage = JSON.parse(JSON.stringify(question.data));
     }
-
+    setInterval(function () {
+        var percent = (($('.questionSaved:visible').length) / ($('.questionSaved:visible').length + $('.questionSaved:hidden').length))*100;
+        $('[data-percent]').progress({percent: percent})
+    }, 250)
     /* populate page */
     var question_array = [];
     var questions = dom_select($('body'), 'question');
