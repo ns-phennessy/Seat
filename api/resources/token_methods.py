@@ -71,7 +71,7 @@ def update_token_failure_json_model(message):
 def update_token_logic(teacher_query, request):
     try:
         # validate the actual request
-        token_json = json.dumps(request.get('token'))
+        token_json = json.dumps(request.PUT.get('token'))
 
         if 'open' not in token_json:
             return update_token_failure_json_model('need an open status')
@@ -91,8 +91,6 @@ def update_token_logic(teacher_query, request):
 
         if token_is_released is not True or False:
             return update_token_failure_json_model('released status must be true or false')
-
-
 
         # is the teacher authorized? get the token if so
         token_query = Token.objects.filter(exam__course__teacher=teacher_query, id=request.session.get('token_id'))
