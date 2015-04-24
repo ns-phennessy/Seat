@@ -10,45 +10,58 @@
 
 	{% if course.exam_set.all %}
 
-	<div class="ui doubling two cards">
+	<div class="ui two doubling cards">
 		{% for exam in course.exam_set.all %}	
 		<div class="card">
 			<div class="content">
-				<span class="ui faded text" data-role="delete" data-id="{{ exam.id }}"><i class="right floated delete icon" data-content="Delete Exam"></i></span>
-				<h2 class="ui header">{{ exam.name }}</h2>
+
+				<div class="right floated">
+					<a href="{% url 'dashboard.views.exam_edit' exam.id %}" class="ui faded text"><i class="pencil icon" data-content="Edit Exam"></i></a>
+					<span class="ui faded text" data-role="delete" data-id="{{ exam.id }}"><i class="delete icon" data-content="Delete Exam"></i></span>
+				</div>
+
+				<a href="{% url 'dashboard.views.exam_edit' exam.id %}" class="ui large link header">{{ exam.name }}</a>
 				<div class="meta">
-					<span class="date" data-content="Last Modified"><i class="clock icon"></i> {{ exam.updated_at|date:"DATE_FORMAT" }}</span>
+					<span class="date"><i class="clock icon"></i> {{ exam.updated_at|date:"DATE_FORMAT" }}</span>
 				</div>
 				<br>
-				<div class="ui grid">
-					<div class="four wide column">
-						<div class="ui left floated tiny blue statistic">
+				<div class="ui two column grid">
+					<div class="column">
+						<div class="ui tiny blue statistic">
 							<div class="value">{{ exam.question_set.all|length }}</div>
 							<div class="label">Questions</div>
 						</div>
 
 					</div>
-					<div class="twelve wide column">
-						<span class="ui bold text">Tokens</span>
-						<table class="ui very compact table" style="border:none; margin-top:0">
-							<tr>
-								<td>b5Xd77</td>
-								<td>View</td>
-								<td><div class="ui mini green label">Open</div></td>
-							</tr>
-							<tr>
-								<td>rD0f69</td>
-								<td>View</td>
-								<td><div class="ui mini green label">Open</div></td>
-							</tr>
-						</table>
+					<div class="column">
+						<div class="ui bold text">Tokens</div>
+
+						<div class="token">
+							<div class="ui green empty circular label"></div>
+							&nbsp;&nbsp;
+							<div class="ui dropdown">
+								b5Xd77
+								<i class="dropdown icon"></i>
+								<div class="menu">
+									<div class="item">View Grading</div>
+									<div class="ui divider"></div>
+									<div class="item" data-content="Exam can be taken by students with this token.">Open</div>
+									<div class="item" data-content="Prevents use to token to take an exam.">Close</div>
+									<div class="item" data-content="Closes exam and allows students to view grades.">Release</div>
+
+								</div>
+							</div>
+
+						</div>
+
+
+
 					</div>
 
 				</div>
 			</div>
-			<div class="ui bottom attached two buttons">
-				<a class="ui basic button" href="{% url 'dashboard.views.exam_edit' exam.id %}">Edit Exam</a>
-				<div class="ui basic button">New Token</div>
+			<div class="ui bottom attached button" data-id="{{ exam.id }}" data-role="new-token">
+				<i class="plus icon"></i>Generate New Token
 			</div>
 		</div>
 		{% endfor %}
@@ -73,5 +86,14 @@
 <script src="{% static 'js/delete-course.js' %}"></script>
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/course.js' %}"></script>
+<script>
+	$('[data-content]').popup({
+		variation:'inverted',
+		delay:{
+			show:500	
+		},
+		position:'left center'	
+	});
+</script>
 
 {% endblock %}
