@@ -1,6 +1,5 @@
 from seat.applications.QuestionApplication import QuestionApplication
-from seat.applications.TokenApplication import TokenApplication
-from seat.models.taken_exam import TakenExam, Submission
+from seat.models.taken_exam import TakenExam, Submission, Token
 from seat.models.exam import Question, Choice
 from django.http import JsonResponse, HttpResponseServerError, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseBadRequest
 from api.helpers import endpoint_checks
@@ -10,7 +9,6 @@ import logging
 logger = logging.getLogger('api')
 
 questionApplication = QuestionApplication()
-tokenApplication = TokenApplication()
 
 # POST
 def upsert_success_json_model(id):
@@ -20,12 +18,28 @@ def upsert_success_json_model(id):
         'id': id
     })
 
+def upsert_failure_json_model(message, token_is_closed=False):
+    return JsonResponse({
+        'success': False,
+        'error': True,
+        'message': message,
+        'token_closed': token_is_closed
+    });
+
 def submission_logic(student_query, request):
     try:
         #TODO: be sure sessions don't expire real fast
-        token = tokenApplication.is_valid(request.session['token']) # placed during validation
-        if not token:
+        if not 'token' in request.session:
+            return HttpResponseNotAllowed("token not found in session")
+        
+        token_query = Token.objects.filter(token=request.session.get('token'))# token put in session when token validated
+        if not token_query.exists():
             return HttpResponseNotAllowed("invalid token")
+
+        token = token_query.all()[0]
+
+        if not token.open:
+            return upsert_failure_json_model("exam is closed", True)
 
         submission_json = json.loads(request.POST['submission'])
 
