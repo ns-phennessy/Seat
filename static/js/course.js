@@ -61,7 +61,7 @@ var token = new function(){
 		.always(function() {console.log(arguments) })
 	};
 
-	this.update = function(id, open, released){
+	this.update = function(id, open, released, success){
 		$.ajax({
 			method: "POST",
 			url: '/api/token/',
@@ -76,9 +76,8 @@ var token = new function(){
 				'X-CSRFToken' : $.cookie('csrftoken'),
 				'X-METHODOVERRIDE' : 'PUT'
 			}
-		},function() {
-			console.log(arguments)
 		})
+		.success(success)
 	};
 
 }
@@ -100,18 +99,45 @@ $('[data-content]').popup({
 
 $('.token .ui.dropdown').dropdown({
 	onChange: function(value, text, $choice){
+		var tokenContainer = $(this);
+		var token_id = $(this).attr('data-tokenid');
+
 		switch(value){
 			case 'openToken':
-				var token_id = $(this).attr('data-tokenid');
-				token.update(token_id, true, false);
+				var success = function(){
+					var statusLabel = $(tokenContainer).find('.ui.circular.label');
+
+					statusLabel.removeClass('red');
+					statusLabel.removeClass('purple');
+					statusLabel.addClass('green');
+				}
+
+
+				token.update(token_id, true, false, success);
 				break;
 			case 'closeToken':
-				var token_id = $(this).attr('data-tokenid');
-				token.update(token_id, false, false);
+				var success = function(){
+					var statusLabel = $(tokenContainer).find('.ui.circular.label');
+
+					statusLabel.removeClass('green');
+					statusLabel.removeClass('purple');
+					statusLabel.addClass('red');
+				}
+
+
+				token.update(token_id, false, false, success);
 				break;
 			case 'releaseToken':
-				var token_id = $(this).attr('data-tokenid');
-				token.update(token_id, false, true);
+				var success = function(){
+					var statusLabel = $(tokenContainer).find('.ui.circular.label');
+
+					statusLabel.removeClass('green');
+					statusLabel.removeClass('red');
+					statusLabel.addClass('purple');
+				}
+
+
+				token.update(token_id, false, true, success);
 				break;
 		}
 	}
