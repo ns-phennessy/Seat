@@ -32,6 +32,7 @@ var token = new function(){
 			}
 		}).success(function(data, succcess) {
 
+			$('#newTokenModal').find('.tokenText').text(data.token);
 			$('#newTokenModal').modal({
 				onHide: function(){
 					location.reload();
