@@ -2,7 +2,7 @@
 
 {% block pagecontent %}
 
-{% include "dashboard/courses-list.html" %}
+{% include "dashboard/courses-list.html" with current_course=course %}
 {% include "dashboard/modals/renameCourse.html" %}
 
 <div class="twelve wide column" id="main">
