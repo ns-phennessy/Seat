@@ -1,0 +1,23 @@
+.question{
+	margin-bottom:3em;	
+}
+.question .ui.top.attached.header{
+	background-color:#fafafa !important;
+	position:relative;
+	overflow: 
+}
+.question .ui.top.attached.header>.content{
+	text-indent:1em !important;
+	width:100%;
+	margin-left:0;
+}
+
+.question .ui.top.attached.header>.content>.right.floated{
+	float:right;
+	font-size:1rem;
+	text-indent: initial;
+}
+
+.question .ui.top.attached.header .corner.label{
+	margin:0;	
+}
