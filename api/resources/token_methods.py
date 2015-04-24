@@ -157,7 +157,7 @@ def delete_token(request):
     return endpoint_checks.standard_teacher_endpoint(
         "delete_token",
         ['token_id'],
-        'POST',
+        'DELETE',
         request,
         delete_token_logic
         )
