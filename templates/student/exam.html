@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Meta data -->
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>Parkway Testing Application</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic.min.css">
+		<link rel="stylesheet" href="http://cdn.patcave.info/css/semantic-typography.css">
+		<link rel="stylesheet" href="../../static/css/student/exam.css">
+	</head>
+	<body>
+        {% csrf_token %}
+		<div class="ui inverted basic segment page grid" style="margin-top:0; margin-bottom:0">
+			<div class="column row">
+				<a href="#" style="float:left">
+					<h1 class="ui inverted header">Student Dashboard</h1>
+				</a>
+				<div class="ui right floated text inverted menu">
+					<div class="no hover item">
+						<span class="ui bold text">Harvey Dent</span>
+					</div>
+					<a href="#" class="item">Help</a>
+					<a href="/logout/" class="item">Logout</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui very relaxed page two column grid padded segment" style="background-color:#f0f0f0 !important">
+			<div class="row">
+				<h1 class="ui header" style="padding:0.5em">
+					Midterm Exam 1
+					<div class="ui indented text sub header">
+						CS2050 - Advanced Algorithm Design II
+					</div>
+				</h1>
+			</div>
+		</div>
+
+		<!-- Content -->
+		<div class="ui relaxed page stackable grid">
+			<div class="four wide column computer tablet only">
+				<div class="ui sticky" id="helper">
+					<h2 class="ui header">Contents</h2>
+					<div class="ui top attached indicating inverted progress" data-percent="36">
+						<div class="bar"></div>
+					</div>
+					<br>
+					<div class="ui small labels" data-content="Jump to a question!" data-variation="basic small inverted" data-position="top center">
+						<div class="ui five column grid">
+                        {% for question in questions %}
+                            <div class="column"> <a id="question-link-{{question.id}}" href="#question-{{question.id}}" class="ui label">{{forloop.counter}}</a> </div>
+                        {% endfor %}
+				        </div>
+                    </div>
+			    </div>
+            </div>	
+
+
+			<div class="twelve wide column" id="questions">
+                {% for question in questions %}
+
+                            {% if question.category == "multichoice"  %}
+                                {% include "student/partials/multichoice.html" %}
+                            {% endif %}
+                
+                            {% if question.category == "shortanswer" %}
+                                 {% include "student/partials/shortanswer.html" %}
+                            {% endif %}
+
+                            {% if question.category == "essay" %}
+                                {% include "student/partials/essay.html" %}
+                            {% endif %}
+                
+                            {% if question.category == "truefalse" %}
+                                {% include "student/partials/truefalse.html" %}
+                            {% endif %}
+
+                {% endfor %}
+
+			</div>
+		</div>
+
+		<!-- Javascript -->
+		<script src="http://cdn.patcave.info/js/jquery.min.js"></script>
+        <script src='/static/js/jquery.cookie.js'></script>
+		<script src="http://cdn.patcave.info/js/semantic.min.js"></script>
+        <script src="/static/js/take-exam.js"></script>
+		<script>
+			$('.ui.checkbox').checkbox();
+			$('.ui.progress').progress();
+
+			$('[data-content]').popup({
+				variation:'small inverted',
+				position:'left center',
+				transition:'drop',
+				delay: {
+					show:'750'
+				}
+			});
+
+			$('#helper').sticky({ 
+				context: '#questions',
+				offset:10
+			});
+
+		</script>
+	</body>
+</html>

@@ -18,8 +18,8 @@
 								<span data-x="prompt-substr">This is the prompt for a short answer question</span>
 							</div>
 							<div class="two wide column center aligned">
-								<div class="ui mini basic icon button" data-content="Edit"><i class="pencil icon"></i></div>
-								<div class="ui mini basic icon button" data-content="Delete"><i class="delete icon"></i></div>
+								<div class="ui mini basic icon button questionEdit" data-content="Edit"><i class="pencil icon"></i></div>
+								<div class="ui mini basic icon button questionDelete" data-content="Delete"><i class="delete icon"></i></div>
 							</div>
 						</div>
 					</div>
@@ -32,9 +32,11 @@
 	<!-- edit -->
 	<div class="edit question-section">
 		<div class="ui form secondary segment">
-			<h3 class="ui left floated header">Question <span data-x="number">3</span></h3>
-			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" data-content="Cancel"><i class="delete icon"></i></a>
-
+			<h3 class="ui left floated header">
+				Question <span data-x="number"></span>
+				<div class="sub header" data-x="type">Short Answer</div>	
+			</h3>
+			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" class="questionReset questionSummary" data-content="Cancel"><i class="delete icon"></i></a>
 
 			<div class="two fields">
 				<div class="three wide field">
@@ -53,8 +55,15 @@
 			</div>
 
 			<div class="ui divider"></div>
-			<div class="ui blue button">Save Question</div>
-			<div class="ui right floated button">Cancel</div>
+			<div class="ui blue button questionSubmit">Save Question</div>
+			<div class="ui right floated button questionReset questionSummary">Cancel</div>
+
+			<div class="ui inverted dimmer">
+				<h2 class="ui icon header" style="position:absolute; top:25%; left:0; right:0">
+					<i class="green checkmark icon"></i>
+					Question Saved!
+				</h2>
+			</div>
 		</div>
 
 

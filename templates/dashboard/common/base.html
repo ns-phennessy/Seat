@@ -10,7 +10,7 @@
 		{% load static %}
 
 		<!-- CSS -->
-		<link rel="stylesheet" href="{% static 'css/semantic.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/semantic-new.min.css' %}">
 		<link rel="stylesheet" href="{% static 'css/semantic-typography.css' %}">
 		<link rel="stylesheet" href="{% static 'css/base.css' %}">
 	</head>
@@ -29,16 +29,26 @@
 					<a href="/logout/" class="item">Logout</a>
 				</div>
 			</div>
-			<div class="row" style="padding-bottom:1px">
-				<div class="ui bold secondary inverted blue pointing menu" style="background:#1b1c1d;">
-					<a class="active item">Manage Courses</a>
-					<a class="item">Gradebook</a>
-					<a class="item">Open Exams</a>
-				</div>
+		</div>
+
+		<div class="ui very relaxed page two column grid padded segment" style="background-color:#f0f0f0 !important">
+			<div class="row">
+				<h1 class="ui header" style="padding:0.5em">
+					{% firstof course.name exam.course.name %}
+					<div style="float:right">
+						<div class="ui tiny blue button" data-role="renameCourse">Rename Course</div>
+						<div class="ui tiny red button" id="delete-course">Delete Course</div>
+					</div>
+					<div class="ui indented text sub header">
+						
+					</div>
+				</h1>
+
+
 			</div>
 		</div>
 
-		<div class="ui page grid">
+		<div class="ui stackable doubling page grid">
 			{% block pagecontent %}
 			{% endblock %}
 		</div>

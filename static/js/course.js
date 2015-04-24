@@ -16,3 +16,7 @@ $('tr[data-role=exam] div[data-role=delete]').on('click', function(e) {
     }
   });
 });
+
+$('.ui.accordion')
+  .accordion()
+;

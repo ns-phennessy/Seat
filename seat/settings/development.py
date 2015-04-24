@@ -8,6 +8,7 @@ ALLOWED_HOSTS = ['*']
 
 DEBUG = True
 TEMPLATE_DEBUG = True
+CSRF_COOKIE_DOMAIN = "localhost:8000"
 
 # Database
 DATABASES = {

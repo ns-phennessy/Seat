@@ -7,5 +7,5 @@ urlpatterns = patterns('',
     url(r'question/?$', views.question),
     url(r'validate_token/?$', views.validate_token),
     url(r'token/?$', views.token),
-    url(r'submission/?$',views.submission),
+    url(r'submissions/?$',views.submission),
 )

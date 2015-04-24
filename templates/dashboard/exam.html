@@ -5,24 +5,12 @@
 {% include "dashboard/courses-list.html" with course=exam.course %}
 
 <div class="twelve wide column" id="main">
-	<h1 class="ui dividing header">
+	<h1 class="ui header">
 		<div class="content">
 			Edit Exam
 		</div>
 	</h1>
-	<div class="row">
-		<div class="ui small buttons">
-			<div class="ui button"><i class="privacy icon"></i> Generate Token</div>
-			<div class="ui button"><i class="share icon"></i> Preview</div>
-		</div>
-		<div class="column right floated">
-			<div class="ui small buttons">
-				<div class="ui red button"><i class="delete icon"></i> Delete Exam</div>
-			</div>
-		</div>
-	</div>
-	<br>
-
+	<div class="ui divider"></div>
 	<form class="ui form">
 		<div class="two fields">
 			<div class="field">
@@ -49,7 +37,28 @@
 		<!-- Content area -->
 		<div class="question-list"></div>
 		<br>
-		<div class="ui huge fluid button"><i class="plus icon"></i> Add New Question</div>
+
+		<div class="ui two fluid buttons">
+			<div class="ui huge button" id="addNewQuestion"><i class="plus icon"></i> New Question</div>
+			<div class="ui huge floating upward dropdown button" id="addNewQuestionType">
+				<input type="hidden" name="newQuestionType">
+				<span style="opacity:0.4">Type:</span>
+				<span class="text">Select Type</span>
+				<div class="menu">
+					<div class="item" data-value="essay">Essay</div>
+					<div class="item" data-value="shortanswer">Short Answer</div>
+					<div class="item" data-value="truefalse">True / False</div>
+					<div class="item" data-value="multichoice">Multiple Choice</div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+
+
+
 	</div>
 </div>
 
