@@ -14,7 +14,9 @@ class TakenExam(models.Model):
 
 
 class Submission(models.Model):
-    question = models.OneToOneField(Question)
+    question = models.ForeignKey(Question)
     taken_exam = models.ForeignKey(TakenExam, related_name='submission_taken_exam')
     choices = models.ManyToManyField(Choice)
     correct = models.BooleanField(default=False)
+    class Meta:
+        unique_together = ('taken_exam','question',)

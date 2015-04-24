@@ -50,9 +50,13 @@ def submission_logic(student_query, request):
         
         question = question.all()[0]
 
-        submission,new_sub = Submission.objects.get_or_create(question=question, taken_exam=taken_exam)
+        submission_query = Submission.objects.filter(question=question, taken_exam__student=student_query)
         
-        if new_sub:
+        submission = None
+        if submission_query.exists():
+            submission = submission_query.all()[0]
+        else:
+            submission = Submission.objects.create(question=question, taken_exam=taken_exam)
             submission.save()
 
         map(lambda choice: choice.delete(), submission.choices.all())
