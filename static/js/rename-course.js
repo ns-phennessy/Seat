@@ -1,25 +1,33 @@
 function submitRenameCourse() {
-	var courseName = $('#renameCourseModal .ui.form input[name="course_name"]').val();
-	var middlewareToken = $('#renameCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
+  var courseName = $('#renameCourseModal .ui.form input[name="course_name"]').val();
+  var middlewareToken = $('#renameCourseModal .ui.form input[name="csrfmiddlewaretoken"]').val();
 
-	$('#renameCourseModal .ui.form').addClass('loading');
+  $('#renameCourseModal .ui.form').addClass('loading');
 
-	$.ajax({
-       type: "POST",
-       url: '/api/course/',
-       data: { course_id: $('#course-id').val(), name: courseName },
-       beforeSend: function(xhr) {
-           xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken') );
-           xhr.setRequestHeader('X-METHODOVERRIDE', 'PUT');
-       },
-       success: function() {
-           console.log('success');
-           location.reload();
-       },
-       fail : function() {
-       		console.log('failure');
-       }
-   })
+  $.ajax({
+    type: "POST",
+    url: '/api/course/',
+    data: { course_id: $('#course-id').val(), name: courseName },
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('X-CSRFToken', $.cookie('csrftoken') );
+      xhr.setRequestHeader('X-METHODOVERRIDE', 'PUT');
+    },
+    success: renameCourseSuccess,
+    error: function() {
+      $('#renameCourseModal.ui.modal').modal('hide');
+      showErrorMessage('An error occurred while renaming the course. Please try again.');
+    }
+  });
+}
+
+function renameCourseSuccess(res) {
+  $('#renameCourseModal.ui.modal').modal('hide');
+
+  if (res.success) {
+    location.reload();
+  } else {
+    showErrorMessage(res.message);
+  }
 }
 
 $('#renameCourseModal .ui.save.button').click(function(e) {
