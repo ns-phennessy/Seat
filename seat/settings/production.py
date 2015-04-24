@@ -9,7 +9,6 @@ with open(os.path.join(BASE_DIR, 'seat/settings/secret.key')) as f:
 DEBUG = False
 TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = ['*']
-CSRF_COOKIE_DOMAIN = "test.patcave.info"
 
 # Database
 CONN_MAX_AGE = 60*5

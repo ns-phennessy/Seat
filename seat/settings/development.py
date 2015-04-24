@@ -8,7 +8,6 @@ ALLOWED_HOSTS = ['*']
 
 DEBUG = True
 TEMPLATE_DEBUG = True
-CSRF_COOKIE_DOMAIN = ""
 
 # Database
 DATABASES = {
