@@ -187,6 +187,7 @@
     <Content Include="templates\dashboard\grades.html" />
     <Content Include="templates\dashboard\modals\addCourse.html" />
     <Content Include="templates\dashboard\modals\newExam.html" />
+    <Content Include="templates\dashboard\modals\newToken.html" />
     <Content Include="templates\dashboard\modals\renameCourse.html" />
     <Content Include="templates\dashboard\multiple-choice.html" />
     <Content Include="templates\dashboard\nocourse.html" />

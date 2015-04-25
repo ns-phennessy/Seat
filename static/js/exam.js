@@ -1052,6 +1052,15 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		}
 
+		truefalse.manifestation.find('.checkable').on('change', function () {
+		    var $checked = truefalse.manifestation.find(':checked')
+		    if ($checked.length > 0) {
+		        truefalse._data['answers'] = [true];
+		    } else {
+		        truefalse._data['answers'] = [false];
+		    }
+		})
+
 		/* expose all of the properties */
 		for (var property_to_be_available in my_data) {
 			if (is_type_of([], my_data[property_to_be_available])) continue;
@@ -1151,12 +1160,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		truefalse.check = function(){
-			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('check');
+
 		};
 
 		truefalse.uncheck = function(){
-			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('uncheck');
+
 		};
+        
 
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */

@@ -26,7 +26,7 @@ def grade_failure_json(message):
 
 def choice_is_one_of(choice, answers):
     for answer in answers:
-        if choice.text.strip() == answers.text.strip():
+        if choice.text.strip() == answer.text.strip():
             return True
     return False
 
@@ -46,7 +46,7 @@ def grade_exam(taken_exam, question_map):
             logger.warn("A student appears to have submitted more choices than allowed for a question!!, student with id:"+str(taken_exam.student.id))
         elif question.category is not "multiselect":
             # there is only one choice, it is either correct or not
-            if choice_is_one_of(submission.answers.all()[0], question.answers.all()):
+            if choice_is_one_of(submission.choices.all()[0], question.answers.all()):
                 taken_exam += question.points
                 submission.correct = True
         # check if they submitted a fair number of answers
@@ -58,7 +58,7 @@ def grade_exam(taken_exam, question_map):
         elif question.category is "multiselect":
             submission.correct = True
             takenExam += question.points
-            for answer_chosen in submission.answers.all():
+            for answer_chosen in submission.choices.all():
                 if not choice_is_one_of(answer_chosen, question.answers.all()):
                     submission.correct = False
                     takenExam -= question.points
@@ -76,7 +76,7 @@ def grade_logic(teacher_query, request):
         if not endpoint_checks.id_is_valid(token_id):
             return HttpResponseBadRequest("Invalid token_id")
 
-        token_query = Token.objects.filter(exam__teacher=teacher_query, id=token_id)
+        token_query = Token.objects.filter(exam__course__teacher=teacher_query, id=token_id)
         if not token_query.exists():
             return grade_failure_json("Token not found")
         
@@ -100,6 +100,7 @@ def grade_logic(teacher_query, request):
         return grade_success_json(taken_exams_to_grade.count())
 
     except Exception as error:
+        logger.warn(str(error))
         return HttpResponseServerError("server error")
 
 def grade(request):
@@ -108,4 +109,4 @@ def grade(request):
         ['token_id'],
         'POST',
         request,
-        validate_token_logic)
+        grade_logic)
