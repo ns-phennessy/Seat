@@ -53,7 +53,8 @@ def submission_logic(student_query, request):
             return HttpResponseBadRequest("bad question_id")
 
         # it is important that all of these properties are satisfied
-        taken_exam,new_taken = TakenExam.objects.get_or_create(exam=token.exam, student=student_query.all()[0], completed=False, token=token, score=0)
+        taken_exam,new_taken = TakenExam.objects.get_or_create(exam=token.exam, student=student_query.all()[0], completed=False, token=token)
+        taken_exam.score = 0
         
         if new_taken:
             taken_exam.save()
