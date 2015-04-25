@@ -35,7 +35,7 @@ def grade_exam(taken_exam, question_map):
     submissions_for_exam = Submission.objects.filter(taken_exam=taken_exam).all()
     for submission in submissions_for_exam:
         question = question_map[submission.question.id]
-        if submission.correct:
+        if submission.correct and question.answers.exists():
             taken_exam.score -= question.points
         submission.correct = False
         # cannot automatically be graded, as there is no answer
