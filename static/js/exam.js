@@ -1053,13 +1053,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		truefalse.manifestation.find('.checkable').on('change', function () {
-		    var $checked = truefalse.manifestation.find(':checked')
-		    if ($checked.length > 0) {
-		        truefalse._data['answers'] = [true];
-		    } else {
-		        truefalse._data['answers'] = [false];
-		    }
-		})
+			var $checked = truefalse.manifestation.find(':checked')
+			if ($checked.length > 0) {
+				truefalse._data['answers'] = [true];
+			} else {
+				truefalse._data['answers'] = [false];
+			}
+		});
 
 		/* expose all of the properties */
 		for (var property_to_be_available in my_data) {
@@ -1160,13 +1160,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		truefalse.check = function(){
-
+			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('check');		
 		};
 
 		truefalse.uncheck = function(){
-
+			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('uncheck');		
 		};
-        
+
 
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
@@ -1372,18 +1372,18 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	$('.previewQuestions').on('click', function () {
-	    console.log('preview')
-	    $('.question-list, .adder').children().hide();
-        $('.preview-list').show().load('/dashboard/rendered-exam/' + exam_id);
-	    $('.editQuestions').removeClass('active');
-	    $('.previewQuestions').addClass('active');
+		console.log('preview')
+		$('.question-list, .adder').children().hide();
+		$('.preview-list').show().load('/dashboard/rendered-exam/' + exam_id);
+		$('.editQuestions').removeClass('active');
+		$('.previewQuestions').addClass('active');
 	})
 	$('.editQuestions').on('click', function () {
-	    console.log('edit')
-	    $('.preview-list').hide();
-	    $('.question-list, .adder').children().show();
-	    $('.previewQuestions').removeClass('active');
-	    $('.editQuestions').addClass('active');
+		console.log('edit')
+		$('.preview-list').hide();
+		$('.question-list, .adder').children().show();
+		$('.previewQuestions').removeClass('active');
+		$('.editQuestions').addClass('active');
 	})
 
 });
