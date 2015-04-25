@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		"multichoice" : {
 			template_selector : '.multichoice.template'
 		},
+		"multiselect": {
+			template_selector : '.multiselect.template'
+		},
 		"shortanswer" : {
 			template_selector : '.shortanswer.template'
 		},
@@ -23,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	var templates = {}
 
 	/* ------------ begin multichoice ------------- */
-	const MultiQuestion = function() {
+	const MultiChoiceQuestion = function() {
 		const multichoice = this;
 		multichoice.type = "multichoice";
 		multichoice.manifestation = copy_template_and_create(multichoice.type);
@@ -436,6 +439,423 @@ document.addEventListener("DOMContentLoaded", function() {
 		multichoice.edit();
 	}
 	/* ------------ end multichoice ------------- */
+
+	/* ------------ begin multichoice ------------- */
+	const MultiSelectQuestion = function() {
+		const multiselect = this;
+		multiselect.type = "multiselect";
+		multiselect.manifestation = copy_template_and_create(multiselect.type);
+
+		var my_data = multiselect._data = {
+			'question_id' 	: '',
+			'type' 			: 'multiselect',
+			'prompt' 		: '',
+			'points' 		: '',
+			'number' 		: '',
+			'options' 		: [],
+			'answers' 		: []
+		}
+
+		/* selector : action so we can later do multiselect[action]() */
+		const action_map = {
+			'.questionSubmit' 		: 	'submit',
+			'.questionDelete' 		: 	'delete',
+			'.questionAddChoice'	: 	'add_choice',
+			'.questionEdit' 		: 	'edit',
+			'.questionSummary'		:	'summary',
+			'.questionReset'		:	'reset',
+		}
+
+		this._old_data = JSON.parse(JSON.stringify(my_data));// hacky, but hey!
+
+		function wire_for_selector(selector) {
+			return function(e) {
+				multiselect[action_map[selector]]();
+				console.log(selector);
+			}
+		}
+
+		for (var selector in action_map) {
+			multiselect.manifestation.find(selector).on('click', wire_for_selector(selector));
+		}
+
+		const my_derived_sections = {
+			'prompt' : ['prompt-substr']
+		};
+
+		/* prompt-substr is a projection, (read only) the others
+        are pure data, meaning they are bound more generically */
+		multiselect.prompt_substr = function() {
+			if (arguments.length > 0) 
+				console.log('argument ignored in .prompt_substr, which is read-only');
+
+			const truncated_prompt = multiselect._data['prompt'].substr(0, max_prompt_length_without_ellipses);
+
+			if (use_ellipses_on_truncated_prompt 
+				&& truncated_prompt.length == max_prompt_length_without_ellipses) {
+
+				return truncated_prompt + '...';
+			}
+
+			return truncated_prompt;
+		}
+
+		/* this function exposes all of the data for multiselect,
+        -> for example question_id as a getter/setter <-
+        setting it sets it internally and updates all of the places in the
+        markup that are annotated data-x="question_id":
+        some_multiselect_question.question_id(123)
+        some_multiselect_question.question_id() <- 123 */
+		var bind_property_to_multiselect_as_getter_setter = function(property) {
+			multiselect[property] = function(value) {
+				if (arguments.length > 0) {
+					/* set */
+					multiselect._data[property] = value;
+
+					/* this block of code handles setting things like prompt-substr */
+					if (my_derived_sections[property]) {
+						for (var i in my_derived_sections[property]) {
+							/* data-x attributes often have -'s in them, switch to _,
+                              for example this lets us grab data-x="prompt-substr",
+                              and populate it using our own getter, prompt_substr */
+							var derived_property = my_derived_sections[property][i].replace(/-/gm, '_');
+							multiselect.manifestation.find(
+								'[data-x="'+my_derived_sections[property][i]+'"]'
+							)
+							.val(multiselect[derived_property]())
+							.text(multiselect[derived_property]());
+						}
+					}
+					var children = multiselect.manifestation.find('[data-x="'+property+'"]');
+					children.val(value);
+					children.text(value);
+					return multiselect;
+				} else {
+					/* get */
+					return multiselect._data[property]
+				}
+			}
+		}
+
+		/* expose all of the properties */
+		for (var property_to_be_available in my_data) {
+			if (is_type_of([], my_data[property_to_be_available])) continue;
+
+			bind_property_to_multiselect_as_getter_setter(property_to_be_available);
+			bind_property_to_on_change(property_to_be_available)
+		}
+
+		function bind_property_to_on_change(property) {
+			var children = multiselect.manifestation.find('[data-x="'+property+'"]');
+			children.on('change', function(e) {
+				const val = $(this).val();
+				multiselect[property](val);
+			});
+		}
+
+		multiselect.options = function() {
+			return multiselect._data['options'];
+		}
+
+		multiselect.answers = function() {
+			return multiselect._data['answers'];
+		}
+
+		const get_multiselect_option_index_in_options = function(multiselect_option) {
+			var index = -1;
+			multiselect.manifestation.find('.multiselect-edit-option').each(function(i,v){
+				console.log($(v).attr('data-member'), multiselect_option.attr('data-member'))
+				if ($(v).attr('data-member') === multiselect_option.attr('data-member')) {
+					index = i;
+					console.log(index)
+				}
+			})
+			return index;
+		}
+
+		const delete_option = function(multiselect_option) {
+			var index = get_multiselect_option_index_in_options(multiselect_option);
+			multiselect._data['options'].splice(index,1);
+			console.log('index', 'array post slice', index, multiselect._data['options'])
+			var answer_element = multiselect_option.find('[data-x="answer"]');
+			if (answer_element.is(':checked')) {
+				var answer_index = multiselect._data['answers'].indexOf(answer_element.val().trim());
+				if (answer_index >= 0 && answer_index !== false) {
+					multiselect._data['answers'].splice(answer_index,1);
+				}
+			}
+
+			multiselect_option.remove();
+			multiselect.manifestation.find('[data-x="option-count"]').text(multiselect.option_count());
+			multiselect.manifestation.find('[data-x="option-count"]').val(multiselect.option_count());
+		}
+
+		const wireup_delete_for_option = function(multiselect_option) {
+			/* wirup delete for this guy */
+			multiselect_option.find('.delete-option').on('click', function() {
+				delete_option(multiselect_option);
+			})
+		}
+
+		multiselect.option_count = function() {
+			return multiselect._data['options'].length;	
+		}
+
+		var identifier_counter = 0;
+		multiselect.add_choice = function(text, is_answer) {
+
+			identifier_counter++;
+			if (!text) text = '';
+			multiselect._data['options'].push(text);
+
+			/*  update count */
+			console.log('option count updated')
+			multiselect.manifestation.find('[data-x="option-count"]').text(multiselect.option_count())
+			multiselect.manifestation.find('[data-x="option-count"]').val(multiselect.option_count())
+
+			new_edit_option = $('.multiselect-edit-option.template')
+			.clone()
+			.removeClass('template')
+			.show()
+			.attr('data-member', identifier_counter);
+			console.log(new_edit_option)
+			/* set text */
+			new_edit_option.find('[data-x="option"]').val(text)
+
+			if (is_answer && is_answer === true) {
+				multiselect._data['answers'].push(text);
+				new_edit_option.find('[data-x="answer"]').prop('checked', true)
+			} else {
+				new_edit_option.find('[data-x="answer"]').prop('checked', false)
+			}
+
+			/* add to dom */
+			new_edit_option.appendTo(multiselect.manifestation.find('.options'));
+
+			/* wirup delete */
+			wireup_delete_for_option(new_edit_option);
+
+			/* onchange */
+			new_edit_option.find('[data-x="answer"]').on('change', function() {
+				multiselect._data['answers'] = [];
+				multiselect.manifestation.find('[data-x="answer"]').each(function(i,v) {
+					if ($(v).is(':checked')) 
+						multiselect._data['answers'].push(
+							$(v).closest('.option-container').find('[data-x="option"]').val().trim())
+						});
+			});
+
+			/* only for teachers in the edit page really, normal dom elements don't change much */
+			new_edit_option.find('[data-x="option"]').on('change', function() {
+				multiselect._data['options'] = [];
+				multiselect.manifestation.find('[data-x="option"]').each(function(i,v) {
+					multiselect._data['options'].push($(v).val().trim());
+				})
+			});
+
+			multiselect.init();
+
+		}
+
+		multiselect.reset = function(data) {
+			multiselect.populate(this._old_data);
+		}
+
+		multiselect.populate = function(data) {
+			for (var property in multiselect._data) {
+				if (is_type_of('', data[property]) || is_type_of(0, data[property])) {
+					/* this passes the data at data['question_id'] to multiselect.question_id()
+                    to use the setter we have previously created. read the notes above on how
+                    the setter/getter works if this makes no sense */
+					multiselect[property](data[property])
+				}
+			}
+
+			multiselect.manifestation.find('.multiselect-edit-option').each(function(i,v) {
+				delete_option($(v));
+			})
+
+			/* the for loop only handles scalars, here we do the specifics */
+			if (data['options']) {
+				var has_answers = false;
+				if (data['answers']) {
+					var has_answers = true;
+				}
+				for (var i in data['options']) {
+					var is_answer = false;
+					if (has_answers) {
+						var index = data['answers'].indexOf(data['options'][i].trim());
+						if (index >= 0 && index !== false) {
+							is_answer = true;
+							/* don't add twice */
+							data['answers'].splice(index,1);
+						}
+					}
+					console.log('add choice', data['options'][i], is_answer)
+					multiselect.add_choice(data['options'][i], is_answer);
+					console.log(multiselect._data['options'])
+				}
+			}
+			this._old_data = JSON.parse(JSON.stringify(my_data));
+		}
+
+		multiselect.loading = function() {
+			multiselect.manifestation.find('.edit.question-section .form').addClass('loading');
+		}
+
+		multiselect.done_loading = function() {
+			multiselect.manifestation.find('.edit.question-section .form').removeClass('loading');
+			multiselect.manifestation.find('.edit.question-section .form').dimmer('hide');
+		};
+
+		multiselect.validate = function() {
+			return multiselect.manifestation.find('.ui.form').form('validate form');
+		};
+
+		multiselect.init = function(){
+			multiselect.manifestation.find('.ui.checkbox').checkbox();
+			multiselect.manifestation.find('.ui.radio').checkbox();
+
+			multiselect.manifestation.find('[data-content]').popup({
+				position:'top center',
+				variation:'inverted',
+				transition:'drop',
+				exclusive:'true',
+				closeable:'true',
+				delay:{
+					show:500
+				}
+			});
+
+			multiselect.manifestation.find('.ui.form').form({
+				prompt:{
+					identifier:'prompt',
+					rules:[
+						{type:'empty', prompt:'Please enter a question.'}
+					]
+				},
+				points:{
+					identifier:'points',
+					rules:[
+						{type:'empty', prompt:'Please enter a value.'},
+						{type:'integer', prompt:'Please enter number.'}
+					]
+				},
+				options:{
+					identifier:'option',
+					rules:[
+						{type:'empty', prompt:'Please enter an option.'},
+					]	
+				}
+			},{
+				inline:true, 
+				on:'blur',
+				keyboardShortcuts: true
+			});
+
+		}
+
+		var ajax_submit_complete = function(data, success, jqxhr) {
+			/* this fires before always */
+			if (success === "success" && data.success === true) {
+				multiselect.question_id(data.id);
+				multiselect._old_data = JSON.parse(JSON.stringify(my_data));
+
+				multiselect.manifestation.find('.edit.question-section .form').dimmer('show');
+
+				setTimeout(function(){
+					multiselect.done_loading();
+					multiselect.summary();
+				}, 1500);
+			} else {
+				console.log('server did not save the question!!!', data.message)
+				showErrorMessage(data.message);
+			}
+		};
+		var ajax_submit_failure = function() {
+			/* this fires before always */
+			console.log('failure to save question!')
+			showErrorMessage('An error occurred while creating the question. Please try again.');
+		};
+		var ajax_submit_always = function(data, success, jqxhr) {
+			/* but this always fires =() */
+			console.log('handler to be called no matter what when we submit <- just got called');
+		};
+
+		var ajax_delete_complete = function(data, success, jqxhr) {
+			/* this fires before always */
+			if (success === "success" && data.success === true) {
+				console.log('successfully deleted!');
+				multiselect.done_loading();
+				multiselect.manifestation.remove();
+			} else {
+				console.log('the server did not delete our question!', data.message);
+				showErrorMessage(data.message);
+			}
+		};
+		var ajax_delete_failure = function() {
+			/* this fires before always */
+			console.log('failure to delete a question!', arguments);
+			showErrorMessage('An error occurred while deleting the question. Please try again.');
+		};
+		var ajax_delete_always = function(data, success, jqxhr) {
+			/* but this always fires =() */
+			console.log('handler to be called no matter what when we delete <- just got called');
+		};
+
+		multiselect.submit = function(submit_custom_cb) {
+			if(!multiselect.validate())
+				return false;
+
+			multiselect.loading();
+			submit_question_data(multiselect._data, submit_custom_cb,
+								 ajax_submit_complete,
+								 ajax_submit_failure,
+								 ajax_submit_always);
+		};
+
+		multiselect.delete = function(delete_custom_cb) {
+			multiselect.loading();
+			multiselect.manifestation.find('[data-content]').popup('hide all');
+
+
+			if (multiselect._data['question_id']) {
+				delete_question(multiselect.question_id(), delete_custom_cb,
+								ajax_delete_complete,
+								ajax_delete_failure,
+								ajax_delete_always);
+			} else {
+				/* mock ajax success for the handler */
+				ajax_delete_complete({success: true}, "success"); 
+			}
+		};
+
+		multiselect.edit = function() {
+			/* SUGGESTION: put transition ui code here */
+			multiselect.manifestation.find('.question-section').hide();
+			multiselect.manifestation.find('.edit.question-section').show();
+		};
+
+		multiselect.summary = function() {
+			/* SUGGESTION: put transition ui code here */
+			multiselect.manifestation.find('.question-section').hide();
+			multiselect.manifestation.find('.summary.question-section').show();
+		}
+
+		/* just for us */
+		multiselect.manifestation.find('[data-x="option-count"]').text(multiselect.option_count()).val(multiselect.option_count());
+		multiselect.init();
+
+		/* last thing we do in construction is show ourselves */
+		multiselect.manifestation.find('.question-section').hide()
+		multiselect.manifestation.show();
+		/* default mode is edit */
+		multiselect.edit();
+	}
+	/* ------------ end multiselect ------------- */
+
+
+
 
 	/* ------------ begin essay ------------- */
 	const EssayQuestion = function() {
@@ -1053,13 +1473,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		truefalse.manifestation.find('.checkable').on('change', function () {
-		    var $checked = truefalse.manifestation.find(':checked')
-		    if ($checked.length > 0) {
-		        truefalse._data['answers'] = [true];
-		    } else {
-		        truefalse._data['answers'] = [false];
-		    }
-		})
+			var $checked = truefalse.manifestation.find(':checked')
+			if ($checked.length > 0) {
+				truefalse._data['answers'] = [true];
+			} else {
+				truefalse._data['answers'] = [false];
+			}
+		});
 
 		/* expose all of the properties */
 		for (var property_to_be_available in my_data) {
@@ -1160,13 +1580,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		};
 
 		truefalse.check = function(){
-
+			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('check');		
 		};
 
 		truefalse.uncheck = function(){
-
+			truefalse.manifestation.find('.ui.toggle.checkbox').checkbox('uncheck');		
 		};
-        
+
 
 		var ajax_submit_complete = function(data, success, jqxhr) {
 			/* this fires before always */
@@ -1272,7 +1692,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	function get_type_class(type) {
 		switch(type){
-			case "multichoice" : return MultiQuestion
+			case "multichoice" : return MultiChoiceQuestion
 			case "shortanswer" : return ShortAnswerQuestion
 			case "essay" : return EssayQuestion
 			case "truefalse" : return TFQuestion
@@ -1327,7 +1747,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		var question = null;
 		switch(type){
 			case "multichoice":
-				question = new MultiQuestion();
+				question = new MultiChoiceQuestion();
+				break;
+			case "multiselect":
+				question = new MultiSelectQuestion();
 				break;
 			case "shortanswer":
 				question = new ShortAnswerQuestion();
@@ -1354,7 +1777,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		var question = null;
 		switch(question_data.type){
 			case "multichoice":
-				question = new MultiQuestion();
+				question = new MultiChoiceQuestion();
+				break;
+			case "multiselect":
+				question = new MultiSelectQuestion();
 				break;
 			case "shortanswer":
 				question = new ShortAnswerQuestion();
@@ -1372,18 +1798,18 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	$('.previewQuestions').on('click', function () {
-	    console.log('preview')
-	    $('.question-list, .adder').children().hide();
-        $('.preview-list').show().load('/dashboard/rendered-exam/' + exam_id);
-	    $('.editQuestions').removeClass('active');
-	    $('.previewQuestions').addClass('active');
+		console.log('preview')
+		$('.question-list, .adder').children().hide();
+		$('.preview-list').show().load('/dashboard/rendered-exam/' + exam_id);
+		$('.editQuestions').removeClass('active');
+		$('.previewQuestions').addClass('active');
 	})
 	$('.editQuestions').on('click', function () {
-	    console.log('edit')
-	    $('.preview-list').hide();
-	    $('.question-list, .adder').children().show();
-	    $('.previewQuestions').removeClass('active');
-	    $('.editQuestions').addClass('active');
+		console.log('edit')
+		$('.preview-list').hide();
+		$('.question-list, .adder').children().show();
+		$('.previewQuestions').removeClass('active');
+		$('.editQuestions').addClass('active');
 	})
 
 });

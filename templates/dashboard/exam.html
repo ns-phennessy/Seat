@@ -50,6 +50,7 @@
 					<div class="item" data-value="essay">Essay</div>
 					<div class="item" data-value="shortanswer">Short Answer</div>
 					<div class="item" data-value="truefalse">True / False</div>
+					<div class="item" data-value="multiselect">Multiple Select</div>
 					<div class="item" data-value="multichoice">Multiple Choice</div>
 
 				</div>
@@ -64,6 +65,7 @@
 <input id="backend-data-delivery" type="hidden" value="{{ question_set_json }}"/>
 <input id="exam-id" type="hidden" value="{{exam.id}}"/>
 {% include "dashboard/partials/multiChoice.html" %}
+{% include "dashboard/partials/multiSelect.html" %}
 {% include "dashboard/partials/shortAnswer.html" %}
 {% include "dashboard/partials/trueFalse.html" %}
 {% include "dashboard/partials/essay.html" %}

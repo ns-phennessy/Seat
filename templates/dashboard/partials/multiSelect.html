@@ -1,11 +1,11 @@
 <!-- multichoice options -->
-<div class="multichoice-edit-option template" hidden>
+<div class="multiselect-edit-option template" hidden>
 	<div class="option-container">
 		<div class="two fields">
 			<div class="one wide field" style="padding-top:0.5em">
-				<div class="ui radio checkbox" data-content="Mark choice as answer">
+				<div class="ui checkbox" data-content="Mark choice as answer">
 					<label></label>
-					<input name="answer" data-validate="optionAnswer" data-x="answer" type="radio">
+					<input name="answer" data-validate="optionAnswer" data-x="answer" type="checkbox">
 				</div>
 			</div>
 			<div class="nine wide field">
@@ -20,7 +20,7 @@
 </div>
 
 <!-- multichoice -->
-<div class="multichoice template" hidden>
+<div class="multiselect template" hidden>
 	<!-- summary -->
 	<div class="summary question-section">
 
@@ -32,7 +32,7 @@
 						<div class="ui padded stackable grid">
 							<div class="three wide column">
                                 <input type="hidden" value="multichoice" data-x="type" />
-								<span >Multiple Choice</span>
+								<span >Multiple Select</span>
 								<br>
 								<span data-x="option-count"></span>Options
 								<br>
@@ -59,7 +59,7 @@
 		<div class="ui form secondary segment">
 			<h3 class="ui left floated header">
 				Question <span data-x="number"></span>
-				<div class="sub header">Multiple Choice</div>	
+				<div class="sub header">Multiple Select</div>	
 			</h3>
 			<a style="float:right; color:rgba(0, 0, 0, 0.8) !important" class="questionReset questionSummary" data-content="Cancel"><i class="delete icon"></i></a>
 			

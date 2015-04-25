@@ -25,7 +25,7 @@
 				<label>Answer:</label>
                 {% for choice in question.choices.all %}
                 <div class="field">
-					<div class="ui radio checkbox checked">
+					<div class="ui radio checkbox">
 						<input class="checkable" type="radio" name="choice" value="{{choice.text}}">
 						<label>{{ choice.text }}</label>
 					</div>
