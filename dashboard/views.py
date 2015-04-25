@@ -147,4 +147,10 @@ def render_grades(request, token_id):
         return HttpResponseBadRequest("token id is invalid")
 
     taken_exams = TakenExam.objects.filter(exam__course__teacher=teacher, token__id=token_id)
-    return render(request, 'dashboard/grades.html', {'taken_exams': taken_exams, 'token_id':token_id})
+    total_possible = 0
+    if taken_exams.exists():
+        exam = taken_exams.all()[0].exam
+        questions = exam.question_set.all()
+        for question in questions:
+            total_possible += question.points
+    return render(request, 'dashboard/grades.html', {'taken_exams': taken_exams, 'total_possible':total_possible, 'token_id':token_id})

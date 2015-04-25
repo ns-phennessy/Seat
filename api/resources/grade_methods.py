@@ -26,16 +26,17 @@ def grade_failure_json(message):
 
 def choice_is_one_of(choice, answers):
     for answer in answers:
-        if choice.text.strip() == answer.text.strip():
+        if str(choice.text).strip().lower() == answer.text.strip().lower():
             return True
     return False
 
 def grade_exam(taken_exam, question_map):
     
     submissions_for_exam = Submission.objects.filter(taken_exam=taken_exam).all()
-
     for submission in submissions_for_exam:
         question = question_map[submission.question.id]
+        if submission.correct:
+            taken_exam.score -= question.points
         submission.correct = False
         # cannot automatically be graded, as there is no answer
         if not question.answers.exists():
@@ -47,7 +48,7 @@ def grade_exam(taken_exam, question_map):
         elif question.category is not "multiselect":
             # there is only one choice, it is either correct or not
             if choice_is_one_of(submission.choices.all()[0], question.answers.all()):
-                taken_exam += question.points
+                taken_exam.score += question.points
                 submission.correct = True
         # check if they submitted a fair number of answers
         elif question.category is "multiselect" and submission.choices.count() > question.choices.count():

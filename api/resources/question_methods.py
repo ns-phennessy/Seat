@@ -31,7 +31,7 @@ def upsert_question_logic(teacher, request):
         if modified_question == False:
             return upsert_question_failure_json_model(message)
         return upsert_question_success_json_model(modified_question.id)
-    except Exception, error:
+    except Exception as error:
         logger.warn("problem upserting question! :"+str(error))
         return upsert_question_failure_json_model('failed to upsert the question, sorry. This is probably a db error.')
 

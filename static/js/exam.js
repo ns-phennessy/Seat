@@ -1098,7 +1098,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				} else {
 					answer_is_true = false;
 				}
-			truefalse.manifestation.find('[data-x="answer"]').prop('checked', answer_is_true);
+			truefalse.manifestation.find('.checkable').prop('checked', answer_is_true);
 			truefalse._data['answers'] = [ ''+answer_is_true ];
 			truefalse._old_data = JSON.parse(JSON.stringify(truefalse._data));
 		};
