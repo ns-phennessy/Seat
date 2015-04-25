@@ -147,4 +147,4 @@ def render_grades(request, token_id):
         return HttpResponseBadRequest("token id is invalid")
 
     taken_exams = TakenExam.objects.filter(exam__course__teacher=teacher, token__id=token_id)
-    return render(request, 'dashboard/grades.html', {'taken_exams': taken_exams})
+    return render(request, 'dashboard/grades.html', {'taken_exams': taken_exams, 'token_id':token_id})
