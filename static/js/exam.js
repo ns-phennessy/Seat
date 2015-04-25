@@ -448,7 +448,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		var my_data = multiselect._data = {
 			'question_id' 	: '',
-			'type' 			: 'multichoice',
+			'type' 			: 'multiselect',
 			'prompt' 		: '',
 			'points' 		: '',
 			'number' 		: '',
@@ -1777,7 +1777,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		var question = null;
 		switch(question_data.type){
 			case "multichoice":
-				question = new MultiQuestion();
+				question = new MultiChoiceQuestion();
+				break;
+			case "multiselect":
+				question = new MultiSelectQuestion();
 				break;
 			case "shortanswer":
 				question = new ShortAnswerQuestion();

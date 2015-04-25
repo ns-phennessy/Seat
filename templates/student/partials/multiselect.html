@@ -1,12 +1,15 @@
-<div class="multiselect question">
+<div class="multiselect question" id="question-{{question.id}}">
 	<h2 class="ui top attached header">
 		<div class="content">
-			Question 2
-			<div class="right floated">
+			Question {{forloop.counter}}
+			<div class="right floated questionSaved" hidden>
+				<div class="ui green label"><i class="check icon"></i>Saved</div>
+			</div>
+            <div class="right floated questionNotSaved" hidden>
 				<div class="ui label"><i class="warning icon"></i>Not Saved</div>
 			</div>
 			<div class="sub header">
-				5 Points
+				{{question.points}} Points
 			</div>
 		</div>
 		<a class="ui left corner label" style="margin:0;">
@@ -15,35 +18,19 @@
 	</h2>
 
 	<div class="ui raised bottom attached segment">
-		<div class="ui dividing header">Name the least efficient sorting algorithm.</div>
+        <input class="question-id" type="hidden" name="question_id" data-x="question_id" value="{{ question.id }}" />
+ 		<div class="ui dividing header">{{ question.text }}</div>
 		<form class="ui form">
 			<div class="grouped fields">
-				<label>Answer: <span class="ui faded text">(Select all that apply)</span></label>
-				<div class="field">
+				<label>Answer:</label>
+                {% for choice in question.choices.all %}
+                <div class="field">
 					<div class="ui checkbox">
-						<input type="checkbox" name="choice">
-						<label>Merge Sort</label>
+						<input class="checkable" type="checkbox" name="choice" value="{{choice.text}}">
+						<label>{{ choice.text }}</label>
 					</div>
 				</div>
-				<div class="field">
-					<div class="ui checkbox">
-						<input type="checkbox" name="choice">
-						<label>Bubble Sort</label>
-					</div>
-				</div>
-				<div class="field">
-					<div class="ui checkbox">
-						<input type="checkbox" name="choice">
-						<label>Cocktail Sort</label>
-					</div>
-				</div>
-				<div class="field">
-					<div class="ui checkbox">
-						<input type="checkbox" name="choice">
-						<label>Bogobogo Sort</label>
-					</div>
-				</div>
-
+                {% endfor %}
 			</div>
 		</form>
 	</div>
