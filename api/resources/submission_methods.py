@@ -82,7 +82,7 @@ def submission_logic(student_query, request):
             choice = Choice.objects.create(text = choice)
             choice.save()
             submission.choices.add(choice)
-           
+        submission.graded = False
         submission.save()    
         return upsert_success_json_model(submission.id)
     except Exception as error:
