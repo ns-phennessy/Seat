@@ -6,7 +6,7 @@
 
     <h1><a href="#" id="grade-link">AUTO GRADE THE DARN THING</a></h1>
     {% for taken_exam in taken_exams %}
-        <h1>{{taken_exam.student.name }}; {{taken_exam.score}}/{{total_possible}}; <a href="/dashboard/grade-exam/{{taken_exam.student.id}}/{{taken_exam.token.id}}">view</a> </h1>
+        <h1>{{taken_exam.student.name }}; {{taken_exam.score}}/{{total_possible}}; <a href="/dashboard/grade-exam/{{taken_exam.token.id}}/{{taken_exam.student.id}}">view</a> </h1>
     {% endfor %}
 </div>
 {% endblock %}

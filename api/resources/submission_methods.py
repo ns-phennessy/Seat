@@ -1,7 +1,7 @@
 from seat.applications.QuestionApplication import QuestionApplication
 from seat.models.taken_exam import TakenExam, Submission, Token
 from seat.models.exam import Question, Choice
-from django.http import JsonResponse, HttpResponseServerError, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseServerError, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseBadRequest, HttpResponseNotFound
 from api.helpers import endpoint_checks
 import json
 import logging
@@ -96,3 +96,51 @@ def submit(request):
         'POST',
         request,
         submission_logic)
+
+def grade_success_json_model():
+    return JsonResponse({
+        'success': True,
+        'error': False
+    })
+def manual_grade_logic(teacher_query, request):
+    submission_id = request.PUT.get('submission_id')
+    correct = request.PUT.get('correct')
+
+    if not endpoint_checks.id_is_valid(submission_id):
+        return HttpResponseBadRequest("Submission id is invalid")
+
+    if correct == "" or not (bool(correct) == True or bool(correct) == False):
+        return HttpResponseBadRequest("Correct is not a valid Boolean")
+
+    correct = bool(correct)
+
+    submission_query = Submission.objects.filter(taken_exam__course__teacher=teacher_query, id=submission_id)
+
+    if not submission_query.exists():
+        return HttpResponseNotFound("Submission not found")
+    
+    submission = submission_query.all()[0]
+
+    if correct != submission.correct:
+        if correct == False and submission.graded: # the only case where they have points for this
+            submission.taken_exam.score -= submission.question.points
+            submission.correct = False
+            submission.taken_exam.save()
+        elif correct == True:
+            submission.taken_exam.score += submission.question.points
+            submission.correct = True
+            submission.taken_exam.save()
+    else:
+        submission.correct = True
+    submission.graded = True
+    submission.save()
+    return grade_success_json_model()
+        
+
+def manual_grade(request):
+    return endpoint_checks.standard_teacher_endpoint(
+        "submission",
+        ['submission_id', 'correct'],
+        'PUT',
+        request,
+        manual_grade_logic)

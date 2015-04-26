@@ -144,7 +144,7 @@ def render_grades(request, token_id):
         return HttpResponseNotAllowed("unauthorized")
 
     if not id_is_valid(token_id):
-        return HttpResponseBadRequest("token id is invalid")
+        return HttpResponseBadRequest("Token id is invalid")
 
     taken_exams = TakenExam.objects.filter(exam__course__teacher=teacher, token__id=token_id)
     total_possible = 0
@@ -154,3 +154,24 @@ def render_grades(request, token_id):
         for question in questions:
             total_possible += question.points
     return render(request, 'dashboard/grades.html', {'taken_exams': taken_exams, 'total_possible':total_possible, 'token_id':token_id})
+
+def render_exam_grading(request, token_id, student_id):
+    if request.method != 'GET':
+        return routingApplication.invalid_permissions(request,"Only GET requests allowed")
+
+    if not id_is_valid(token_id):
+        return routingApplication.invalid_request(request, "Token id is invalid")
+
+    if not id_is_valid(student_id):
+        return routingApplication.invalid_request(request, "Student id is invalid")
+
+    is_teacher, teacher = user_is_teacher(request.session.get('user_id'))
+    if not is_teacher:
+        return routingApplication.invalid_permissions(request, "Not authorized")
+
+    taken_exam_query = TakenExam.objects.filter(student__id = student_id, token__id = token_id)
+    if not taken_exam_query.exists():
+        raise Http404("Student's exam not found!")
+
+    return render(request, 'dashboard/exam-grading.html', { '' })
+
