@@ -53,8 +53,8 @@ def grade_exam(taken_exam, question_map):
             for selection in selections:
                 if choice_is_one_of(selection, answers):
                     counter -= 1
+            submission.graded = True
             if counter == 0: # they got them all right
-                submission.graded = True
                 submission.correct = True
         else:
             submission.graded = True
