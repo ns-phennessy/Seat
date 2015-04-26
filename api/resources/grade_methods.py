@@ -28,42 +28,41 @@ def choice_is_one_of(choice, answers):
     for answer in answers:
         if str(choice.text).strip().lower() == answer.text.strip().lower():
             return True
+    logger.debug("wrong answer "+choice.text)
     return False
 
 def grade_exam(taken_exam, question_map):
     
     submissions_for_exam = Submission.objects.filter(taken_exam=taken_exam).all()
+    taken_exam.score = 0
     for submission in submissions_for_exam:
-        question = question_map[submission.question.id]
-        if submission.correct and question.answers.exists():
-            taken_exam.score -= question.points
-        submission.correct = False
-        # cannot automatically be graded, as there is no answer
-        if not question.answers.exists():
+        answers = question_map[submission.question.id].answers.all()
+        selections = submission.choices.all()
+        # do not regrade questions
+        # note that a resubmission should make the question no longer graded
+        if submission.graded:
+            if submission.correct:
+                taken_exam.score += submission.question.points
+            continue
+
+        if answers.count() == 0:
             logger.debug("cannot grade this question, continuing")
-        # check if they submitted a fair number of answers, if so, grade
-        elif question.category is not "multiselect" and submission.choices.count() > 1:
-            submission.correct = False
-            logger.warn("A student appears to have submitted more choices than allowed for a question!!, student with id:"+str(taken_exam.student.id))
-        elif question.category is not "multiselect":
-            # there is only one choice, it is either correct or not
-            if choice_is_one_of(submission.choices.all()[0], question.answers.all()):
-                taken_exam.score += question.points
+        elif answers.count() == selections.count():
+            # user choice count must be equal to number of answers
+            counter = answers.count()
+            for selection in selections:
+                if choice_is_one_of(selection, answers):
+                    counter -= 1
+            if counter == 0: # they got them all right
+                submission.graded = True
                 submission.correct = True
-        # check if they submitted a fair number of answers
-        elif question.category is "multiselect" and submission.choices.count() > question.choices.count():
-            # apparent cheating
-            logger.warn("A student appears to have submitted more choices than allowed for a question!!, student with id:"+str(taken_exam.student.id))
+        else:
+            submission.graded = True
             submission.correct = False
-        # grade multiselect, which is special
-        elif question.category is "multiselect":
-            submission.correct = True
-            takenExam += question.points
-            for answer_chosen in submission.choices.all():
-                if not choice_is_one_of(answer_chosen, question.answers.all()):
-                    submission.correct = False
-                    takenExam -= question.points
-                    break;
+            logger.debug("number of answers not equal to number of choices, auto fail")
+
+        if submission.correct:
+            taken_exam.score += submission.question.points
         submission.save()
     taken_exam.save()
 

@@ -67,11 +67,9 @@ class QuestionApplication(object):
                 category = type,
                 exam = Exam.objects.get(id=exam_id)
                 )
-        # delete every answer and choice
-        #map(lambda c: c.delete(), question.choices.all())
-        #map(lambda a: a.delete(), question.answers.all())
-        question.choices.all().delete()
-        question.answers.all().delete()
+        # delete every answer and choice, .all().delete() does not work
+        map(lambda c: c.delete(), question.choices.all())
+        map(lambda a: a.delete(), question.answers.all())
         
         if 'options' in question_json:
             map(lambda choice_text: question.choices.add(self.create_choice(choice_text or '')), question_json['options'])
