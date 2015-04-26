@@ -53,11 +53,14 @@ def submission_logic(student_query, request):
             return HttpResponseBadRequest("bad question_id")
 
         # it is important that all of these properties are satisfied
-        taken_exam,new_taken = TakenExam.objects.get_or_create(exam=token.exam, student=student_query.all()[0], completed=False, token=token)
+        taken_exam_query = TakenExam.objects.filter(exam=token.exam, student=student_query.all()[0], token=token)
+        taken_exam = None
+        if not taken_exam_query.exists():
+            taken_exam = TakenExam.objects.create(exam=token.exam, student=student_query.all()[0], token=token, score=0)
+        else:
+            taken_exam = taken_exam_query.all()[0]
+
         taken_exam.score = 0
-        
-        if new_taken:
-            taken_exam.save()
         
         question = Question.objects.filter(id=submission_json['question_id'], exam=token.exam)
         if question.count() == 0:
