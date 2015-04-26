@@ -6,7 +6,7 @@
 {% include "dashboard/modals/newToken.html" %}
 
 <div class="twelve wide column" id="main">
-
+    <input type="hidden" name="course-id" id="course-id" value="{{course.id}}" />
 	{% if course.exam_set.all %}
 
 	<div class="ui two doubling cards">
