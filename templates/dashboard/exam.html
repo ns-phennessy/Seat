@@ -21,7 +21,9 @@
 				<label>Course</label>
 				<select class="ui dropdown">
 					{% for course in courses.all %}
-					<option value="{{ course.id }}">{{ course.name }}</option>
+					<option value="{{ course.id }}" {% if course.id == exam.course.id %}selected="selected"{% endif %}>
+						{{ course.name }}
+					</option>
 					{% endfor %}
 				</select>
 			</div>
