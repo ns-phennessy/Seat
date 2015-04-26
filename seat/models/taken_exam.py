@@ -10,7 +10,7 @@ class TakenExam(models.Model):
     student = models.ForeignKey(Student)
     completed = models.BooleanField(default=False)
     token = models.ForeignKey(Token, related_name='taken_exam_token')
-    score = models.DecimalField(decimal_places=2, max_digits = 10)
+    score = models.DecimalField(decimal_places=2, max_digits = 10, default=0)
     timestamp = models.DateTimeField(default=datetime.datetime.now)
 
 
@@ -20,5 +20,6 @@ class Submission(models.Model):
     choices = models.ManyToManyField(Choice)
     correct = models.BooleanField(default=False)
     timestamp = models.DateTimeField(default=datetime.datetime.now)
+    graded = models.BooleanField(default=False)
     class Meta:
         unique_together = ('taken_exam','question',)
