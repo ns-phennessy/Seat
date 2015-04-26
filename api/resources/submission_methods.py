@@ -68,7 +68,7 @@ def submission_logic(student_query, request):
         
         question = question.all()[0]
 
-        submission_query = Submission.objects.filter(question=question, taken_exam__student=student_query)
+        submission_query = Submission.objects.filter(question=question, taken_exam__student=student_query, taken_exam__token=token)
         
         submission = None
         if submission_query.exists():
