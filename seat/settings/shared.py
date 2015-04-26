@@ -33,8 +33,9 @@ LDAP_APP_USER = 'cn=admin,dc=ldap,dc=patcave,dc=info' # this is the DN for a use
 LDAP_APP_PASS = 'takeaseat!'                          # this is the password for the user who is searching the tree
 #LDAP------------< 
 
-SESSION_COOKIE_SECURE = False
-
+SESSION_COOKIE_SECURE = False # change when SSL
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 60 * 60 * 3 # 2 hour sessions
 # Applications
 INSTALLED_APPS = (
     'django.contrib.admin',
