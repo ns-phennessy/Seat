@@ -16,7 +16,7 @@ class TakenExam(models.Model):
 
 class Submission(models.Model):
     question = models.ForeignKey(Question)
-    taken_exam = models.ForeignKey(TakenExam, related_name='submission_taken_exam')
+    taken_exam = models.ForeignKey(TakenExam, related_name='submission_set')
     choices = models.ManyToManyField(Choice)
     correct = models.BooleanField(default=False)
     timestamp = models.DateTimeField(default=datetime.datetime.now)

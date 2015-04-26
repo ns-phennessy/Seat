@@ -2,7 +2,11 @@
 	<h2 class="ui top attached header">
 		<div class="content">
 			Question {{forloop.counter}}
-			<div class="right floated questionSaved" hidden>
+			<div class="right floated questionSaved" 
+                 {% if not submission or not taking_exam %}
+                 hidden
+                 {% endif %}
+                 >
 				<div class="ui green label"><i class="check icon"></i>Saved</div>
 			</div>
             <div class="right floated questionNotSaved" hidden>
@@ -26,7 +30,15 @@
                 {% for choice in question.choices.all %}
                 <div class="field">
 					<div class="ui radio checkbox">
-						<input class="checkable" type="radio" name="choice" value="{{choice.text}}">
+						<input class="checkable" type="radio" name="choice" value="{{choice.text}}"
+                               {% if submission and submission.choices.exists %}
+                               {% for sub_choice in submission.choices.all %}
+                               {% if sub_choice.text == choice.text %}
+                               checked
+                               {% endif %}
+                               {% endfor %}
+                               {% endif %}
+                               >
 						<label>{{ choice.text }}</label>
 					</div>
 				</div>

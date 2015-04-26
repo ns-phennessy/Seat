@@ -4,9 +4,48 @@
 
 <div class="twelve wide column" id="main">
 
-    <h1><a href="#" id="grade-link">AUTO GRADE THE DARN THING</a></h1>
-    {% for taken_exam in taken_exams %}
-       
+    {% for submission in taken_exam.submission_set.all %}
+        {% with question=submission.question %}
+            
+            <div class="submission-container">
+            <input type="hidden" name="submission-id" value="{{submission.id}}" />
+            <div class="field">
+				<div class="ui checkbox">
+					<input class="checkable submission-grading" data-id="{{submission.id}}" type="checkbox" name="question-grade" 
+                           {% if submission.graded and submission.correct %}
+                           checked
+                           {% endif %}>
+					<label>This question is correct</label>
+				</div>
+			</div>
+            <div class="submission-is-saved"
+                 {% if not submission.graded %}
+                 hidden
+                 {% endif %}
+                 >
+                <div class="ui green label"><i class="check icon"></i>Saved</div>
+            </div>
+			{% if question.category == "multichoice"  %}
+			{% include "student/partials/multichoice.html" %}
+			{% endif %}
+				
+			{% if question.category == "multiselect"  %}
+			{% include "student/partials/multiselect.html" %}
+			{% endif %}
+
+			{% if question.category == "shortanswer" %}
+			{% include "student/partials/shortanswer.html" %}
+			{% endif %}
+
+			{% if question.category == "essay" %}
+			{% include "student/partials/essay.html" %}
+			{% endif %}
+
+			{% if question.category == "truefalse" %}
+			{% include "student/partials/truefalse.html" %}
+			{% endif %}
+            </div>
+        {% endwith %}
     {% endfor %}
 </div>
 {% endblock %}
@@ -15,6 +54,26 @@
 
 {% load static %}
 <script>
-
+    $(document).ready(function () {
+        $('.submission-grading').on('change', function () {
+            var my_id = $(this).attr('data-id')
+            var checked = $(this).is(':checked')
+            $.ajax({
+                type: "PUT",
+                url: '/api/submissions',
+                data: {
+                    'submission_id': my_id,
+                    'correct' : checked
+                },
+                headers: {
+                    'X-CSRFToken': $.cookie('csrftoken'),
+                    'X-METHODOVERRIDE' : "PUT"
+                }
+            })
+        .done(function () { console.log(arguments) })
+        .fail(function () { })
+        .always(function () { })
+        });
+    })
 </script>
 {% endblock %}

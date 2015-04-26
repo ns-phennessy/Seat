@@ -44,12 +44,13 @@ def grade_exam(taken_exam, question_map):
             if submission.correct:
                 taken_exam.score += submission.question.points
             continue
-
+        
         if answers.count() == 0:
             logger.debug("cannot grade this question, continuing")
         elif answers.count() == selections.count():
             # user choice count must be equal to number of answers
             counter = answers.count()
+            submission.correct = False
             for selection in selections:
                 if choice_is_one_of(selection, answers):
                     counter -= 1

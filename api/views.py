@@ -52,7 +52,11 @@ def validate_token(request):
     return token_validation.validate_token(request)
 
 def submission(request):
-    return submission_methods.submit(request)
+    if request.method == 'POST':
+        return submission_methods.submit(request)
+    if request.method == 'PUT':
+        return submission_methods.manual_grade(request)
+    return HttpResponseNotAllowed(['PUT', 'POST'])
 
 def grade(request):
     return grade_methods.grade(request)

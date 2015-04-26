@@ -2,7 +2,10 @@
 	<h2 class="ui top attached header">
 		<div class="content">
 			Question {{forloop.counter}}
-        	<div class="right floated questionSaved" hidden>
+        	<div class="right floated questionSaved" 
+                 {% if not submission or not taking_exam %}
+                 hidden
+                 {% endif %}>
 				<div class="ui green label"><i class="check icon"></i>Saved</div>
 			</div>
 			<div class="right floated questionNotSaved" hidden>
@@ -25,7 +28,12 @@
 				<label>Answer:</label>
 				<div class="field">
 					<div class="ui input">
-						<input class="answer-text" type="text">										
+						<input class="answer-text" type="text" val=
+                        "{% if submission and submission.choices.exists %}
+                         {% with choice=submission.choices.all|first %}
+                         {{choice.text}}
+                         {% endwith %}
+                         {% endif %}">										
 					</div>
 				</div>
 			</div>
