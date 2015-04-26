@@ -155,6 +155,7 @@ def render_grades(request, token_id):
             total_possible += question.points
     return render(request, 'dashboard/grades.html', {'taken_exams': taken_exams, 'total_possible':total_possible, 'token_id':token_id})
 
+
 def render_exam_grading(request, token_id, student_id):
     if request.method != 'GET':
         return routingApplication.invalid_permissions(request,"Only GET requests allowed")
@@ -173,5 +174,5 @@ def render_exam_grading(request, token_id, student_id):
     if not taken_exam_query.exists():
         raise Http404("Student's exam not found!")
 
-    return render(request, 'dashboard/exam-grading.html', { '' })
+    return render(request, 'dashboard/exam-grading.html', { 'taken_exam': taken_exam_query.all()[0] })
 

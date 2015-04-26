@@ -109,12 +109,12 @@ def manual_grade_logic(teacher_query, request):
     if not endpoint_checks.id_is_valid(submission_id):
         return HttpResponseBadRequest("Submission id is invalid")
 
-    if correct == "" or not (bool(correct) == True or bool(correct) == False):
+    if correct == "" or not (correct == "true" or correct == "false"):
         return HttpResponseBadRequest("Correct is not a valid Boolean")
 
-    correct = bool(correct)
+    correct = (correct == "true")
 
-    submission_query = Submission.objects.filter(taken_exam__course__teacher=teacher_query, id=submission_id)
+    submission_query = Submission.objects.filter(id=submission_id,taken_exam__exam__course__teacher=teacher_query)
 
     if not submission_query.exists():
         return HttpResponseNotFound("Submission not found")
@@ -130,8 +130,7 @@ def manual_grade_logic(teacher_query, request):
             submission.taken_exam.score += submission.question.points
             submission.correct = True
             submission.taken_exam.save()
-    else:
-        submission.correct = True
+    submission.correct = correct
     submission.graded = True
     submission.save()
     return grade_success_json_model()
