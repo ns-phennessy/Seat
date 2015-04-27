@@ -51,10 +51,12 @@
 									<span style="font-family: monospace">{{ token.token }}</span>
 									<i class="dropdown icon"></i>
 									<div class="menu">
-                                        {% if not token.open %}
-										<a href="/dashboard/grades/{{token.id}}" class="item">View Grading</a>
-										<div class="ui divider"></div>
+                                        {% if not token.released %}
+										<a href="/dashboard/grades/{{token.id}}" class="disabled item" data-role="viewTokenGrades">View Grading</a>
+                                        {% else %}
+                                        <a href="/dashboard/grades/{{token.id}}" class="item" data-role="viewTokenGrades">View Grading</a>
                                         {% endif %}
+                                        <div class="ui divider"></div>
 										<div class="item" data-content="Exam can be taken by students with this token." data-value="openToken">Open</div>
 										<div class="item" data-content="Prevents use to token to take an exam." data-value="closeToken">Close</div>
 										<div class="item" data-content="Closes exam and allows students to view grades." data-value="releaseToken">Release</div>
