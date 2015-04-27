@@ -10,3 +10,9 @@ input[type="text"]{
 	margin-top:1em !important;	
 	margin-bottom:1em;	
 }
+
+.item.disabled{
+     pointer-events:none;   
+    cursor:default;
+    opacity: 0.75;
+}

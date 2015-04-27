@@ -102,7 +102,8 @@ $('.token .ui.dropdown').dropdown({
 	onChange: function(value, text, $choice){
 		var tokenContainer = $(this);
 		var token_id = $(this).attr('data-tokenid');
-
+        var gradeLink = $(this).find('[data-role="viewTokenGrades"]');
+        
 		switch(value){
 			case 'openToken':
 				var success = function(){
@@ -111,6 +112,8 @@ $('.token .ui.dropdown').dropdown({
 					statusLabel.removeClass('red');
 					statusLabel.removeClass('purple');
 					statusLabel.addClass('green');
+                    
+                    gradeLink.addClass('disabled');
 				}
 
 
@@ -123,6 +126,9 @@ $('.token .ui.dropdown').dropdown({
 					statusLabel.removeClass('green');
 					statusLabel.removeClass('purple');
 					statusLabel.addClass('red');
+                    
+                    gradeLink.addClass('disabled');
+
 				}
 
 
@@ -135,6 +141,9 @@ $('.token .ui.dropdown').dropdown({
 					statusLabel.removeClass('green');
 					statusLabel.removeClass('red');
 					statusLabel.addClass('purple');
+                    
+                    gradeLink.removeClass('disabled');
+
 				}
 
 
