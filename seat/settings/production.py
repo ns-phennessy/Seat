@@ -14,6 +14,10 @@ ALLOWED_HOSTS = ['*']
 CONN_MAX_AGE = 60*5
 DATABASES = {
     'default':{
+        'NAME'      : os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE'    : 'django.db.backends.sqlite'
+    },
+    'mysql-prod':{
         'NAME'      : 'seat',
         'ENGINE'    : 'django.db.backends.mysql',
         'USER'      : 'capstone',
