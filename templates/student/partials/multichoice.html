@@ -1,7 +1,7 @@
 <div class="multichoice question" id="question-{{question.id}}">
 	<h2 class="ui top attached header">
 		<div class="content">
-			Question {{forloop.counter}}
+			Question {{ forloop.counter }}
 			<div class="right floated questionSaved" 
                  {% if not submission or not taking_exam %}
                  hidden
@@ -13,7 +13,7 @@
 				<div class="ui label"><i class="warning icon"></i>Not Saved</div>
 			</div>
 			<div class="sub header">
-				{{question.points}} Points
+				{{ question.points }} Points
 			</div>
 		</div>
 		<a class="ui left corner label" style="margin:0;">
@@ -31,6 +31,9 @@
                 <div class="field">
 					<div class="ui radio checkbox">
 						<input class="checkable" type="radio" name="choice" value="{{choice.text}}"
+                               {% if teacher %}
+                               disabled
+                               {% endif %}
                                {% if submission and submission.choices.exists %}
                                {% for sub_choice in submission.choices.all %}
                                {% if sub_choice.text == choice.text %}

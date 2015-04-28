@@ -28,12 +28,13 @@
 				<label>Answer:</label>
 				<div class="field">
 					<div class="ui input">
-						<textarea class="answer-text">
-                         {% if submission and submission.choices.exists %}
-                         {% with choice=submission.choices.all|first %}
-                         {{choice.text}}
-                         {% endwith %}
-                         {% endif %}</textarea>										
+						{% if submission and submission.choices.exists %}
+						{% with choice=submission.choices.all|first %}
+						<textarea class="answer-text" {% if teacher %} disabled {% endif %}>{{choice.text}}</textarea>
+						{% endwith %}
+						{% else %}
+						<textarea class="answer-text" {% if teacher %} disabled {% endif %}></textarea>
+						{% endif %}
 					</div>
 				</div>
 			</div>

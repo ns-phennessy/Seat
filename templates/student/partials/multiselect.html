@@ -30,6 +30,9 @@
                 <div class="field">
 					<div class="ui checkbox">
 						<input class="checkable" type="checkbox" name="choice" value="{{choice.text}}"
+                               {% if teacher %}
+                               disabled
+                               {% endif %}
                                {% if submission and submission.choices.exists %}
                                {% for sub_choice in submission.choices.all %}
                                {% if sub_choice.text == choice.text %}

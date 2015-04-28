@@ -29,9 +29,14 @@
 				<div class="field">
 					<div class="ui radio checkbox">
 						<input class="checkable" type="radio" name="choice" value="True"
+                         {% if teacher %}
+                         disabled
+                         {% endif %}
                          {% if submission and submission.choices.exists %}
                          {% with choice=submission.choices.all|first %}
+                         {% if choice.text == "True" %}
                          checked
+                         {% endif %}
                          {% endwith %}
                          {% endif %}>
 						<label>True</label>
@@ -39,7 +44,17 @@
 				</div>
 				<div class="field">
 					<div class="ui radio checkbox">
-						<input class="checkable" type="radio" name="choice" value="False">
+						<input class="checkable" type="radio" name="choice" value="False"
+                         {% if teacher %}
+                         disabled
+                         {% endif %}
+                         {% if submission and submission.choices.exists %}
+                         {% with choice=submission.choices.all|first %}
+                         {% if choice.text == "False" %}
+                         checked
+                         {% endif %}
+                         {% endwith %}
+                         {% endif %}>
 						<label>False</label>
 					</div>
 				</div>
