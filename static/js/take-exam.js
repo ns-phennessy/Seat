@@ -169,7 +169,7 @@ $(document).ready(function () {
         /* wire up if exists */
         if (text_answer.length != 0) {
             text_answer.on('change', function () {
-                question.data['answers'] = [text_answer.val()];
+                question.data['choices'] = [text_answer.val()];
                 question.submit()
             })
         } else {
