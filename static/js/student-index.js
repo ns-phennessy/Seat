@@ -61,3 +61,7 @@ $('#take-exam').on('click', function() {
   token = $('#token-input input[name=token]').val();
   verify_token_and_redirect_to_exam(token);
 });
+
+$('form').on('submit', function(e) {
+  e.preventDefault();
+});
