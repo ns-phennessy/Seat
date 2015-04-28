@@ -19,7 +19,7 @@ class TakenExam(models.Model):
         for question in questions:
             total_points += question.points
 
-        return self.score/total_points
+        return (self.score / total_points) * 100
 
     def get_total(self):
         questions = self.exam.question_set.all()

@@ -2,36 +2,51 @@
 
 {% block pagecontent %}
 
-<div class="twelve wide column" id="main">
+{% include "dashboard/courses-list.html" with current_course=token.exam.course %}
 
-    <h1><a href="#" id="grade-link">AUTO GRADE THE DARN THING</a></h1>
+<div class="twelve wide column" id="main">
+    <h1 class="ui header">
+        Grades
+        <div style="float:right">
+            <div id="grade-button" class="ui tiny green button" data-token="{{ token.id }}">
+                Auto grade
+            </div>
+        </div>
+    </h1>
+    <div class="ui divider"></div>
+    <div class="ui three cards">
     {% for taken_exam in taken_exams %}
-        <h1>{{taken_exam.student.name }}; {{taken_exam.score}}/{{total_possible}}; <a href="/dashboard/grade-exam/{{taken_exam.token.id}}/{{taken_exam.student.id}}">view</a> </h1>
+        <div class="card">
+            <div class="content">
+                <a class="ui large link header" href="{% url 'manual-grade' taken_exam.token.id taken_exam.student.id %}">
+                    {# keep it anonymous #}
+                    Submission {{ forloop.counter }}
+                </a>
+                <div class="description">
+                    <div class="ui indicating progress" data-percent="{{ taken_exam.calculate_percentage }}">
+                        <div class="bar">
+                            <div class="progress"></div>
+                        </div>
+                        <div class="label">Score</div>
+                    </div>
+                    <div class="ui center aligned">
+                        <div class="ui tiny statistic">
+                            <div class="value">
+                                {{ taken_exam.score }} / {{ taken_exam.get_total }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
+    </div>
 </div>
 {% endblock %}
 
 {% block javascript %}
 
 {% load static %}
-<script>
-    $(document).ready(function () {
-        $('#grade-link').on('click', function () {
-            //call to grade
-            $.ajax({
-                type: "POST",
-                url: '/api/grade',
-                data: {
-                    'token_id': {{token_id}} 
-                },
-                headers: {
-                    'X-CSRFToken': $.cookie('csrftoken')
-                }
-            })
-		.done(function () { })
-		.fail(function () { })
-		.always(function () { })
-        });
-    })
-</script>
+<script src="{% static 'js/grades.js' %}"></script>
+
 {% endblock %}
