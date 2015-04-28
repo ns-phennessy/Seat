@@ -12,13 +12,23 @@ class TakenExam(models.Model):
     token = models.ForeignKey(Token, related_name='taken_exam_token')
     score = models.DecimalField(decimal_places=2, max_digits = 10, default=0)
     timestamp = models.DateTimeField(default=datetime.datetime.now)
+    
     def calculate_percentage(self):
         questions = self.exam.question_set.all()
         total_points = 0
         for question in questions:
             total_points += question.points
-        return score/total_points
 
+        return self.score/total_points
+
+    def get_total(self):
+        questions = self.exam.question_set.all()
+        total_points = 0
+        for question in questions:
+            total_points += question.points
+            
+        return total_points
+    
 class Submission(models.Model):
     question = models.ForeignKey(Question)
     taken_exam = models.ForeignKey(TakenExam, related_name='submission_set')
