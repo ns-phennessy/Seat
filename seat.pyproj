@@ -208,6 +208,7 @@
     <Content Include="templates\student\partials\essay.html" />
     <Content Include="templates\student\partials\multichoice.html" />
     <Content Include="templates\student\partials\multiselect.html" />
+    <Content Include="templates\student\partials\dontleave.html" />
     <Content Include="templates\student\partials\shortanswer.html" />
     <Content Include="templates\student\partials\truefalse.html" />
     <Content Include="templates\student\take-exam.html" />
