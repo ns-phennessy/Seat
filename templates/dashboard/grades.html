@@ -31,7 +31,7 @@
                     </div>
                     <div class="ui center aligned">
                         <div class="ui tiny statistic">
-                            <div class="value">
+                            <div class="value grade">
                                 {{ taken_exam.score }} / {{ taken_exam.get_total }}
                             </div>
                         </div>
@@ -48,5 +48,11 @@
 
 {% load static %}
 <script src="{% static 'js/grades.js' %}"></script>
-
+<script>
+    $(document).ready(function () {
+        $('.grade').each(function (i, v) {
+            $(v).text($(v).text().replace(/\.00/gm,''))
+        })
+    })
+</script>
 {% endblock %}
