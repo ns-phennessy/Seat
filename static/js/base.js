@@ -6,6 +6,7 @@ $('[data-content]').popup({
 $('.ui.checkbox').checkbox();
 $('.ui.menu .item').tab();
 $('.ui.dropdown:not([data-role="questionType"])').dropdown({});
+$('.ui.progress').progress()
 
 $(document).ready(function(e) {
   var refresh = $('#refresh');
