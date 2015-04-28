@@ -30,7 +30,7 @@
 					<div class="ui input">
 						{% if submission and submission.choices.exists %}
 						{% with choice=submission.choices.all|first %}
-						<input class="answer-text" type="text" val="{{choice.text}}" {% if teacher %}disabled{% endif %}>
+						<input class="answer-text" type="text" data-x="{{choice.text}}" val="{{choice.text}}" {% if teacher %}disabled{% endif %}>
 						{% endwith %}
 						{% else %}
 						<input class="answer-text" type="text" val="" {% if teacher %}disabled{% endif %}>

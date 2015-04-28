@@ -74,6 +74,11 @@
         .fail(function () { })
         .always(function () { })
         });
+
+        $('input.answer-text').each(function (i, v) {
+            var val = $(v).attr('data-x');
+            $(v).val(val);
+        })
     })
 </script>
 {% endblock %}
