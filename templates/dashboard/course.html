@@ -50,7 +50,7 @@
 									<span style="font-family: monospace">{{ token.token }}</span>
 									<i class="dropdown icon"></i>
 									<div class="menu">
-                                        {% if not token.released %}
+                                        {% if token.open %}
 										<a href="/dashboard/grades/{{token.id}}" class="disabled item" data-role="viewTokenGrades">View Grading</a>
                                         {% else %}
                                         <a href="/dashboard/grades/{{token.id}}" class="item" data-role="viewTokenGrades">View Grading</a>
