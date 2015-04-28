@@ -127,7 +127,7 @@ $('.token .ui.dropdown').dropdown({
 					statusLabel.removeClass('purple');
 					statusLabel.addClass('red');
                     
-                    gradeLink.addClass('disabled');
+                    gradeLink.removeClass('disabled');
 
 				}
 
