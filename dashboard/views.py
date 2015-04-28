@@ -174,5 +174,5 @@ def render_exam_grading(request, token_id, student_id):
     if not taken_exam_query.exists():
         raise Http404("Student's exam not found!")
 
-    return render(request, 'dashboard/exam-grading.html', { 'taken_exam': taken_exam_query.all()[0] })
+    return render(request, 'dashboard/exam-grading.html', { 'taken_exam': taken_exam_query.all()[0], 'teacher': teacher })
 
