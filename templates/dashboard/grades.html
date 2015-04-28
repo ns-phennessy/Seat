@@ -4,7 +4,7 @@
 
 <div class="twelve wide column" id="main">
 
-    <h1><a href="#" id="grade-link">AUTO GRADE THE DARN THING</a></h1>
+    <h1><a href="#" data-token="{{ token_id }}" id="grade-link">AUTO GRADE THE DARN THING</a></h1>
     {% for taken_exam in taken_exams %}
         <h1>{{taken_exam.student.name }}; {{taken_exam.score}}/{{total_possible}}; <a href="/dashboard/grade-exam/{{taken_exam.token.id}}/{{taken_exam.student.id}}">view</a> </h1>
     {% endfor %}
@@ -14,24 +14,5 @@
 {% block javascript %}
 
 {% load static %}
-<script>
-    $(document).ready(function () {
-        $('#grade-link').on('click', function () {
-            //call to grade
-            $.ajax({
-                type: "POST",
-                url: '/api/grade',
-                data: {
-                    'token_id': {{token_id}} 
-                },
-                headers: {
-                    'X-CSRFToken': $.cookie('csrftoken')
-                }
-            })
-		.done(function () { })
-		.fail(function () { })
-		.always(function () { })
-        });
-    })
-</script>
+<script src="{% static 'js/grades.js' %}"></script>
 {% endblock %}
