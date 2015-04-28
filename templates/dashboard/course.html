@@ -10,13 +10,12 @@
 	{% if course.exam_set.all %}
 
 	<div class="ui two doubling cards">
-		{% for exam in course.exam_set.all %}	
+		{% for exam in course.exam_set.all %}
 		<div class="card">
 			<div class="content">
-
 				<div class="right floated">
 					<a href="{% url 'dashboard.views.exam_edit' exam.id %}" class="ui faded text"><i class="pencil icon" data-content="Edit Exam"></i></a>
-					<span class="ui faded text" data-role="delete" data-id="{{ exam.id }}"><i class="delete icon" data-content="Delete Exam"></i></span>
+					<a class="ui faded text delete-exam" data-id="{{ exam.id }}"><i class="delete icon" data-content="Delete Exam"></i></a>
 				</div>
 
 				<a href="{% url 'dashboard.views.exam_edit' exam.id %}" class="ui large link header">{{ exam.name }}</a>
