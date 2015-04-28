@@ -55,26 +55,36 @@
 {% load static %}
 <script>
     $(document).ready(function () {
-        $('.submission-grading').on('change', function () {
-            var my_id = $(this).attr('data-id')
-            var checked = $(this).is(':checked')
-            $.ajax({
-                type: "PUT",
-                url: '/api/submissions',
-                data: {
-                    'submission_id': my_id,
-                    'correct' : checked
-                },
-                headers: {
-                    'X-CSRFToken': $.cookie('csrftoken'),
-                    'X-METHODOVERRIDE' : "PUT"
-                }
+        $('.submission-grading').each(function (i,v) {
+            var element = $(v);
+            wire_to_save(element);
+        })
+        function wire_to_save (element) {
+            element.on('change', function () {
+                var my_id = $(this).attr('data-id')
+                var checked = $(this).is(':checked')
+                var parent = element.closest('.submission-container');
+                parent.find('.submission-is-saved').hide()
+                $.ajax({
+                    type: "PUT",
+                    url: '/api/submissions',
+                    data: {
+                        'submission_id': my_id,
+                        'correct': checked
+                    },
+                    headers: {
+                        'X-CSRFToken': $.cookie('csrftoken'),
+                        'X-METHODOVERRIDE': "PUT"
+                    }
+                })
+            .done(function () {
+                console.log(arguments)
+                parent.find('.submission-is-saved').show()
             })
-        .done(function () { console.log(arguments) })
-        .fail(function () { })
-        .always(function () { })
-        });
-
+            .fail(function () { })
+            .always(function () { })
+            });
+        }
         $('input.answer-text').each(function (i, v) {
             var val = $(v).attr('data-x');
             $(v).val(val);
