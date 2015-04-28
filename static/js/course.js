@@ -1,4 +1,4 @@
-$('tr[data-role=exam] div[data-role=delete]').on('click', function(e) {
+$('.delete-exam').on('click', function(e) {
 	var optionDelete = this;
 
 	data = { exam_id: $(this).data('id') };
