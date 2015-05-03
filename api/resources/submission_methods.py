@@ -28,7 +28,6 @@ def upsert_failure_json_model(message, token_is_closed=False):
 
 def submission_logic(student_query, request):
     try:
-        #TODO: be sure sessions don't expire real fast
         if not 'token' in request.session:
             return HttpResponseNotAllowed("token not found in session")
         

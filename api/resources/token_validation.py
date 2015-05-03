@@ -1,5 +1,3 @@
-"""only has 1 method, 
-POST, you post tokens and it says yay or nay"""
 
 import api.helpers.endpoint_checks as endpoint_checks
 from seat.models.token import Token

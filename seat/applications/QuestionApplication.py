@@ -33,7 +33,7 @@ class QuestionApplication(object):
         points = int(points) if points and points != '' else 1
 
         number = question_json.get('number') 
-        number = int(number) if number and number != '' else 0 # TODO: handle ordering properly
+        number = int(number) if number and number != '' else 0 
         
         text = question_json.get('prompt') or ''
         

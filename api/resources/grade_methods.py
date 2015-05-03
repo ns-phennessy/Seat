@@ -1,5 +1,3 @@
-"""only has 1 method, 
-POST, you post token id and it grades the submissions related with the token"""
 
 import api.helpers.endpoint_checks as endpoint_checks
 from seat.models.token import Token

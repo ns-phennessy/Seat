@@ -42,10 +42,8 @@ def token(request):
         return token_methods.update_token(request)
     elif request.method == 'DELETE':
         return token_methods.delete_token(request)
-    elif request.method == 'GET':
-        return token_methods.get_token(request)
     else:
-        return HttpResponseNotAllowed(['GET', 'PUT', 'POST', 'DELETE'])
+        return HttpResponseNotAllowed(['PUT', 'POST', 'DELETE'])
 
 
 def validate_token(request):

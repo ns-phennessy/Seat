@@ -117,12 +117,7 @@ $(document).ready(function () {
             ajax_submit(question.data, ajax_submit_success, ajax_submit_failure, ajax_always)
         }
 
-        /* TODO: pat we may change this,
-		the point is that here you do whatever needs
-		to be done to the list of bookmarks for 
-		this particular question. the links
-		in the ToC should be labeled with the
-		question ID */
+
         question.bookmark = function () {
             if (!bookmarked) {
                 question.manifestation.find('.left.corner').addClass('blue');

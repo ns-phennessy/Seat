@@ -162,36 +162,4 @@ def delete_token(request):
         delete_token_logic
         )
 
-# GET
-def get_token_success_json_model():
-    return JsonResponse({
-        'success': True,
-        'error': False
-        #TODO: serialized token
-    })
-
-def get_token_failure_json_model(message):
-    return JsonResponse({
-        'success' : False,
-        'error' : True,
-        'message' : str(message)
-    })
-
-def get_token_logic(teacher, request):
-    try:
-        #TODO: test that teacher owns resource
-        raise Exception("UNSUPPORTED")
-    except Exception, error:
-        logger.warn("problem getting token! :"+str(error))
-        return get_token_failure_json_model('failed to get the token')
-
-def get_token(request):
-    return endpoint_checks.standard_teacher_endpoint(
-        "get_token",
-        ['token_id'],
-        'POST',
-        request,
-        get_token_logic
-        )
-
 

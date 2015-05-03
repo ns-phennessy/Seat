@@ -17,7 +17,6 @@
     'onSuccess': function () {
         $('#custom-errors').text('').hide()
         const token = $('#token-input input[name=token]').val();
-        /*TODO: loading*/
         verify_token_and_redirect_to_exam(token)
     },
     'onFailure': function () {
@@ -42,7 +41,6 @@ function verify_token_and_redirect_to_exam(token) {
     success: function(data, success) {
       duplicate_send_blocker = false;
       if (!success) {
-        /* TODO: handle no internet */
         $('.ui.error.message.red').text('connection failure')
         return;
       }

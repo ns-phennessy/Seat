@@ -17,7 +17,7 @@ LDAP_STUDENT_ORGANIZATIONAL_UNIT = 'students' # OU for students
 LDAP_STAFF_SEARCH_DN = 'ou='+LDAP_STAFF_ORGANIZATIONAL_UNIT+',ou=users,dc=ldap,dc=patcave,dc=info'  
 LDAP_STUDENT_SEARCH_DN = 'ou='+LDAP_STUDENT_ORGANIZATIONAL_UNIT+',ou=users,dc=ldap,dc=patcave,dc=info'  
 
-#TODO: when we deploy to using LDAP, cn 
+# when we deploy to using LDAP, cn 
 # should become sAMAccountName per
 # http://stackoverflow.com/questions/29641901/ldap-and-ad-are-we-always-allowed-to-search/29642063#29642063
 LDAP_FILTER = 'cn=%s' # LDAP search filter: we replace %s with the username given in login

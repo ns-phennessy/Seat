@@ -15,7 +15,6 @@
 <script>
 //http://stackoverflow.com/questions/799981/document-ready-equivalent-without-jquery
 document.addEventListener("DOMContentLoaded", function() {
-    /* TODO: maybe delay saves to throttle*/
     var $input = $('#question-{{question.id}}-input');
     var $msg = $("#question-{{question.id}}-msg");
     var question_id = {{question.id}};
@@ -43,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }),
             'csrfmiddlewaretoken' : "{{csrf_token}}"
         }, function(data, success) {
-            /* TODO: handle no internet */
             in_progress = false;
             if (data.success === false) {
                 console.log('failure to save')
